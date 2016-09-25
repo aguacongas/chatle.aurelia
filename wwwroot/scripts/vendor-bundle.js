@@ -3791,734 +3791,8 @@ K(require)||(w=require,require=void 0);g=requirejs=function(b,c,d,m){var r,q="_"
 0),importScripts(d),b.completeLoad(c)}catch(q){b.onError(F("importscripts","importScripts failed for "+c+" at "+d,q,[c]))}};E&&!w.skipDataMain&&X(document.getElementsByTagName("script"),function(b){C||(C=b.parentNode);if(O=b.getAttribute("data-main"))return u=O,w.baseUrl||-1!==u.indexOf("!")||(I=u.split("/"),u=I.pop(),T=I.length?I.join("/")+"/":"./",w.baseUrl=T),u=u.replace(U,""),g.jsExtRegExp.test(u)&&(u=O),w.deps=w.deps?w.deps.concat(u):[u],!0});define=function(b,c,d){var e,g;"string"!==typeof b&&
 (d=c,c=b,b=null);L(c)||(d=c,c=null);!c&&K(d)&&(c=[],d.length&&(d.toString().replace(qa,ka).replace(ra,function(b,d){c.push(d)}),c=(1===d.length?["require"]:["require","exports","module"]).concat(c)));S&&(e=P||pa())&&(b||(b=e.getAttribute("data-requiremodule")),g=J[e.getAttribute("data-requirecontext")]);g?(g.defQueue.push([b,c,d]),g.defQueueMap[b]=!0):V.push([b,c,d])};define.amd={jQuery:!0};g.exec=function(b){return eval(b)};g(w)}})(this);
 
-requirejs.config({"baseUrl":"src/","paths":{"text":"../wwwroot/scripts/text","aurelia-dependency-injection":"../node_modules/aurelia-dependency-injection/dist/amd/aurelia-dependency-injection","aurelia-binding":"../node_modules/aurelia-binding/dist/amd/aurelia-binding","aurelia-bootstrapper":"../node_modules/aurelia-bootstrapper/dist/amd/aurelia-bootstrapper","aurelia-event-aggregator":"../node_modules/aurelia-event-aggregator/dist/amd/aurelia-event-aggregator","aurelia-framework":"../node_modules/aurelia-framework/dist/amd/aurelia-framework","aurelia-history":"../node_modules/aurelia-history/dist/amd/aurelia-history","aurelia-history-browser":"../node_modules/aurelia-history-browser/dist/amd/aurelia-history-browser","aurelia-loader":"../node_modules/aurelia-loader/dist/amd/aurelia-loader","aurelia-metadata":"../node_modules/aurelia-metadata/dist/amd/aurelia-metadata","aurelia-pal":"../node_modules/aurelia-pal/dist/amd/aurelia-pal","aurelia-loader-default":"../node_modules/aurelia-loader-default/dist/amd/aurelia-loader-default","aurelia-logging":"../node_modules/aurelia-logging/dist/amd/aurelia-logging","aurelia-polyfills":"../node_modules/aurelia-polyfills/dist/amd/aurelia-polyfills","aurelia-logging-console":"../node_modules/aurelia-logging-console/dist/amd/aurelia-logging-console","aurelia-pal-browser":"../node_modules/aurelia-pal-browser/dist/amd/aurelia-pal-browser","aurelia-path":"../node_modules/aurelia-path/dist/amd/aurelia-path","aurelia-route-recognizer":"../node_modules/aurelia-route-recognizer/dist/amd/aurelia-route-recognizer","aurelia-router":"../node_modules/aurelia-router/dist/amd/aurelia-router","aurelia-task-queue":"../node_modules/aurelia-task-queue/dist/amd/aurelia-task-queue","aurelia-templating":"../node_modules/aurelia-templating/dist/amd/aurelia-templating","aurelia-templating-binding":"../node_modules/aurelia-templating-binding/dist/amd/aurelia-templating-binding","aurelia-http-client":"../node_modules/aurelia-http-client/dist/amd/aurelia-http-client","app-bundle":"../scripts/app-bundle"},"packages":[{"name":"aurelia-templating-resources","location":"../node_modules/aurelia-templating-resources/dist/amd","main":"aurelia-templating-resources"},{"name":"aurelia-templating-router","location":"../node_modules/aurelia-templating-router/dist/amd","main":"aurelia-templating-router"},{"name":"signalr","location":"../node_modules/signalr","main":"jquery.signalR"},{"name":"aurelia-testing","location":"../node_modules/aurelia-testing/dist/amd","main":"aurelia-testing"},{"name":"aurelia-validation","location":"../node_modules/aurelia-validation/dist/amd","main":"aurelia-validation"}],"stubModules":["text"],"shim":{},"bundles":{"app-bundle":["environment","config/settings","model/attendee","model/message","model/conversation","model/user","model/changePassword","events/connectionStateChanged","events/conversationJoined","events/conversationSelected","events/messageReceived","events/userConnected","events/userDisconnected","model/error","services/chat.service","app","main","components/contact-list","components/contact","components/conversation-component","components/conversation-list","components/conversation-preview","pages/account","pages/home","pages/login","resources/index","aurelia-validation/validate-binding-behavior","aurelia-validation/validation-controller","aurelia-validation/validator","aurelia-validation/validate-trigger","aurelia-validation/property-info","aurelia-validation/validation-error","aurelia-validation/validation-controller-factory","aurelia-validation/validation-errors-custom-attribute","aurelia-validation/validation-renderer-custom-attribute","aurelia-validation/implementation/rules","aurelia-validation/implementation/standard-validator","aurelia-validation/implementation/validation-messages","aurelia-validation/implementation/validation-parser","aurelia-validation/implementation/util","aurelia-validation/implementation/validation-rules","css/site","css/site.min"]}});
+requirejs.config({"baseUrl":"src/","paths":{"text":"../wwwroot/scripts/text","aurelia-binding":"../node_modules/aurelia-binding/dist/amd/aurelia-binding","aurelia-dependency-injection":"../node_modules/aurelia-dependency-injection/dist/amd/aurelia-dependency-injection","aurelia-bootstrapper":"../node_modules/aurelia-bootstrapper/dist/amd/aurelia-bootstrapper","aurelia-event-aggregator":"../node_modules/aurelia-event-aggregator/dist/amd/aurelia-event-aggregator","aurelia-history":"../node_modules/aurelia-history/dist/amd/aurelia-history","aurelia-metadata":"../node_modules/aurelia-metadata/dist/amd/aurelia-metadata","aurelia-pal":"../node_modules/aurelia-pal/dist/amd/aurelia-pal","aurelia-history-browser":"../node_modules/aurelia-history-browser/dist/amd/aurelia-history-browser","aurelia-loader-default":"../node_modules/aurelia-loader-default/dist/amd/aurelia-loader-default","aurelia-polyfills":"../node_modules/aurelia-polyfills/dist/amd/aurelia-polyfills","aurelia-logging-console":"../node_modules/aurelia-logging-console/dist/amd/aurelia-logging-console","aurelia-framework":"../node_modules/aurelia-framework/dist/amd/aurelia-framework","aurelia-loader":"../node_modules/aurelia-loader/dist/amd/aurelia-loader","aurelia-logging":"../node_modules/aurelia-logging/dist/amd/aurelia-logging","aurelia-router":"../node_modules/aurelia-router/dist/amd/aurelia-router","aurelia-path":"../node_modules/aurelia-path/dist/amd/aurelia-path","aurelia-route-recognizer":"../node_modules/aurelia-route-recognizer/dist/amd/aurelia-route-recognizer","aurelia-templating-binding":"../node_modules/aurelia-templating-binding/dist/amd/aurelia-templating-binding","aurelia-http-client":"../node_modules/aurelia-http-client/dist/amd/aurelia-http-client","aurelia-task-queue":"../node_modules/aurelia-task-queue/dist/amd/aurelia-task-queue","aurelia-templating":"../node_modules/aurelia-templating/dist/amd/aurelia-templating","aurelia-pal-browser":"../node_modules/aurelia-pal-browser/dist/amd/aurelia-pal-browser","app-bundle":"../scripts/app-bundle"},"packages":[{"name":"aurelia-templating-resources","location":"../node_modules/aurelia-templating-resources/dist/amd","main":"aurelia-templating-resources"},{"name":"aurelia-templating-router","location":"../node_modules/aurelia-templating-router/dist/amd","main":"aurelia-templating-router"},{"name":"aurelia-testing","location":"../node_modules/aurelia-testing/dist/amd","main":"aurelia-testing"},{"name":"aurelia-validation","location":"../node_modules/aurelia-validation/dist/amd","main":"aurelia-validation"}],"stubModules":["text"],"shim":{},"bundles":{"app-bundle":["environment","config/settings","model/attendee","model/message","model/conversation","model/user","model/changePassword","events/connectionStateChanged","events/conversationJoined","events/conversationSelected","events/messageReceived","events/userConnected","events/userDisconnected","model/error","services/chat.service","app","main","components/contact-list","components/contact","components/conversation-component","components/conversation-list","components/conversation-preview","pages/account","pages/home","pages/login","resources/index","aurelia-validation/validate-binding-behavior","aurelia-validation/validation-controller","aurelia-validation/validator","aurelia-validation/validate-trigger","aurelia-validation/property-info","aurelia-validation/validation-error","aurelia-validation/validation-controller-factory","aurelia-validation/validation-errors-custom-attribute","aurelia-validation/validation-renderer-custom-attribute","aurelia-validation/implementation/rules","aurelia-validation/implementation/standard-validator","aurelia-validation/implementation/validation-messages","aurelia-validation/implementation/validation-parser","aurelia-validation/implementation/util","aurelia-validation/implementation/validation-rules","css/site","css/site.min"]}});
 define('text',{});
-define('aurelia-dependency-injection',['exports', 'aurelia-metadata', 'aurelia-pal'], function (exports, _aureliaMetadata, _aureliaPal) {
-  'use strict';
-
-  Object.defineProperty(exports, "__esModule", {
-    value: true
-  });
-  exports.Container = exports.InvocationHandler = exports._emptyParameters = exports.SingletonRegistration = exports.TransientRegistration = exports.FactoryInvoker = exports.NewInstance = exports.Factory = exports.StrategyResolver = exports.Parent = exports.Optional = exports.All = exports.Lazy = exports.resolver = undefined;
-  exports.getDecoratorDependencies = getDecoratorDependencies;
-  exports.lazy = lazy;
-  exports.all = all;
-  exports.optional = optional;
-  exports.parent = parent;
-  exports.factory = factory;
-  exports.newInstance = newInstance;
-  exports.invoker = invoker;
-  exports.factory = factory;
-  exports.registration = registration;
-  exports.transient = transient;
-  exports.singleton = singleton;
-  exports.autoinject = autoinject;
-  exports.inject = inject;
-
-  
-
-  var _dec, _class, _dec2, _class3, _dec3, _class5, _dec4, _class7, _dec5, _class9, _dec6, _class11, _dec7, _class13, _classInvokers;
-
-  var resolver = exports.resolver = _aureliaMetadata.protocol.create('aurelia:resolver', function (target) {
-    if (!(typeof target.get === 'function')) {
-      return 'Resolvers must implement: get(container: Container, key: any): any';
-    }
-
-    return true;
-  });
-
-  var Lazy = exports.Lazy = (_dec = resolver(), _dec(_class = function () {
-    function Lazy(key) {
-      
-
-      this._key = key;
-    }
-
-    Lazy.prototype.get = function get(container) {
-      var _this = this;
-
-      return function () {
-        return container.get(_this._key);
-      };
-    };
-
-    Lazy.of = function of(key) {
-      return new Lazy(key);
-    };
-
-    return Lazy;
-  }()) || _class);
-  var All = exports.All = (_dec2 = resolver(), _dec2(_class3 = function () {
-    function All(key) {
-      
-
-      this._key = key;
-    }
-
-    All.prototype.get = function get(container) {
-      return container.getAll(this._key);
-    };
-
-    All.of = function of(key) {
-      return new All(key);
-    };
-
-    return All;
-  }()) || _class3);
-  var Optional = exports.Optional = (_dec3 = resolver(), _dec3(_class5 = function () {
-    function Optional(key) {
-      var checkParent = arguments.length <= 1 || arguments[1] === undefined ? true : arguments[1];
-
-      
-
-      this._key = key;
-      this._checkParent = checkParent;
-    }
-
-    Optional.prototype.get = function get(container) {
-      if (container.hasResolver(this._key, this._checkParent)) {
-        return container.get(this._key);
-      }
-
-      return null;
-    };
-
-    Optional.of = function of(key) {
-      var checkParent = arguments.length <= 1 || arguments[1] === undefined ? true : arguments[1];
-
-      return new Optional(key, checkParent);
-    };
-
-    return Optional;
-  }()) || _class5);
-  var Parent = exports.Parent = (_dec4 = resolver(), _dec4(_class7 = function () {
-    function Parent(key) {
-      
-
-      this._key = key;
-    }
-
-    Parent.prototype.get = function get(container) {
-      return container.parent ? container.parent.get(this._key) : null;
-    };
-
-    Parent.of = function of(key) {
-      return new Parent(key);
-    };
-
-    return Parent;
-  }()) || _class7);
-  var StrategyResolver = exports.StrategyResolver = (_dec5 = resolver(), _dec5(_class9 = function () {
-    function StrategyResolver(strategy, state) {
-      
-
-      this.strategy = strategy;
-      this.state = state;
-    }
-
-    StrategyResolver.prototype.get = function get(container, key) {
-      switch (this.strategy) {
-        case 0:
-          return this.state;
-        case 1:
-          var singleton = container.invoke(this.state);
-          this.state = singleton;
-          this.strategy = 0;
-          return singleton;
-        case 2:
-          return container.invoke(this.state);
-        case 3:
-          return this.state(container, key, this);
-        case 4:
-          return this.state[0].get(container, key);
-        case 5:
-          return container.get(this.state);
-        default:
-          throw new Error('Invalid strategy: ' + this.strategy);
-      }
-    };
-
-    return StrategyResolver;
-  }()) || _class9);
-  var Factory = exports.Factory = (_dec6 = resolver(), _dec6(_class11 = function () {
-    function Factory(key) {
-      
-
-      this._key = key;
-    }
-
-    Factory.prototype.get = function get(container) {
-      var _this2 = this;
-
-      return function () {
-        for (var _len = arguments.length, rest = Array(_len), _key = 0; _key < _len; _key++) {
-          rest[_key] = arguments[_key];
-        }
-
-        return container.invoke(_this2._key, rest);
-      };
-    };
-
-    Factory.of = function of(key) {
-      return new Factory(key);
-    };
-
-    return Factory;
-  }()) || _class11);
-  var NewInstance = exports.NewInstance = (_dec7 = resolver(), _dec7(_class13 = function () {
-    function NewInstance(key) {
-      
-
-      this.key = key;
-      this.asKey = key;
-    }
-
-    NewInstance.prototype.get = function get(container) {
-      var instance = container.invoke(this.key);
-      container.registerInstance(this.asKey, instance);
-      return instance;
-    };
-
-    NewInstance.prototype.as = function as(key) {
-      this.asKey = key;
-      return this;
-    };
-
-    NewInstance.of = function of(key) {
-      return new NewInstance(key);
-    };
-
-    return NewInstance;
-  }()) || _class13);
-  function getDecoratorDependencies(target, name) {
-    var dependencies = target.inject;
-    if (typeof dependencies === 'function') {
-      throw new Error('Decorator ' + name + ' cannot be used with "inject()".  Please use an array instead.');
-    }
-    if (!dependencies) {
-      dependencies = _aureliaMetadata.metadata.getOwn(_aureliaMetadata.metadata.paramTypes, target).slice();
-      target.inject = dependencies;
-    }
-
-    return dependencies;
-  }
-
-  function lazy(keyValue) {
-    return function (target, key, index) {
-      var params = getDecoratorDependencies(target, 'lazy');
-      params[index] = Lazy.of(keyValue);
-    };
-  }
-
-  function all(keyValue) {
-    return function (target, key, index) {
-      var params = getDecoratorDependencies(target, 'all');
-      params[index] = All.of(keyValue);
-    };
-  }
-
-  function optional() {
-    var checkParentOrTarget = arguments.length <= 0 || arguments[0] === undefined ? true : arguments[0];
-
-    var deco = function deco(checkParent) {
-      return function (target, key, index) {
-        var params = getDecoratorDependencies(target, 'optional');
-        params[index] = Optional.of(params[index], checkParent);
-      };
-    };
-    if (typeof checkParentOrTarget === 'boolean') {
-      return deco(checkParentOrTarget);
-    }
-    return deco(true);
-  }
-
-  function parent(target, key, index) {
-    var params = getDecoratorDependencies(target, 'parent');
-    params[index] = Parent.of(params[index]);
-  }
-
-  function factory(keyValue, asValue) {
-    return function (target, key, index) {
-      var params = getDecoratorDependencies(target, 'factory');
-      var factory = Factory.of(keyValue);
-      params[index] = asValue ? factory.as(asValue) : factory;
-    };
-  }
-
-  function newInstance(asKeyOrTarget) {
-    var deco = function deco(asKey) {
-      return function (target, key, index) {
-        var params = getDecoratorDependencies(target, 'newInstance');
-        params[index] = NewInstance.of(params[index]);
-        if (!!asKey) {
-          params[index].as(asKey);
-        }
-      };
-    };
-    if (arguments.length === 1) {
-      return deco(asKeyOrTarget);
-    }
-    return deco();
-  }
-
-  function invoker(value) {
-    return function (target) {
-      _aureliaMetadata.metadata.define(_aureliaMetadata.metadata.invoker, value, target);
-    };
-  }
-
-  function factory(potentialTarget) {
-    var deco = function deco(target) {
-      _aureliaMetadata.metadata.define(_aureliaMetadata.metadata.invoker, FactoryInvoker.instance, target);
-    };
-
-    return potentialTarget ? deco(potentialTarget) : deco;
-  }
-
-  var FactoryInvoker = exports.FactoryInvoker = function () {
-    function FactoryInvoker() {
-      
-    }
-
-    FactoryInvoker.prototype.invoke = function invoke(container, fn, dependencies) {
-      var i = dependencies.length;
-      var args = new Array(i);
-
-      while (i--) {
-        args[i] = container.get(dependencies[i]);
-      }
-
-      return fn.apply(undefined, args);
-    };
-
-    FactoryInvoker.prototype.invokeWithDynamicDependencies = function invokeWithDynamicDependencies(container, fn, staticDependencies, dynamicDependencies) {
-      var i = staticDependencies.length;
-      var args = new Array(i);
-
-      while (i--) {
-        args[i] = container.get(staticDependencies[i]);
-      }
-
-      if (dynamicDependencies !== undefined) {
-        args = args.concat(dynamicDependencies);
-      }
-
-      return fn.apply(undefined, args);
-    };
-
-    return FactoryInvoker;
-  }();
-
-  FactoryInvoker.instance = new FactoryInvoker();
-
-  function registration(value) {
-    return function (target) {
-      _aureliaMetadata.metadata.define(_aureliaMetadata.metadata.registration, value, target);
-    };
-  }
-
-  function transient(key) {
-    return registration(new TransientRegistration(key));
-  }
-
-  function singleton(keyOrRegisterInChild) {
-    var registerInChild = arguments.length <= 1 || arguments[1] === undefined ? false : arguments[1];
-
-    return registration(new SingletonRegistration(keyOrRegisterInChild, registerInChild));
-  }
-
-  var TransientRegistration = exports.TransientRegistration = function () {
-    function TransientRegistration(key) {
-      
-
-      this._key = key;
-    }
-
-    TransientRegistration.prototype.registerResolver = function registerResolver(container, key, fn) {
-      return container.registerTransient(this._key || key, fn);
-    };
-
-    return TransientRegistration;
-  }();
-
-  var SingletonRegistration = exports.SingletonRegistration = function () {
-    function SingletonRegistration(keyOrRegisterInChild) {
-      var registerInChild = arguments.length <= 1 || arguments[1] === undefined ? false : arguments[1];
-
-      
-
-      if (typeof keyOrRegisterInChild === 'boolean') {
-        this._registerInChild = keyOrRegisterInChild;
-      } else {
-        this._key = keyOrRegisterInChild;
-        this._registerInChild = registerInChild;
-      }
-    }
-
-    SingletonRegistration.prototype.registerResolver = function registerResolver(container, key, fn) {
-      return this._registerInChild ? container.registerSingleton(this._key || key, fn) : container.root.registerSingleton(this._key || key, fn);
-    };
-
-    return SingletonRegistration;
-  }();
-
-  var badKeyError = 'key/value cannot be null or undefined. Are you trying to inject/register something that doesn\'t exist with DI?';
-  var _emptyParameters = exports._emptyParameters = Object.freeze([]);
-
-  _aureliaMetadata.metadata.registration = 'aurelia:registration';
-  _aureliaMetadata.metadata.invoker = 'aurelia:invoker';
-
-  var resolverDecorates = resolver.decorates;
-
-  var InvocationHandler = exports.InvocationHandler = function () {
-    function InvocationHandler(fn, invoker, dependencies) {
-      
-
-      this.fn = fn;
-      this.invoker = invoker;
-      this.dependencies = dependencies;
-    }
-
-    InvocationHandler.prototype.invoke = function invoke(container, dynamicDependencies) {
-      return dynamicDependencies !== undefined ? this.invoker.invokeWithDynamicDependencies(container, this.fn, this.dependencies, dynamicDependencies) : this.invoker.invoke(container, this.fn, this.dependencies);
-    };
-
-    return InvocationHandler;
-  }();
-
-  function invokeWithDynamicDependencies(container, fn, staticDependencies, dynamicDependencies) {
-    var i = staticDependencies.length;
-    var args = new Array(i);
-
-    while (i--) {
-      args[i] = container.get(staticDependencies[i]);
-    }
-
-    if (dynamicDependencies !== undefined) {
-      args = args.concat(dynamicDependencies);
-    }
-
-    return Reflect.construct(fn, args);
-  }
-
-  var classInvokers = (_classInvokers = {}, _classInvokers[0] = {
-    invoke: function invoke(container, Type) {
-      return new Type();
-    },
-
-    invokeWithDynamicDependencies: invokeWithDynamicDependencies
-  }, _classInvokers[1] = {
-    invoke: function invoke(container, Type, deps) {
-      return new Type(container.get(deps[0]));
-    },
-
-    invokeWithDynamicDependencies: invokeWithDynamicDependencies
-  }, _classInvokers[2] = {
-    invoke: function invoke(container, Type, deps) {
-      return new Type(container.get(deps[0]), container.get(deps[1]));
-    },
-
-    invokeWithDynamicDependencies: invokeWithDynamicDependencies
-  }, _classInvokers[3] = {
-    invoke: function invoke(container, Type, deps) {
-      return new Type(container.get(deps[0]), container.get(deps[1]), container.get(deps[2]));
-    },
-
-    invokeWithDynamicDependencies: invokeWithDynamicDependencies
-  }, _classInvokers[4] = {
-    invoke: function invoke(container, Type, deps) {
-      return new Type(container.get(deps[0]), container.get(deps[1]), container.get(deps[2]), container.get(deps[3]));
-    },
-
-    invokeWithDynamicDependencies: invokeWithDynamicDependencies
-  }, _classInvokers[5] = {
-    invoke: function invoke(container, Type, deps) {
-      return new Type(container.get(deps[0]), container.get(deps[1]), container.get(deps[2]), container.get(deps[3]), container.get(deps[4]));
-    },
-
-    invokeWithDynamicDependencies: invokeWithDynamicDependencies
-  }, _classInvokers.fallback = {
-    invoke: invokeWithDynamicDependencies,
-    invokeWithDynamicDependencies: invokeWithDynamicDependencies
-  }, _classInvokers);
-
-  function getDependencies(f) {
-    if (!f.hasOwnProperty('inject')) {
-      return [];
-    }
-
-    if (typeof f.inject === 'function') {
-      return f.inject();
-    }
-
-    return f.inject;
-  }
-
-  var Container = exports.Container = function () {
-    function Container(configuration) {
-      
-
-      if (configuration === undefined) {
-        configuration = {};
-      }
-
-      this._configuration = configuration;
-      this._onHandlerCreated = configuration.onHandlerCreated;
-      this._handlers = configuration.handlers || (configuration.handlers = new Map());
-      this._resolvers = new Map();
-      this.root = this;
-      this.parent = null;
-    }
-
-    Container.prototype.makeGlobal = function makeGlobal() {
-      Container.instance = this;
-      return this;
-    };
-
-    Container.prototype.setHandlerCreatedCallback = function setHandlerCreatedCallback(onHandlerCreated) {
-      this._onHandlerCreated = onHandlerCreated;
-      this._configuration.onHandlerCreated = onHandlerCreated;
-    };
-
-    Container.prototype.registerInstance = function registerInstance(key, instance) {
-      return this.registerResolver(key, new StrategyResolver(0, instance === undefined ? key : instance));
-    };
-
-    Container.prototype.registerSingleton = function registerSingleton(key, fn) {
-      return this.registerResolver(key, new StrategyResolver(1, fn === undefined ? key : fn));
-    };
-
-    Container.prototype.registerTransient = function registerTransient(key, fn) {
-      return this.registerResolver(key, new StrategyResolver(2, fn === undefined ? key : fn));
-    };
-
-    Container.prototype.registerHandler = function registerHandler(key, handler) {
-      return this.registerResolver(key, new StrategyResolver(3, handler));
-    };
-
-    Container.prototype.registerAlias = function registerAlias(originalKey, aliasKey) {
-      return this.registerResolver(aliasKey, new StrategyResolver(5, originalKey));
-    };
-
-    Container.prototype.registerResolver = function registerResolver(key, resolver) {
-      if (key === null || key === undefined) {
-        throw new Error(badKeyError);
-      }
-
-      var allResolvers = this._resolvers;
-      var result = allResolvers.get(key);
-
-      if (result === undefined) {
-        allResolvers.set(key, resolver);
-      } else if (result.strategy === 4) {
-        result.state.push(resolver);
-      } else {
-        allResolvers.set(key, new StrategyResolver(4, [result, resolver]));
-      }
-
-      return resolver;
-    };
-
-    Container.prototype.autoRegister = function autoRegister(key, fn) {
-      fn = fn === undefined ? key : fn;
-
-      if (typeof fn === 'function') {
-        var _registration = _aureliaMetadata.metadata.get(_aureliaMetadata.metadata.registration, fn);
-
-        if (_registration === undefined) {
-          return this.registerResolver(key, new StrategyResolver(1, fn));
-        }
-
-        return _registration.registerResolver(this, key, fn);
-      }
-
-      return this.registerResolver(key, new StrategyResolver(0, fn));
-    };
-
-    Container.prototype.autoRegisterAll = function autoRegisterAll(fns) {
-      var i = fns.length;
-      while (i--) {
-        this.autoRegister(fns[i]);
-      }
-    };
-
-    Container.prototype.unregister = function unregister(key) {
-      this._resolvers.delete(key);
-    };
-
-    Container.prototype.hasResolver = function hasResolver(key) {
-      var checkParent = arguments.length <= 1 || arguments[1] === undefined ? false : arguments[1];
-
-      if (key === null || key === undefined) {
-        throw new Error(badKeyError);
-      }
-
-      return this._resolvers.has(key) || checkParent && this.parent !== null && this.parent.hasResolver(key, checkParent);
-    };
-
-    Container.prototype.get = function get(key) {
-      if (key === null || key === undefined) {
-        throw new Error(badKeyError);
-      }
-
-      if (key === Container) {
-        return this;
-      }
-
-      if (resolverDecorates(key)) {
-        return key.get(this, key);
-      }
-
-      var resolver = this._resolvers.get(key);
-
-      if (resolver === undefined) {
-        if (this.parent === null) {
-          return this.autoRegister(key).get(this, key);
-        }
-
-        return this.parent._get(key);
-      }
-
-      return resolver.get(this, key);
-    };
-
-    Container.prototype._get = function _get(key) {
-      var resolver = this._resolvers.get(key);
-
-      if (resolver === undefined) {
-        if (this.parent === null) {
-          return this.autoRegister(key).get(this, key);
-        }
-
-        return this.parent._get(key);
-      }
-
-      return resolver.get(this, key);
-    };
-
-    Container.prototype.getAll = function getAll(key) {
-      if (key === null || key === undefined) {
-        throw new Error(badKeyError);
-      }
-
-      var resolver = this._resolvers.get(key);
-
-      if (resolver === undefined) {
-        if (this.parent === null) {
-          return _emptyParameters;
-        }
-
-        return this.parent.getAll(key);
-      }
-
-      if (resolver.strategy === 4) {
-        var state = resolver.state;
-        var i = state.length;
-        var results = new Array(i);
-
-        while (i--) {
-          results[i] = state[i].get(this, key);
-        }
-
-        return results;
-      }
-
-      return [resolver.get(this, key)];
-    };
-
-    Container.prototype.createChild = function createChild() {
-      var child = new Container(this._configuration);
-      child.root = this.root;
-      child.parent = this;
-      return child;
-    };
-
-    Container.prototype.invoke = function invoke(fn, dynamicDependencies) {
-      try {
-        var _handler = this._handlers.get(fn);
-
-        if (_handler === undefined) {
-          _handler = this._createInvocationHandler(fn);
-          this._handlers.set(fn, _handler);
-        }
-
-        return _handler.invoke(this, dynamicDependencies);
-      } catch (e) {
-        throw new _aureliaPal.AggregateError('Error invoking ' + fn.name + '. Check the inner error for details.', e, true);
-      }
-    };
-
-    Container.prototype._createInvocationHandler = function _createInvocationHandler(fn) {
-      var dependencies = void 0;
-
-      if (fn.inject === undefined) {
-        dependencies = _aureliaMetadata.metadata.getOwn(_aureliaMetadata.metadata.paramTypes, fn) || _emptyParameters;
-      } else {
-        dependencies = [];
-        var ctor = fn;
-        while (typeof ctor === 'function') {
-          var _dependencies;
-
-          (_dependencies = dependencies).push.apply(_dependencies, getDependencies(ctor));
-          ctor = Object.getPrototypeOf(ctor);
-        }
-      }
-
-      var invoker = _aureliaMetadata.metadata.getOwn(_aureliaMetadata.metadata.invoker, fn) || classInvokers[dependencies.length] || classInvokers.fallback;
-
-      var handler = new InvocationHandler(fn, invoker, dependencies);
-      return this._onHandlerCreated !== undefined ? this._onHandlerCreated(handler) : handler;
-    };
-
-    return Container;
-  }();
-
-  function autoinject(potentialTarget) {
-    var deco = function deco(target) {
-      var previousInject = target.inject;
-      var autoInject = _aureliaMetadata.metadata.getOwn(_aureliaMetadata.metadata.paramTypes, target) || _emptyParameters;
-      if (!previousInject) {
-        target.inject = autoInject;
-      } else {
-        for (var i = 0; i++; i < autoInject.length) {
-          if (!previousInject[i]) {
-            previousInject[i] = autoInject[i];
-          }
-        }
-      }
-    };
-
-    return potentialTarget ? deco(potentialTarget) : deco;
-  }
-
-  function inject() {
-    for (var _len2 = arguments.length, rest = Array(_len2), _key2 = 0; _key2 < _len2; _key2++) {
-      rest[_key2] = arguments[_key2];
-    }
-
-    return function (target, key, descriptor) {
-      if (typeof descriptor === 'number' && rest.length === 1) {
-        var params = target.inject;
-        if (typeof params === 'function') {
-          throw new Error('Decorator inject cannot be used with "inject()".  Please use an array instead.');
-        }
-        if (!params) {
-          params = _aureliaMetadata.metadata.getOwn(_aureliaMetadata.metadata.paramTypes, target).slice();
-          target.inject = params;
-        }
-        params[descriptor] = rest[0];
-        return;
-      }
-
-      if (descriptor) {
-        var _fn = descriptor.value;
-        _fn.inject = rest;
-      } else {
-        target.inject = rest;
-      }
-    };
-  }
-});
 define('aurelia-binding',['exports', 'aurelia-logging', 'aurelia-pal', 'aurelia-task-queue', 'aurelia-metadata'], function (exports, _aureliaLogging, _aureliaPal, _aureliaTaskQueue, _aureliaMetadata) {
   'use strict';
 
@@ -9869,6 +9143,732 @@ define('aurelia-binding',['exports', 'aurelia-logging', 'aurelia-pal', 'aurelia-
     return deco(targetOrConfig, key, descriptor);
   }
 });
+define('aurelia-dependency-injection',['exports', 'aurelia-metadata', 'aurelia-pal'], function (exports, _aureliaMetadata, _aureliaPal) {
+  'use strict';
+
+  Object.defineProperty(exports, "__esModule", {
+    value: true
+  });
+  exports.Container = exports.InvocationHandler = exports._emptyParameters = exports.SingletonRegistration = exports.TransientRegistration = exports.FactoryInvoker = exports.NewInstance = exports.Factory = exports.StrategyResolver = exports.Parent = exports.Optional = exports.All = exports.Lazy = exports.resolver = undefined;
+  exports.getDecoratorDependencies = getDecoratorDependencies;
+  exports.lazy = lazy;
+  exports.all = all;
+  exports.optional = optional;
+  exports.parent = parent;
+  exports.factory = factory;
+  exports.newInstance = newInstance;
+  exports.invoker = invoker;
+  exports.factory = factory;
+  exports.registration = registration;
+  exports.transient = transient;
+  exports.singleton = singleton;
+  exports.autoinject = autoinject;
+  exports.inject = inject;
+
+  
+
+  var _dec, _class, _dec2, _class3, _dec3, _class5, _dec4, _class7, _dec5, _class9, _dec6, _class11, _dec7, _class13, _classInvokers;
+
+  var resolver = exports.resolver = _aureliaMetadata.protocol.create('aurelia:resolver', function (target) {
+    if (!(typeof target.get === 'function')) {
+      return 'Resolvers must implement: get(container: Container, key: any): any';
+    }
+
+    return true;
+  });
+
+  var Lazy = exports.Lazy = (_dec = resolver(), _dec(_class = function () {
+    function Lazy(key) {
+      
+
+      this._key = key;
+    }
+
+    Lazy.prototype.get = function get(container) {
+      var _this = this;
+
+      return function () {
+        return container.get(_this._key);
+      };
+    };
+
+    Lazy.of = function of(key) {
+      return new Lazy(key);
+    };
+
+    return Lazy;
+  }()) || _class);
+  var All = exports.All = (_dec2 = resolver(), _dec2(_class3 = function () {
+    function All(key) {
+      
+
+      this._key = key;
+    }
+
+    All.prototype.get = function get(container) {
+      return container.getAll(this._key);
+    };
+
+    All.of = function of(key) {
+      return new All(key);
+    };
+
+    return All;
+  }()) || _class3);
+  var Optional = exports.Optional = (_dec3 = resolver(), _dec3(_class5 = function () {
+    function Optional(key) {
+      var checkParent = arguments.length <= 1 || arguments[1] === undefined ? true : arguments[1];
+
+      
+
+      this._key = key;
+      this._checkParent = checkParent;
+    }
+
+    Optional.prototype.get = function get(container) {
+      if (container.hasResolver(this._key, this._checkParent)) {
+        return container.get(this._key);
+      }
+
+      return null;
+    };
+
+    Optional.of = function of(key) {
+      var checkParent = arguments.length <= 1 || arguments[1] === undefined ? true : arguments[1];
+
+      return new Optional(key, checkParent);
+    };
+
+    return Optional;
+  }()) || _class5);
+  var Parent = exports.Parent = (_dec4 = resolver(), _dec4(_class7 = function () {
+    function Parent(key) {
+      
+
+      this._key = key;
+    }
+
+    Parent.prototype.get = function get(container) {
+      return container.parent ? container.parent.get(this._key) : null;
+    };
+
+    Parent.of = function of(key) {
+      return new Parent(key);
+    };
+
+    return Parent;
+  }()) || _class7);
+  var StrategyResolver = exports.StrategyResolver = (_dec5 = resolver(), _dec5(_class9 = function () {
+    function StrategyResolver(strategy, state) {
+      
+
+      this.strategy = strategy;
+      this.state = state;
+    }
+
+    StrategyResolver.prototype.get = function get(container, key) {
+      switch (this.strategy) {
+        case 0:
+          return this.state;
+        case 1:
+          var singleton = container.invoke(this.state);
+          this.state = singleton;
+          this.strategy = 0;
+          return singleton;
+        case 2:
+          return container.invoke(this.state);
+        case 3:
+          return this.state(container, key, this);
+        case 4:
+          return this.state[0].get(container, key);
+        case 5:
+          return container.get(this.state);
+        default:
+          throw new Error('Invalid strategy: ' + this.strategy);
+      }
+    };
+
+    return StrategyResolver;
+  }()) || _class9);
+  var Factory = exports.Factory = (_dec6 = resolver(), _dec6(_class11 = function () {
+    function Factory(key) {
+      
+
+      this._key = key;
+    }
+
+    Factory.prototype.get = function get(container) {
+      var _this2 = this;
+
+      return function () {
+        for (var _len = arguments.length, rest = Array(_len), _key = 0; _key < _len; _key++) {
+          rest[_key] = arguments[_key];
+        }
+
+        return container.invoke(_this2._key, rest);
+      };
+    };
+
+    Factory.of = function of(key) {
+      return new Factory(key);
+    };
+
+    return Factory;
+  }()) || _class11);
+  var NewInstance = exports.NewInstance = (_dec7 = resolver(), _dec7(_class13 = function () {
+    function NewInstance(key) {
+      
+
+      this.key = key;
+      this.asKey = key;
+    }
+
+    NewInstance.prototype.get = function get(container) {
+      var instance = container.invoke(this.key);
+      container.registerInstance(this.asKey, instance);
+      return instance;
+    };
+
+    NewInstance.prototype.as = function as(key) {
+      this.asKey = key;
+      return this;
+    };
+
+    NewInstance.of = function of(key) {
+      return new NewInstance(key);
+    };
+
+    return NewInstance;
+  }()) || _class13);
+  function getDecoratorDependencies(target, name) {
+    var dependencies = target.inject;
+    if (typeof dependencies === 'function') {
+      throw new Error('Decorator ' + name + ' cannot be used with "inject()".  Please use an array instead.');
+    }
+    if (!dependencies) {
+      dependencies = _aureliaMetadata.metadata.getOwn(_aureliaMetadata.metadata.paramTypes, target).slice();
+      target.inject = dependencies;
+    }
+
+    return dependencies;
+  }
+
+  function lazy(keyValue) {
+    return function (target, key, index) {
+      var params = getDecoratorDependencies(target, 'lazy');
+      params[index] = Lazy.of(keyValue);
+    };
+  }
+
+  function all(keyValue) {
+    return function (target, key, index) {
+      var params = getDecoratorDependencies(target, 'all');
+      params[index] = All.of(keyValue);
+    };
+  }
+
+  function optional() {
+    var checkParentOrTarget = arguments.length <= 0 || arguments[0] === undefined ? true : arguments[0];
+
+    var deco = function deco(checkParent) {
+      return function (target, key, index) {
+        var params = getDecoratorDependencies(target, 'optional');
+        params[index] = Optional.of(params[index], checkParent);
+      };
+    };
+    if (typeof checkParentOrTarget === 'boolean') {
+      return deco(checkParentOrTarget);
+    }
+    return deco(true);
+  }
+
+  function parent(target, key, index) {
+    var params = getDecoratorDependencies(target, 'parent');
+    params[index] = Parent.of(params[index]);
+  }
+
+  function factory(keyValue, asValue) {
+    return function (target, key, index) {
+      var params = getDecoratorDependencies(target, 'factory');
+      var factory = Factory.of(keyValue);
+      params[index] = asValue ? factory.as(asValue) : factory;
+    };
+  }
+
+  function newInstance(asKeyOrTarget) {
+    var deco = function deco(asKey) {
+      return function (target, key, index) {
+        var params = getDecoratorDependencies(target, 'newInstance');
+        params[index] = NewInstance.of(params[index]);
+        if (!!asKey) {
+          params[index].as(asKey);
+        }
+      };
+    };
+    if (arguments.length === 1) {
+      return deco(asKeyOrTarget);
+    }
+    return deco();
+  }
+
+  function invoker(value) {
+    return function (target) {
+      _aureliaMetadata.metadata.define(_aureliaMetadata.metadata.invoker, value, target);
+    };
+  }
+
+  function factory(potentialTarget) {
+    var deco = function deco(target) {
+      _aureliaMetadata.metadata.define(_aureliaMetadata.metadata.invoker, FactoryInvoker.instance, target);
+    };
+
+    return potentialTarget ? deco(potentialTarget) : deco;
+  }
+
+  var FactoryInvoker = exports.FactoryInvoker = function () {
+    function FactoryInvoker() {
+      
+    }
+
+    FactoryInvoker.prototype.invoke = function invoke(container, fn, dependencies) {
+      var i = dependencies.length;
+      var args = new Array(i);
+
+      while (i--) {
+        args[i] = container.get(dependencies[i]);
+      }
+
+      return fn.apply(undefined, args);
+    };
+
+    FactoryInvoker.prototype.invokeWithDynamicDependencies = function invokeWithDynamicDependencies(container, fn, staticDependencies, dynamicDependencies) {
+      var i = staticDependencies.length;
+      var args = new Array(i);
+
+      while (i--) {
+        args[i] = container.get(staticDependencies[i]);
+      }
+
+      if (dynamicDependencies !== undefined) {
+        args = args.concat(dynamicDependencies);
+      }
+
+      return fn.apply(undefined, args);
+    };
+
+    return FactoryInvoker;
+  }();
+
+  FactoryInvoker.instance = new FactoryInvoker();
+
+  function registration(value) {
+    return function (target) {
+      _aureliaMetadata.metadata.define(_aureliaMetadata.metadata.registration, value, target);
+    };
+  }
+
+  function transient(key) {
+    return registration(new TransientRegistration(key));
+  }
+
+  function singleton(keyOrRegisterInChild) {
+    var registerInChild = arguments.length <= 1 || arguments[1] === undefined ? false : arguments[1];
+
+    return registration(new SingletonRegistration(keyOrRegisterInChild, registerInChild));
+  }
+
+  var TransientRegistration = exports.TransientRegistration = function () {
+    function TransientRegistration(key) {
+      
+
+      this._key = key;
+    }
+
+    TransientRegistration.prototype.registerResolver = function registerResolver(container, key, fn) {
+      return container.registerTransient(this._key || key, fn);
+    };
+
+    return TransientRegistration;
+  }();
+
+  var SingletonRegistration = exports.SingletonRegistration = function () {
+    function SingletonRegistration(keyOrRegisterInChild) {
+      var registerInChild = arguments.length <= 1 || arguments[1] === undefined ? false : arguments[1];
+
+      
+
+      if (typeof keyOrRegisterInChild === 'boolean') {
+        this._registerInChild = keyOrRegisterInChild;
+      } else {
+        this._key = keyOrRegisterInChild;
+        this._registerInChild = registerInChild;
+      }
+    }
+
+    SingletonRegistration.prototype.registerResolver = function registerResolver(container, key, fn) {
+      return this._registerInChild ? container.registerSingleton(this._key || key, fn) : container.root.registerSingleton(this._key || key, fn);
+    };
+
+    return SingletonRegistration;
+  }();
+
+  var badKeyError = 'key/value cannot be null or undefined. Are you trying to inject/register something that doesn\'t exist with DI?';
+  var _emptyParameters = exports._emptyParameters = Object.freeze([]);
+
+  _aureliaMetadata.metadata.registration = 'aurelia:registration';
+  _aureliaMetadata.metadata.invoker = 'aurelia:invoker';
+
+  var resolverDecorates = resolver.decorates;
+
+  var InvocationHandler = exports.InvocationHandler = function () {
+    function InvocationHandler(fn, invoker, dependencies) {
+      
+
+      this.fn = fn;
+      this.invoker = invoker;
+      this.dependencies = dependencies;
+    }
+
+    InvocationHandler.prototype.invoke = function invoke(container, dynamicDependencies) {
+      return dynamicDependencies !== undefined ? this.invoker.invokeWithDynamicDependencies(container, this.fn, this.dependencies, dynamicDependencies) : this.invoker.invoke(container, this.fn, this.dependencies);
+    };
+
+    return InvocationHandler;
+  }();
+
+  function invokeWithDynamicDependencies(container, fn, staticDependencies, dynamicDependencies) {
+    var i = staticDependencies.length;
+    var args = new Array(i);
+
+    while (i--) {
+      args[i] = container.get(staticDependencies[i]);
+    }
+
+    if (dynamicDependencies !== undefined) {
+      args = args.concat(dynamicDependencies);
+    }
+
+    return Reflect.construct(fn, args);
+  }
+
+  var classInvokers = (_classInvokers = {}, _classInvokers[0] = {
+    invoke: function invoke(container, Type) {
+      return new Type();
+    },
+
+    invokeWithDynamicDependencies: invokeWithDynamicDependencies
+  }, _classInvokers[1] = {
+    invoke: function invoke(container, Type, deps) {
+      return new Type(container.get(deps[0]));
+    },
+
+    invokeWithDynamicDependencies: invokeWithDynamicDependencies
+  }, _classInvokers[2] = {
+    invoke: function invoke(container, Type, deps) {
+      return new Type(container.get(deps[0]), container.get(deps[1]));
+    },
+
+    invokeWithDynamicDependencies: invokeWithDynamicDependencies
+  }, _classInvokers[3] = {
+    invoke: function invoke(container, Type, deps) {
+      return new Type(container.get(deps[0]), container.get(deps[1]), container.get(deps[2]));
+    },
+
+    invokeWithDynamicDependencies: invokeWithDynamicDependencies
+  }, _classInvokers[4] = {
+    invoke: function invoke(container, Type, deps) {
+      return new Type(container.get(deps[0]), container.get(deps[1]), container.get(deps[2]), container.get(deps[3]));
+    },
+
+    invokeWithDynamicDependencies: invokeWithDynamicDependencies
+  }, _classInvokers[5] = {
+    invoke: function invoke(container, Type, deps) {
+      return new Type(container.get(deps[0]), container.get(deps[1]), container.get(deps[2]), container.get(deps[3]), container.get(deps[4]));
+    },
+
+    invokeWithDynamicDependencies: invokeWithDynamicDependencies
+  }, _classInvokers.fallback = {
+    invoke: invokeWithDynamicDependencies,
+    invokeWithDynamicDependencies: invokeWithDynamicDependencies
+  }, _classInvokers);
+
+  function getDependencies(f) {
+    if (!f.hasOwnProperty('inject')) {
+      return [];
+    }
+
+    if (typeof f.inject === 'function') {
+      return f.inject();
+    }
+
+    return f.inject;
+  }
+
+  var Container = exports.Container = function () {
+    function Container(configuration) {
+      
+
+      if (configuration === undefined) {
+        configuration = {};
+      }
+
+      this._configuration = configuration;
+      this._onHandlerCreated = configuration.onHandlerCreated;
+      this._handlers = configuration.handlers || (configuration.handlers = new Map());
+      this._resolvers = new Map();
+      this.root = this;
+      this.parent = null;
+    }
+
+    Container.prototype.makeGlobal = function makeGlobal() {
+      Container.instance = this;
+      return this;
+    };
+
+    Container.prototype.setHandlerCreatedCallback = function setHandlerCreatedCallback(onHandlerCreated) {
+      this._onHandlerCreated = onHandlerCreated;
+      this._configuration.onHandlerCreated = onHandlerCreated;
+    };
+
+    Container.prototype.registerInstance = function registerInstance(key, instance) {
+      return this.registerResolver(key, new StrategyResolver(0, instance === undefined ? key : instance));
+    };
+
+    Container.prototype.registerSingleton = function registerSingleton(key, fn) {
+      return this.registerResolver(key, new StrategyResolver(1, fn === undefined ? key : fn));
+    };
+
+    Container.prototype.registerTransient = function registerTransient(key, fn) {
+      return this.registerResolver(key, new StrategyResolver(2, fn === undefined ? key : fn));
+    };
+
+    Container.prototype.registerHandler = function registerHandler(key, handler) {
+      return this.registerResolver(key, new StrategyResolver(3, handler));
+    };
+
+    Container.prototype.registerAlias = function registerAlias(originalKey, aliasKey) {
+      return this.registerResolver(aliasKey, new StrategyResolver(5, originalKey));
+    };
+
+    Container.prototype.registerResolver = function registerResolver(key, resolver) {
+      if (key === null || key === undefined) {
+        throw new Error(badKeyError);
+      }
+
+      var allResolvers = this._resolvers;
+      var result = allResolvers.get(key);
+
+      if (result === undefined) {
+        allResolvers.set(key, resolver);
+      } else if (result.strategy === 4) {
+        result.state.push(resolver);
+      } else {
+        allResolvers.set(key, new StrategyResolver(4, [result, resolver]));
+      }
+
+      return resolver;
+    };
+
+    Container.prototype.autoRegister = function autoRegister(key, fn) {
+      fn = fn === undefined ? key : fn;
+
+      if (typeof fn === 'function') {
+        var _registration = _aureliaMetadata.metadata.get(_aureliaMetadata.metadata.registration, fn);
+
+        if (_registration === undefined) {
+          return this.registerResolver(key, new StrategyResolver(1, fn));
+        }
+
+        return _registration.registerResolver(this, key, fn);
+      }
+
+      return this.registerResolver(key, new StrategyResolver(0, fn));
+    };
+
+    Container.prototype.autoRegisterAll = function autoRegisterAll(fns) {
+      var i = fns.length;
+      while (i--) {
+        this.autoRegister(fns[i]);
+      }
+    };
+
+    Container.prototype.unregister = function unregister(key) {
+      this._resolvers.delete(key);
+    };
+
+    Container.prototype.hasResolver = function hasResolver(key) {
+      var checkParent = arguments.length <= 1 || arguments[1] === undefined ? false : arguments[1];
+
+      if (key === null || key === undefined) {
+        throw new Error(badKeyError);
+      }
+
+      return this._resolvers.has(key) || checkParent && this.parent !== null && this.parent.hasResolver(key, checkParent);
+    };
+
+    Container.prototype.get = function get(key) {
+      if (key === null || key === undefined) {
+        throw new Error(badKeyError);
+      }
+
+      if (key === Container) {
+        return this;
+      }
+
+      if (resolverDecorates(key)) {
+        return key.get(this, key);
+      }
+
+      var resolver = this._resolvers.get(key);
+
+      if (resolver === undefined) {
+        if (this.parent === null) {
+          return this.autoRegister(key).get(this, key);
+        }
+
+        return this.parent._get(key);
+      }
+
+      return resolver.get(this, key);
+    };
+
+    Container.prototype._get = function _get(key) {
+      var resolver = this._resolvers.get(key);
+
+      if (resolver === undefined) {
+        if (this.parent === null) {
+          return this.autoRegister(key).get(this, key);
+        }
+
+        return this.parent._get(key);
+      }
+
+      return resolver.get(this, key);
+    };
+
+    Container.prototype.getAll = function getAll(key) {
+      if (key === null || key === undefined) {
+        throw new Error(badKeyError);
+      }
+
+      var resolver = this._resolvers.get(key);
+
+      if (resolver === undefined) {
+        if (this.parent === null) {
+          return _emptyParameters;
+        }
+
+        return this.parent.getAll(key);
+      }
+
+      if (resolver.strategy === 4) {
+        var state = resolver.state;
+        var i = state.length;
+        var results = new Array(i);
+
+        while (i--) {
+          results[i] = state[i].get(this, key);
+        }
+
+        return results;
+      }
+
+      return [resolver.get(this, key)];
+    };
+
+    Container.prototype.createChild = function createChild() {
+      var child = new Container(this._configuration);
+      child.root = this.root;
+      child.parent = this;
+      return child;
+    };
+
+    Container.prototype.invoke = function invoke(fn, dynamicDependencies) {
+      try {
+        var _handler = this._handlers.get(fn);
+
+        if (_handler === undefined) {
+          _handler = this._createInvocationHandler(fn);
+          this._handlers.set(fn, _handler);
+        }
+
+        return _handler.invoke(this, dynamicDependencies);
+      } catch (e) {
+        throw new _aureliaPal.AggregateError('Error invoking ' + fn.name + '. Check the inner error for details.', e, true);
+      }
+    };
+
+    Container.prototype._createInvocationHandler = function _createInvocationHandler(fn) {
+      var dependencies = void 0;
+
+      if (fn.inject === undefined) {
+        dependencies = _aureliaMetadata.metadata.getOwn(_aureliaMetadata.metadata.paramTypes, fn) || _emptyParameters;
+      } else {
+        dependencies = [];
+        var ctor = fn;
+        while (typeof ctor === 'function') {
+          var _dependencies;
+
+          (_dependencies = dependencies).push.apply(_dependencies, getDependencies(ctor));
+          ctor = Object.getPrototypeOf(ctor);
+        }
+      }
+
+      var invoker = _aureliaMetadata.metadata.getOwn(_aureliaMetadata.metadata.invoker, fn) || classInvokers[dependencies.length] || classInvokers.fallback;
+
+      var handler = new InvocationHandler(fn, invoker, dependencies);
+      return this._onHandlerCreated !== undefined ? this._onHandlerCreated(handler) : handler;
+    };
+
+    return Container;
+  }();
+
+  function autoinject(potentialTarget) {
+    var deco = function deco(target) {
+      var previousInject = target.inject;
+      var autoInject = _aureliaMetadata.metadata.getOwn(_aureliaMetadata.metadata.paramTypes, target) || _emptyParameters;
+      if (!previousInject) {
+        target.inject = autoInject;
+      } else {
+        for (var i = 0; i++; i < autoInject.length) {
+          if (!previousInject[i]) {
+            previousInject[i] = autoInject[i];
+          }
+        }
+      }
+    };
+
+    return potentialTarget ? deco(potentialTarget) : deco;
+  }
+
+  function inject() {
+    for (var _len2 = arguments.length, rest = Array(_len2), _key2 = 0; _key2 < _len2; _key2++) {
+      rest[_key2] = arguments[_key2];
+    }
+
+    return function (target, key, descriptor) {
+      if (typeof descriptor === 'number' && rest.length === 1) {
+        var params = target.inject;
+        if (typeof params === 'function') {
+          throw new Error('Decorator inject cannot be used with "inject()".  Please use an array instead.');
+        }
+        if (!params) {
+          params = _aureliaMetadata.metadata.getOwn(_aureliaMetadata.metadata.paramTypes, target).slice();
+          target.inject = params;
+        }
+        params[descriptor] = rest[0];
+        return;
+      }
+
+      if (descriptor) {
+        var _fn = descriptor.value;
+        _fn.inject = rest;
+      } else {
+        target.inject = rest;
+      }
+    };
+  }
+});
 define('aurelia-bootstrapper',['exports', 'aurelia-pal', 'aurelia-pal-browser', 'aurelia-polyfills'], function (exports, _aureliaPal, _aureliaPalBrowser) {
   'use strict';
 
@@ -10170,555 +10170,6 @@ define('aurelia-event-aggregator',['exports', 'aurelia-logging'], function (expo
     config.instance(EventAggregator, includeEventsIn(config.aurelia));
   }
 });
-define('aurelia-framework',['exports', 'aurelia-dependency-injection', 'aurelia-binding', 'aurelia-metadata', 'aurelia-templating', 'aurelia-loader', 'aurelia-task-queue', 'aurelia-path', 'aurelia-pal', 'aurelia-logging'], function (exports, _aureliaDependencyInjection, _aureliaBinding, _aureliaMetadata, _aureliaTemplating, _aureliaLoader, _aureliaTaskQueue, _aureliaPath, _aureliaPal, _aureliaLogging) {
-  'use strict';
-
-  Object.defineProperty(exports, "__esModule", {
-    value: true
-  });
-  exports.LogManager = exports.FrameworkConfiguration = exports.Aurelia = undefined;
-  Object.keys(_aureliaDependencyInjection).forEach(function (key) {
-    if (key === "default" || key === "__esModule") return;
-    Object.defineProperty(exports, key, {
-      enumerable: true,
-      get: function () {
-        return _aureliaDependencyInjection[key];
-      }
-    });
-  });
-  Object.keys(_aureliaBinding).forEach(function (key) {
-    if (key === "default" || key === "__esModule") return;
-    Object.defineProperty(exports, key, {
-      enumerable: true,
-      get: function () {
-        return _aureliaBinding[key];
-      }
-    });
-  });
-  Object.keys(_aureliaMetadata).forEach(function (key) {
-    if (key === "default" || key === "__esModule") return;
-    Object.defineProperty(exports, key, {
-      enumerable: true,
-      get: function () {
-        return _aureliaMetadata[key];
-      }
-    });
-  });
-  Object.keys(_aureliaTemplating).forEach(function (key) {
-    if (key === "default" || key === "__esModule") return;
-    Object.defineProperty(exports, key, {
-      enumerable: true,
-      get: function () {
-        return _aureliaTemplating[key];
-      }
-    });
-  });
-  Object.keys(_aureliaLoader).forEach(function (key) {
-    if (key === "default" || key === "__esModule") return;
-    Object.defineProperty(exports, key, {
-      enumerable: true,
-      get: function () {
-        return _aureliaLoader[key];
-      }
-    });
-  });
-  Object.keys(_aureliaTaskQueue).forEach(function (key) {
-    if (key === "default" || key === "__esModule") return;
-    Object.defineProperty(exports, key, {
-      enumerable: true,
-      get: function () {
-        return _aureliaTaskQueue[key];
-      }
-    });
-  });
-  Object.keys(_aureliaPath).forEach(function (key) {
-    if (key === "default" || key === "__esModule") return;
-    Object.defineProperty(exports, key, {
-      enumerable: true,
-      get: function () {
-        return _aureliaPath[key];
-      }
-    });
-  });
-  Object.keys(_aureliaPal).forEach(function (key) {
-    if (key === "default" || key === "__esModule") return;
-    Object.defineProperty(exports, key, {
-      enumerable: true,
-      get: function () {
-        return _aureliaPal[key];
-      }
-    });
-  });
-
-  var TheLogManager = _interopRequireWildcard(_aureliaLogging);
-
-  function _interopRequireWildcard(obj) {
-    if (obj && obj.__esModule) {
-      return obj;
-    } else {
-      var newObj = {};
-
-      if (obj != null) {
-        for (var key in obj) {
-          if (Object.prototype.hasOwnProperty.call(obj, key)) newObj[key] = obj[key];
-        }
-      }
-
-      newObj.default = obj;
-      return newObj;
-    }
-  }
-
-  
-
-  function preventActionlessFormSubmit() {
-    _aureliaPal.DOM.addEventListener('submit', function (evt) {
-      var target = evt.target;
-      var action = target.action;
-
-      if (target.tagName.toLowerCase() === 'form' && !action) {
-        evt.preventDefault();
-      }
-    });
-  }
-
-  var Aurelia = exports.Aurelia = function () {
-    function Aurelia(loader, container, resources) {
-      
-
-      this.loader = loader || new _aureliaPal.PLATFORM.Loader();
-      this.container = container || new _aureliaDependencyInjection.Container().makeGlobal();
-      this.resources = resources || new _aureliaTemplating.ViewResources();
-      this.use = new FrameworkConfiguration(this);
-      this.logger = TheLogManager.getLogger('aurelia');
-      this.hostConfigured = false;
-      this.host = null;
-
-      this.use.instance(Aurelia, this);
-      this.use.instance(_aureliaLoader.Loader, this.loader);
-      this.use.instance(_aureliaTemplating.ViewResources, this.resources);
-    }
-
-    Aurelia.prototype.start = function start() {
-      var _this = this;
-
-      if (this.started) {
-        return Promise.resolve(this);
-      }
-
-      this.started = true;
-      this.logger.info('Aurelia Starting');
-
-      return this.use.apply().then(function () {
-        preventActionlessFormSubmit();
-
-        if (!_this.container.hasResolver(_aureliaTemplating.BindingLanguage)) {
-          var message = 'You must configure Aurelia with a BindingLanguage implementation.';
-          _this.logger.error(message);
-          throw new Error(message);
-        }
-
-        _this.logger.info('Aurelia Started');
-        var evt = _aureliaPal.DOM.createCustomEvent('aurelia-started', { bubbles: true, cancelable: true });
-        _aureliaPal.DOM.dispatchEvent(evt);
-        return _this;
-      });
-    };
-
-    Aurelia.prototype.enhance = function enhance() {
-      var _this2 = this;
-
-      var bindingContext = arguments.length <= 0 || arguments[0] === undefined ? {} : arguments[0];
-      var applicationHost = arguments.length <= 1 || arguments[1] === undefined ? null : arguments[1];
-
-      this._configureHost(applicationHost || _aureliaPal.DOM.querySelectorAll('body')[0]);
-
-      return new Promise(function (resolve) {
-        var engine = _this2.container.get(_aureliaTemplating.TemplatingEngine);
-        _this2.root = engine.enhance({ container: _this2.container, element: _this2.host, resources: _this2.resources, bindingContext: bindingContext });
-        _this2.root.attached();
-        _this2._onAureliaComposed();
-        resolve(_this2);
-      });
-    };
-
-    Aurelia.prototype.setRoot = function setRoot() {
-      var _this3 = this;
-
-      var root = arguments.length <= 0 || arguments[0] === undefined ? null : arguments[0];
-      var applicationHost = arguments.length <= 1 || arguments[1] === undefined ? null : arguments[1];
-
-      var instruction = {};
-
-      if (this.root && this.root.viewModel && this.root.viewModel.router) {
-        this.root.viewModel.router.deactivate();
-        this.root.viewModel.router.reset();
-      }
-
-      this._configureHost(applicationHost);
-
-      var engine = this.container.get(_aureliaTemplating.TemplatingEngine);
-      var transaction = this.container.get(_aureliaTemplating.CompositionTransaction);
-      delete transaction.initialComposition;
-
-      if (!root) {
-        if (this.configModuleId) {
-          root = (0, _aureliaPath.relativeToFile)('./app', this.configModuleId);
-        } else {
-          root = 'app';
-        }
-      }
-
-      instruction.viewModel = root;
-      instruction.container = instruction.childContainer = this.container;
-      instruction.viewSlot = this.hostSlot;
-      instruction.host = this.host;
-
-      return engine.compose(instruction).then(function (r) {
-        _this3.root = r;
-        instruction.viewSlot.attached();
-        _this3._onAureliaComposed();
-        return _this3;
-      });
-    };
-
-    Aurelia.prototype._configureHost = function _configureHost(applicationHost) {
-      if (this.hostConfigured) {
-        return;
-      }
-      applicationHost = applicationHost || this.host;
-
-      if (!applicationHost || typeof applicationHost === 'string') {
-        this.host = _aureliaPal.DOM.getElementById(applicationHost || 'applicationHost');
-      } else {
-        this.host = applicationHost;
-      }
-
-      if (!this.host) {
-        throw new Error('No applicationHost was specified.');
-      }
-
-      this.hostConfigured = true;
-      this.host.aurelia = this;
-      this.hostSlot = new _aureliaTemplating.ViewSlot(this.host, true);
-      this.hostSlot.transformChildNodesIntoView();
-      this.container.registerInstance(_aureliaPal.DOM.boundary, this.host);
-    };
-
-    Aurelia.prototype._onAureliaComposed = function _onAureliaComposed() {
-      var evt = _aureliaPal.DOM.createCustomEvent('aurelia-composed', { bubbles: true, cancelable: true });
-      setTimeout(function () {
-        return _aureliaPal.DOM.dispatchEvent(evt);
-      }, 1);
-    };
-
-    return Aurelia;
-  }();
-
-  var logger = TheLogManager.getLogger('aurelia');
-  var extPattern = /\.[^/.]+$/;
-
-  function runTasks(config, tasks) {
-    var current = void 0;
-    var next = function next() {
-      current = tasks.shift();
-      if (current) {
-        return Promise.resolve(current(config)).then(next);
-      }
-
-      return Promise.resolve();
-    };
-
-    return next();
-  }
-
-  function loadPlugin(config, loader, info) {
-    logger.debug('Loading plugin ' + info.moduleId + '.');
-    config.resourcesRelativeTo = info.resourcesRelativeTo;
-
-    var id = info.moduleId;
-
-    if (info.resourcesRelativeTo.length > 1) {
-      return loader.normalize(info.moduleId, info.resourcesRelativeTo[1]).then(function (normalizedId) {
-        return _loadPlugin(normalizedId);
-      });
-    }
-
-    return _loadPlugin(id);
-
-    function _loadPlugin(moduleId) {
-      return loader.loadModule(moduleId).then(function (m) {
-        if ('configure' in m) {
-          return Promise.resolve(m.configure(config, info.config || {})).then(function () {
-            config.resourcesRelativeTo = null;
-            logger.debug('Configured plugin ' + info.moduleId + '.');
-          });
-        }
-
-        config.resourcesRelativeTo = null;
-        logger.debug('Loaded plugin ' + info.moduleId + '.');
-      });
-    }
-  }
-
-  function loadResources(aurelia, resourcesToLoad, appResources) {
-    var viewEngine = aurelia.container.get(_aureliaTemplating.ViewEngine);
-
-    return Promise.all(Object.keys(resourcesToLoad).map(function (n) {
-      return _normalize(resourcesToLoad[n]);
-    })).then(function (loads) {
-      var names = [];
-      var importIds = [];
-
-      loads.forEach(function (l) {
-        names.push(undefined);
-        importIds.push(l.importId);
-      });
-
-      return viewEngine.importViewResources(importIds, names, appResources);
-    });
-
-    function _normalize(load) {
-      var moduleId = load.moduleId;
-      var ext = getExt(moduleId);
-
-      if (isOtherResource(moduleId)) {
-        moduleId = removeExt(moduleId);
-      }
-
-      return aurelia.loader.normalize(moduleId, load.relativeTo).then(function (normalized) {
-        return {
-          name: load.moduleId,
-          importId: isOtherResource(load.moduleId) ? addOriginalExt(normalized, ext) : normalized
-        };
-      });
-    }
-
-    function isOtherResource(name) {
-      var ext = getExt(name);
-      if (!ext) return false;
-      if (ext === '') return false;
-      if (ext === '.js' || ext === '.ts') return false;
-      return true;
-    }
-
-    function removeExt(name) {
-      return name.replace(extPattern, '');
-    }
-
-    function addOriginalExt(normalized, ext) {
-      return removeExt(normalized) + '.' + ext;
-    }
-  }
-
-  function getExt(name) {
-    var match = name.match(extPattern);
-    if (match && match.length > 0) {
-      return match[0].split('.')[1];
-    }
-  }
-
-  function assertProcessed(plugins) {
-    if (plugins.processed) {
-      throw new Error('This config instance has already been applied. To load more plugins or global resources, create a new FrameworkConfiguration instance.');
-    }
-  }
-
-  var FrameworkConfiguration = function () {
-    function FrameworkConfiguration(aurelia) {
-      var _this4 = this;
-
-      
-
-      this.aurelia = aurelia;
-      this.container = aurelia.container;
-      this.info = [];
-      this.processed = false;
-      this.preTasks = [];
-      this.postTasks = [];
-      this.resourcesToLoad = {};
-      this.preTask(function () {
-        return aurelia.loader.normalize('aurelia-bootstrapper').then(function (name) {
-          return _this4.bootstrapperName = name;
-        });
-      });
-      this.postTask(function () {
-        return loadResources(aurelia, _this4.resourcesToLoad, aurelia.resources);
-      });
-    }
-
-    FrameworkConfiguration.prototype.instance = function instance(type, _instance) {
-      this.container.registerInstance(type, _instance);
-      return this;
-    };
-
-    FrameworkConfiguration.prototype.singleton = function singleton(type, implementation) {
-      this.container.registerSingleton(type, implementation);
-      return this;
-    };
-
-    FrameworkConfiguration.prototype.transient = function transient(type, implementation) {
-      this.container.registerTransient(type, implementation);
-      return this;
-    };
-
-    FrameworkConfiguration.prototype.preTask = function preTask(task) {
-      assertProcessed(this);
-      this.preTasks.push(task);
-      return this;
-    };
-
-    FrameworkConfiguration.prototype.postTask = function postTask(task) {
-      assertProcessed(this);
-      this.postTasks.push(task);
-      return this;
-    };
-
-    FrameworkConfiguration.prototype.feature = function feature(plugin, config) {
-      if (getExt(plugin)) {
-        return this.plugin({ moduleId: plugin, resourcesRelativeTo: [plugin, ''], config: config || {} });
-      }
-
-      return this.plugin({ moduleId: plugin + '/index', resourcesRelativeTo: [plugin, ''], config: config || {} });
-    };
-
-    FrameworkConfiguration.prototype.globalResources = function globalResources(resources) {
-      assertProcessed(this);
-
-      var toAdd = Array.isArray(resources) ? resources : arguments;
-      var resource = void 0;
-      var resourcesRelativeTo = this.resourcesRelativeTo || ['', ''];
-
-      for (var i = 0, ii = toAdd.length; i < ii; ++i) {
-        resource = toAdd[i];
-        if (typeof resource !== 'string') {
-          throw new Error('Invalid resource path [' + resource + ']. Resources must be specified as relative module IDs.');
-        }
-
-        var parent = resourcesRelativeTo[0];
-        var grandParent = resourcesRelativeTo[1];
-        var name = resource;
-
-        if ((resource.startsWith('./') || resource.startsWith('../')) && parent !== '') {
-          name = (0, _aureliaPath.join)(parent, resource);
-        }
-
-        this.resourcesToLoad[name] = { moduleId: name, relativeTo: grandParent };
-      }
-
-      return this;
-    };
-
-    FrameworkConfiguration.prototype.globalName = function globalName(resourcePath, newName) {
-      assertProcessed(this);
-      this.resourcesToLoad[resourcePath] = { moduleId: newName, relativeTo: '' };
-      return this;
-    };
-
-    FrameworkConfiguration.prototype.plugin = function plugin(_plugin, config) {
-      assertProcessed(this);
-
-      if (typeof _plugin === 'string') {
-        return this.plugin({ moduleId: _plugin, resourcesRelativeTo: [_plugin, ''], config: config || {} });
-      }
-
-      this.info.push(_plugin);
-      return this;
-    };
-
-    FrameworkConfiguration.prototype._addNormalizedPlugin = function _addNormalizedPlugin(name, config) {
-      var _this5 = this;
-
-      var plugin = { moduleId: name, resourcesRelativeTo: [name, ''], config: config || {} };
-      this.plugin(plugin);
-
-      this.preTask(function () {
-        var relativeTo = [name, _this5.bootstrapperName];
-        plugin.moduleId = name;
-        plugin.resourcesRelativeTo = relativeTo;
-        return Promise.resolve();
-      });
-
-      return this;
-    };
-
-    FrameworkConfiguration.prototype.defaultBindingLanguage = function defaultBindingLanguage() {
-      return this._addNormalizedPlugin('aurelia-templating-binding');
-    };
-
-    FrameworkConfiguration.prototype.router = function router() {
-      return this._addNormalizedPlugin('aurelia-templating-router');
-    };
-
-    FrameworkConfiguration.prototype.history = function history() {
-      return this._addNormalizedPlugin('aurelia-history-browser');
-    };
-
-    FrameworkConfiguration.prototype.defaultResources = function defaultResources() {
-      return this._addNormalizedPlugin('aurelia-templating-resources');
-    };
-
-    FrameworkConfiguration.prototype.eventAggregator = function eventAggregator() {
-      return this._addNormalizedPlugin('aurelia-event-aggregator');
-    };
-
-    FrameworkConfiguration.prototype.basicConfiguration = function basicConfiguration() {
-      return this.defaultBindingLanguage().defaultResources().eventAggregator();
-    };
-
-    FrameworkConfiguration.prototype.standardConfiguration = function standardConfiguration() {
-      return this.basicConfiguration().history().router();
-    };
-
-    FrameworkConfiguration.prototype.developmentLogging = function developmentLogging() {
-      var _this6 = this;
-
-      this.preTask(function () {
-        return _this6.aurelia.loader.normalize('aurelia-logging-console', _this6.bootstrapperName).then(function (name) {
-          return _this6.aurelia.loader.loadModule(name).then(function (m) {
-            TheLogManager.addAppender(new m.ConsoleAppender());
-            TheLogManager.setLevel(TheLogManager.logLevel.debug);
-          });
-        });
-      });
-
-      return this;
-    };
-
-    FrameworkConfiguration.prototype.apply = function apply() {
-      var _this7 = this;
-
-      if (this.processed) {
-        return Promise.resolve();
-      }
-
-      return runTasks(this, this.preTasks).then(function () {
-        var loader = _this7.aurelia.loader;
-        var info = _this7.info;
-        var current = void 0;
-
-        var next = function next() {
-          current = info.shift();
-          if (current) {
-            return loadPlugin(_this7, loader, current).then(next);
-          }
-
-          _this7.processed = true;
-          return Promise.resolve();
-        };
-
-        return next().then(function () {
-          return runTasks(_this7, _this7.postTasks);
-        });
-      });
-    };
-
-    return FrameworkConfiguration;
-  }();
-
-  exports.FrameworkConfiguration = FrameworkConfiguration;
-  var LogManager = exports.LogManager = TheLogManager;
-});
 define('aurelia-history',['exports'], function (exports) {
   'use strict';
 
@@ -10762,485 +10213,6 @@ define('aurelia-history',['exports'], function (exports) {
     };
 
     return History;
-  }();
-});
-define('aurelia-history-browser',['exports', 'aurelia-pal', 'aurelia-history'], function (exports, _aureliaPal, _aureliaHistory) {
-  'use strict';
-
-  Object.defineProperty(exports, "__esModule", {
-    value: true
-  });
-  exports.BrowserHistory = exports.DefaultLinkHandler = exports.LinkHandler = undefined;
-  exports.configure = configure;
-
-  var _class, _temp;
-
-  function _possibleConstructorReturn(self, call) {
-    if (!self) {
-      throw new ReferenceError("this hasn't been initialised - super() hasn't been called");
-    }
-
-    return call && (typeof call === "object" || typeof call === "function") ? call : self;
-  }
-
-  function _inherits(subClass, superClass) {
-    if (typeof superClass !== "function" && superClass !== null) {
-      throw new TypeError("Super expression must either be null or a function, not " + typeof superClass);
-    }
-
-    subClass.prototype = Object.create(superClass && superClass.prototype, {
-      constructor: {
-        value: subClass,
-        enumerable: false,
-        writable: true,
-        configurable: true
-      }
-    });
-    if (superClass) Object.setPrototypeOf ? Object.setPrototypeOf(subClass, superClass) : subClass.__proto__ = superClass;
-  }
-
-  
-
-  var LinkHandler = exports.LinkHandler = function () {
-    function LinkHandler() {
-      
-    }
-
-    LinkHandler.prototype.activate = function activate(history) {};
-
-    LinkHandler.prototype.deactivate = function deactivate() {};
-
-    return LinkHandler;
-  }();
-
-  var DefaultLinkHandler = exports.DefaultLinkHandler = function (_LinkHandler) {
-    _inherits(DefaultLinkHandler, _LinkHandler);
-
-    function DefaultLinkHandler() {
-      
-
-      var _this = _possibleConstructorReturn(this, _LinkHandler.call(this));
-
-      _this.handler = function (e) {
-        var _DefaultLinkHandler$g = DefaultLinkHandler.getEventInfo(e);
-
-        var shouldHandleEvent = _DefaultLinkHandler$g.shouldHandleEvent;
-        var href = _DefaultLinkHandler$g.href;
-
-
-        if (shouldHandleEvent) {
-          e.preventDefault();
-          _this.history.navigate(href);
-        }
-      };
-      return _this;
-    }
-
-    DefaultLinkHandler.prototype.activate = function activate(history) {
-      if (history._hasPushState) {
-        this.history = history;
-        _aureliaPal.DOM.addEventListener('click', this.handler, true);
-      }
-    };
-
-    DefaultLinkHandler.prototype.deactivate = function deactivate() {
-      _aureliaPal.DOM.removeEventListener('click', this.handler);
-    };
-
-    DefaultLinkHandler.getEventInfo = function getEventInfo(event) {
-      var info = {
-        shouldHandleEvent: false,
-        href: null,
-        anchor: null
-      };
-
-      var target = DefaultLinkHandler.findClosestAnchor(event.target);
-      if (!target || !DefaultLinkHandler.targetIsThisWindow(target)) {
-        return info;
-      }
-
-      if (event.altKey || event.ctrlKey || event.metaKey || event.shiftKey) {
-        return info;
-      }
-
-      var href = target.getAttribute('href');
-      info.anchor = target;
-      info.href = href;
-
-      var leftButtonClicked = event.which === 1;
-      var isRelative = href && !(href.charAt(0) === '#' || /^[a-z]+:/i.test(href));
-
-      info.shouldHandleEvent = leftButtonClicked && isRelative;
-      return info;
-    };
-
-    DefaultLinkHandler.findClosestAnchor = function findClosestAnchor(el) {
-      while (el) {
-        if (el.tagName === 'A') {
-          return el;
-        }
-
-        el = el.parentNode;
-      }
-    };
-
-    DefaultLinkHandler.targetIsThisWindow = function targetIsThisWindow(target) {
-      var targetWindow = target.getAttribute('target');
-      var win = _aureliaPal.PLATFORM.global;
-
-      return !targetWindow || targetWindow === win.name || targetWindow === '_self' || targetWindow === 'top' && win === win.top;
-    };
-
-    return DefaultLinkHandler;
-  }(LinkHandler);
-
-  function configure(config) {
-    config.singleton(_aureliaHistory.History, BrowserHistory);
-    config.transient(LinkHandler, DefaultLinkHandler);
-  }
-
-  var BrowserHistory = exports.BrowserHistory = (_temp = _class = function (_History) {
-    _inherits(BrowserHistory, _History);
-
-    function BrowserHistory(linkHandler) {
-      
-
-      var _this2 = _possibleConstructorReturn(this, _History.call(this));
-
-      _this2._isActive = false;
-      _this2._checkUrlCallback = _this2._checkUrl.bind(_this2);
-
-      _this2.location = _aureliaPal.PLATFORM.location;
-      _this2.history = _aureliaPal.PLATFORM.history;
-      _this2.linkHandler = linkHandler;
-      return _this2;
-    }
-
-    BrowserHistory.prototype.activate = function activate(options) {
-      if (this._isActive) {
-        throw new Error('History has already been activated.');
-      }
-
-      var wantsPushState = !!options.pushState;
-
-      this._isActive = true;
-      this.options = Object.assign({}, { root: '/' }, this.options, options);
-
-      this.root = ('/' + this.options.root + '/').replace(rootStripper, '/');
-
-      this._wantsHashChange = this.options.hashChange !== false;
-      this._hasPushState = !!(this.options.pushState && this.history && this.history.pushState);
-
-      var eventName = void 0;
-      if (this._hasPushState) {
-        eventName = 'popstate';
-      } else if (this._wantsHashChange) {
-        eventName = 'hashchange';
-      }
-
-      _aureliaPal.PLATFORM.addEventListener(eventName, this._checkUrlCallback);
-
-      if (this._wantsHashChange && wantsPushState) {
-        var loc = this.location;
-        var atRoot = loc.pathname.replace(/[^\/]$/, '$&/') === this.root;
-
-        if (!this._hasPushState && !atRoot) {
-          this.fragment = this._getFragment(null, true);
-          this.location.replace(this.root + this.location.search + '#' + this.fragment);
-
-          return true;
-        } else if (this._hasPushState && atRoot && loc.hash) {
-            this.fragment = this._getHash().replace(routeStripper, '');
-            this.history.replaceState({}, _aureliaPal.DOM.title, this.root + this.fragment + loc.search);
-          }
-      }
-
-      if (!this.fragment) {
-        this.fragment = this._getFragment();
-      }
-
-      this.linkHandler.activate(this);
-
-      if (!this.options.silent) {
-        return this._loadUrl();
-      }
-    };
-
-    BrowserHistory.prototype.deactivate = function deactivate() {
-      _aureliaPal.PLATFORM.removeEventListener('popstate', this._checkUrlCallback);
-      _aureliaPal.PLATFORM.removeEventListener('hashchange', this._checkUrlCallback);
-      this._isActive = false;
-      this.linkHandler.deactivate();
-    };
-
-    BrowserHistory.prototype.getAbsoluteRoot = function getAbsoluteRoot() {
-      var origin = createOrigin(this.location.protocol, this.location.hostname, this.location.port);
-      return '' + origin + this.root;
-    };
-
-    BrowserHistory.prototype.navigate = function navigate(fragment) {
-      var _ref = arguments.length <= 1 || arguments[1] === undefined ? {} : arguments[1];
-
-      var _ref$trigger = _ref.trigger;
-      var trigger = _ref$trigger === undefined ? true : _ref$trigger;
-      var _ref$replace = _ref.replace;
-      var replace = _ref$replace === undefined ? false : _ref$replace;
-
-      if (fragment && absoluteUrl.test(fragment)) {
-        this.location.href = fragment;
-        return true;
-      }
-
-      if (!this._isActive) {
-        return false;
-      }
-
-      fragment = this._getFragment(fragment || '');
-
-      if (this.fragment === fragment && !replace) {
-        return false;
-      }
-
-      this.fragment = fragment;
-
-      var url = this.root + fragment;
-
-      if (fragment === '' && url !== '/') {
-        url = url.slice(0, -1);
-      }
-
-      if (this._hasPushState) {
-        url = url.replace('//', '/');
-        this.history[replace ? 'replaceState' : 'pushState']({}, _aureliaPal.DOM.title, url);
-      } else if (this._wantsHashChange) {
-        updateHash(this.location, fragment, replace);
-      } else {
-        return this.location.assign(url);
-      }
-
-      if (trigger) {
-        return this._loadUrl(fragment);
-      }
-    };
-
-    BrowserHistory.prototype.navigateBack = function navigateBack() {
-      this.history.back();
-    };
-
-    BrowserHistory.prototype.setTitle = function setTitle(title) {
-      _aureliaPal.DOM.title = title;
-    };
-
-    BrowserHistory.prototype._getHash = function _getHash() {
-      return this.location.hash.substr(1);
-    };
-
-    BrowserHistory.prototype._getFragment = function _getFragment(fragment, forcePushState) {
-      var root = void 0;
-
-      if (!fragment) {
-        if (this._hasPushState || !this._wantsHashChange || forcePushState) {
-          fragment = this.location.pathname + this.location.search;
-          root = this.root.replace(trailingSlash, '');
-          if (!fragment.indexOf(root)) {
-            fragment = fragment.substr(root.length);
-          }
-        } else {
-          fragment = this._getHash();
-        }
-      }
-
-      return '/' + fragment.replace(routeStripper, '');
-    };
-
-    BrowserHistory.prototype._checkUrl = function _checkUrl() {
-      var current = this._getFragment();
-      if (current !== this.fragment) {
-        this._loadUrl();
-      }
-    };
-
-    BrowserHistory.prototype._loadUrl = function _loadUrl(fragmentOverride) {
-      var fragment = this.fragment = this._getFragment(fragmentOverride);
-
-      return this.options.routeHandler ? this.options.routeHandler(fragment) : false;
-    };
-
-    return BrowserHistory;
-  }(_aureliaHistory.History), _class.inject = [LinkHandler], _temp);
-
-  var routeStripper = /^#?\/*|\s+$/g;
-
-  var rootStripper = /^\/+|\/+$/g;
-
-  var trailingSlash = /\/$/;
-
-  var absoluteUrl = /^([a-z][a-z0-9+\-.]*:)?\/\//i;
-
-  function updateHash(location, fragment, replace) {
-    if (replace) {
-      var _href = location.href.replace(/(javascript:|#).*$/, '');
-      location.replace(_href + '#' + fragment);
-    } else {
-      location.hash = '#' + fragment;
-    }
-  }
-
-  function createOrigin(protocol, hostname, port) {
-    return protocol + '//' + hostname + (port ? ':' + port : '');
-  }
-});
-define('aurelia-loader',['exports', 'aurelia-path', 'aurelia-metadata'], function (exports, _aureliaPath, _aureliaMetadata) {
-  'use strict';
-
-  Object.defineProperty(exports, "__esModule", {
-    value: true
-  });
-  exports.Loader = exports.TemplateRegistryEntry = exports.TemplateDependency = undefined;
-
-  var _createClass = function () {
-    function defineProperties(target, props) {
-      for (var i = 0; i < props.length; i++) {
-        var descriptor = props[i];
-        descriptor.enumerable = descriptor.enumerable || false;
-        descriptor.configurable = true;
-        if ("value" in descriptor) descriptor.writable = true;
-        Object.defineProperty(target, descriptor.key, descriptor);
-      }
-    }
-
-    return function (Constructor, protoProps, staticProps) {
-      if (protoProps) defineProperties(Constructor.prototype, protoProps);
-      if (staticProps) defineProperties(Constructor, staticProps);
-      return Constructor;
-    };
-  }();
-
-  
-
-  var TemplateDependency = exports.TemplateDependency = function TemplateDependency(src, name) {
-    
-
-    this.src = src;
-    this.name = name;
-  };
-
-  var TemplateRegistryEntry = exports.TemplateRegistryEntry = function () {
-    function TemplateRegistryEntry(address) {
-      
-
-      this.templateIsLoaded = false;
-      this.factoryIsReady = false;
-      this.resources = null;
-      this.dependencies = null;
-
-      this.address = address;
-      this.onReady = null;
-      this._template = null;
-      this._factory = null;
-    }
-
-    TemplateRegistryEntry.prototype.addDependency = function addDependency(src, name) {
-      var finalSrc = typeof src === 'string' ? (0, _aureliaPath.relativeToFile)(src, this.address) : _aureliaMetadata.Origin.get(src).moduleId;
-
-      this.dependencies.push(new TemplateDependency(finalSrc, name));
-    };
-
-    _createClass(TemplateRegistryEntry, [{
-      key: 'template',
-      get: function get() {
-        return this._template;
-      },
-      set: function set(value) {
-        var address = this.address;
-        var requires = void 0;
-        var current = void 0;
-        var src = void 0;
-        var dependencies = void 0;
-
-        this._template = value;
-        this.templateIsLoaded = true;
-
-        requires = value.content.querySelectorAll('require');
-        dependencies = this.dependencies = new Array(requires.length);
-
-        for (var i = 0, ii = requires.length; i < ii; ++i) {
-          current = requires[i];
-          src = current.getAttribute('from');
-
-          if (!src) {
-            throw new Error('<require> element in ' + address + ' has no "from" attribute.');
-          }
-
-          dependencies[i] = new TemplateDependency((0, _aureliaPath.relativeToFile)(src, address), current.getAttribute('as'));
-
-          if (current.parentNode) {
-            current.parentNode.removeChild(current);
-          }
-        }
-      }
-    }, {
-      key: 'factory',
-      get: function get() {
-        return this._factory;
-      },
-      set: function set(value) {
-        this._factory = value;
-        this.factoryIsReady = true;
-      }
-    }]);
-
-    return TemplateRegistryEntry;
-  }();
-
-  var Loader = exports.Loader = function () {
-    function Loader() {
-      
-
-      this.templateRegistry = {};
-    }
-
-    Loader.prototype.map = function map(id, source) {
-      throw new Error('Loaders must implement map(id, source).');
-    };
-
-    Loader.prototype.normalizeSync = function normalizeSync(moduleId, relativeTo) {
-      throw new Error('Loaders must implement normalizeSync(moduleId, relativeTo).');
-    };
-
-    Loader.prototype.normalize = function normalize(moduleId, relativeTo) {
-      throw new Error('Loaders must implement normalize(moduleId: string, relativeTo: string): Promise<string>.');
-    };
-
-    Loader.prototype.loadModule = function loadModule(id) {
-      throw new Error('Loaders must implement loadModule(id).');
-    };
-
-    Loader.prototype.loadAllModules = function loadAllModules(ids) {
-      throw new Error('Loader must implement loadAllModules(ids).');
-    };
-
-    Loader.prototype.loadTemplate = function loadTemplate(url) {
-      throw new Error('Loader must implement loadTemplate(url).');
-    };
-
-    Loader.prototype.loadText = function loadText(url) {
-      throw new Error('Loader must implement loadText(url).');
-    };
-
-    Loader.prototype.applyPluginToUrl = function applyPluginToUrl(url, pluginName) {
-      throw new Error('Loader must implement applyPluginToUrl(url, pluginName).');
-    };
-
-    Loader.prototype.addPlugin = function addPlugin(pluginName, implementation) {
-      throw new Error('Loader must implement addPlugin(pluginName, implementation).');
-    };
-
-    Loader.prototype.getOrCreateTemplateRegistryEntry = function getOrCreateTemplateRegistryEntry(address) {
-      return this.templateRegistry[address] || (this.templateRegistry[address] = new TemplateRegistryEntry(address));
-    };
-
-    return Loader;
   }();
 });
 define('aurelia-metadata',['exports', 'aurelia-pal'], function (exports, _aureliaPal) {
@@ -11596,6 +10568,332 @@ define('aurelia-pal',['exports'], function (exports) {
     callback(PLATFORM, FEATURE, DOM);
   }
 });
+define('aurelia-history-browser',['exports', 'aurelia-pal', 'aurelia-history'], function (exports, _aureliaPal, _aureliaHistory) {
+  'use strict';
+
+  Object.defineProperty(exports, "__esModule", {
+    value: true
+  });
+  exports.BrowserHistory = exports.DefaultLinkHandler = exports.LinkHandler = undefined;
+  exports.configure = configure;
+
+  var _class, _temp;
+
+  function _possibleConstructorReturn(self, call) {
+    if (!self) {
+      throw new ReferenceError("this hasn't been initialised - super() hasn't been called");
+    }
+
+    return call && (typeof call === "object" || typeof call === "function") ? call : self;
+  }
+
+  function _inherits(subClass, superClass) {
+    if (typeof superClass !== "function" && superClass !== null) {
+      throw new TypeError("Super expression must either be null or a function, not " + typeof superClass);
+    }
+
+    subClass.prototype = Object.create(superClass && superClass.prototype, {
+      constructor: {
+        value: subClass,
+        enumerable: false,
+        writable: true,
+        configurable: true
+      }
+    });
+    if (superClass) Object.setPrototypeOf ? Object.setPrototypeOf(subClass, superClass) : subClass.__proto__ = superClass;
+  }
+
+  
+
+  var LinkHandler = exports.LinkHandler = function () {
+    function LinkHandler() {
+      
+    }
+
+    LinkHandler.prototype.activate = function activate(history) {};
+
+    LinkHandler.prototype.deactivate = function deactivate() {};
+
+    return LinkHandler;
+  }();
+
+  var DefaultLinkHandler = exports.DefaultLinkHandler = function (_LinkHandler) {
+    _inherits(DefaultLinkHandler, _LinkHandler);
+
+    function DefaultLinkHandler() {
+      
+
+      var _this = _possibleConstructorReturn(this, _LinkHandler.call(this));
+
+      _this.handler = function (e) {
+        var _DefaultLinkHandler$g = DefaultLinkHandler.getEventInfo(e);
+
+        var shouldHandleEvent = _DefaultLinkHandler$g.shouldHandleEvent;
+        var href = _DefaultLinkHandler$g.href;
+
+
+        if (shouldHandleEvent) {
+          e.preventDefault();
+          _this.history.navigate(href);
+        }
+      };
+      return _this;
+    }
+
+    DefaultLinkHandler.prototype.activate = function activate(history) {
+      if (history._hasPushState) {
+        this.history = history;
+        _aureliaPal.DOM.addEventListener('click', this.handler, true);
+      }
+    };
+
+    DefaultLinkHandler.prototype.deactivate = function deactivate() {
+      _aureliaPal.DOM.removeEventListener('click', this.handler);
+    };
+
+    DefaultLinkHandler.getEventInfo = function getEventInfo(event) {
+      var info = {
+        shouldHandleEvent: false,
+        href: null,
+        anchor: null
+      };
+
+      var target = DefaultLinkHandler.findClosestAnchor(event.target);
+      if (!target || !DefaultLinkHandler.targetIsThisWindow(target)) {
+        return info;
+      }
+
+      if (event.altKey || event.ctrlKey || event.metaKey || event.shiftKey) {
+        return info;
+      }
+
+      var href = target.getAttribute('href');
+      info.anchor = target;
+      info.href = href;
+
+      var leftButtonClicked = event.which === 1;
+      var isRelative = href && !(href.charAt(0) === '#' || /^[a-z]+:/i.test(href));
+
+      info.shouldHandleEvent = leftButtonClicked && isRelative;
+      return info;
+    };
+
+    DefaultLinkHandler.findClosestAnchor = function findClosestAnchor(el) {
+      while (el) {
+        if (el.tagName === 'A') {
+          return el;
+        }
+
+        el = el.parentNode;
+      }
+    };
+
+    DefaultLinkHandler.targetIsThisWindow = function targetIsThisWindow(target) {
+      var targetWindow = target.getAttribute('target');
+      var win = _aureliaPal.PLATFORM.global;
+
+      return !targetWindow || targetWindow === win.name || targetWindow === '_self' || targetWindow === 'top' && win === win.top;
+    };
+
+    return DefaultLinkHandler;
+  }(LinkHandler);
+
+  function configure(config) {
+    config.singleton(_aureliaHistory.History, BrowserHistory);
+    config.transient(LinkHandler, DefaultLinkHandler);
+  }
+
+  var BrowserHistory = exports.BrowserHistory = (_temp = _class = function (_History) {
+    _inherits(BrowserHistory, _History);
+
+    function BrowserHistory(linkHandler) {
+      
+
+      var _this2 = _possibleConstructorReturn(this, _History.call(this));
+
+      _this2._isActive = false;
+      _this2._checkUrlCallback = _this2._checkUrl.bind(_this2);
+
+      _this2.location = _aureliaPal.PLATFORM.location;
+      _this2.history = _aureliaPal.PLATFORM.history;
+      _this2.linkHandler = linkHandler;
+      return _this2;
+    }
+
+    BrowserHistory.prototype.activate = function activate(options) {
+      if (this._isActive) {
+        throw new Error('History has already been activated.');
+      }
+
+      var wantsPushState = !!options.pushState;
+
+      this._isActive = true;
+      this.options = Object.assign({}, { root: '/' }, this.options, options);
+
+      this.root = ('/' + this.options.root + '/').replace(rootStripper, '/');
+
+      this._wantsHashChange = this.options.hashChange !== false;
+      this._hasPushState = !!(this.options.pushState && this.history && this.history.pushState);
+
+      var eventName = void 0;
+      if (this._hasPushState) {
+        eventName = 'popstate';
+      } else if (this._wantsHashChange) {
+        eventName = 'hashchange';
+      }
+
+      _aureliaPal.PLATFORM.addEventListener(eventName, this._checkUrlCallback);
+
+      if (this._wantsHashChange && wantsPushState) {
+        var loc = this.location;
+        var atRoot = loc.pathname.replace(/[^\/]$/, '$&/') === this.root;
+
+        if (!this._hasPushState && !atRoot) {
+          this.fragment = this._getFragment(null, true);
+          this.location.replace(this.root + this.location.search + '#' + this.fragment);
+
+          return true;
+        } else if (this._hasPushState && atRoot && loc.hash) {
+            this.fragment = this._getHash().replace(routeStripper, '');
+            this.history.replaceState({}, _aureliaPal.DOM.title, this.root + this.fragment + loc.search);
+          }
+      }
+
+      if (!this.fragment) {
+        this.fragment = this._getFragment();
+      }
+
+      this.linkHandler.activate(this);
+
+      if (!this.options.silent) {
+        return this._loadUrl();
+      }
+    };
+
+    BrowserHistory.prototype.deactivate = function deactivate() {
+      _aureliaPal.PLATFORM.removeEventListener('popstate', this._checkUrlCallback);
+      _aureliaPal.PLATFORM.removeEventListener('hashchange', this._checkUrlCallback);
+      this._isActive = false;
+      this.linkHandler.deactivate();
+    };
+
+    BrowserHistory.prototype.getAbsoluteRoot = function getAbsoluteRoot() {
+      var origin = createOrigin(this.location.protocol, this.location.hostname, this.location.port);
+      return '' + origin + this.root;
+    };
+
+    BrowserHistory.prototype.navigate = function navigate(fragment) {
+      var _ref = arguments.length <= 1 || arguments[1] === undefined ? {} : arguments[1];
+
+      var _ref$trigger = _ref.trigger;
+      var trigger = _ref$trigger === undefined ? true : _ref$trigger;
+      var _ref$replace = _ref.replace;
+      var replace = _ref$replace === undefined ? false : _ref$replace;
+
+      if (fragment && absoluteUrl.test(fragment)) {
+        this.location.href = fragment;
+        return true;
+      }
+
+      if (!this._isActive) {
+        return false;
+      }
+
+      fragment = this._getFragment(fragment || '');
+
+      if (this.fragment === fragment && !replace) {
+        return false;
+      }
+
+      this.fragment = fragment;
+
+      var url = this.root + fragment;
+
+      if (fragment === '' && url !== '/') {
+        url = url.slice(0, -1);
+      }
+
+      if (this._hasPushState) {
+        url = url.replace('//', '/');
+        this.history[replace ? 'replaceState' : 'pushState']({}, _aureliaPal.DOM.title, url);
+      } else if (this._wantsHashChange) {
+        updateHash(this.location, fragment, replace);
+      } else {
+        return this.location.assign(url);
+      }
+
+      if (trigger) {
+        return this._loadUrl(fragment);
+      }
+    };
+
+    BrowserHistory.prototype.navigateBack = function navigateBack() {
+      this.history.back();
+    };
+
+    BrowserHistory.prototype.setTitle = function setTitle(title) {
+      _aureliaPal.DOM.title = title;
+    };
+
+    BrowserHistory.prototype._getHash = function _getHash() {
+      return this.location.hash.substr(1);
+    };
+
+    BrowserHistory.prototype._getFragment = function _getFragment(fragment, forcePushState) {
+      var root = void 0;
+
+      if (!fragment) {
+        if (this._hasPushState || !this._wantsHashChange || forcePushState) {
+          fragment = this.location.pathname + this.location.search;
+          root = this.root.replace(trailingSlash, '');
+          if (!fragment.indexOf(root)) {
+            fragment = fragment.substr(root.length);
+          }
+        } else {
+          fragment = this._getHash();
+        }
+      }
+
+      return '/' + fragment.replace(routeStripper, '');
+    };
+
+    BrowserHistory.prototype._checkUrl = function _checkUrl() {
+      var current = this._getFragment();
+      if (current !== this.fragment) {
+        this._loadUrl();
+      }
+    };
+
+    BrowserHistory.prototype._loadUrl = function _loadUrl(fragmentOverride) {
+      var fragment = this.fragment = this._getFragment(fragmentOverride);
+
+      return this.options.routeHandler ? this.options.routeHandler(fragment) : false;
+    };
+
+    return BrowserHistory;
+  }(_aureliaHistory.History), _class.inject = [LinkHandler], _temp);
+
+  var routeStripper = /^#?\/*|\s+$/g;
+
+  var rootStripper = /^\/+|\/+$/g;
+
+  var trailingSlash = /\/$/;
+
+  var absoluteUrl = /^([a-z][a-z0-9+\-.]*:)?\/\//i;
+
+  function updateHash(location, fragment, replace) {
+    if (replace) {
+      var _href = location.href.replace(/(javascript:|#).*$/, '');
+      location.replace(_href + '#' + fragment);
+    } else {
+      location.hash = '#' + fragment;
+    }
+  }
+
+  function createOrigin(protocol, hostname, port) {
+    return protocol + '//' + hostname + (port ? ':' + port : '');
+  }
+});
 define('aurelia-loader-default',['exports', 'aurelia-loader', 'aurelia-pal', 'aurelia-metadata'], function (exports, _aureliaLoader, _aureliaPal, _aureliaMetadata) {
   'use strict';
 
@@ -11853,134 +11151,6 @@ define('aurelia-loader-default',['exports', 'aurelia-loader', 'aurelia-pal', 'au
       }));
     };
   }
-});
-define('aurelia-logging',['exports'], function (exports) {
-  'use strict';
-
-  Object.defineProperty(exports, "__esModule", {
-    value: true
-  });
-  exports.getLogger = getLogger;
-  exports.addAppender = addAppender;
-  exports.setLevel = setLevel;
-
-  
-
-  var logLevel = exports.logLevel = {
-    none: 0,
-    error: 1,
-    warn: 2,
-    info: 3,
-    debug: 4
-  };
-
-  var loggers = {};
-  var currentLevel = logLevel.none;
-  var appenders = [];
-  var slice = Array.prototype.slice;
-  var loggerConstructionKey = {};
-
-  function log(logger, level, args) {
-    var i = appenders.length;
-    var current = void 0;
-
-    args = slice.call(args);
-    args.unshift(logger);
-
-    while (i--) {
-      current = appenders[i];
-      current[level].apply(current, args);
-    }
-  }
-
-  function debug() {
-    if (currentLevel < 4) {
-      return;
-    }
-
-    log(this, 'debug', arguments);
-  }
-
-  function info() {
-    if (currentLevel < 3) {
-      return;
-    }
-
-    log(this, 'info', arguments);
-  }
-
-  function warn() {
-    if (currentLevel < 2) {
-      return;
-    }
-
-    log(this, 'warn', arguments);
-  }
-
-  function error() {
-    if (currentLevel < 1) {
-      return;
-    }
-
-    log(this, 'error', arguments);
-  }
-
-  function connectLogger(logger) {
-    logger.debug = debug;
-    logger.info = info;
-    logger.warn = warn;
-    logger.error = error;
-  }
-
-  function createLogger(id) {
-    var logger = new Logger(id, loggerConstructionKey);
-
-    if (appenders.length) {
-      connectLogger(logger);
-    }
-
-    return logger;
-  }
-
-  function getLogger(id) {
-    return loggers[id] || (loggers[id] = createLogger(id));
-  }
-
-  function addAppender(appender) {
-    appenders.push(appender);
-
-    if (appenders.length === 1) {
-      for (var key in loggers) {
-        connectLogger(loggers[key]);
-      }
-    }
-  }
-
-  function setLevel(level) {
-    currentLevel = level;
-  }
-
-  var Logger = exports.Logger = function () {
-    function Logger(id, key) {
-      
-
-      if (key !== loggerConstructionKey) {
-        throw new Error('Cannot instantiate "Logger". Use "getLogger" instead.');
-      }
-
-      this.id = id;
-    }
-
-    Logger.prototype.debug = function debug(message) {};
-
-    Logger.prototype.info = function info(message) {};
-
-    Logger.prototype.warn = function warn(message) {};
-
-    Logger.prototype.error = function error(message) {};
-
-    return Logger;
-  }();
 });
 define('aurelia-polyfills',['aurelia-pal'], function (_aureliaPal) {
   'use strict';
@@ -12849,1253 +12019,835 @@ define('aurelia-logging-console',['exports', 'aurelia-logging'], function (expor
     return ConsoleAppender;
   }();
 });
-define('aurelia-pal-browser',['exports', 'aurelia-pal'], function (exports, _aureliaPal) {
+define('aurelia-framework',['exports', 'aurelia-dependency-injection', 'aurelia-binding', 'aurelia-metadata', 'aurelia-templating', 'aurelia-loader', 'aurelia-task-queue', 'aurelia-path', 'aurelia-pal', 'aurelia-logging'], function (exports, _aureliaDependencyInjection, _aureliaBinding, _aureliaMetadata, _aureliaTemplating, _aureliaLoader, _aureliaTaskQueue, _aureliaPath, _aureliaPal, _aureliaLogging) {
   'use strict';
 
   Object.defineProperty(exports, "__esModule", {
     value: true
   });
-  exports._DOM = exports._FEATURE = exports._PLATFORM = undefined;
-  exports._ensureFunctionName = _ensureFunctionName;
-  exports._ensureClassList = _ensureClassList;
-  exports._ensurePerformance = _ensurePerformance;
-  exports._ensureCustomEvent = _ensureCustomEvent;
-  exports._ensureElementMatches = _ensureElementMatches;
-  exports._ensureHTMLTemplateElement = _ensureHTMLTemplateElement;
-  exports.initialize = initialize;
-
-  var _typeof = typeof Symbol === "function" && typeof Symbol.iterator === "symbol" ? function (obj) {
-    return typeof obj;
-  } : function (obj) {
-    return obj && typeof Symbol === "function" && obj.constructor === Symbol ? "symbol" : typeof obj;
-  };
-
-  var _PLATFORM = exports._PLATFORM = {
-    location: window.location,
-    history: window.history,
-    addEventListener: function addEventListener(eventName, callback, capture) {
-      this.global.addEventListener(eventName, callback, capture);
-    },
-    removeEventListener: function removeEventListener(eventName, callback, capture) {
-      this.global.removeEventListener(eventName, callback, capture);
-    },
-
-    performance: window.performance,
-    requestAnimationFrame: function requestAnimationFrame(callback) {
-      return this.global.requestAnimationFrame(callback);
-    }
-  };
-
-  function _ensureFunctionName() {
-    function test() {}
-
-    if (!test.name) {
-      Object.defineProperty(Function.prototype, 'name', {
-        get: function get() {
-          var name = this.toString().match(/^\s*function\s*(\S*)\s*\(/)[1];
-
-          Object.defineProperty(this, 'name', { value: name });
-          return name;
-        }
-      });
-    }
-  }
-
-  function _ensureClassList() {
-    if (!('classList' in document.createElement('_')) || document.createElementNS && !('classList' in document.createElementNS('http://www.w3.org/2000/svg', 'g'))) {
-      (function () {
-        var protoProp = 'prototype';
-        var strTrim = String.prototype.trim;
-        var arrIndexOf = Array.prototype.indexOf;
-        var emptyArray = [];
-
-        var DOMEx = function DOMEx(type, message) {
-          this.name = type;
-          this.code = DOMException[type];
-          this.message = message;
-        };
-
-        var checkTokenAndGetIndex = function checkTokenAndGetIndex(classList, token) {
-          if (token === '') {
-            throw new DOMEx('SYNTAX_ERR', 'An invalid or illegal string was specified');
-          }
-
-          if (/\s/.test(token)) {
-            throw new DOMEx('INVALID_CHARACTER_ERR', 'String contains an invalid character');
-          }
-
-          return arrIndexOf.call(classList, token);
-        };
-
-        var ClassList = function ClassList(elem) {
-          var trimmedClasses = strTrim.call(elem.getAttribute('class') || '');
-          var classes = trimmedClasses ? trimmedClasses.split(/\s+/) : emptyArray;
-
-          for (var i = 0, ii = classes.length; i < ii; ++i) {
-            this.push(classes[i]);
-          }
-
-          this._updateClassName = function () {
-            elem.setAttribute('class', this.toString());
-          };
-        };
-
-        var classListProto = ClassList[protoProp] = [];
-
-        DOMEx[protoProp] = Error[protoProp];
-
-        classListProto.item = function (i) {
-          return this[i] || null;
-        };
-
-        classListProto.contains = function (token) {
-          token += '';
-          return checkTokenAndGetIndex(this, token) !== -1;
-        };
-
-        classListProto.add = function () {
-          var tokens = arguments;
-          var i = 0;
-          var ii = tokens.length;
-          var token = void 0;
-          var updated = false;
-
-          do {
-            token = tokens[i] + '';
-            if (checkTokenAndGetIndex(this, token) === -1) {
-              this.push(token);
-              updated = true;
-            }
-          } while (++i < ii);
-
-          if (updated) {
-            this._updateClassName();
-          }
-        };
-
-        classListProto.remove = function () {
-          var tokens = arguments;
-          var i = 0;
-          var ii = tokens.length;
-          var token = void 0;
-          var updated = false;
-          var index = void 0;
-
-          do {
-            token = tokens[i] + '';
-            index = checkTokenAndGetIndex(this, token);
-            while (index !== -1) {
-              this.splice(index, 1);
-              updated = true;
-              index = checkTokenAndGetIndex(this, token);
-            }
-          } while (++i < ii);
-
-          if (updated) {
-            this._updateClassName();
-          }
-        };
-
-        classListProto.toggle = function (token, force) {
-          token += '';
-
-          var result = this.contains(token);
-          var method = result ? force !== true && 'remove' : force !== false && 'add';
-
-          if (method) {
-            this[method](token);
-          }
-
-          if (force === true || force === false) {
-            return force;
-          }
-
-          return !result;
-        };
-
-        classListProto.toString = function () {
-          return this.join(' ');
-        };
-
-        Object.defineProperty(Element.prototype, 'classList', {
-          get: function get() {
-            return new ClassList(this);
-          },
-          enumerable: true,
-          configurable: true
-        });
-      })();
-    } else {
-      var testElement = document.createElement('_');
-      testElement.classList.add('c1', 'c2');
-
-      if (!testElement.classList.contains('c2')) {
-        var createMethod = function createMethod(method) {
-          var original = DOMTokenList.prototype[method];
-
-          DOMTokenList.prototype[method] = function (token) {
-            for (var i = 0, ii = arguments.length; i < ii; ++i) {
-              token = arguments[i];
-              original.call(this, token);
-            }
-          };
-        };
-
-        createMethod('add');
-        createMethod('remove');
+  exports.LogManager = exports.FrameworkConfiguration = exports.Aurelia = undefined;
+  Object.keys(_aureliaDependencyInjection).forEach(function (key) {
+    if (key === "default" || key === "__esModule") return;
+    Object.defineProperty(exports, key, {
+      enumerable: true,
+      get: function () {
+        return _aureliaDependencyInjection[key];
       }
-
-      testElement.classList.toggle('c3', false);
-
-      if (testElement.classList.contains('c3')) {
-        (function () {
-          var _toggle = DOMTokenList.prototype.toggle;
-
-          DOMTokenList.prototype.toggle = function (token, force) {
-            if (1 in arguments && !this.contains(token) === !force) {
-              return force;
-            }
-
-            return _toggle.call(this, token);
-          };
-        })();
-      }
-
-      testElement = null;
-    }
-  }
-
-  function _ensurePerformance() {
-    // @license http://opensource.org/licenses/MIT
-
-
-    if ('performance' in window === false) {
-      window.performance = {};
-    }
-
-    if ('now' in window.performance === false) {
-      (function () {
-        var nowOffset = Date.now();
-
-        if (performance.timing && performance.timing.navigationStart) {
-          nowOffset = performance.timing.navigationStart;
-        }
-
-        window.performance.now = function now() {
-          return Date.now() - nowOffset;
-        };
-      })();
-    }
-
-    _PLATFORM.performance = window.performance;
-  }
-
-  function _ensureCustomEvent() {
-    if (!window.CustomEvent || typeof window.CustomEvent !== 'function') {
-      var _CustomEvent = function _CustomEvent(event, params) {
-        params = params || {
-          bubbles: false,
-          cancelable: false,
-          detail: undefined
-        };
-
-        var evt = document.createEvent('CustomEvent');
-        evt.initCustomEvent(event, params.bubbles, params.cancelable, params.detail);
-        return evt;
-      };
-
-      _CustomEvent.prototype = window.Event.prototype;
-      window.CustomEvent = _CustomEvent;
-    }
-  }
-
-  function _ensureElementMatches() {
-    if (Element && !Element.prototype.matches) {
-      var proto = Element.prototype;
-      proto.matches = proto.matchesSelector || proto.mozMatchesSelector || proto.msMatchesSelector || proto.oMatchesSelector || proto.webkitMatchesSelector;
-    }
-  }
-
-  var _FEATURE = exports._FEATURE = {};
-
-  _FEATURE.shadowDOM = function () {
-    return !!HTMLElement.prototype.attachShadow;
-  }();
-
-  _FEATURE.scopedCSS = function () {
-    return 'scoped' in document.createElement('style');
-  }();
-
-  _FEATURE.htmlTemplateElement = function () {
-    return 'content' in document.createElement('template');
-  }();
-
-  _FEATURE.mutationObserver = function () {
-    return !!(window.MutationObserver || window.WebKitMutationObserver);
-  }();
-
-  function _ensureHTMLTemplateElement() {
-    function isSVGTemplate(el) {
-      return el.tagName === 'template' && el.namespaceURI === 'http://www.w3.org/2000/svg';
-    }
-
-    function fixSVGTemplateElement(el) {
-      var template = el.ownerDocument.createElement('template');
-      var attrs = el.attributes;
-      var length = attrs.length;
-      var attr = void 0;
-
-      el.parentNode.insertBefore(template, el);
-
-      while (length-- > 0) {
-        attr = attrs[length];
-        template.setAttribute(attr.name, attr.value);
-        el.removeAttribute(attr.name);
-      }
-
-      el.parentNode.removeChild(el);
-
-      return fixHTMLTemplateElement(template);
-    }
-
-    function fixHTMLTemplateElement(template) {
-      var content = template.content = document.createDocumentFragment();
-      var child = void 0;
-
-      while (child = template.firstChild) {
-        content.appendChild(child);
-      }
-
-      return template;
-    }
-
-    function fixHTMLTemplateElementRoot(template) {
-      var content = fixHTMLTemplateElement(template).content;
-      var childTemplates = content.querySelectorAll('template');
-
-      for (var i = 0, ii = childTemplates.length; i < ii; ++i) {
-        var child = childTemplates[i];
-
-        if (isSVGTemplate(child)) {
-          fixSVGTemplateElement(child);
-        } else {
-          fixHTMLTemplateElement(child);
-        }
-      }
-
-      return template;
-    }
-
-    if (_FEATURE.htmlTemplateElement) {
-      _FEATURE.ensureHTMLTemplateElement = function (template) {
-        return template;
-      };
-    } else {
-      _FEATURE.ensureHTMLTemplateElement = fixHTMLTemplateElementRoot;
-    }
-  }
-
-  var shadowPoly = window.ShadowDOMPolyfill || null;
-
-  var _DOM = exports._DOM = {
-    Element: Element,
-    SVGElement: SVGElement,
-    boundary: 'aurelia-dom-boundary',
-    addEventListener: function addEventListener(eventName, callback, capture) {
-      document.addEventListener(eventName, callback, capture);
-    },
-    removeEventListener: function removeEventListener(eventName, callback, capture) {
-      document.removeEventListener(eventName, callback, capture);
-    },
-    adoptNode: function adoptNode(node) {
-      return document.adoptNode(node, true);
-    },
-    createElement: function createElement(tagName) {
-      return document.createElement(tagName);
-    },
-    createTextNode: function createTextNode(text) {
-      return document.createTextNode(text);
-    },
-    createComment: function createComment(text) {
-      return document.createComment(text);
-    },
-    createDocumentFragment: function createDocumentFragment() {
-      return document.createDocumentFragment();
-    },
-    createMutationObserver: function createMutationObserver(callback) {
-      return new (window.MutationObserver || window.WebKitMutationObserver)(callback);
-    },
-    createCustomEvent: function createCustomEvent(eventType, options) {
-      return new window.CustomEvent(eventType, options);
-    },
-    dispatchEvent: function dispatchEvent(evt) {
-      document.dispatchEvent(evt);
-    },
-    getComputedStyle: function getComputedStyle(element) {
-      return window.getComputedStyle(element);
-    },
-    getElementById: function getElementById(id) {
-      return document.getElementById(id);
-    },
-    querySelectorAll: function querySelectorAll(query) {
-      return document.querySelectorAll(query);
-    },
-    nextElementSibling: function nextElementSibling(element) {
-      if (element.nextElementSibling) {
-        return element.nextElementSibling;
-      }
-      do {
-        element = element.nextSibling;
-      } while (element && element.nodeType !== 1);
-      return element;
-    },
-    createTemplateFromMarkup: function createTemplateFromMarkup(markup) {
-      var parser = document.createElement('div');
-      parser.innerHTML = markup;
-
-      var temp = parser.firstElementChild;
-      if (!temp || temp.nodeName !== 'TEMPLATE') {
-        throw new Error('Template markup must be wrapped in a <template> element e.g. <template> <!-- markup here --> </template>');
-      }
-
-      return _FEATURE.ensureHTMLTemplateElement(temp);
-    },
-    appendNode: function appendNode(newNode, parentNode) {
-      (parentNode || document.body).appendChild(newNode);
-    },
-    replaceNode: function replaceNode(newNode, node, parentNode) {
-      if (node.parentNode) {
-        node.parentNode.replaceChild(newNode, node);
-      } else if (shadowPoly !== null) {
-        shadowPoly.unwrap(parentNode).replaceChild(shadowPoly.unwrap(newNode), shadowPoly.unwrap(node));
-      } else {
-        parentNode.replaceChild(newNode, node);
-      }
-    },
-    removeNode: function removeNode(node, parentNode) {
-      if (node.parentNode) {
-        node.parentNode.removeChild(node);
-      } else if (parentNode) {
-        if (shadowPoly !== null) {
-          shadowPoly.unwrap(parentNode).removeChild(shadowPoly.unwrap(node));
-        } else {
-          parentNode.removeChild(node);
-        }
-      }
-    },
-    injectStyles: function injectStyles(styles, destination, prepend) {
-      var node = document.createElement('style');
-      node.innerHTML = styles;
-      node.type = 'text/css';
-
-      destination = destination || document.head;
-
-      if (prepend && destination.childNodes.length > 0) {
-        destination.insertBefore(node, destination.childNodes[0]);
-      } else {
-        destination.appendChild(node);
-      }
-
-      return node;
-    }
-  };
-
-  var isInitialized = false;
-
-  function initialize() {
-    if (isInitialized) {
-      return;
-    }
-
-    isInitialized = true;
-
-    _ensureCustomEvent();
-    _ensureFunctionName();
-    _ensureHTMLTemplateElement();
-    _ensureElementMatches();
-    _ensureClassList();
-    _ensurePerformance();
-
-    (0, _aureliaPal.initializePAL)(function (platform, feature, dom) {
-      Object.assign(platform, _PLATFORM);
-      Object.assign(feature, _FEATURE);
-      Object.assign(dom, _DOM);
-
-      (function (global) {
-        global.console = global.console || {};
-        var con = global.console;
-        var prop = void 0;
-        var method = void 0;
-        var empty = {};
-        var dummy = function dummy() {};
-        var properties = 'memory'.split(',');
-        var methods = ('assert,clear,count,debug,dir,dirxml,error,exception,group,' + 'groupCollapsed,groupEnd,info,log,markTimeline,profile,profiles,profileEnd,' + 'show,table,time,timeEnd,timeline,timelineEnd,timeStamp,trace,warn').split(',');
-        while (prop = properties.pop()) {
-          if (!con[prop]) con[prop] = empty;
-        }while (method = methods.pop()) {
-          if (!con[method]) con[method] = dummy;
-        }
-      })(platform.global);
-
-      if (platform.global.console && _typeof(console.log) === 'object') {
-        ['log', 'info', 'warn', 'error', 'assert', 'dir', 'clear', 'profile', 'profileEnd'].forEach(function (method) {
-          console[method] = this.bind(console[method], console);
-        }, Function.prototype.call);
-      }
-
-      Object.defineProperty(dom, 'title', {
-        get: function get() {
-          return document.title;
-        },
-        set: function set(value) {
-          document.title = value;
-        }
-      });
-
-      Object.defineProperty(dom, 'activeElement', {
-        get: function get() {
-          return document.activeElement;
-        }
-      });
-
-      Object.defineProperty(platform, 'XMLHttpRequest', {
-        get: function get() {
-          return platform.global.XMLHttpRequest;
-        }
-      });
     });
-  }
-});
-define('aurelia-path',['exports'], function (exports) {
-  'use strict';
-
-  Object.defineProperty(exports, "__esModule", {
-    value: true
   });
-  exports.relativeToFile = relativeToFile;
-  exports.join = join;
-  exports.buildQueryString = buildQueryString;
-  exports.parseQueryString = parseQueryString;
-
-  var _typeof = typeof Symbol === "function" && typeof Symbol.iterator === "symbol" ? function (obj) {
-    return typeof obj;
-  } : function (obj) {
-    return obj && typeof Symbol === "function" && obj.constructor === Symbol ? "symbol" : typeof obj;
-  };
-
-  function trimDots(ary) {
-    for (var i = 0; i < ary.length; ++i) {
-      var part = ary[i];
-      if (part === '.') {
-        ary.splice(i, 1);
-        i -= 1;
-      } else if (part === '..') {
-        if (i === 0 || i === 1 && ary[2] === '..' || ary[i - 1] === '..') {
-          continue;
-        } else if (i > 0) {
-          ary.splice(i - 1, 2);
-          i -= 2;
-        }
+  Object.keys(_aureliaBinding).forEach(function (key) {
+    if (key === "default" || key === "__esModule") return;
+    Object.defineProperty(exports, key, {
+      enumerable: true,
+      get: function () {
+        return _aureliaBinding[key];
       }
-    }
-  }
-
-  function relativeToFile(name, file) {
-    var fileParts = file && file.split('/');
-    var nameParts = name.trim().split('/');
-
-    if (nameParts[0].charAt(0) === '.' && fileParts) {
-      var normalizedBaseParts = fileParts.slice(0, fileParts.length - 1);
-      nameParts.unshift.apply(nameParts, normalizedBaseParts);
-    }
-
-    trimDots(nameParts);
-
-    return nameParts.join('/');
-  }
-
-  function join(path1, path2) {
-    if (!path1) {
-      return path2;
-    }
-
-    if (!path2) {
-      return path1;
-    }
-
-    var schemeMatch = path1.match(/^([^/]*?:)\//);
-    var scheme = schemeMatch && schemeMatch.length > 0 ? schemeMatch[1] : '';
-    path1 = path1.substr(scheme.length);
-
-    var urlPrefix = void 0;
-    if (path1.indexOf('///') === 0 && scheme === 'file:') {
-      urlPrefix = '///';
-    } else if (path1.indexOf('//') === 0) {
-      urlPrefix = '//';
-    } else if (path1.indexOf('/') === 0) {
-      urlPrefix = '/';
-    } else {
-      urlPrefix = '';
-    }
-
-    var trailingSlash = path2.slice(-1) === '/' ? '/' : '';
-
-    var url1 = path1.split('/');
-    var url2 = path2.split('/');
-    var url3 = [];
-
-    for (var i = 0, ii = url1.length; i < ii; ++i) {
-      if (url1[i] === '..') {
-        url3.pop();
-      } else if (url1[i] === '.' || url1[i] === '') {
-        continue;
-      } else {
-        url3.push(url1[i]);
-      }
-    }
-
-    for (var _i = 0, _ii = url2.length; _i < _ii; ++_i) {
-      if (url2[_i] === '..') {
-        url3.pop();
-      } else if (url2[_i] === '.' || url2[_i] === '') {
-        continue;
-      } else {
-        url3.push(url2[_i]);
-      }
-    }
-
-    return scheme + urlPrefix + url3.join('/') + trailingSlash;
-  }
-
-  var encode = encodeURIComponent;
-  var encodeKey = function encodeKey(k) {
-    return encode(k).replace('%24', '$');
-  };
-
-  function buildParam(key, value, traditional) {
-    var result = [];
-    if (value === null || value === undefined) {
-      return result;
-    }
-    if (Array.isArray(value)) {
-      for (var i = 0, l = value.length; i < l; i++) {
-        if (traditional) {
-          result.push(encodeKey(key) + '=' + encode(value[i]));
-        } else {
-          var arrayKey = key + '[' + (_typeof(value[i]) === 'object' && value[i] !== null ? i : '') + ']';
-          result = result.concat(buildParam(arrayKey, value[i]));
-        }
-      }
-    } else if ((typeof value === 'undefined' ? 'undefined' : _typeof(value)) === 'object' && !traditional) {
-      for (var propertyName in value) {
-        result = result.concat(buildParam(key + '[' + propertyName + ']', value[propertyName]));
-      }
-    } else {
-      result.push(encodeKey(key) + '=' + encode(value));
-    }
-    return result;
-  }
-
-  function buildQueryString(params, traditional) {
-    var pairs = [];
-    var keys = Object.keys(params || {}).sort();
-    for (var i = 0, len = keys.length; i < len; i++) {
-      var key = keys[i];
-      pairs = pairs.concat(buildParam(key, params[key], traditional));
-    }
-
-    if (pairs.length === 0) {
-      return '';
-    }
-
-    return pairs.join('&');
-  }
-
-  function processScalarParam(existedParam, value) {
-    if (Array.isArray(existedParam)) {
-      existedParam.push(value);
-      return existedParam;
-    }
-    if (existedParam !== undefined) {
-      return [existedParam, value];
-    }
-
-    return value;
-  }
-
-  function parseComplexParam(queryParams, keys, value) {
-    var currentParams = queryParams;
-    var keysLastIndex = keys.length - 1;
-    for (var j = 0; j <= keysLastIndex; j++) {
-      var key = keys[j] === '' ? currentParams.length : keys[j];
-      if (j < keysLastIndex) {
-        var prevValue = !currentParams[key] || _typeof(currentParams[key]) === 'object' ? currentParams[key] : [currentParams[key]];
-        currentParams = currentParams[key] = prevValue || (isNaN(keys[j + 1]) ? {} : []);
-      } else {
-        currentParams = currentParams[key] = value;
-      }
-    }
-  }
-
-  function parseQueryString(queryString) {
-    var queryParams = {};
-    if (!queryString || typeof queryString !== 'string') {
-      return queryParams;
-    }
-
-    var query = queryString;
-    if (query.charAt(0) === '?') {
-      query = query.substr(1);
-    }
-
-    var pairs = query.replace(/\+/g, ' ').split('&');
-    for (var i = 0; i < pairs.length; i++) {
-      var pair = pairs[i].split('=');
-      var key = decodeURIComponent(pair[0]);
-      if (!key) {
-        continue;
-      }
-
-      var keys = key.split('][');
-      var keysLastIndex = keys.length - 1;
-
-      if (/\[/.test(keys[0]) && /\]$/.test(keys[keysLastIndex])) {
-        keys[keysLastIndex] = keys[keysLastIndex].replace(/\]$/, '');
-        keys = keys.shift().split('[').concat(keys);
-        keysLastIndex = keys.length - 1;
-      } else {
-        keysLastIndex = 0;
-      }
-
-      if (pair.length >= 2) {
-        var value = pair[1] ? decodeURIComponent(pair[1]) : '';
-        if (keysLastIndex) {
-          parseComplexParam(queryParams, keys, value);
-        } else {
-          queryParams[key] = processScalarParam(queryParams[key], value);
-        }
-      } else {
-        queryParams[key] = true;
-      }
-    }
-    return queryParams;
-  }
-});
-define('aurelia-route-recognizer',['exports', 'aurelia-path'], function (exports, _aureliaPath) {
-  'use strict';
-
-  Object.defineProperty(exports, "__esModule", {
-    value: true
+    });
   });
-  exports.RouteRecognizer = exports.EpsilonSegment = exports.StarSegment = exports.DynamicSegment = exports.StaticSegment = exports.State = undefined;
+  Object.keys(_aureliaMetadata).forEach(function (key) {
+    if (key === "default" || key === "__esModule") return;
+    Object.defineProperty(exports, key, {
+      enumerable: true,
+      get: function () {
+        return _aureliaMetadata[key];
+      }
+    });
+  });
+  Object.keys(_aureliaTemplating).forEach(function (key) {
+    if (key === "default" || key === "__esModule") return;
+    Object.defineProperty(exports, key, {
+      enumerable: true,
+      get: function () {
+        return _aureliaTemplating[key];
+      }
+    });
+  });
+  Object.keys(_aureliaLoader).forEach(function (key) {
+    if (key === "default" || key === "__esModule") return;
+    Object.defineProperty(exports, key, {
+      enumerable: true,
+      get: function () {
+        return _aureliaLoader[key];
+      }
+    });
+  });
+  Object.keys(_aureliaTaskQueue).forEach(function (key) {
+    if (key === "default" || key === "__esModule") return;
+    Object.defineProperty(exports, key, {
+      enumerable: true,
+      get: function () {
+        return _aureliaTaskQueue[key];
+      }
+    });
+  });
+  Object.keys(_aureliaPath).forEach(function (key) {
+    if (key === "default" || key === "__esModule") return;
+    Object.defineProperty(exports, key, {
+      enumerable: true,
+      get: function () {
+        return _aureliaPath[key];
+      }
+    });
+  });
+  Object.keys(_aureliaPal).forEach(function (key) {
+    if (key === "default" || key === "__esModule") return;
+    Object.defineProperty(exports, key, {
+      enumerable: true,
+      get: function () {
+        return _aureliaPal[key];
+      }
+    });
+  });
+
+  var TheLogManager = _interopRequireWildcard(_aureliaLogging);
+
+  function _interopRequireWildcard(obj) {
+    if (obj && obj.__esModule) {
+      return obj;
+    } else {
+      var newObj = {};
+
+      if (obj != null) {
+        for (var key in obj) {
+          if (Object.prototype.hasOwnProperty.call(obj, key)) newObj[key] = obj[key];
+        }
+      }
+
+      newObj.default = obj;
+      return newObj;
+    }
+  }
 
   
 
-  var State = exports.State = function () {
-    function State(charSpec) {
-      
+  function preventActionlessFormSubmit() {
+    _aureliaPal.DOM.addEventListener('submit', function (evt) {
+      var target = evt.target;
+      var action = target.action;
 
-      this.charSpec = charSpec;
-      this.nextStates = [];
-    }
-
-    State.prototype.get = function get(charSpec) {
-      for (var _iterator = this.nextStates, _isArray = Array.isArray(_iterator), _i = 0, _iterator = _isArray ? _iterator : _iterator[Symbol.iterator]();;) {
-        var _ref;
-
-        if (_isArray) {
-          if (_i >= _iterator.length) break;
-          _ref = _iterator[_i++];
-        } else {
-          _i = _iterator.next();
-          if (_i.done) break;
-          _ref = _i.value;
-        }
-
-        var child = _ref;
-
-        var isEqual = child.charSpec.validChars === charSpec.validChars && child.charSpec.invalidChars === charSpec.invalidChars;
-
-        if (isEqual) {
-          return child;
-        }
+      if (target.tagName.toLowerCase() === 'form' && !action) {
+        evt.preventDefault();
       }
+    });
+  }
 
-      return undefined;
-    };
-
-    State.prototype.put = function put(charSpec) {
-      var state = this.get(charSpec);
-
-      if (state) {
-        return state;
-      }
-
-      state = new State(charSpec);
-
-      this.nextStates.push(state);
-
-      if (charSpec.repeat) {
-        state.nextStates.push(state);
-      }
-
-      return state;
-    };
-
-    State.prototype.match = function match(ch) {
-      var nextStates = this.nextStates;
-      var results = [];
-
-      for (var i = 0, l = nextStates.length; i < l; i++) {
-        var child = nextStates[i];
-        var charSpec = child.charSpec;
-
-        if (charSpec.validChars !== undefined) {
-          if (charSpec.validChars.indexOf(ch) !== -1) {
-            results.push(child);
-          }
-        } else if (charSpec.invalidChars !== undefined) {
-          if (charSpec.invalidChars.indexOf(ch) === -1) {
-            results.push(child);
-          }
-        }
-      }
-
-      return results;
-    };
-
-    return State;
-  }();
-
-  var specials = ['/', '.', '*', '+', '?', '|', '(', ')', '[', ']', '{', '}', '\\'];
-
-  var escapeRegex = new RegExp('(\\' + specials.join('|\\') + ')', 'g');
-
-  var StaticSegment = exports.StaticSegment = function () {
-    function StaticSegment(string, caseSensitive) {
+  var Aurelia = exports.Aurelia = function () {
+    function Aurelia(loader, container, resources) {
       
 
-      this.string = string;
-      this.caseSensitive = caseSensitive;
+      this.loader = loader || new _aureliaPal.PLATFORM.Loader();
+      this.container = container || new _aureliaDependencyInjection.Container().makeGlobal();
+      this.resources = resources || new _aureliaTemplating.ViewResources();
+      this.use = new FrameworkConfiguration(this);
+      this.logger = TheLogManager.getLogger('aurelia');
+      this.hostConfigured = false;
+      this.host = null;
+
+      this.use.instance(Aurelia, this);
+      this.use.instance(_aureliaLoader.Loader, this.loader);
+      this.use.instance(_aureliaTemplating.ViewResources, this.resources);
     }
 
-    StaticSegment.prototype.eachChar = function eachChar(callback) {
-      var s = this.string;
-      for (var i = 0, ii = s.length; i < ii; ++i) {
-        var ch = s[i];
-        callback({ validChars: this.caseSensitive ? ch : ch.toUpperCase() + ch.toLowerCase() });
-      }
-    };
-
-    StaticSegment.prototype.regex = function regex() {
-      return this.string.replace(escapeRegex, '\\$1');
-    };
-
-    StaticSegment.prototype.generate = function generate() {
-      return this.string;
-    };
-
-    return StaticSegment;
-  }();
-
-  var DynamicSegment = exports.DynamicSegment = function () {
-    function DynamicSegment(name, optional) {
-      
-
-      this.name = name;
-      this.optional = optional;
-    }
-
-    DynamicSegment.prototype.eachChar = function eachChar(callback) {
-      callback({ invalidChars: '/', repeat: true });
-    };
-
-    DynamicSegment.prototype.regex = function regex() {
-      return this.optional ? '([^/]+)?' : '([^/]+)';
-    };
-
-    DynamicSegment.prototype.generate = function generate(params, consumed) {
-      consumed[this.name] = true;
-      return params[this.name];
-    };
-
-    return DynamicSegment;
-  }();
-
-  var StarSegment = exports.StarSegment = function () {
-    function StarSegment(name) {
-      
-
-      this.name = name;
-    }
-
-    StarSegment.prototype.eachChar = function eachChar(callback) {
-      callback({ invalidChars: '', repeat: true });
-    };
-
-    StarSegment.prototype.regex = function regex() {
-      return '(.+)';
-    };
-
-    StarSegment.prototype.generate = function generate(params, consumed) {
-      consumed[this.name] = true;
-      return params[this.name];
-    };
-
-    return StarSegment;
-  }();
-
-  var EpsilonSegment = exports.EpsilonSegment = function () {
-    function EpsilonSegment() {
-      
-    }
-
-    EpsilonSegment.prototype.eachChar = function eachChar() {};
-
-    EpsilonSegment.prototype.regex = function regex() {
-      return '';
-    };
-
-    EpsilonSegment.prototype.generate = function generate() {
-      return '';
-    };
-
-    return EpsilonSegment;
-  }();
-
-  var RouteRecognizer = exports.RouteRecognizer = function () {
-    function RouteRecognizer() {
-      
-
-      this.rootState = new State();
-      this.names = {};
-    }
-
-    RouteRecognizer.prototype.add = function add(route) {
+    Aurelia.prototype.start = function start() {
       var _this = this;
 
-      if (Array.isArray(route)) {
-        route.forEach(function (r) {
-          return _this.add(r);
-        });
-        return undefined;
+      if (this.started) {
+        return Promise.resolve(this);
       }
 
-      var currentState = this.rootState;
-      var regex = '^';
-      var types = { statics: 0, dynamics: 0, stars: 0 };
-      var names = [];
-      var routeName = route.handler.name;
-      var isEmpty = true;
-      var isAllOptional = true;
-      var segments = parse(route.path, names, types, route.caseSensitive);
+      this.started = true;
+      this.logger.info('Aurelia Starting');
 
-      for (var i = 0, ii = segments.length; i < ii; i++) {
-        var segment = segments[i];
-        if (segment instanceof EpsilonSegment) {
-          continue;
+      return this.use.apply().then(function () {
+        preventActionlessFormSubmit();
+
+        if (!_this.container.hasResolver(_aureliaTemplating.BindingLanguage)) {
+          var message = 'You must configure Aurelia with a BindingLanguage implementation.';
+          _this.logger.error(message);
+          throw new Error(message);
         }
 
-        isEmpty = false;
-        isAllOptional = isAllOptional && segment.optional;
+        _this.logger.info('Aurelia Started');
+        var evt = _aureliaPal.DOM.createCustomEvent('aurelia-started', { bubbles: true, cancelable: true });
+        _aureliaPal.DOM.dispatchEvent(evt);
+        return _this;
+      });
+    };
 
-        currentState = addSegment(currentState, segment);
-        regex += segment.optional ? '/?' : '/';
-        regex += segment.regex();
+    Aurelia.prototype.enhance = function enhance() {
+      var _this2 = this;
+
+      var bindingContext = arguments.length <= 0 || arguments[0] === undefined ? {} : arguments[0];
+      var applicationHost = arguments.length <= 1 || arguments[1] === undefined ? null : arguments[1];
+
+      this._configureHost(applicationHost || _aureliaPal.DOM.querySelectorAll('body')[0]);
+
+      return new Promise(function (resolve) {
+        var engine = _this2.container.get(_aureliaTemplating.TemplatingEngine);
+        _this2.root = engine.enhance({ container: _this2.container, element: _this2.host, resources: _this2.resources, bindingContext: bindingContext });
+        _this2.root.attached();
+        _this2._onAureliaComposed();
+        resolve(_this2);
+      });
+    };
+
+    Aurelia.prototype.setRoot = function setRoot() {
+      var _this3 = this;
+
+      var root = arguments.length <= 0 || arguments[0] === undefined ? null : arguments[0];
+      var applicationHost = arguments.length <= 1 || arguments[1] === undefined ? null : arguments[1];
+
+      var instruction = {};
+
+      if (this.root && this.root.viewModel && this.root.viewModel.router) {
+        this.root.viewModel.router.deactivate();
+        this.root.viewModel.router.reset();
       }
 
-      if (isAllOptional) {
-        if (isEmpty) {
-          currentState = currentState.put({ validChars: '/' });
-          regex += '/';
+      this._configureHost(applicationHost);
+
+      var engine = this.container.get(_aureliaTemplating.TemplatingEngine);
+      var transaction = this.container.get(_aureliaTemplating.CompositionTransaction);
+      delete transaction.initialComposition;
+
+      if (!root) {
+        if (this.configModuleId) {
+          root = (0, _aureliaPath.relativeToFile)('./app', this.configModuleId);
         } else {
-          var finalState = this.rootState.put({ validChars: '/' });
-          currentState.epsilon = [finalState];
-          currentState = finalState;
+          root = 'app';
         }
       }
 
-      var handlers = [{ handler: route.handler, names: names }];
+      instruction.viewModel = root;
+      instruction.container = instruction.childContainer = this.container;
+      instruction.viewSlot = this.hostSlot;
+      instruction.host = this.host;
 
-      if (routeName) {
-        var routeNames = Array.isArray(routeName) ? routeName : [routeName];
-        for (var _i2 = 0; _i2 < routeNames.length; _i2++) {
-          this.names[routeNames[_i2]] = {
-            segments: segments,
-            handlers: handlers
-          };
-        }
-      }
-
-      currentState.handlers = handlers;
-      currentState.regex = new RegExp(regex + '$', route.caseSensitive ? '' : 'i');
-      currentState.types = types;
-
-      return currentState;
+      return engine.compose(instruction).then(function (r) {
+        _this3.root = r;
+        instruction.viewSlot.attached();
+        _this3._onAureliaComposed();
+        return _this3;
+      });
     };
 
-    RouteRecognizer.prototype.handlersFor = function handlersFor(name) {
-      var route = this.names[name];
-      if (!route) {
-        throw new Error('There is no route named ' + name);
+    Aurelia.prototype._configureHost = function _configureHost(applicationHost) {
+      if (this.hostConfigured) {
+        return;
+      }
+      applicationHost = applicationHost || this.host;
+
+      if (!applicationHost || typeof applicationHost === 'string') {
+        this.host = _aureliaPal.DOM.getElementById(applicationHost || 'applicationHost');
+      } else {
+        this.host = applicationHost;
       }
 
-      return [].concat(route.handlers);
+      if (!this.host) {
+        throw new Error('No applicationHost was specified.');
+      }
+
+      this.hostConfigured = true;
+      this.host.aurelia = this;
+      this.hostSlot = new _aureliaTemplating.ViewSlot(this.host, true);
+      this.hostSlot.transformChildNodesIntoView();
+      this.container.registerInstance(_aureliaPal.DOM.boundary, this.host);
     };
 
-    RouteRecognizer.prototype.hasRoute = function hasRoute(name) {
-      return !!this.names[name];
+    Aurelia.prototype._onAureliaComposed = function _onAureliaComposed() {
+      var evt = _aureliaPal.DOM.createCustomEvent('aurelia-composed', { bubbles: true, cancelable: true });
+      setTimeout(function () {
+        return _aureliaPal.DOM.dispatchEvent(evt);
+      }, 1);
     };
 
-    RouteRecognizer.prototype.generate = function generate(name, params) {
-      var route = this.names[name];
-      if (!route) {
-        throw new Error('There is no route named ' + name);
-      }
-
-      var handler = route.handlers[0].handler;
-      if (handler.generationUsesHref) {
-        return handler.href;
-      }
-
-      var routeParams = Object.assign({}, params);
-      var segments = route.segments;
-      var consumed = {};
-      var output = '';
-
-      for (var i = 0, l = segments.length; i < l; i++) {
-        var segment = segments[i];
-
-        if (segment instanceof EpsilonSegment) {
-          continue;
-        }
-
-        var segmentValue = segment.generate(routeParams, consumed);
-        if (segmentValue === null || segmentValue === undefined) {
-          if (!segment.optional) {
-            throw new Error('A value is required for route parameter \'' + segment.name + '\' in route \'' + name + '\'.');
-          }
-        } else {
-          output += '/';
-          output += segmentValue;
-        }
-      }
-
-      if (output.charAt(0) !== '/') {
-        output = '/' + output;
-      }
-
-      for (var param in consumed) {
-        delete routeParams[param];
-      }
-
-      var queryString = (0, _aureliaPath.buildQueryString)(routeParams);
-      output += queryString ? '?' + queryString : '';
-
-      return output;
-    };
-
-    RouteRecognizer.prototype.recognize = function recognize(path) {
-      var states = [this.rootState];
-      var queryParams = {};
-      var isSlashDropped = false;
-      var normalizedPath = path;
-
-      var queryStart = normalizedPath.indexOf('?');
-      if (queryStart !== -1) {
-        var queryString = normalizedPath.substr(queryStart + 1, normalizedPath.length);
-        normalizedPath = normalizedPath.substr(0, queryStart);
-        queryParams = (0, _aureliaPath.parseQueryString)(queryString);
-      }
-
-      normalizedPath = decodeURI(normalizedPath);
-
-      if (normalizedPath.charAt(0) !== '/') {
-        normalizedPath = '/' + normalizedPath;
-      }
-
-      var pathLen = normalizedPath.length;
-      if (pathLen > 1 && normalizedPath.charAt(pathLen - 1) === '/') {
-        normalizedPath = normalizedPath.substr(0, pathLen - 1);
-        isSlashDropped = true;
-      }
-
-      for (var i = 0, l = normalizedPath.length; i < l; i++) {
-        states = recognizeChar(states, normalizedPath.charAt(i));
-        if (!states.length) {
-          break;
-        }
-      }
-
-      var solutions = [];
-      for (var _i3 = 0, _l = states.length; _i3 < _l; _i3++) {
-        if (states[_i3].handlers) {
-          solutions.push(states[_i3]);
-        }
-      }
-
-      states = sortSolutions(solutions);
-
-      var state = solutions[0];
-      if (state && state.handlers) {
-        if (isSlashDropped && state.regex.source.slice(-5) === '(.+)$') {
-          normalizedPath = normalizedPath + '/';
-        }
-
-        return findHandler(state, normalizedPath, queryParams);
-      }
-
-      return undefined;
-    };
-
-    return RouteRecognizer;
+    return Aurelia;
   }();
 
-  var RecognizeResults = function RecognizeResults(queryParams) {
-    
+  var logger = TheLogManager.getLogger('aurelia');
+  var extPattern = /\.[^/.]+$/;
 
-    this.splice = Array.prototype.splice;
-    this.slice = Array.prototype.slice;
-    this.push = Array.prototype.push;
-    this.length = 0;
-    this.queryParams = queryParams || {};
-  };
-
-  function parse(route, names, types, caseSensitive) {
-    var normalizedRoute = route;
-    if (route.charAt(0) === '/') {
-      normalizedRoute = route.substr(1);
-    }
-
-    var results = [];
-
-    var splitRoute = normalizedRoute.split('/');
-    for (var i = 0, ii = splitRoute.length; i < ii; ++i) {
-      var segment = splitRoute[i];
-
-      var match = segment.match(/^:([^?]+)(\?)?$/);
-      if (match) {
-        var _match = match;
-        var _name = _match[1];
-        var optional = _match[2];
-
-        if (_name.indexOf('=') !== -1) {
-          throw new Error('Parameter ' + _name + ' in route ' + route + ' has a default value, which is not supported.');
-        }
-        results.push(new DynamicSegment(_name, !!optional));
-        names.push(_name);
-        types.dynamics++;
-        continue;
+  function runTasks(config, tasks) {
+    var current = void 0;
+    var next = function next() {
+      current = tasks.shift();
+      if (current) {
+        return Promise.resolve(current(config)).then(next);
       }
 
-      match = segment.match(/^\*(.+)$/);
-      if (match) {
-        results.push(new StarSegment(match[1]));
-        names.push(match[1]);
-        types.stars++;
-      } else if (segment === '') {
-        results.push(new EpsilonSegment());
-      } else {
-        results.push(new StaticSegment(segment, caseSensitive));
-        types.statics++;
-      }
-    }
+      return Promise.resolve();
+    };
 
-    return results;
+    return next();
   }
 
-  function sortSolutions(states) {
-    return states.sort(function (a, b) {
-      if (a.types.stars !== b.types.stars) {
-        return a.types.stars - b.types.stars;
-      }
+  function loadPlugin(config, loader, info) {
+    logger.debug('Loading plugin ' + info.moduleId + '.');
+    config.resourcesRelativeTo = info.resourcesRelativeTo;
 
-      if (a.types.stars) {
-        if (a.types.statics !== b.types.statics) {
-          return b.types.statics - a.types.statics;
-        }
-        if (a.types.dynamics !== b.types.dynamics) {
-          return b.types.dynamics - a.types.dynamics;
-        }
-      }
+    var id = info.moduleId;
 
-      if (a.types.dynamics !== b.types.dynamics) {
-        return a.types.dynamics - b.types.dynamics;
-      }
-
-      if (a.types.statics !== b.types.statics) {
-        return b.types.statics - a.types.statics;
-      }
-
-      return 0;
-    });
-  }
-
-  function recognizeChar(states, ch) {
-    var nextStates = [];
-
-    for (var i = 0, l = states.length; i < l; i++) {
-      var state = states[i];
-      nextStates.push.apply(nextStates, state.match(ch));
-    }
-
-    var skippableStates = nextStates.filter(function (s) {
-      return s.epsilon;
-    });
-
-    var _loop = function _loop() {
-      var newStates = [];
-      skippableStates.forEach(function (s) {
-        nextStates.push.apply(nextStates, s.epsilon);
-        newStates.push.apply(newStates, s.epsilon);
+    if (info.resourcesRelativeTo.length > 1) {
+      return loader.normalize(info.moduleId, info.resourcesRelativeTo[1]).then(function (normalizedId) {
+        return _loadPlugin(normalizedId);
       });
-      skippableStates = newStates.filter(function (s) {
-        return s.epsilon;
+    }
+
+    return _loadPlugin(id);
+
+    function _loadPlugin(moduleId) {
+      return loader.loadModule(moduleId).then(function (m) {
+        if ('configure' in m) {
+          return Promise.resolve(m.configure(config, info.config || {})).then(function () {
+            config.resourcesRelativeTo = null;
+            logger.debug('Configured plugin ' + info.moduleId + '.');
+          });
+        }
+
+        config.resourcesRelativeTo = null;
+        logger.debug('Loaded plugin ' + info.moduleId + '.');
+      });
+    }
+  }
+
+  function loadResources(aurelia, resourcesToLoad, appResources) {
+    var viewEngine = aurelia.container.get(_aureliaTemplating.ViewEngine);
+
+    return Promise.all(Object.keys(resourcesToLoad).map(function (n) {
+      return _normalize(resourcesToLoad[n]);
+    })).then(function (loads) {
+      var names = [];
+      var importIds = [];
+
+      loads.forEach(function (l) {
+        names.push(undefined);
+        importIds.push(l.importId);
+      });
+
+      return viewEngine.importViewResources(importIds, names, appResources);
+    });
+
+    function _normalize(load) {
+      var moduleId = load.moduleId;
+      var ext = getExt(moduleId);
+
+      if (isOtherResource(moduleId)) {
+        moduleId = removeExt(moduleId);
+      }
+
+      return aurelia.loader.normalize(moduleId, load.relativeTo).then(function (normalized) {
+        return {
+          name: load.moduleId,
+          importId: isOtherResource(load.moduleId) ? addOriginalExt(normalized, ext) : normalized
+        };
+      });
+    }
+
+    function isOtherResource(name) {
+      var ext = getExt(name);
+      if (!ext) return false;
+      if (ext === '') return false;
+      if (ext === '.js' || ext === '.ts') return false;
+      return true;
+    }
+
+    function removeExt(name) {
+      return name.replace(extPattern, '');
+    }
+
+    function addOriginalExt(normalized, ext) {
+      return removeExt(normalized) + '.' + ext;
+    }
+  }
+
+  function getExt(name) {
+    var match = name.match(extPattern);
+    if (match && match.length > 0) {
+      return match[0].split('.')[1];
+    }
+  }
+
+  function assertProcessed(plugins) {
+    if (plugins.processed) {
+      throw new Error('This config instance has already been applied. To load more plugins or global resources, create a new FrameworkConfiguration instance.');
+    }
+  }
+
+  var FrameworkConfiguration = function () {
+    function FrameworkConfiguration(aurelia) {
+      var _this4 = this;
+
+      
+
+      this.aurelia = aurelia;
+      this.container = aurelia.container;
+      this.info = [];
+      this.processed = false;
+      this.preTasks = [];
+      this.postTasks = [];
+      this.resourcesToLoad = {};
+      this.preTask(function () {
+        return aurelia.loader.normalize('aurelia-bootstrapper').then(function (name) {
+          return _this4.bootstrapperName = name;
+        });
+      });
+      this.postTask(function () {
+        return loadResources(aurelia, _this4.resourcesToLoad, aurelia.resources);
+      });
+    }
+
+    FrameworkConfiguration.prototype.instance = function instance(type, _instance) {
+      this.container.registerInstance(type, _instance);
+      return this;
+    };
+
+    FrameworkConfiguration.prototype.singleton = function singleton(type, implementation) {
+      this.container.registerSingleton(type, implementation);
+      return this;
+    };
+
+    FrameworkConfiguration.prototype.transient = function transient(type, implementation) {
+      this.container.registerTransient(type, implementation);
+      return this;
+    };
+
+    FrameworkConfiguration.prototype.preTask = function preTask(task) {
+      assertProcessed(this);
+      this.preTasks.push(task);
+      return this;
+    };
+
+    FrameworkConfiguration.prototype.postTask = function postTask(task) {
+      assertProcessed(this);
+      this.postTasks.push(task);
+      return this;
+    };
+
+    FrameworkConfiguration.prototype.feature = function feature(plugin, config) {
+      if (getExt(plugin)) {
+        return this.plugin({ moduleId: plugin, resourcesRelativeTo: [plugin, ''], config: config || {} });
+      }
+
+      return this.plugin({ moduleId: plugin + '/index', resourcesRelativeTo: [plugin, ''], config: config || {} });
+    };
+
+    FrameworkConfiguration.prototype.globalResources = function globalResources(resources) {
+      assertProcessed(this);
+
+      var toAdd = Array.isArray(resources) ? resources : arguments;
+      var resource = void 0;
+      var resourcesRelativeTo = this.resourcesRelativeTo || ['', ''];
+
+      for (var i = 0, ii = toAdd.length; i < ii; ++i) {
+        resource = toAdd[i];
+        if (typeof resource !== 'string') {
+          throw new Error('Invalid resource path [' + resource + ']. Resources must be specified as relative module IDs.');
+        }
+
+        var parent = resourcesRelativeTo[0];
+        var grandParent = resourcesRelativeTo[1];
+        var name = resource;
+
+        if ((resource.startsWith('./') || resource.startsWith('../')) && parent !== '') {
+          name = (0, _aureliaPath.join)(parent, resource);
+        }
+
+        this.resourcesToLoad[name] = { moduleId: name, relativeTo: grandParent };
+      }
+
+      return this;
+    };
+
+    FrameworkConfiguration.prototype.globalName = function globalName(resourcePath, newName) {
+      assertProcessed(this);
+      this.resourcesToLoad[resourcePath] = { moduleId: newName, relativeTo: '' };
+      return this;
+    };
+
+    FrameworkConfiguration.prototype.plugin = function plugin(_plugin, config) {
+      assertProcessed(this);
+
+      if (typeof _plugin === 'string') {
+        return this.plugin({ moduleId: _plugin, resourcesRelativeTo: [_plugin, ''], config: config || {} });
+      }
+
+      this.info.push(_plugin);
+      return this;
+    };
+
+    FrameworkConfiguration.prototype._addNormalizedPlugin = function _addNormalizedPlugin(name, config) {
+      var _this5 = this;
+
+      var plugin = { moduleId: name, resourcesRelativeTo: [name, ''], config: config || {} };
+      this.plugin(plugin);
+
+      this.preTask(function () {
+        var relativeTo = [name, _this5.bootstrapperName];
+        plugin.moduleId = name;
+        plugin.resourcesRelativeTo = relativeTo;
+        return Promise.resolve();
+      });
+
+      return this;
+    };
+
+    FrameworkConfiguration.prototype.defaultBindingLanguage = function defaultBindingLanguage() {
+      return this._addNormalizedPlugin('aurelia-templating-binding');
+    };
+
+    FrameworkConfiguration.prototype.router = function router() {
+      return this._addNormalizedPlugin('aurelia-templating-router');
+    };
+
+    FrameworkConfiguration.prototype.history = function history() {
+      return this._addNormalizedPlugin('aurelia-history-browser');
+    };
+
+    FrameworkConfiguration.prototype.defaultResources = function defaultResources() {
+      return this._addNormalizedPlugin('aurelia-templating-resources');
+    };
+
+    FrameworkConfiguration.prototype.eventAggregator = function eventAggregator() {
+      return this._addNormalizedPlugin('aurelia-event-aggregator');
+    };
+
+    FrameworkConfiguration.prototype.basicConfiguration = function basicConfiguration() {
+      return this.defaultBindingLanguage().defaultResources().eventAggregator();
+    };
+
+    FrameworkConfiguration.prototype.standardConfiguration = function standardConfiguration() {
+      return this.basicConfiguration().history().router();
+    };
+
+    FrameworkConfiguration.prototype.developmentLogging = function developmentLogging() {
+      var _this6 = this;
+
+      this.preTask(function () {
+        return _this6.aurelia.loader.normalize('aurelia-logging-console', _this6.bootstrapperName).then(function (name) {
+          return _this6.aurelia.loader.loadModule(name).then(function (m) {
+            TheLogManager.addAppender(new m.ConsoleAppender());
+            TheLogManager.setLevel(TheLogManager.logLevel.debug);
+          });
+        });
+      });
+
+      return this;
+    };
+
+    FrameworkConfiguration.prototype.apply = function apply() {
+      var _this7 = this;
+
+      if (this.processed) {
+        return Promise.resolve();
+      }
+
+      return runTasks(this, this.preTasks).then(function () {
+        var loader = _this7.aurelia.loader;
+        var info = _this7.info;
+        var current = void 0;
+
+        var next = function next() {
+          current = info.shift();
+          if (current) {
+            return loadPlugin(_this7, loader, current).then(next);
+          }
+
+          _this7.processed = true;
+          return Promise.resolve();
+        };
+
+        return next().then(function () {
+          return runTasks(_this7, _this7.postTasks);
+        });
       });
     };
 
-    while (skippableStates.length > 0) {
-      _loop();
+    return FrameworkConfiguration;
+  }();
+
+  exports.FrameworkConfiguration = FrameworkConfiguration;
+  var LogManager = exports.LogManager = TheLogManager;
+});
+define('aurelia-loader',['exports', 'aurelia-path', 'aurelia-metadata'], function (exports, _aureliaPath, _aureliaMetadata) {
+  'use strict';
+
+  Object.defineProperty(exports, "__esModule", {
+    value: true
+  });
+  exports.Loader = exports.TemplateRegistryEntry = exports.TemplateDependency = undefined;
+
+  var _createClass = function () {
+    function defineProperties(target, props) {
+      for (var i = 0; i < props.length; i++) {
+        var descriptor = props[i];
+        descriptor.enumerable = descriptor.enumerable || false;
+        descriptor.configurable = true;
+        if ("value" in descriptor) descriptor.writable = true;
+        Object.defineProperty(target, descriptor.key, descriptor);
+      }
     }
 
-    return nextStates;
+    return function (Constructor, protoProps, staticProps) {
+      if (protoProps) defineProperties(Constructor.prototype, protoProps);
+      if (staticProps) defineProperties(Constructor, staticProps);
+      return Constructor;
+    };
+  }();
+
+  
+
+  var TemplateDependency = exports.TemplateDependency = function TemplateDependency(src, name) {
+    
+
+    this.src = src;
+    this.name = name;
+  };
+
+  var TemplateRegistryEntry = exports.TemplateRegistryEntry = function () {
+    function TemplateRegistryEntry(address) {
+      
+
+      this.templateIsLoaded = false;
+      this.factoryIsReady = false;
+      this.resources = null;
+      this.dependencies = null;
+
+      this.address = address;
+      this.onReady = null;
+      this._template = null;
+      this._factory = null;
+    }
+
+    TemplateRegistryEntry.prototype.addDependency = function addDependency(src, name) {
+      var finalSrc = typeof src === 'string' ? (0, _aureliaPath.relativeToFile)(src, this.address) : _aureliaMetadata.Origin.get(src).moduleId;
+
+      this.dependencies.push(new TemplateDependency(finalSrc, name));
+    };
+
+    _createClass(TemplateRegistryEntry, [{
+      key: 'template',
+      get: function get() {
+        return this._template;
+      },
+      set: function set(value) {
+        var address = this.address;
+        var requires = void 0;
+        var current = void 0;
+        var src = void 0;
+        var dependencies = void 0;
+
+        this._template = value;
+        this.templateIsLoaded = true;
+
+        requires = value.content.querySelectorAll('require');
+        dependencies = this.dependencies = new Array(requires.length);
+
+        for (var i = 0, ii = requires.length; i < ii; ++i) {
+          current = requires[i];
+          src = current.getAttribute('from');
+
+          if (!src) {
+            throw new Error('<require> element in ' + address + ' has no "from" attribute.');
+          }
+
+          dependencies[i] = new TemplateDependency((0, _aureliaPath.relativeToFile)(src, address), current.getAttribute('as'));
+
+          if (current.parentNode) {
+            current.parentNode.removeChild(current);
+          }
+        }
+      }
+    }, {
+      key: 'factory',
+      get: function get() {
+        return this._factory;
+      },
+      set: function set(value) {
+        this._factory = value;
+        this.factoryIsReady = true;
+      }
+    }]);
+
+    return TemplateRegistryEntry;
+  }();
+
+  var Loader = exports.Loader = function () {
+    function Loader() {
+      
+
+      this.templateRegistry = {};
+    }
+
+    Loader.prototype.map = function map(id, source) {
+      throw new Error('Loaders must implement map(id, source).');
+    };
+
+    Loader.prototype.normalizeSync = function normalizeSync(moduleId, relativeTo) {
+      throw new Error('Loaders must implement normalizeSync(moduleId, relativeTo).');
+    };
+
+    Loader.prototype.normalize = function normalize(moduleId, relativeTo) {
+      throw new Error('Loaders must implement normalize(moduleId: string, relativeTo: string): Promise<string>.');
+    };
+
+    Loader.prototype.loadModule = function loadModule(id) {
+      throw new Error('Loaders must implement loadModule(id).');
+    };
+
+    Loader.prototype.loadAllModules = function loadAllModules(ids) {
+      throw new Error('Loader must implement loadAllModules(ids).');
+    };
+
+    Loader.prototype.loadTemplate = function loadTemplate(url) {
+      throw new Error('Loader must implement loadTemplate(url).');
+    };
+
+    Loader.prototype.loadText = function loadText(url) {
+      throw new Error('Loader must implement loadText(url).');
+    };
+
+    Loader.prototype.applyPluginToUrl = function applyPluginToUrl(url, pluginName) {
+      throw new Error('Loader must implement applyPluginToUrl(url, pluginName).');
+    };
+
+    Loader.prototype.addPlugin = function addPlugin(pluginName, implementation) {
+      throw new Error('Loader must implement addPlugin(pluginName, implementation).');
+    };
+
+    Loader.prototype.getOrCreateTemplateRegistryEntry = function getOrCreateTemplateRegistryEntry(address) {
+      return this.templateRegistry[address] || (this.templateRegistry[address] = new TemplateRegistryEntry(address));
+    };
+
+    return Loader;
+  }();
+});
+define('aurelia-logging',['exports'], function (exports) {
+  'use strict';
+
+  Object.defineProperty(exports, "__esModule", {
+    value: true
+  });
+  exports.getLogger = getLogger;
+  exports.addAppender = addAppender;
+  exports.setLevel = setLevel;
+
+  
+
+  var logLevel = exports.logLevel = {
+    none: 0,
+    error: 1,
+    warn: 2,
+    info: 3,
+    debug: 4
+  };
+
+  var loggers = {};
+  var currentLevel = logLevel.none;
+  var appenders = [];
+  var slice = Array.prototype.slice;
+  var loggerConstructionKey = {};
+
+  function log(logger, level, args) {
+    var i = appenders.length;
+    var current = void 0;
+
+    args = slice.call(args);
+    args.unshift(logger);
+
+    while (i--) {
+      current = appenders[i];
+      current[level].apply(current, args);
+    }
   }
 
-  function findHandler(state, path, queryParams) {
-    var handlers = state.handlers;
-    var regex = state.regex;
-    var captures = path.match(regex);
-    var currentCapture = 1;
-    var result = new RecognizeResults(queryParams);
+  function debug() {
+    if (currentLevel < 4) {
+      return;
+    }
 
-    for (var i = 0, l = handlers.length; i < l; i++) {
-      var _handler = handlers[i];
-      var _names = _handler.names;
-      var _params = {};
+    log(this, 'debug', arguments);
+  }
 
-      for (var j = 0, m = _names.length; j < m; j++) {
-        _params[_names[j]] = captures[currentCapture++];
+  function info() {
+    if (currentLevel < 3) {
+      return;
+    }
+
+    log(this, 'info', arguments);
+  }
+
+  function warn() {
+    if (currentLevel < 2) {
+      return;
+    }
+
+    log(this, 'warn', arguments);
+  }
+
+  function error() {
+    if (currentLevel < 1) {
+      return;
+    }
+
+    log(this, 'error', arguments);
+  }
+
+  function connectLogger(logger) {
+    logger.debug = debug;
+    logger.info = info;
+    logger.warn = warn;
+    logger.error = error;
+  }
+
+  function createLogger(id) {
+    var logger = new Logger(id, loggerConstructionKey);
+
+    if (appenders.length) {
+      connectLogger(logger);
+    }
+
+    return logger;
+  }
+
+  function getLogger(id) {
+    return loggers[id] || (loggers[id] = createLogger(id));
+  }
+
+  function addAppender(appender) {
+    appenders.push(appender);
+
+    if (appenders.length === 1) {
+      for (var key in loggers) {
+        connectLogger(loggers[key]);
+      }
+    }
+  }
+
+  function setLevel(level) {
+    currentLevel = level;
+  }
+
+  var Logger = exports.Logger = function () {
+    function Logger(id, key) {
+      
+
+      if (key !== loggerConstructionKey) {
+        throw new Error('Cannot instantiate "Logger". Use "getLogger" instead.');
       }
 
-      result.push({ handler: _handler.handler, params: _params, isDynamic: !!_names.length });
+      this.id = id;
     }
 
-    return result;
-  }
+    Logger.prototype.debug = function debug(message) {};
 
-  function addSegment(currentState, segment) {
-    var state = currentState.put({ validChars: '/' });
-    segment.eachChar(function (ch) {
-      state = state.put(ch);
-    });
+    Logger.prototype.info = function info(message) {};
 
-    if (segment.optional) {
-      currentState.epsilon = currentState.epsilon || [];
-      currentState.epsilon.push(state);
-    }
+    Logger.prototype.warn = function warn(message) {};
 
-    return state;
-  }
+    Logger.prototype.error = function error(message) {};
+
+    return Logger;
+  }();
 });
 define('aurelia-router',['exports', 'aurelia-logging', 'aurelia-route-recognizer', 'aurelia-dependency-injection', 'aurelia-history', 'aurelia-event-aggregator'], function (exports, _aureliaLogging, _aureliaRouteRecognizer, _aureliaDependencyInjection, _aureliaHistory, _aureliaEventAggregator) {
   'use strict';
@@ -15929,6 +14681,5275 @@ define('aurelia-router',['exports', 'aurelia-logging', 'aurelia-route-recognizer
       logger.error('Router navigation failed, and no previous location could be restored.');
     }
   }
+});
+define('aurelia-path',['exports'], function (exports) {
+  'use strict';
+
+  Object.defineProperty(exports, "__esModule", {
+    value: true
+  });
+  exports.relativeToFile = relativeToFile;
+  exports.join = join;
+  exports.buildQueryString = buildQueryString;
+  exports.parseQueryString = parseQueryString;
+
+  var _typeof = typeof Symbol === "function" && typeof Symbol.iterator === "symbol" ? function (obj) {
+    return typeof obj;
+  } : function (obj) {
+    return obj && typeof Symbol === "function" && obj.constructor === Symbol ? "symbol" : typeof obj;
+  };
+
+  function trimDots(ary) {
+    for (var i = 0; i < ary.length; ++i) {
+      var part = ary[i];
+      if (part === '.') {
+        ary.splice(i, 1);
+        i -= 1;
+      } else if (part === '..') {
+        if (i === 0 || i === 1 && ary[2] === '..' || ary[i - 1] === '..') {
+          continue;
+        } else if (i > 0) {
+          ary.splice(i - 1, 2);
+          i -= 2;
+        }
+      }
+    }
+  }
+
+  function relativeToFile(name, file) {
+    var fileParts = file && file.split('/');
+    var nameParts = name.trim().split('/');
+
+    if (nameParts[0].charAt(0) === '.' && fileParts) {
+      var normalizedBaseParts = fileParts.slice(0, fileParts.length - 1);
+      nameParts.unshift.apply(nameParts, normalizedBaseParts);
+    }
+
+    trimDots(nameParts);
+
+    return nameParts.join('/');
+  }
+
+  function join(path1, path2) {
+    if (!path1) {
+      return path2;
+    }
+
+    if (!path2) {
+      return path1;
+    }
+
+    var schemeMatch = path1.match(/^([^/]*?:)\//);
+    var scheme = schemeMatch && schemeMatch.length > 0 ? schemeMatch[1] : '';
+    path1 = path1.substr(scheme.length);
+
+    var urlPrefix = void 0;
+    if (path1.indexOf('///') === 0 && scheme === 'file:') {
+      urlPrefix = '///';
+    } else if (path1.indexOf('//') === 0) {
+      urlPrefix = '//';
+    } else if (path1.indexOf('/') === 0) {
+      urlPrefix = '/';
+    } else {
+      urlPrefix = '';
+    }
+
+    var trailingSlash = path2.slice(-1) === '/' ? '/' : '';
+
+    var url1 = path1.split('/');
+    var url2 = path2.split('/');
+    var url3 = [];
+
+    for (var i = 0, ii = url1.length; i < ii; ++i) {
+      if (url1[i] === '..') {
+        url3.pop();
+      } else if (url1[i] === '.' || url1[i] === '') {
+        continue;
+      } else {
+        url3.push(url1[i]);
+      }
+    }
+
+    for (var _i = 0, _ii = url2.length; _i < _ii; ++_i) {
+      if (url2[_i] === '..') {
+        url3.pop();
+      } else if (url2[_i] === '.' || url2[_i] === '') {
+        continue;
+      } else {
+        url3.push(url2[_i]);
+      }
+    }
+
+    return scheme + urlPrefix + url3.join('/') + trailingSlash;
+  }
+
+  var encode = encodeURIComponent;
+  var encodeKey = function encodeKey(k) {
+    return encode(k).replace('%24', '$');
+  };
+
+  function buildParam(key, value, traditional) {
+    var result = [];
+    if (value === null || value === undefined) {
+      return result;
+    }
+    if (Array.isArray(value)) {
+      for (var i = 0, l = value.length; i < l; i++) {
+        if (traditional) {
+          result.push(encodeKey(key) + '=' + encode(value[i]));
+        } else {
+          var arrayKey = key + '[' + (_typeof(value[i]) === 'object' && value[i] !== null ? i : '') + ']';
+          result = result.concat(buildParam(arrayKey, value[i]));
+        }
+      }
+    } else if ((typeof value === 'undefined' ? 'undefined' : _typeof(value)) === 'object' && !traditional) {
+      for (var propertyName in value) {
+        result = result.concat(buildParam(key + '[' + propertyName + ']', value[propertyName]));
+      }
+    } else {
+      result.push(encodeKey(key) + '=' + encode(value));
+    }
+    return result;
+  }
+
+  function buildQueryString(params, traditional) {
+    var pairs = [];
+    var keys = Object.keys(params || {}).sort();
+    for (var i = 0, len = keys.length; i < len; i++) {
+      var key = keys[i];
+      pairs = pairs.concat(buildParam(key, params[key], traditional));
+    }
+
+    if (pairs.length === 0) {
+      return '';
+    }
+
+    return pairs.join('&');
+  }
+
+  function processScalarParam(existedParam, value) {
+    if (Array.isArray(existedParam)) {
+      existedParam.push(value);
+      return existedParam;
+    }
+    if (existedParam !== undefined) {
+      return [existedParam, value];
+    }
+
+    return value;
+  }
+
+  function parseComplexParam(queryParams, keys, value) {
+    var currentParams = queryParams;
+    var keysLastIndex = keys.length - 1;
+    for (var j = 0; j <= keysLastIndex; j++) {
+      var key = keys[j] === '' ? currentParams.length : keys[j];
+      if (j < keysLastIndex) {
+        var prevValue = !currentParams[key] || _typeof(currentParams[key]) === 'object' ? currentParams[key] : [currentParams[key]];
+        currentParams = currentParams[key] = prevValue || (isNaN(keys[j + 1]) ? {} : []);
+      } else {
+        currentParams = currentParams[key] = value;
+      }
+    }
+  }
+
+  function parseQueryString(queryString) {
+    var queryParams = {};
+    if (!queryString || typeof queryString !== 'string') {
+      return queryParams;
+    }
+
+    var query = queryString;
+    if (query.charAt(0) === '?') {
+      query = query.substr(1);
+    }
+
+    var pairs = query.replace(/\+/g, ' ').split('&');
+    for (var i = 0; i < pairs.length; i++) {
+      var pair = pairs[i].split('=');
+      var key = decodeURIComponent(pair[0]);
+      if (!key) {
+        continue;
+      }
+
+      var keys = key.split('][');
+      var keysLastIndex = keys.length - 1;
+
+      if (/\[/.test(keys[0]) && /\]$/.test(keys[keysLastIndex])) {
+        keys[keysLastIndex] = keys[keysLastIndex].replace(/\]$/, '');
+        keys = keys.shift().split('[').concat(keys);
+        keysLastIndex = keys.length - 1;
+      } else {
+        keysLastIndex = 0;
+      }
+
+      if (pair.length >= 2) {
+        var value = pair[1] ? decodeURIComponent(pair[1]) : '';
+        if (keysLastIndex) {
+          parseComplexParam(queryParams, keys, value);
+        } else {
+          queryParams[key] = processScalarParam(queryParams[key], value);
+        }
+      } else {
+        queryParams[key] = true;
+      }
+    }
+    return queryParams;
+  }
+});
+define('aurelia-route-recognizer',['exports', 'aurelia-path'], function (exports, _aureliaPath) {
+  'use strict';
+
+  Object.defineProperty(exports, "__esModule", {
+    value: true
+  });
+  exports.RouteRecognizer = exports.EpsilonSegment = exports.StarSegment = exports.DynamicSegment = exports.StaticSegment = exports.State = undefined;
+
+  
+
+  var State = exports.State = function () {
+    function State(charSpec) {
+      
+
+      this.charSpec = charSpec;
+      this.nextStates = [];
+    }
+
+    State.prototype.get = function get(charSpec) {
+      for (var _iterator = this.nextStates, _isArray = Array.isArray(_iterator), _i = 0, _iterator = _isArray ? _iterator : _iterator[Symbol.iterator]();;) {
+        var _ref;
+
+        if (_isArray) {
+          if (_i >= _iterator.length) break;
+          _ref = _iterator[_i++];
+        } else {
+          _i = _iterator.next();
+          if (_i.done) break;
+          _ref = _i.value;
+        }
+
+        var child = _ref;
+
+        var isEqual = child.charSpec.validChars === charSpec.validChars && child.charSpec.invalidChars === charSpec.invalidChars;
+
+        if (isEqual) {
+          return child;
+        }
+      }
+
+      return undefined;
+    };
+
+    State.prototype.put = function put(charSpec) {
+      var state = this.get(charSpec);
+
+      if (state) {
+        return state;
+      }
+
+      state = new State(charSpec);
+
+      this.nextStates.push(state);
+
+      if (charSpec.repeat) {
+        state.nextStates.push(state);
+      }
+
+      return state;
+    };
+
+    State.prototype.match = function match(ch) {
+      var nextStates = this.nextStates;
+      var results = [];
+
+      for (var i = 0, l = nextStates.length; i < l; i++) {
+        var child = nextStates[i];
+        var charSpec = child.charSpec;
+
+        if (charSpec.validChars !== undefined) {
+          if (charSpec.validChars.indexOf(ch) !== -1) {
+            results.push(child);
+          }
+        } else if (charSpec.invalidChars !== undefined) {
+          if (charSpec.invalidChars.indexOf(ch) === -1) {
+            results.push(child);
+          }
+        }
+      }
+
+      return results;
+    };
+
+    return State;
+  }();
+
+  var specials = ['/', '.', '*', '+', '?', '|', '(', ')', '[', ']', '{', '}', '\\'];
+
+  var escapeRegex = new RegExp('(\\' + specials.join('|\\') + ')', 'g');
+
+  var StaticSegment = exports.StaticSegment = function () {
+    function StaticSegment(string, caseSensitive) {
+      
+
+      this.string = string;
+      this.caseSensitive = caseSensitive;
+    }
+
+    StaticSegment.prototype.eachChar = function eachChar(callback) {
+      var s = this.string;
+      for (var i = 0, ii = s.length; i < ii; ++i) {
+        var ch = s[i];
+        callback({ validChars: this.caseSensitive ? ch : ch.toUpperCase() + ch.toLowerCase() });
+      }
+    };
+
+    StaticSegment.prototype.regex = function regex() {
+      return this.string.replace(escapeRegex, '\\$1');
+    };
+
+    StaticSegment.prototype.generate = function generate() {
+      return this.string;
+    };
+
+    return StaticSegment;
+  }();
+
+  var DynamicSegment = exports.DynamicSegment = function () {
+    function DynamicSegment(name, optional) {
+      
+
+      this.name = name;
+      this.optional = optional;
+    }
+
+    DynamicSegment.prototype.eachChar = function eachChar(callback) {
+      callback({ invalidChars: '/', repeat: true });
+    };
+
+    DynamicSegment.prototype.regex = function regex() {
+      return this.optional ? '([^/]+)?' : '([^/]+)';
+    };
+
+    DynamicSegment.prototype.generate = function generate(params, consumed) {
+      consumed[this.name] = true;
+      return params[this.name];
+    };
+
+    return DynamicSegment;
+  }();
+
+  var StarSegment = exports.StarSegment = function () {
+    function StarSegment(name) {
+      
+
+      this.name = name;
+    }
+
+    StarSegment.prototype.eachChar = function eachChar(callback) {
+      callback({ invalidChars: '', repeat: true });
+    };
+
+    StarSegment.prototype.regex = function regex() {
+      return '(.+)';
+    };
+
+    StarSegment.prototype.generate = function generate(params, consumed) {
+      consumed[this.name] = true;
+      return params[this.name];
+    };
+
+    return StarSegment;
+  }();
+
+  var EpsilonSegment = exports.EpsilonSegment = function () {
+    function EpsilonSegment() {
+      
+    }
+
+    EpsilonSegment.prototype.eachChar = function eachChar() {};
+
+    EpsilonSegment.prototype.regex = function regex() {
+      return '';
+    };
+
+    EpsilonSegment.prototype.generate = function generate() {
+      return '';
+    };
+
+    return EpsilonSegment;
+  }();
+
+  var RouteRecognizer = exports.RouteRecognizer = function () {
+    function RouteRecognizer() {
+      
+
+      this.rootState = new State();
+      this.names = {};
+    }
+
+    RouteRecognizer.prototype.add = function add(route) {
+      var _this = this;
+
+      if (Array.isArray(route)) {
+        route.forEach(function (r) {
+          return _this.add(r);
+        });
+        return undefined;
+      }
+
+      var currentState = this.rootState;
+      var regex = '^';
+      var types = { statics: 0, dynamics: 0, stars: 0 };
+      var names = [];
+      var routeName = route.handler.name;
+      var isEmpty = true;
+      var isAllOptional = true;
+      var segments = parse(route.path, names, types, route.caseSensitive);
+
+      for (var i = 0, ii = segments.length; i < ii; i++) {
+        var segment = segments[i];
+        if (segment instanceof EpsilonSegment) {
+          continue;
+        }
+
+        isEmpty = false;
+        isAllOptional = isAllOptional && segment.optional;
+
+        currentState = addSegment(currentState, segment);
+        regex += segment.optional ? '/?' : '/';
+        regex += segment.regex();
+      }
+
+      if (isAllOptional) {
+        if (isEmpty) {
+          currentState = currentState.put({ validChars: '/' });
+          regex += '/';
+        } else {
+          var finalState = this.rootState.put({ validChars: '/' });
+          currentState.epsilon = [finalState];
+          currentState = finalState;
+        }
+      }
+
+      var handlers = [{ handler: route.handler, names: names }];
+
+      if (routeName) {
+        var routeNames = Array.isArray(routeName) ? routeName : [routeName];
+        for (var _i2 = 0; _i2 < routeNames.length; _i2++) {
+          this.names[routeNames[_i2]] = {
+            segments: segments,
+            handlers: handlers
+          };
+        }
+      }
+
+      currentState.handlers = handlers;
+      currentState.regex = new RegExp(regex + '$', route.caseSensitive ? '' : 'i');
+      currentState.types = types;
+
+      return currentState;
+    };
+
+    RouteRecognizer.prototype.handlersFor = function handlersFor(name) {
+      var route = this.names[name];
+      if (!route) {
+        throw new Error('There is no route named ' + name);
+      }
+
+      return [].concat(route.handlers);
+    };
+
+    RouteRecognizer.prototype.hasRoute = function hasRoute(name) {
+      return !!this.names[name];
+    };
+
+    RouteRecognizer.prototype.generate = function generate(name, params) {
+      var route = this.names[name];
+      if (!route) {
+        throw new Error('There is no route named ' + name);
+      }
+
+      var handler = route.handlers[0].handler;
+      if (handler.generationUsesHref) {
+        return handler.href;
+      }
+
+      var routeParams = Object.assign({}, params);
+      var segments = route.segments;
+      var consumed = {};
+      var output = '';
+
+      for (var i = 0, l = segments.length; i < l; i++) {
+        var segment = segments[i];
+
+        if (segment instanceof EpsilonSegment) {
+          continue;
+        }
+
+        var segmentValue = segment.generate(routeParams, consumed);
+        if (segmentValue === null || segmentValue === undefined) {
+          if (!segment.optional) {
+            throw new Error('A value is required for route parameter \'' + segment.name + '\' in route \'' + name + '\'.');
+          }
+        } else {
+          output += '/';
+          output += segmentValue;
+        }
+      }
+
+      if (output.charAt(0) !== '/') {
+        output = '/' + output;
+      }
+
+      for (var param in consumed) {
+        delete routeParams[param];
+      }
+
+      var queryString = (0, _aureliaPath.buildQueryString)(routeParams);
+      output += queryString ? '?' + queryString : '';
+
+      return output;
+    };
+
+    RouteRecognizer.prototype.recognize = function recognize(path) {
+      var states = [this.rootState];
+      var queryParams = {};
+      var isSlashDropped = false;
+      var normalizedPath = path;
+
+      var queryStart = normalizedPath.indexOf('?');
+      if (queryStart !== -1) {
+        var queryString = normalizedPath.substr(queryStart + 1, normalizedPath.length);
+        normalizedPath = normalizedPath.substr(0, queryStart);
+        queryParams = (0, _aureliaPath.parseQueryString)(queryString);
+      }
+
+      normalizedPath = decodeURI(normalizedPath);
+
+      if (normalizedPath.charAt(0) !== '/') {
+        normalizedPath = '/' + normalizedPath;
+      }
+
+      var pathLen = normalizedPath.length;
+      if (pathLen > 1 && normalizedPath.charAt(pathLen - 1) === '/') {
+        normalizedPath = normalizedPath.substr(0, pathLen - 1);
+        isSlashDropped = true;
+      }
+
+      for (var i = 0, l = normalizedPath.length; i < l; i++) {
+        states = recognizeChar(states, normalizedPath.charAt(i));
+        if (!states.length) {
+          break;
+        }
+      }
+
+      var solutions = [];
+      for (var _i3 = 0, _l = states.length; _i3 < _l; _i3++) {
+        if (states[_i3].handlers) {
+          solutions.push(states[_i3]);
+        }
+      }
+
+      states = sortSolutions(solutions);
+
+      var state = solutions[0];
+      if (state && state.handlers) {
+        if (isSlashDropped && state.regex.source.slice(-5) === '(.+)$') {
+          normalizedPath = normalizedPath + '/';
+        }
+
+        return findHandler(state, normalizedPath, queryParams);
+      }
+
+      return undefined;
+    };
+
+    return RouteRecognizer;
+  }();
+
+  var RecognizeResults = function RecognizeResults(queryParams) {
+    
+
+    this.splice = Array.prototype.splice;
+    this.slice = Array.prototype.slice;
+    this.push = Array.prototype.push;
+    this.length = 0;
+    this.queryParams = queryParams || {};
+  };
+
+  function parse(route, names, types, caseSensitive) {
+    var normalizedRoute = route;
+    if (route.charAt(0) === '/') {
+      normalizedRoute = route.substr(1);
+    }
+
+    var results = [];
+
+    var splitRoute = normalizedRoute.split('/');
+    for (var i = 0, ii = splitRoute.length; i < ii; ++i) {
+      var segment = splitRoute[i];
+
+      var match = segment.match(/^:([^?]+)(\?)?$/);
+      if (match) {
+        var _match = match;
+        var _name = _match[1];
+        var optional = _match[2];
+
+        if (_name.indexOf('=') !== -1) {
+          throw new Error('Parameter ' + _name + ' in route ' + route + ' has a default value, which is not supported.');
+        }
+        results.push(new DynamicSegment(_name, !!optional));
+        names.push(_name);
+        types.dynamics++;
+        continue;
+      }
+
+      match = segment.match(/^\*(.+)$/);
+      if (match) {
+        results.push(new StarSegment(match[1]));
+        names.push(match[1]);
+        types.stars++;
+      } else if (segment === '') {
+        results.push(new EpsilonSegment());
+      } else {
+        results.push(new StaticSegment(segment, caseSensitive));
+        types.statics++;
+      }
+    }
+
+    return results;
+  }
+
+  function sortSolutions(states) {
+    return states.sort(function (a, b) {
+      if (a.types.stars !== b.types.stars) {
+        return a.types.stars - b.types.stars;
+      }
+
+      if (a.types.stars) {
+        if (a.types.statics !== b.types.statics) {
+          return b.types.statics - a.types.statics;
+        }
+        if (a.types.dynamics !== b.types.dynamics) {
+          return b.types.dynamics - a.types.dynamics;
+        }
+      }
+
+      if (a.types.dynamics !== b.types.dynamics) {
+        return a.types.dynamics - b.types.dynamics;
+      }
+
+      if (a.types.statics !== b.types.statics) {
+        return b.types.statics - a.types.statics;
+      }
+
+      return 0;
+    });
+  }
+
+  function recognizeChar(states, ch) {
+    var nextStates = [];
+
+    for (var i = 0, l = states.length; i < l; i++) {
+      var state = states[i];
+      nextStates.push.apply(nextStates, state.match(ch));
+    }
+
+    var skippableStates = nextStates.filter(function (s) {
+      return s.epsilon;
+    });
+
+    var _loop = function _loop() {
+      var newStates = [];
+      skippableStates.forEach(function (s) {
+        nextStates.push.apply(nextStates, s.epsilon);
+        newStates.push.apply(newStates, s.epsilon);
+      });
+      skippableStates = newStates.filter(function (s) {
+        return s.epsilon;
+      });
+    };
+
+    while (skippableStates.length > 0) {
+      _loop();
+    }
+
+    return nextStates;
+  }
+
+  function findHandler(state, path, queryParams) {
+    var handlers = state.handlers;
+    var regex = state.regex;
+    var captures = path.match(regex);
+    var currentCapture = 1;
+    var result = new RecognizeResults(queryParams);
+
+    for (var i = 0, l = handlers.length; i < l; i++) {
+      var _handler = handlers[i];
+      var _names = _handler.names;
+      var _params = {};
+
+      for (var j = 0, m = _names.length; j < m; j++) {
+        _params[_names[j]] = captures[currentCapture++];
+      }
+
+      result.push({ handler: _handler.handler, params: _params, isDynamic: !!_names.length });
+    }
+
+    return result;
+  }
+
+  function addSegment(currentState, segment) {
+    var state = currentState.put({ validChars: '/' });
+    segment.eachChar(function (ch) {
+      state = state.put(ch);
+    });
+
+    if (segment.optional) {
+      currentState.epsilon = currentState.epsilon || [];
+      currentState.epsilon.push(state);
+    }
+
+    return state;
+  }
+});
+define('aurelia-templating-binding',['exports', 'aurelia-logging', 'aurelia-binding', 'aurelia-templating'], function (exports, _aureliaLogging, _aureliaBinding, _aureliaTemplating) {
+  'use strict';
+
+  Object.defineProperty(exports, "__esModule", {
+    value: true
+  });
+  exports.TemplatingBindingLanguage = exports.SyntaxInterpreter = exports.ChildInterpolationBinding = exports.InterpolationBinding = exports.InterpolationBindingExpression = exports.AttributeMap = undefined;
+  exports.configure = configure;
+
+  var LogManager = _interopRequireWildcard(_aureliaLogging);
+
+  function _interopRequireWildcard(obj) {
+    if (obj && obj.__esModule) {
+      return obj;
+    } else {
+      var newObj = {};
+
+      if (obj != null) {
+        for (var key in obj) {
+          if (Object.prototype.hasOwnProperty.call(obj, key)) newObj[key] = obj[key];
+        }
+      }
+
+      newObj.default = obj;
+      return newObj;
+    }
+  }
+
+  function _possibleConstructorReturn(self, call) {
+    if (!self) {
+      throw new ReferenceError("this hasn't been initialised - super() hasn't been called");
+    }
+
+    return call && (typeof call === "object" || typeof call === "function") ? call : self;
+  }
+
+  function _inherits(subClass, superClass) {
+    if (typeof superClass !== "function" && superClass !== null) {
+      throw new TypeError("Super expression must either be null or a function, not " + typeof superClass);
+    }
+
+    subClass.prototype = Object.create(superClass && superClass.prototype, {
+      constructor: {
+        value: subClass,
+        enumerable: false,
+        writable: true,
+        configurable: true
+      }
+    });
+    if (superClass) Object.setPrototypeOf ? Object.setPrototypeOf(subClass, superClass) : subClass.__proto__ = superClass;
+  }
+
+  
+
+  var _class, _temp, _dec, _class2, _class3, _temp2, _class4, _temp3;
+
+  var AttributeMap = exports.AttributeMap = (_temp = _class = function () {
+    function AttributeMap(svg) {
+      
+
+      this.elements = Object.create(null);
+      this.allElements = Object.create(null);
+
+      this.svg = svg;
+
+      this.registerUniversal('accesskey', 'accessKey');
+      this.registerUniversal('contenteditable', 'contentEditable');
+      this.registerUniversal('tabindex', 'tabIndex');
+      this.registerUniversal('textcontent', 'textContent');
+      this.registerUniversal('innerhtml', 'innerHTML');
+      this.registerUniversal('scrolltop', 'scrollTop');
+      this.registerUniversal('scrollleft', 'scrollLeft');
+      this.registerUniversal('readonly', 'readOnly');
+
+      this.register('label', 'for', 'htmlFor');
+
+      this.register('input', 'maxlength', 'maxLength');
+      this.register('input', 'minlength', 'minLength');
+      this.register('input', 'formaction', 'formAction');
+      this.register('input', 'formenctype', 'formEncType');
+      this.register('input', 'formmethod', 'formMethod');
+      this.register('input', 'formnovalidate', 'formNoValidate');
+      this.register('input', 'formtarget', 'formTarget');
+
+      this.register('textarea', 'maxlength', 'maxLength');
+
+      this.register('td', 'rowspan', 'rowSpan');
+      this.register('td', 'colspan', 'colSpan');
+      this.register('th', 'rowspan', 'rowSpan');
+      this.register('th', 'colspan', 'colSpan');
+    }
+
+    AttributeMap.prototype.register = function register(elementName, attributeName, propertyName) {
+      elementName = elementName.toLowerCase();
+      attributeName = attributeName.toLowerCase();
+      var element = this.elements[elementName] = this.elements[elementName] || Object.create(null);
+      element[attributeName] = propertyName;
+    };
+
+    AttributeMap.prototype.registerUniversal = function registerUniversal(attributeName, propertyName) {
+      attributeName = attributeName.toLowerCase();
+      this.allElements[attributeName] = propertyName;
+    };
+
+    AttributeMap.prototype.map = function map(elementName, attributeName) {
+      if (this.svg.isStandardSvgAttribute(elementName, attributeName)) {
+        return attributeName;
+      }
+      elementName = elementName.toLowerCase();
+      attributeName = attributeName.toLowerCase();
+      var element = this.elements[elementName];
+      if (element !== undefined && attributeName in element) {
+        return element[attributeName];
+      }
+      if (attributeName in this.allElements) {
+        return this.allElements[attributeName];
+      }
+
+      if (/(^data-)|(^aria-)|:/.test(attributeName)) {
+        return attributeName;
+      }
+      return (0, _aureliaBinding.camelCase)(attributeName);
+    };
+
+    return AttributeMap;
+  }(), _class.inject = [_aureliaBinding.SVGAnalyzer], _temp);
+
+  var InterpolationBindingExpression = exports.InterpolationBindingExpression = function () {
+    function InterpolationBindingExpression(observerLocator, targetProperty, parts, mode, lookupFunctions, attribute) {
+      
+
+      this.observerLocator = observerLocator;
+      this.targetProperty = targetProperty;
+      this.parts = parts;
+      this.mode = mode;
+      this.lookupFunctions = lookupFunctions;
+      this.attribute = this.attrToRemove = attribute;
+      this.discrete = false;
+    }
+
+    InterpolationBindingExpression.prototype.createBinding = function createBinding(target) {
+      if (this.parts.length === 3) {
+        return new ChildInterpolationBinding(target, this.observerLocator, this.parts[1], this.mode, this.lookupFunctions, this.targetProperty, this.parts[0], this.parts[2]);
+      }
+      return new InterpolationBinding(this.observerLocator, this.parts, target, this.targetProperty, this.mode, this.lookupFunctions);
+    };
+
+    return InterpolationBindingExpression;
+  }();
+
+  function validateTarget(target, propertyName) {
+    if (propertyName === 'style') {
+      LogManager.getLogger('templating-binding').info('Internet Explorer does not support interpolation in "style" attributes.  Use the style attribute\'s alias, "css" instead.');
+    } else if (target.parentElement && target.parentElement.nodeName === 'TEXTAREA' && propertyName === 'textContent') {
+      throw new Error('Interpolation binding cannot be used in the content of a textarea element.  Use <textarea value.bind="expression"></textarea> instead.');
+    }
+  }
+
+  var InterpolationBinding = exports.InterpolationBinding = function () {
+    function InterpolationBinding(observerLocator, parts, target, targetProperty, mode, lookupFunctions) {
+      
+
+      validateTarget(target, targetProperty);
+      this.observerLocator = observerLocator;
+      this.parts = parts;
+      this.target = target;
+      this.targetProperty = targetProperty;
+      this.targetAccessor = observerLocator.getAccessor(target, targetProperty);
+      this.mode = mode;
+      this.lookupFunctions = lookupFunctions;
+    }
+
+    InterpolationBinding.prototype.interpolate = function interpolate() {
+      if (this.isBound) {
+        var value = '';
+        var parts = this.parts;
+        for (var i = 0, ii = parts.length; i < ii; i++) {
+          value += i % 2 === 0 ? parts[i] : this['childBinding' + i].value;
+        }
+        this.targetAccessor.setValue(value, this.target, this.targetProperty);
+      }
+    };
+
+    InterpolationBinding.prototype.updateOneTimeBindings = function updateOneTimeBindings() {
+      for (var i = 1, ii = this.parts.length; i < ii; i += 2) {
+        var child = this['childBinding' + i];
+        if (child.mode === _aureliaBinding.bindingMode.oneTime) {
+          child.call();
+        }
+      }
+    };
+
+    InterpolationBinding.prototype.bind = function bind(source) {
+      if (this.isBound) {
+        if (this.source === source) {
+          return;
+        }
+        this.unbind();
+      }
+      this.source = source;
+
+      var parts = this.parts;
+      for (var i = 1, ii = parts.length; i < ii; i += 2) {
+        var binding = new ChildInterpolationBinding(this, this.observerLocator, parts[i], this.mode, this.lookupFunctions);
+        binding.bind(source);
+        this['childBinding' + i] = binding;
+      }
+
+      this.isBound = true;
+      this.interpolate();
+    };
+
+    InterpolationBinding.prototype.unbind = function unbind() {
+      if (!this.isBound) {
+        return;
+      }
+      this.isBound = false;
+      this.source = null;
+      var parts = this.parts;
+      for (var i = 1, ii = parts.length; i < ii; i += 2) {
+        var name = 'childBinding' + i;
+        this[name].unbind();
+      }
+    };
+
+    return InterpolationBinding;
+  }();
+
+  var ChildInterpolationBinding = exports.ChildInterpolationBinding = (_dec = (0, _aureliaBinding.connectable)(), _dec(_class2 = function () {
+    function ChildInterpolationBinding(target, observerLocator, sourceExpression, mode, lookupFunctions, targetProperty, left, right) {
+      
+
+      if (target instanceof InterpolationBinding) {
+        this.parent = target;
+      } else {
+        validateTarget(target, targetProperty);
+        this.target = target;
+        this.targetProperty = targetProperty;
+        this.targetAccessor = observerLocator.getAccessor(target, targetProperty);
+      }
+      this.observerLocator = observerLocator;
+      this.sourceExpression = sourceExpression;
+      this.mode = mode;
+      this.lookupFunctions = lookupFunctions;
+      this.left = left;
+      this.right = right;
+    }
+
+    ChildInterpolationBinding.prototype.updateTarget = function updateTarget(value) {
+      value = value === null || value === undefined ? '' : value.toString();
+      if (value !== this.value) {
+        this.value = value;
+        if (this.parent) {
+          this.parent.interpolate();
+        } else {
+          this.targetAccessor.setValue(this.left + value + this.right, this.target, this.targetProperty);
+        }
+      }
+    };
+
+    ChildInterpolationBinding.prototype.call = function call() {
+      if (!this.isBound) {
+        return;
+      }
+
+      this.rawValue = this.sourceExpression.evaluate(this.source, this.lookupFunctions);
+      this.updateTarget(this.rawValue);
+
+      if (this.mode !== _aureliaBinding.bindingMode.oneTime) {
+        this._version++;
+        this.sourceExpression.connect(this, this.source);
+        if (this.rawValue instanceof Array) {
+          this.observeArray(this.rawValue);
+        }
+        this.unobserve(false);
+      }
+    };
+
+    ChildInterpolationBinding.prototype.bind = function bind(source) {
+      if (this.isBound) {
+        if (this.source === source) {
+          return;
+        }
+        this.unbind();
+      }
+      this.isBound = true;
+      this.source = source;
+
+      var sourceExpression = this.sourceExpression;
+      if (sourceExpression.bind) {
+        sourceExpression.bind(this, source, this.lookupFunctions);
+      }
+
+      this.rawValue = sourceExpression.evaluate(source, this.lookupFunctions);
+      this.updateTarget(this.rawValue);
+
+      if (this.mode === _aureliaBinding.bindingMode.oneWay) {
+        (0, _aureliaBinding.enqueueBindingConnect)(this);
+      }
+    };
+
+    ChildInterpolationBinding.prototype.unbind = function unbind() {
+      if (!this.isBound) {
+        return;
+      }
+      this.isBound = false;
+      var sourceExpression = this.sourceExpression;
+      if (sourceExpression.unbind) {
+        sourceExpression.unbind(this, this.source);
+      }
+      this.source = null;
+      this.value = null;
+      this.rawValue = null;
+      this.unobserve(true);
+    };
+
+    ChildInterpolationBinding.prototype.connect = function connect(evaluate) {
+      if (!this.isBound) {
+        return;
+      }
+      if (evaluate) {
+        this.rawValue = this.sourceExpression.evaluate(this.source, this.lookupFunctions);
+        this.updateTarget(this.rawValue);
+      }
+      this.sourceExpression.connect(this, this.source);
+      if (this.rawValue instanceof Array) {
+        this.observeArray(this.rawValue);
+      }
+    };
+
+    return ChildInterpolationBinding;
+  }()) || _class2);
+  var SyntaxInterpreter = exports.SyntaxInterpreter = (_temp2 = _class3 = function () {
+    function SyntaxInterpreter(parser, observerLocator, eventManager, attributeMap) {
+      
+
+      this.parser = parser;
+      this.observerLocator = observerLocator;
+      this.eventManager = eventManager;
+      this.attributeMap = attributeMap;
+    }
+
+    SyntaxInterpreter.prototype.interpret = function interpret(resources, element, info, existingInstruction, context) {
+      if (info.command in this) {
+        return this[info.command](resources, element, info, existingInstruction, context);
+      }
+
+      return this.handleUnknownCommand(resources, element, info, existingInstruction, context);
+    };
+
+    SyntaxInterpreter.prototype.handleUnknownCommand = function handleUnknownCommand(resources, element, info, existingInstruction, context) {
+      LogManager.getLogger('templating-binding').warn('Unknown binding command.', info);
+      return existingInstruction;
+    };
+
+    SyntaxInterpreter.prototype.determineDefaultBindingMode = function determineDefaultBindingMode(element, attrName, context) {
+      var tagName = element.tagName.toLowerCase();
+
+      if (tagName === 'input' && (attrName === 'value' || attrName === 'files') && element.type !== 'checkbox' && element.type !== 'radio' || tagName === 'input' && attrName === 'checked' && (element.type === 'checkbox' || element.type === 'radio') || (tagName === 'textarea' || tagName === 'select') && attrName === 'value' || (attrName === 'textcontent' || attrName === 'innerhtml') && element.contentEditable === 'true' || attrName === 'scrolltop' || attrName === 'scrollleft') {
+        return _aureliaBinding.bindingMode.twoWay;
+      }
+
+      if (context && attrName in context.attributes && context.attributes[attrName] && context.attributes[attrName].defaultBindingMode >= _aureliaBinding.bindingMode.oneTime) {
+        return context.attributes[attrName].defaultBindingMode;
+      }
+
+      return _aureliaBinding.bindingMode.oneWay;
+    };
+
+    SyntaxInterpreter.prototype.bind = function bind(resources, element, info, existingInstruction, context) {
+      var instruction = existingInstruction || _aureliaTemplating.BehaviorInstruction.attribute(info.attrName);
+
+      instruction.attributes[info.attrName] = new _aureliaBinding.BindingExpression(this.observerLocator, this.attributeMap.map(element.tagName, info.attrName), this.parser.parse(info.attrValue), info.defaultBindingMode || this.determineDefaultBindingMode(element, info.attrName, context), resources.lookupFunctions);
+
+      return instruction;
+    };
+
+    SyntaxInterpreter.prototype.trigger = function trigger(resources, element, info) {
+      return new _aureliaBinding.ListenerExpression(this.eventManager, info.attrName, this.parser.parse(info.attrValue), false, true, resources.lookupFunctions);
+    };
+
+    SyntaxInterpreter.prototype.delegate = function delegate(resources, element, info) {
+      return new _aureliaBinding.ListenerExpression(this.eventManager, info.attrName, this.parser.parse(info.attrValue), true, true, resources.lookupFunctions);
+    };
+
+    SyntaxInterpreter.prototype.call = function call(resources, element, info, existingInstruction) {
+      var instruction = existingInstruction || _aureliaTemplating.BehaviorInstruction.attribute(info.attrName);
+
+      instruction.attributes[info.attrName] = new _aureliaBinding.CallExpression(this.observerLocator, info.attrName, this.parser.parse(info.attrValue), resources.lookupFunctions);
+
+      return instruction;
+    };
+
+    SyntaxInterpreter.prototype.options = function options(resources, element, info, existingInstruction, context) {
+      var instruction = existingInstruction || _aureliaTemplating.BehaviorInstruction.attribute(info.attrName);
+      var attrValue = info.attrValue;
+      var language = this.language;
+      var name = null;
+      var target = '';
+      var current = void 0;
+      var i = void 0;
+      var ii = void 0;
+      var inString = false;
+      var inEscape = false;
+
+      for (i = 0, ii = attrValue.length; i < ii; ++i) {
+        current = attrValue[i];
+
+        if (current === ';' && !inString) {
+          info = language.inspectAttribute(resources, '?', name, target.trim());
+          language.createAttributeInstruction(resources, element, info, instruction, context);
+
+          if (!instruction.attributes[info.attrName]) {
+            instruction.attributes[info.attrName] = info.attrValue;
+          }
+
+          target = '';
+          name = null;
+        } else if (current === ':' && name === null) {
+          name = target.trim();
+          target = '';
+        } else if (current === '\\') {
+          target += current;
+          inEscape = true;
+          continue;
+        } else {
+          target += current;
+
+          if (name !== null && inEscape === false && current === '\'') {
+            inString = !inString;
+          }
+        }
+
+        inEscape = false;
+      }
+
+      if (name !== null) {
+        info = language.inspectAttribute(resources, '?', name, target.trim());
+        language.createAttributeInstruction(resources, element, info, instruction, context);
+
+        if (!instruction.attributes[info.attrName]) {
+          instruction.attributes[info.attrName] = info.attrValue;
+        }
+      }
+
+      return instruction;
+    };
+
+    SyntaxInterpreter.prototype['for'] = function _for(resources, element, info, existingInstruction) {
+      var parts = void 0;
+      var keyValue = void 0;
+      var instruction = void 0;
+      var attrValue = void 0;
+      var isDestructuring = void 0;
+
+      attrValue = info.attrValue;
+      isDestructuring = attrValue.match(/^ *[[].+[\]]/);
+      parts = isDestructuring ? attrValue.split('of ') : attrValue.split(' of ');
+
+      if (parts.length !== 2) {
+        throw new Error('Incorrect syntax for "for". The form is: "$local of $items" or "[$key, $value] of $items".');
+      }
+
+      instruction = existingInstruction || _aureliaTemplating.BehaviorInstruction.attribute(info.attrName);
+
+      if (isDestructuring) {
+        keyValue = parts[0].replace(/[[\]]/g, '').replace(/,/g, ' ').replace(/\s+/g, ' ').trim().split(' ');
+        instruction.attributes.key = keyValue[0];
+        instruction.attributes.value = keyValue[1];
+      } else {
+        instruction.attributes.local = parts[0];
+      }
+
+      instruction.attributes.items = new _aureliaBinding.BindingExpression(this.observerLocator, 'items', this.parser.parse(parts[1]), _aureliaBinding.bindingMode.oneWay, resources.lookupFunctions);
+
+      return instruction;
+    };
+
+    SyntaxInterpreter.prototype['two-way'] = function twoWay(resources, element, info, existingInstruction) {
+      var instruction = existingInstruction || _aureliaTemplating.BehaviorInstruction.attribute(info.attrName);
+
+      instruction.attributes[info.attrName] = new _aureliaBinding.BindingExpression(this.observerLocator, this.attributeMap.map(element.tagName, info.attrName), this.parser.parse(info.attrValue), _aureliaBinding.bindingMode.twoWay, resources.lookupFunctions);
+
+      return instruction;
+    };
+
+    SyntaxInterpreter.prototype['one-way'] = function oneWay(resources, element, info, existingInstruction) {
+      var instruction = existingInstruction || _aureliaTemplating.BehaviorInstruction.attribute(info.attrName);
+
+      instruction.attributes[info.attrName] = new _aureliaBinding.BindingExpression(this.observerLocator, this.attributeMap.map(element.tagName, info.attrName), this.parser.parse(info.attrValue), _aureliaBinding.bindingMode.oneWay, resources.lookupFunctions);
+
+      return instruction;
+    };
+
+    SyntaxInterpreter.prototype['one-time'] = function oneTime(resources, element, info, existingInstruction) {
+      var instruction = existingInstruction || _aureliaTemplating.BehaviorInstruction.attribute(info.attrName);
+
+      instruction.attributes[info.attrName] = new _aureliaBinding.BindingExpression(this.observerLocator, this.attributeMap.map(element.tagName, info.attrName), this.parser.parse(info.attrValue), _aureliaBinding.bindingMode.oneTime, resources.lookupFunctions);
+
+      return instruction;
+    };
+
+    return SyntaxInterpreter;
+  }(), _class3.inject = [_aureliaBinding.Parser, _aureliaBinding.ObserverLocator, _aureliaBinding.EventManager, AttributeMap], _temp2);
+
+  var info = {};
+
+  var TemplatingBindingLanguage = exports.TemplatingBindingLanguage = (_temp3 = _class4 = function (_BindingLanguage) {
+    _inherits(TemplatingBindingLanguage, _BindingLanguage);
+
+    function TemplatingBindingLanguage(parser, observerLocator, syntaxInterpreter, attributeMap) {
+      
+
+      var _this = _possibleConstructorReturn(this, _BindingLanguage.call(this));
+
+      _this.parser = parser;
+      _this.observerLocator = observerLocator;
+      _this.syntaxInterpreter = syntaxInterpreter;
+      _this.emptyStringExpression = _this.parser.parse('\'\'');
+      syntaxInterpreter.language = _this;
+      _this.attributeMap = attributeMap;
+      return _this;
+    }
+
+    TemplatingBindingLanguage.prototype.inspectAttribute = function inspectAttribute(resources, elementName, attrName, attrValue) {
+      var parts = attrName.split('.');
+
+      info.defaultBindingMode = null;
+
+      if (parts.length === 2) {
+        info.attrName = parts[0].trim();
+        info.attrValue = attrValue;
+        info.command = parts[1].trim();
+
+        if (info.command === 'ref') {
+          info.expression = new _aureliaBinding.NameExpression(this.parser.parse(attrValue), info.attrName, resources.lookupFunctions);
+          info.command = null;
+          info.attrName = 'ref';
+        } else {
+          info.expression = null;
+        }
+      } else if (attrName === 'ref') {
+        info.attrName = attrName;
+        info.attrValue = attrValue;
+        info.command = null;
+        info.expression = new _aureliaBinding.NameExpression(this.parser.parse(attrValue), 'element', resources.lookupFunctions);
+      } else {
+        info.attrName = attrName;
+        info.attrValue = attrValue;
+        info.command = null;
+        var interpolationParts = this.parseInterpolation(resources, attrValue);
+        if (interpolationParts === null) {
+          info.expression = null;
+        } else {
+          info.expression = new InterpolationBindingExpression(this.observerLocator, this.attributeMap.map(elementName, attrName), interpolationParts, _aureliaBinding.bindingMode.oneWay, resources.lookupFunctions, attrName);
+        }
+      }
+
+      return info;
+    };
+
+    TemplatingBindingLanguage.prototype.createAttributeInstruction = function createAttributeInstruction(resources, element, theInfo, existingInstruction, context) {
+      var instruction = void 0;
+
+      if (theInfo.expression) {
+        if (theInfo.attrName === 'ref') {
+          return theInfo.expression;
+        }
+
+        instruction = existingInstruction || _aureliaTemplating.BehaviorInstruction.attribute(theInfo.attrName);
+        instruction.attributes[theInfo.attrName] = theInfo.expression;
+      } else if (theInfo.command) {
+        instruction = this.syntaxInterpreter.interpret(resources, element, theInfo, existingInstruction, context);
+      }
+
+      return instruction;
+    };
+
+    TemplatingBindingLanguage.prototype.inspectTextContent = function inspectTextContent(resources, value) {
+      var parts = this.parseInterpolation(resources, value);
+      if (parts === null) {
+        return null;
+      }
+      return new InterpolationBindingExpression(this.observerLocator, 'textContent', parts, _aureliaBinding.bindingMode.oneWay, resources.lookupFunctions, 'textContent');
+    };
+
+    TemplatingBindingLanguage.prototype.parseInterpolation = function parseInterpolation(resources, value) {
+      var i = value.indexOf('${', 0);
+      var ii = value.length;
+      var char = void 0;
+      var pos = 0;
+      var open = 0;
+      var quote = null;
+      var interpolationStart = void 0;
+      var parts = void 0;
+      var partIndex = 0;
+
+      while (i >= 0 && i < ii - 2) {
+        open = 1;
+        interpolationStart = i;
+        i += 2;
+
+        do {
+          char = value[i];
+          i++;
+
+          if (char === "'" || char === '"') {
+            if (quote === null) {
+              quote = char;
+            } else if (quote === char) {
+              quote = null;
+            }
+            continue;
+          }
+
+          if (char === '\\') {
+            i++;
+            continue;
+          }
+
+          if (quote !== null) {
+            continue;
+          }
+
+          if (char === '{') {
+            open++;
+          } else if (char === '}') {
+            open--;
+          }
+        } while (open > 0 && i < ii);
+
+        if (open === 0) {
+          parts = parts || [];
+          if (value[interpolationStart - 1] === '\\' && value[interpolationStart - 2] !== '\\') {
+            parts[partIndex] = value.substring(pos, interpolationStart - 1) + value.substring(interpolationStart, i);
+            partIndex++;
+            parts[partIndex] = this.emptyStringExpression;
+            partIndex++;
+          } else {
+            parts[partIndex] = value.substring(pos, interpolationStart);
+            partIndex++;
+            parts[partIndex] = this.parser.parse(value.substring(interpolationStart + 2, i - 1));
+            partIndex++;
+          }
+          pos = i;
+          i = value.indexOf('${', i);
+        } else {
+          break;
+        }
+      }
+
+      if (partIndex === 0) {
+        return null;
+      }
+
+      parts[partIndex] = value.substr(pos);
+      return parts;
+    };
+
+    return TemplatingBindingLanguage;
+  }(_aureliaTemplating.BindingLanguage), _class4.inject = [_aureliaBinding.Parser, _aureliaBinding.ObserverLocator, SyntaxInterpreter, AttributeMap], _temp3);
+  function configure(config) {
+    config.container.registerSingleton(_aureliaTemplating.BindingLanguage, TemplatingBindingLanguage);
+    config.container.registerAlias(_aureliaTemplating.BindingLanguage, TemplatingBindingLanguage);
+  }
+});
+define('aurelia-http-client',['exports', 'aurelia-path', 'aurelia-pal'], function (exports, _aureliaPath, _aureliaPal) {
+  'use strict';
+
+  Object.defineProperty(exports, "__esModule", {
+    value: true
+  });
+  exports.HttpClient = exports.RequestBuilder = exports.HttpRequestMessage = exports.JSONPRequestMessage = exports.RequestMessageProcessor = exports.mimeTypes = exports.HttpResponseMessage = exports.RequestMessage = exports.Headers = undefined;
+  exports.timeoutTransformer = timeoutTransformer;
+  exports.callbackParameterNameTransformer = callbackParameterNameTransformer;
+  exports.credentialsTransformer = credentialsTransformer;
+  exports.progressTransformer = progressTransformer;
+  exports.responseTypeTransformer = responseTypeTransformer;
+  exports.headerTransformer = headerTransformer;
+  exports.contentTransformer = contentTransformer;
+  exports.createJSONPRequestMessageProcessor = createJSONPRequestMessageProcessor;
+  exports.createHttpRequestMessageProcessor = createHttpRequestMessageProcessor;
+
+  function _possibleConstructorReturn(self, call) {
+    if (!self) {
+      throw new ReferenceError("this hasn't been initialised - super() hasn't been called");
+    }
+
+    return call && (typeof call === "object" || typeof call === "function") ? call : self;
+  }
+
+  function _inherits(subClass, superClass) {
+    if (typeof superClass !== "function" && superClass !== null) {
+      throw new TypeError("Super expression must either be null or a function, not " + typeof superClass);
+    }
+
+    subClass.prototype = Object.create(superClass && superClass.prototype, {
+      constructor: {
+        value: subClass,
+        enumerable: false,
+        writable: true,
+        configurable: true
+      }
+    });
+    if (superClass) Object.setPrototypeOf ? Object.setPrototypeOf(subClass, superClass) : subClass.__proto__ = superClass;
+  }
+
+  var _createClass = function () {
+    function defineProperties(target, props) {
+      for (var i = 0; i < props.length; i++) {
+        var descriptor = props[i];
+        descriptor.enumerable = descriptor.enumerable || false;
+        descriptor.configurable = true;
+        if ("value" in descriptor) descriptor.writable = true;
+        Object.defineProperty(target, descriptor.key, descriptor);
+      }
+    }
+
+    return function (Constructor, protoProps, staticProps) {
+      if (protoProps) defineProperties(Constructor.prototype, protoProps);
+      if (staticProps) defineProperties(Constructor, staticProps);
+      return Constructor;
+    };
+  }();
+
+  
+
+  var Headers = exports.Headers = function () {
+    function Headers() {
+      var headers = arguments.length <= 0 || arguments[0] === undefined ? {} : arguments[0];
+
+      
+
+      this.headers = headers;
+    }
+
+    Headers.prototype.add = function add(key, value) {
+      this.headers[key] = value;
+    };
+
+    Headers.prototype.get = function get(key) {
+      return this.headers[key];
+    };
+
+    Headers.prototype.clear = function clear() {
+      this.headers = {};
+    };
+
+    Headers.prototype.has = function has(header) {
+      var lowered = header.toLowerCase();
+      var headers = this.headers;
+
+      for (var _key in headers) {
+        if (_key.toLowerCase() === lowered) {
+          return true;
+        }
+      }
+
+      return false;
+    };
+
+    Headers.prototype.configureXHR = function configureXHR(xhr) {
+      var headers = this.headers;
+
+      for (var _key2 in headers) {
+        xhr.setRequestHeader(_key2, headers[_key2]);
+      }
+    };
+
+    Headers.parse = function parse(headerStr) {
+      var headers = new Headers();
+      if (!headerStr) {
+        return headers;
+      }
+
+      var headerPairs = headerStr.split('\r\n');
+      for (var i = 0; i < headerPairs.length; i++) {
+        var headerPair = headerPairs[i];
+
+        var index = headerPair.indexOf(': ');
+        if (index > 0) {
+          var _key3 = headerPair.substring(0, index);
+          var val = headerPair.substring(index + 2);
+          headers.add(_key3, val);
+        }
+      }
+
+      return headers;
+    };
+
+    return Headers;
+  }();
+
+  var RequestMessage = exports.RequestMessage = function () {
+    function RequestMessage(method, url, content, headers) {
+      
+
+      this.method = method;
+      this.url = url;
+      this.content = content;
+      this.headers = headers || new Headers();
+      this.baseUrl = '';
+    }
+
+    RequestMessage.prototype.buildFullUrl = function buildFullUrl() {
+      var absoluteUrl = /^([a-z][a-z0-9+\-.]*:)?\/\//i;
+      var url = absoluteUrl.test(this.url) ? this.url : (0, _aureliaPath.join)(this.baseUrl, this.url);
+
+      if (this.params) {
+        var qs = (0, _aureliaPath.buildQueryString)(this.params);
+        url = qs ? url + (this.url.indexOf('?') < 0 ? '?' : '&') + qs : url;
+      }
+
+      return url;
+    };
+
+    return RequestMessage;
+  }();
+
+  var HttpResponseMessage = exports.HttpResponseMessage = function () {
+    function HttpResponseMessage(requestMessage, xhr, responseType, reviver) {
+      
+
+      this.requestMessage = requestMessage;
+      this.statusCode = xhr.status;
+      this.response = xhr.response || xhr.responseText;
+      this.isSuccess = xhr.status >= 200 && xhr.status < 400;
+      this.statusText = xhr.statusText;
+      this.reviver = reviver;
+      this.mimeType = null;
+
+      if (xhr.getAllResponseHeaders) {
+        try {
+          this.headers = Headers.parse(xhr.getAllResponseHeaders());
+        } catch (err) {
+          if (xhr.requestHeaders) this.headers = { headers: xhr.requestHeaders };
+        }
+      } else {
+        this.headers = new Headers();
+      }
+
+      var contentType = void 0;
+      if (this.headers && this.headers.headers) contentType = this.headers.headers['Content-Type'];
+      if (contentType) {
+        this.mimeType = responseType = contentType.split(';')[0].trim();
+        if (mimeTypes.hasOwnProperty(this.mimeType)) responseType = mimeTypes[this.mimeType];
+      }
+
+      this.responseType = responseType;
+    }
+
+    _createClass(HttpResponseMessage, [{
+      key: 'content',
+      get: function get() {
+        try {
+          if (this._content !== undefined) {
+            return this._content;
+          }
+
+          if (this.response === undefined || this.response === null) {
+            this._content = this.response;
+            return this._content;
+          }
+
+          if (this.responseType === 'json') {
+            this._content = JSON.parse(this.response, this.reviver);
+            return this._content;
+          }
+
+          if (this.reviver) {
+            this._content = this.reviver(this.response);
+            return this._content;
+          }
+
+          this._content = this.response;
+          return this._content;
+        } catch (e) {
+          if (this.isSuccess) {
+            throw e;
+          }
+
+          this._content = null;
+          return this._content;
+        }
+      }
+    }]);
+
+    return HttpResponseMessage;
+  }();
+
+  var mimeTypes = exports.mimeTypes = {
+    'text/html': 'html',
+    'text/javascript': 'js',
+    'application/javascript': 'js',
+    'text/json': 'json',
+    'application/json': 'json',
+    'application/rss+xml': 'rss',
+    'application/atom+xml': 'atom',
+    'application/xhtml+xml': 'xhtml',
+    'text/markdown': 'md',
+    'text/xml': 'xml',
+    'text/mathml': 'mml',
+    'application/xml': 'xml',
+    'text/yml': 'yml',
+    'text/csv': 'csv',
+    'text/css': 'css',
+    'text/less': 'less',
+    'text/stylus': 'styl',
+    'text/scss': 'scss',
+    'text/sass': 'sass',
+    'text/plain': 'txt'
+  };
+
+  function applyXhrTransformers(xhrTransformers, client, processor, message, xhr) {
+    var i = void 0;
+    var ii = void 0;
+
+    for (i = 0, ii = xhrTransformers.length; i < ii; ++i) {
+      xhrTransformers[i](client, processor, message, xhr);
+    }
+  }
+
+  var RequestMessageProcessor = exports.RequestMessageProcessor = function () {
+    function RequestMessageProcessor(xhrType, xhrTransformers) {
+      
+
+      this.XHRType = xhrType;
+      this.xhrTransformers = xhrTransformers;
+      this.isAborted = false;
+    }
+
+    RequestMessageProcessor.prototype.abort = function abort() {
+      if (this.xhr && this.xhr.readyState !== _aureliaPal.PLATFORM.XMLHttpRequest.UNSENT) {
+        this.xhr.abort();
+      }
+
+      this.isAborted = true;
+    };
+
+    RequestMessageProcessor.prototype.process = function process(client, requestMessage) {
+      var _this = this;
+
+      var promise = new Promise(function (resolve, reject) {
+        var xhr = _this.xhr = new _this.XHRType();
+
+        xhr.onload = function (e) {
+          var response = new HttpResponseMessage(requestMessage, xhr, requestMessage.responseType, requestMessage.reviver);
+          if (response.isSuccess) {
+            resolve(response);
+          } else {
+            reject(response);
+          }
+        };
+
+        xhr.ontimeout = function (e) {
+          reject(new HttpResponseMessage(requestMessage, {
+            response: e,
+            status: xhr.status,
+            statusText: xhr.statusText
+          }, 'timeout'));
+        };
+
+        xhr.onerror = function (e) {
+          reject(new HttpResponseMessage(requestMessage, {
+            response: e,
+            status: xhr.status,
+            statusText: xhr.statusText
+          }, 'error'));
+        };
+
+        xhr.onabort = function (e) {
+          reject(new HttpResponseMessage(requestMessage, {
+            response: e,
+            status: xhr.status,
+            statusText: xhr.statusText
+          }, 'abort'));
+        };
+      });
+
+      return Promise.resolve(requestMessage).then(function (message) {
+        var processRequest = function processRequest() {
+          if (_this.isAborted) {
+            _this.xhr.abort();
+          } else {
+            _this.xhr.open(message.method, message.buildFullUrl(), true, message.user, message.password);
+            applyXhrTransformers(_this.xhrTransformers, client, _this, message, _this.xhr);
+            if (typeof message.content === 'undefined') {
+              _this.xhr.send();
+            } else {
+              _this.xhr.send(message.content);
+            }
+          }
+
+          return promise;
+        };
+
+        var chain = [[processRequest, undefined]];
+
+        var interceptors = message.interceptors || [];
+        interceptors.forEach(function (interceptor) {
+          if (interceptor.request || interceptor.requestError) {
+            chain.unshift([interceptor.request ? interceptor.request.bind(interceptor) : undefined, interceptor.requestError ? interceptor.requestError.bind(interceptor) : undefined]);
+          }
+
+          if (interceptor.response || interceptor.responseError) {
+            chain.push([interceptor.response ? interceptor.response.bind(interceptor) : undefined, interceptor.responseError ? interceptor.responseError.bind(interceptor) : undefined]);
+          }
+        });
+
+        var interceptorsPromise = Promise.resolve(message);
+
+        while (chain.length) {
+          var _interceptorsPromise;
+
+          interceptorsPromise = (_interceptorsPromise = interceptorsPromise).then.apply(_interceptorsPromise, chain.shift());
+        }
+
+        return interceptorsPromise;
+      });
+    };
+
+    return RequestMessageProcessor;
+  }();
+
+  function timeoutTransformer(client, processor, message, xhr) {
+    if (message.timeout !== undefined) {
+      xhr.timeout = message.timeout;
+    }
+  }
+
+  function callbackParameterNameTransformer(client, processor, message, xhr) {
+    if (message.callbackParameterName !== undefined) {
+      xhr.callbackParameterName = message.callbackParameterName;
+    }
+  }
+
+  function credentialsTransformer(client, processor, message, xhr) {
+    if (message.withCredentials !== undefined) {
+      xhr.withCredentials = message.withCredentials;
+    }
+  }
+
+  function progressTransformer(client, processor, message, xhr) {
+    if (message.progressCallback) {
+      xhr.upload.onprogress = message.progressCallback;
+    }
+  }
+
+  function responseTypeTransformer(client, processor, message, xhr) {
+    var responseType = message.responseType;
+
+    if (responseType === 'json') {
+      responseType = 'text';
+    }
+
+    xhr.responseType = responseType;
+  }
+
+  function headerTransformer(client, processor, message, xhr) {
+    message.headers.configureXHR(xhr);
+  }
+
+  function contentTransformer(client, processor, message, xhr) {
+    if (message.skipContentProcessing) {
+      return;
+    }
+
+    if (_aureliaPal.PLATFORM.global.FormData && message.content instanceof FormData) {
+      return;
+    }
+
+    if (_aureliaPal.PLATFORM.global.Blob && message.content instanceof Blob) {
+      return;
+    }
+
+    if (_aureliaPal.PLATFORM.global.ArrayBufferView && message.content instanceof ArrayBufferView) {
+      return;
+    }
+
+    if (message.content instanceof Document) {
+      return;
+    }
+
+    if (typeof message.content === 'string') {
+      return;
+    }
+
+    if (message.content === null || message.content === undefined) {
+      return;
+    }
+
+    message.content = JSON.stringify(message.content, message.replacer);
+
+    if (!message.headers.has('Content-Type')) {
+      message.headers.add('Content-Type', 'application/json');
+    }
+  }
+
+  var JSONPRequestMessage = exports.JSONPRequestMessage = function (_RequestMessage) {
+    _inherits(JSONPRequestMessage, _RequestMessage);
+
+    function JSONPRequestMessage(url, callbackParameterName) {
+      
+
+      var _this2 = _possibleConstructorReturn(this, _RequestMessage.call(this, 'JSONP', url));
+
+      _this2.responseType = 'jsonp';
+      _this2.callbackParameterName = callbackParameterName;
+      return _this2;
+    }
+
+    return JSONPRequestMessage;
+  }(RequestMessage);
+
+  var JSONPXHR = function () {
+    function JSONPXHR() {
+      
+    }
+
+    JSONPXHR.prototype.open = function open(method, url) {
+      this.method = method;
+      this.url = url;
+      this.callbackName = 'jsonp_callback_' + Math.round(100000 * Math.random());
+    };
+
+    JSONPXHR.prototype.send = function send() {
+      var _this3 = this;
+
+      var url = this.url + (this.url.indexOf('?') >= 0 ? '&' : '?') + encodeURIComponent(this.callbackParameterName) + '=' + this.callbackName;
+      var script = _aureliaPal.DOM.createElement('script');
+
+      script.src = url;
+      script.onerror = function (e) {
+        cleanUp();
+
+        _this3.status = 0;
+        _this3.onerror(new Error('error'));
+      };
+
+      var cleanUp = function cleanUp() {
+        delete _aureliaPal.PLATFORM.global[_this3.callbackName];
+        _aureliaPal.DOM.removeNode(script);
+      };
+
+      _aureliaPal.PLATFORM.global[this.callbackName] = function (data) {
+        cleanUp();
+
+        if (_this3.status === undefined) {
+          _this3.status = 200;
+          _this3.statusText = 'OK';
+          _this3.response = data;
+          _this3.onload(_this3);
+        }
+      };
+
+      _aureliaPal.DOM.appendNode(script);
+
+      if (this.timeout !== undefined) {
+        setTimeout(function () {
+          if (_this3.status === undefined) {
+            _this3.status = 0;
+            _this3.ontimeout(new Error('timeout'));
+          }
+        }, this.timeout);
+      }
+    };
+
+    JSONPXHR.prototype.abort = function abort() {
+      if (this.status === undefined) {
+        this.status = 0;
+        this.onabort(new Error('abort'));
+      }
+    };
+
+    JSONPXHR.prototype.setRequestHeader = function setRequestHeader() {};
+
+    return JSONPXHR;
+  }();
+
+  function createJSONPRequestMessageProcessor() {
+    return new RequestMessageProcessor(JSONPXHR, [timeoutTransformer, callbackParameterNameTransformer]);
+  }
+
+  var HttpRequestMessage = exports.HttpRequestMessage = function (_RequestMessage2) {
+    _inherits(HttpRequestMessage, _RequestMessage2);
+
+    function HttpRequestMessage(method, url, content, headers) {
+      
+
+      var _this4 = _possibleConstructorReturn(this, _RequestMessage2.call(this, method, url, content, headers));
+
+      _this4.responseType = 'json';return _this4;
+    }
+
+    return HttpRequestMessage;
+  }(RequestMessage);
+
+  function createHttpRequestMessageProcessor() {
+    return new RequestMessageProcessor(_aureliaPal.PLATFORM.XMLHttpRequest, [timeoutTransformer, credentialsTransformer, progressTransformer, responseTypeTransformer, contentTransformer, headerTransformer]);
+  }
+
+  var RequestBuilder = exports.RequestBuilder = function () {
+    function RequestBuilder(client) {
+      
+
+      this.client = client;
+      this.transformers = client.requestTransformers.slice(0);
+      this.useJsonp = false;
+    }
+
+    RequestBuilder.prototype.asDelete = function asDelete() {
+      return this._addTransformer(function (client, processor, message) {
+        message.method = 'DELETE';
+      });
+    };
+
+    RequestBuilder.prototype.asGet = function asGet() {
+      return this._addTransformer(function (client, processor, message) {
+        message.method = 'GET';
+      });
+    };
+
+    RequestBuilder.prototype.asHead = function asHead() {
+      return this._addTransformer(function (client, processor, message) {
+        message.method = 'HEAD';
+      });
+    };
+
+    RequestBuilder.prototype.asOptions = function asOptions() {
+      return this._addTransformer(function (client, processor, message) {
+        message.method = 'OPTIONS';
+      });
+    };
+
+    RequestBuilder.prototype.asPatch = function asPatch() {
+      return this._addTransformer(function (client, processor, message) {
+        message.method = 'PATCH';
+      });
+    };
+
+    RequestBuilder.prototype.asPost = function asPost() {
+      return this._addTransformer(function (client, processor, message) {
+        message.method = 'POST';
+      });
+    };
+
+    RequestBuilder.prototype.asPut = function asPut() {
+      return this._addTransformer(function (client, processor, message) {
+        message.method = 'PUT';
+      });
+    };
+
+    RequestBuilder.prototype.asJsonp = function asJsonp(callbackParameterName) {
+      this.useJsonp = true;
+      return this._addTransformer(function (client, processor, message) {
+        message.callbackParameterName = callbackParameterName;
+      });
+    };
+
+    RequestBuilder.prototype.withUrl = function withUrl(url) {
+      return this._addTransformer(function (client, processor, message) {
+        message.url = url;
+      });
+    };
+
+    RequestBuilder.prototype.withContent = function withContent(content) {
+      return this._addTransformer(function (client, processor, message) {
+        message.content = content;
+      });
+    };
+
+    RequestBuilder.prototype.withBaseUrl = function withBaseUrl(baseUrl) {
+      return this._addTransformer(function (client, processor, message) {
+        message.baseUrl = baseUrl;
+      });
+    };
+
+    RequestBuilder.prototype.withParams = function withParams(params) {
+      return this._addTransformer(function (client, processor, message) {
+        message.params = params;
+      });
+    };
+
+    RequestBuilder.prototype.withResponseType = function withResponseType(responseType) {
+      return this._addTransformer(function (client, processor, message) {
+        message.responseType = responseType;
+      });
+    };
+
+    RequestBuilder.prototype.withTimeout = function withTimeout(timeout) {
+      return this._addTransformer(function (client, processor, message) {
+        message.timeout = timeout;
+      });
+    };
+
+    RequestBuilder.prototype.withHeader = function withHeader(key, value) {
+      return this._addTransformer(function (client, processor, message) {
+        message.headers.add(key, value);
+      });
+    };
+
+    RequestBuilder.prototype.withCredentials = function withCredentials(value) {
+      return this._addTransformer(function (client, processor, message) {
+        message.withCredentials = value;
+      });
+    };
+
+    RequestBuilder.prototype.withLogin = function withLogin(user, password) {
+      return this._addTransformer(function (client, processor, message) {
+        message.user = user;message.password = password;
+      });
+    };
+
+    RequestBuilder.prototype.withReviver = function withReviver(reviver) {
+      return this._addTransformer(function (client, processor, message) {
+        message.reviver = reviver;
+      });
+    };
+
+    RequestBuilder.prototype.withReplacer = function withReplacer(replacer) {
+      return this._addTransformer(function (client, processor, message) {
+        message.replacer = replacer;
+      });
+    };
+
+    RequestBuilder.prototype.withProgressCallback = function withProgressCallback(progressCallback) {
+      return this._addTransformer(function (client, processor, message) {
+        message.progressCallback = progressCallback;
+      });
+    };
+
+    RequestBuilder.prototype.withCallbackParameterName = function withCallbackParameterName(callbackParameterName) {
+      return this._addTransformer(function (client, processor, message) {
+        message.callbackParameterName = callbackParameterName;
+      });
+    };
+
+    RequestBuilder.prototype.withInterceptor = function withInterceptor(interceptor) {
+      return this._addTransformer(function (client, processor, message) {
+        message.interceptors = message.interceptors || [];
+        message.interceptors.unshift(interceptor);
+      });
+    };
+
+    RequestBuilder.prototype.skipContentProcessing = function skipContentProcessing() {
+      return this._addTransformer(function (client, processor, message) {
+        message.skipContentProcessing = true;
+      });
+    };
+
+    RequestBuilder.prototype._addTransformer = function _addTransformer(fn) {
+      this.transformers.push(fn);
+      return this;
+    };
+
+    RequestBuilder.addHelper = function addHelper(name, fn) {
+      RequestBuilder.prototype[name] = function () {
+        return this._addTransformer(fn.apply(this, arguments));
+      };
+    };
+
+    RequestBuilder.prototype.send = function send() {
+      var message = this.useJsonp ? new JSONPRequestMessage() : new HttpRequestMessage();
+      return this.client.send(message, this.transformers);
+    };
+
+    return RequestBuilder;
+  }();
+
+  function trackRequestStart(client, processor) {
+    client.pendingRequests.push(processor);
+    client.isRequesting = true;
+  }
+
+  function trackRequestEnd(client, processor) {
+    var index = client.pendingRequests.indexOf(processor);
+
+    client.pendingRequests.splice(index, 1);
+    client.isRequesting = client.pendingRequests.length > 0;
+
+    if (!client.isRequesting) {
+      (function () {
+        var evt = _aureliaPal.DOM.createCustomEvent('aurelia-http-client-requests-drained', { bubbles: true, cancelable: true });
+        setTimeout(function () {
+          return _aureliaPal.DOM.dispatchEvent(evt);
+        }, 1);
+      })();
+    }
+  }
+
+  var HttpClient = exports.HttpClient = function () {
+    function HttpClient() {
+      
+
+      this.isRequesting = false;
+
+      this.requestTransformers = [];
+      this.requestProcessorFactories = new Map();
+      this.requestProcessorFactories.set(HttpRequestMessage, createHttpRequestMessageProcessor);
+      this.requestProcessorFactories.set(JSONPRequestMessage, createJSONPRequestMessageProcessor);
+      this.pendingRequests = [];
+    }
+
+    HttpClient.prototype.configure = function configure(fn) {
+      var builder = new RequestBuilder(this);
+      fn(builder);
+      this.requestTransformers = builder.transformers;
+      return this;
+    };
+
+    HttpClient.prototype.createRequest = function createRequest(url) {
+      var builder = new RequestBuilder(this);
+
+      if (url) {
+        builder.withUrl(url);
+      }
+
+      return builder;
+    };
+
+    HttpClient.prototype.send = function send(requestMessage, transformers) {
+      var _this5 = this;
+
+      var createProcessor = this.requestProcessorFactories.get(requestMessage.constructor);
+      var processor = void 0;
+      var promise = void 0;
+      var i = void 0;
+      var ii = void 0;
+
+      if (!createProcessor) {
+        throw new Error('No request message processor factory for ' + requestMessage.constructor + '.');
+      }
+
+      processor = createProcessor();
+      trackRequestStart(this, processor);
+
+      transformers = transformers || this.requestTransformers;
+
+      promise = Promise.resolve(requestMessage).then(function (message) {
+        for (i = 0, ii = transformers.length; i < ii; ++i) {
+          transformers[i](_this5, processor, message);
+        }
+
+        return processor.process(_this5, message).then(function (response) {
+          trackRequestEnd(_this5, processor);
+          return response;
+        }).catch(function (response) {
+          trackRequestEnd(_this5, processor);
+          throw response;
+        });
+      });
+
+      promise.abort = promise.cancel = function () {
+        processor.abort();
+      };
+
+      return promise;
+    };
+
+    HttpClient.prototype.delete = function _delete(url) {
+      return this.createRequest(url).asDelete().send();
+    };
+
+    HttpClient.prototype.get = function get(url) {
+      return this.createRequest(url).asGet().send();
+    };
+
+    HttpClient.prototype.head = function head(url) {
+      return this.createRequest(url).asHead().send();
+    };
+
+    HttpClient.prototype.jsonp = function jsonp(url) {
+      var callbackParameterName = arguments.length <= 1 || arguments[1] === undefined ? 'jsoncallback' : arguments[1];
+
+      return this.createRequest(url).asJsonp(callbackParameterName).send();
+    };
+
+    HttpClient.prototype.options = function options(url) {
+      return this.createRequest(url).asOptions().send();
+    };
+
+    HttpClient.prototype.put = function put(url, content) {
+      return this.createRequest(url).asPut().withContent(content).send();
+    };
+
+    HttpClient.prototype.patch = function patch(url, content) {
+      return this.createRequest(url).asPatch().withContent(content).send();
+    };
+
+    HttpClient.prototype.post = function post(url, content) {
+      return this.createRequest(url).asPost().withContent(content).send();
+    };
+
+    return HttpClient;
+  }();
+});
+define('aurelia-templating-resources/aurelia-templating-resources',['exports', './compose', './if', './with', './repeat', './show', './hide', './sanitize-html', './replaceable', './focus', 'aurelia-templating', './css-resource', './html-sanitizer', './binding-mode-behaviors', './throttle-binding-behavior', './debounce-binding-behavior', './signal-binding-behavior', './binding-signaler', './update-trigger-binding-behavior', './abstract-repeater', './repeat-strategy-locator', './html-resource-plugin', './null-repeat-strategy', './array-repeat-strategy', './map-repeat-strategy', './set-repeat-strategy', './number-repeat-strategy', './repeat-utilities', './analyze-view-factory', './aurelia-hide-style'], function (exports, _compose, _if, _with, _repeat, _show, _hide, _sanitizeHtml, _replaceable, _focus, _aureliaTemplating, _cssResource, _htmlSanitizer, _bindingModeBehaviors, _throttleBindingBehavior, _debounceBindingBehavior, _signalBindingBehavior, _bindingSignaler, _updateTriggerBindingBehavior, _abstractRepeater, _repeatStrategyLocator, _htmlResourcePlugin, _nullRepeatStrategy, _arrayRepeatStrategy, _mapRepeatStrategy, _setRepeatStrategy, _numberRepeatStrategy, _repeatUtilities, _analyzeViewFactory, _aureliaHideStyle) {
+  'use strict';
+
+  Object.defineProperty(exports, "__esModule", {
+    value: true
+  });
+  exports.viewsRequireLifecycle = exports.unwrapExpression = exports.updateOneTimeBinding = exports.isOneTime = exports.getItemsSourceExpression = exports.updateOverrideContext = exports.createFullOverrideContext = exports.NumberRepeatStrategy = exports.SetRepeatStrategy = exports.MapRepeatStrategy = exports.ArrayRepeatStrategy = exports.NullRepeatStrategy = exports.RepeatStrategyLocator = exports.AbstractRepeater = exports.UpdateTriggerBindingBehavior = exports.BindingSignaler = exports.SignalBindingBehavior = exports.DebounceBindingBehavior = exports.ThrottleBindingBehavior = exports.TwoWayBindingBehavior = exports.OneWayBindingBehavior = exports.OneTimeBindingBehavior = exports.configure = exports.Focus = exports.Replaceable = exports.SanitizeHTMLValueConverter = exports.HTMLSanitizer = exports.Hide = exports.Show = exports.Repeat = exports.With = exports.If = exports.Compose = undefined;
+
+
+  function configure(config) {
+    (0, _aureliaHideStyle.injectAureliaHideStyleAtHead)();
+
+    config.globalResources('./compose', './if', './with', './repeat', './show', './hide', './replaceable', './sanitize-html', './focus', './binding-mode-behaviors', './throttle-binding-behavior', './debounce-binding-behavior', './signal-binding-behavior', './update-trigger-binding-behavior');
+
+    (0, _htmlResourcePlugin.configure)(config);
+
+    var viewEngine = config.container.get(_aureliaTemplating.ViewEngine);
+    viewEngine.addResourcePlugin('.css', {
+      'fetch': function fetch(address) {
+        var _ref;
+
+        return _ref = {}, _ref[address] = (0, _cssResource._createCSSResource)(address), _ref;
+      }
+    });
+  }
+
+  exports.Compose = _compose.Compose;
+  exports.If = _if.If;
+  exports.With = _with.With;
+  exports.Repeat = _repeat.Repeat;
+  exports.Show = _show.Show;
+  exports.Hide = _hide.Hide;
+  exports.HTMLSanitizer = _htmlSanitizer.HTMLSanitizer;
+  exports.SanitizeHTMLValueConverter = _sanitizeHtml.SanitizeHTMLValueConverter;
+  exports.Replaceable = _replaceable.Replaceable;
+  exports.Focus = _focus.Focus;
+  exports.configure = configure;
+  exports.OneTimeBindingBehavior = _bindingModeBehaviors.OneTimeBindingBehavior;
+  exports.OneWayBindingBehavior = _bindingModeBehaviors.OneWayBindingBehavior;
+  exports.TwoWayBindingBehavior = _bindingModeBehaviors.TwoWayBindingBehavior;
+  exports.ThrottleBindingBehavior = _throttleBindingBehavior.ThrottleBindingBehavior;
+  exports.DebounceBindingBehavior = _debounceBindingBehavior.DebounceBindingBehavior;
+  exports.SignalBindingBehavior = _signalBindingBehavior.SignalBindingBehavior;
+  exports.BindingSignaler = _bindingSignaler.BindingSignaler;
+  exports.UpdateTriggerBindingBehavior = _updateTriggerBindingBehavior.UpdateTriggerBindingBehavior;
+  exports.AbstractRepeater = _abstractRepeater.AbstractRepeater;
+  exports.RepeatStrategyLocator = _repeatStrategyLocator.RepeatStrategyLocator;
+  exports.NullRepeatStrategy = _nullRepeatStrategy.NullRepeatStrategy;
+  exports.ArrayRepeatStrategy = _arrayRepeatStrategy.ArrayRepeatStrategy;
+  exports.MapRepeatStrategy = _mapRepeatStrategy.MapRepeatStrategy;
+  exports.SetRepeatStrategy = _setRepeatStrategy.SetRepeatStrategy;
+  exports.NumberRepeatStrategy = _numberRepeatStrategy.NumberRepeatStrategy;
+  exports.createFullOverrideContext = _repeatUtilities.createFullOverrideContext;
+  exports.updateOverrideContext = _repeatUtilities.updateOverrideContext;
+  exports.getItemsSourceExpression = _repeatUtilities.getItemsSourceExpression;
+  exports.isOneTime = _repeatUtilities.isOneTime;
+  exports.updateOneTimeBinding = _repeatUtilities.updateOneTimeBinding;
+  exports.unwrapExpression = _repeatUtilities.unwrapExpression;
+  exports.viewsRequireLifecycle = _analyzeViewFactory.viewsRequireLifecycle;
+});;define('aurelia-templating-resources', ['aurelia-templating-resources/aurelia-templating-resources'], function (main) { return main; });
+
+define('aurelia-templating-resources/compose',['exports', 'aurelia-dependency-injection', 'aurelia-task-queue', 'aurelia-templating', 'aurelia-pal'], function (exports, _aureliaDependencyInjection, _aureliaTaskQueue, _aureliaTemplating, _aureliaPal) {
+  'use strict';
+
+  Object.defineProperty(exports, "__esModule", {
+    value: true
+  });
+  exports.Compose = undefined;
+
+  function _initDefineProp(target, property, descriptor, context) {
+    if (!descriptor) return;
+    Object.defineProperty(target, property, {
+      enumerable: descriptor.enumerable,
+      configurable: descriptor.configurable,
+      writable: descriptor.writable,
+      value: descriptor.initializer ? descriptor.initializer.call(context) : void 0
+    });
+  }
+
+  
+
+  function _applyDecoratedDescriptor(target, property, decorators, descriptor, context) {
+    var desc = {};
+    Object['ke' + 'ys'](descriptor).forEach(function (key) {
+      desc[key] = descriptor[key];
+    });
+    desc.enumerable = !!desc.enumerable;
+    desc.configurable = !!desc.configurable;
+
+    if ('value' in desc || desc.initializer) {
+      desc.writable = true;
+    }
+
+    desc = decorators.slice().reverse().reduce(function (desc, decorator) {
+      return decorator(target, property, desc) || desc;
+    }, desc);
+
+    if (context && desc.initializer !== void 0) {
+      desc.value = desc.initializer ? desc.initializer.call(context) : void 0;
+      desc.initializer = undefined;
+    }
+
+    if (desc.initializer === void 0) {
+      Object['define' + 'Property'](target, property, desc);
+      desc = null;
+    }
+
+    return desc;
+  }
+
+  function _initializerWarningHelper(descriptor, context) {
+    throw new Error('Decorating class property failed. Please ensure that transform-class-properties is enabled.');
+  }
+
+  var _dec, _dec2, _class, _desc, _value, _class2, _descriptor, _descriptor2, _descriptor3;
+
+  var Compose = exports.Compose = (_dec = (0, _aureliaTemplating.customElement)('compose'), _dec2 = (0, _aureliaDependencyInjection.inject)(_aureliaPal.DOM.Element, _aureliaDependencyInjection.Container, _aureliaTemplating.CompositionEngine, _aureliaTemplating.ViewSlot, _aureliaTemplating.ViewResources, _aureliaTaskQueue.TaskQueue), _dec(_class = (0, _aureliaTemplating.noView)(_class = _dec2(_class = (_class2 = function () {
+    function Compose(element, container, compositionEngine, viewSlot, viewResources, taskQueue) {
+      
+
+      _initDefineProp(this, 'model', _descriptor, this);
+
+      _initDefineProp(this, 'view', _descriptor2, this);
+
+      _initDefineProp(this, 'viewModel', _descriptor3, this);
+
+      this.element = element;
+      this.container = container;
+      this.compositionEngine = compositionEngine;
+      this.viewSlot = viewSlot;
+      this.viewResources = viewResources;
+      this.taskQueue = taskQueue;
+      this.currentController = null;
+      this.currentViewModel = null;
+    }
+
+    Compose.prototype.created = function created(owningView) {
+      this.owningView = owningView;
+    };
+
+    Compose.prototype.bind = function bind(bindingContext, overrideContext) {
+      this.bindingContext = bindingContext;
+      this.overrideContext = overrideContext;
+      processInstruction(this, createInstruction(this, {
+        view: this.view,
+        viewModel: this.viewModel,
+        model: this.model
+      }));
+    };
+
+    Compose.prototype.unbind = function unbind(bindingContext, overrideContext) {
+      this.bindingContext = null;
+      this.overrideContext = null;
+      var returnToCache = true;
+      var skipAnimation = true;
+      this.viewSlot.removeAll(returnToCache, skipAnimation);
+    };
+
+    Compose.prototype.modelChanged = function modelChanged(newValue, oldValue) {
+      var _this = this;
+
+      if (this.currentInstruction) {
+        this.currentInstruction.model = newValue;
+        return;
+      }
+
+      this.taskQueue.queueMicroTask(function () {
+        if (_this.currentInstruction) {
+          _this.currentInstruction.model = newValue;
+          return;
+        }
+
+        var vm = _this.currentViewModel;
+
+        if (vm && typeof vm.activate === 'function') {
+          vm.activate(newValue);
+        }
+      });
+    };
+
+    Compose.prototype.viewChanged = function viewChanged(newValue, oldValue) {
+      var _this2 = this;
+
+      var instruction = createInstruction(this, {
+        view: newValue,
+        viewModel: this.currentViewModel || this.viewModel,
+        model: this.model
+      });
+
+      if (this.currentInstruction) {
+        this.currentInstruction = instruction;
+        return;
+      }
+
+      this.currentInstruction = instruction;
+      this.taskQueue.queueMicroTask(function () {
+        return processInstruction(_this2, _this2.currentInstruction);
+      });
+    };
+
+    Compose.prototype.viewModelChanged = function viewModelChanged(newValue, oldValue) {
+      var _this3 = this;
+
+      var instruction = createInstruction(this, {
+        viewModel: newValue,
+        view: this.view,
+        model: this.model
+      });
+
+      if (this.currentInstruction) {
+        this.currentInstruction = instruction;
+        return;
+      }
+
+      this.currentInstruction = instruction;
+      this.taskQueue.queueMicroTask(function () {
+        return processInstruction(_this3, _this3.currentInstruction);
+      });
+    };
+
+    return Compose;
+  }(), (_descriptor = _applyDecoratedDescriptor(_class2.prototype, 'model', [_aureliaTemplating.bindable], {
+    enumerable: true,
+    initializer: null
+  }), _descriptor2 = _applyDecoratedDescriptor(_class2.prototype, 'view', [_aureliaTemplating.bindable], {
+    enumerable: true,
+    initializer: null
+  }), _descriptor3 = _applyDecoratedDescriptor(_class2.prototype, 'viewModel', [_aureliaTemplating.bindable], {
+    enumerable: true,
+    initializer: null
+  })), _class2)) || _class) || _class) || _class);
+
+
+  function createInstruction(composer, instruction) {
+    return Object.assign(instruction, {
+      bindingContext: composer.bindingContext,
+      overrideContext: composer.overrideContext,
+      owningView: composer.owningView,
+      container: composer.container,
+      viewSlot: composer.viewSlot,
+      viewResources: composer.viewResources,
+      currentController: composer.currentController,
+      host: composer.element
+    });
+  }
+
+  function processInstruction(composer, instruction) {
+    composer.currentInstruction = null;
+    composer.compositionEngine.compose(instruction).then(function (controller) {
+      composer.currentController = controller;
+      composer.currentViewModel = controller ? controller.viewModel : null;
+    });
+  }
+});
+define('aurelia-templating-resources/if',['exports', 'aurelia-templating', 'aurelia-dependency-injection'], function (exports, _aureliaTemplating, _aureliaDependencyInjection) {
+  'use strict';
+
+  Object.defineProperty(exports, "__esModule", {
+    value: true
+  });
+  exports.If = undefined;
+
+  
+
+  var _dec, _dec2, _class;
+
+  var If = exports.If = (_dec = (0, _aureliaTemplating.customAttribute)('if'), _dec2 = (0, _aureliaDependencyInjection.inject)(_aureliaTemplating.BoundViewFactory, _aureliaTemplating.ViewSlot), _dec(_class = (0, _aureliaTemplating.templateController)(_class = _dec2(_class = function () {
+    function If(viewFactory, viewSlot) {
+      
+
+      this.viewFactory = viewFactory;
+      this.viewSlot = viewSlot;
+      this.showing = false;
+      this.view = null;
+      this.bindingContext = null;
+      this.overrideContext = null;
+    }
+
+    If.prototype.bind = function bind(bindingContext, overrideContext) {
+      this.bindingContext = bindingContext;
+      this.overrideContext = overrideContext;
+      this.valueChanged(this.value);
+    };
+
+    If.prototype.valueChanged = function valueChanged(newValue) {
+      var _this = this;
+
+      if (this.__queuedChanges) {
+        this.__queuedChanges.push(newValue);
+        return;
+      }
+
+      var maybePromise = this._runValueChanged(newValue);
+      if (maybePromise instanceof Promise) {
+        (function () {
+          var queuedChanges = _this.__queuedChanges = [];
+
+          var runQueuedChanges = function runQueuedChanges() {
+            if (!queuedChanges.length) {
+              _this.__queuedChanges = undefined;
+              return;
+            }
+
+            var nextPromise = _this._runValueChanged(queuedChanges.shift()) || Promise.resolve();
+            nextPromise.then(runQueuedChanges);
+          };
+
+          maybePromise.then(runQueuedChanges);
+        })();
+      }
+    };
+
+    If.prototype._runValueChanged = function _runValueChanged(newValue) {
+      var _this2 = this;
+
+      if (!newValue) {
+        var viewOrPromise = void 0;
+        if (this.view !== null && this.showing) {
+          viewOrPromise = this.viewSlot.remove(this.view);
+          if (viewOrPromise instanceof Promise) {
+            viewOrPromise.then(function () {
+              return _this2.view.unbind();
+            });
+          } else {
+            this.view.unbind();
+          }
+        }
+
+        this.showing = false;
+        return viewOrPromise;
+      }
+
+      if (this.view === null) {
+        this.view = this.viewFactory.create();
+      }
+
+      if (!this.view.isBound) {
+        this.view.bind(this.bindingContext, this.overrideContext);
+      }
+
+      if (!this.showing) {
+        this.showing = true;
+        return this.viewSlot.add(this.view);
+      }
+
+      return undefined;
+    };
+
+    If.prototype.unbind = function unbind() {
+      if (this.view === null) {
+        return;
+      }
+
+      this.view.unbind();
+
+      if (!this.viewFactory.isCaching) {
+        return;
+      }
+
+      if (this.showing) {
+        this.showing = false;
+        this.viewSlot.remove(this.view, true, true);
+      }
+      this.view.returnToCache();
+      this.view = null;
+    };
+
+    return If;
+  }()) || _class) || _class) || _class);
+});
+define('aurelia-templating-resources/with',['exports', 'aurelia-dependency-injection', 'aurelia-templating', 'aurelia-binding'], function (exports, _aureliaDependencyInjection, _aureliaTemplating, _aureliaBinding) {
+  'use strict';
+
+  Object.defineProperty(exports, "__esModule", {
+    value: true
+  });
+  exports.With = undefined;
+
+  
+
+  var _dec, _dec2, _class;
+
+  var With = exports.With = (_dec = (0, _aureliaTemplating.customAttribute)('with'), _dec2 = (0, _aureliaDependencyInjection.inject)(_aureliaTemplating.BoundViewFactory, _aureliaTemplating.ViewSlot), _dec(_class = (0, _aureliaTemplating.templateController)(_class = _dec2(_class = function () {
+    function With(viewFactory, viewSlot) {
+      
+
+      this.viewFactory = viewFactory;
+      this.viewSlot = viewSlot;
+      this.parentOverrideContext = null;
+      this.view = null;
+    }
+
+    With.prototype.bind = function bind(bindingContext, overrideContext) {
+      this.parentOverrideContext = overrideContext;
+      this.valueChanged(this.value);
+    };
+
+    With.prototype.valueChanged = function valueChanged(newValue) {
+      var overrideContext = (0, _aureliaBinding.createOverrideContext)(newValue, this.parentOverrideContext);
+      if (!this.view) {
+        this.view = this.viewFactory.create();
+        this.view.bind(newValue, overrideContext);
+        this.viewSlot.add(this.view);
+      } else {
+        this.view.bind(newValue, overrideContext);
+      }
+    };
+
+    With.prototype.unbind = function unbind() {
+      this.parentOverrideContext = null;
+
+      if (this.view) {
+        this.view.unbind();
+      }
+    };
+
+    return With;
+  }()) || _class) || _class) || _class);
+});
+define('aurelia-templating-resources/repeat',['exports', 'aurelia-dependency-injection', 'aurelia-binding', 'aurelia-templating', './repeat-strategy-locator', './repeat-utilities', './analyze-view-factory', './abstract-repeater'], function (exports, _aureliaDependencyInjection, _aureliaBinding, _aureliaTemplating, _repeatStrategyLocator, _repeatUtilities, _analyzeViewFactory, _abstractRepeater) {
+  'use strict';
+
+  Object.defineProperty(exports, "__esModule", {
+    value: true
+  });
+  exports.Repeat = undefined;
+
+  function _initDefineProp(target, property, descriptor, context) {
+    if (!descriptor) return;
+    Object.defineProperty(target, property, {
+      enumerable: descriptor.enumerable,
+      configurable: descriptor.configurable,
+      writable: descriptor.writable,
+      value: descriptor.initializer ? descriptor.initializer.call(context) : void 0
+    });
+  }
+
+  
+
+  function _possibleConstructorReturn(self, call) {
+    if (!self) {
+      throw new ReferenceError("this hasn't been initialised - super() hasn't been called");
+    }
+
+    return call && (typeof call === "object" || typeof call === "function") ? call : self;
+  }
+
+  function _inherits(subClass, superClass) {
+    if (typeof superClass !== "function" && superClass !== null) {
+      throw new TypeError("Super expression must either be null or a function, not " + typeof superClass);
+    }
+
+    subClass.prototype = Object.create(superClass && superClass.prototype, {
+      constructor: {
+        value: subClass,
+        enumerable: false,
+        writable: true,
+        configurable: true
+      }
+    });
+    if (superClass) Object.setPrototypeOf ? Object.setPrototypeOf(subClass, superClass) : subClass.__proto__ = superClass;
+  }
+
+  function _applyDecoratedDescriptor(target, property, decorators, descriptor, context) {
+    var desc = {};
+    Object['ke' + 'ys'](descriptor).forEach(function (key) {
+      desc[key] = descriptor[key];
+    });
+    desc.enumerable = !!desc.enumerable;
+    desc.configurable = !!desc.configurable;
+
+    if ('value' in desc || desc.initializer) {
+      desc.writable = true;
+    }
+
+    desc = decorators.slice().reverse().reduce(function (desc, decorator) {
+      return decorator(target, property, desc) || desc;
+    }, desc);
+
+    if (context && desc.initializer !== void 0) {
+      desc.value = desc.initializer ? desc.initializer.call(context) : void 0;
+      desc.initializer = undefined;
+    }
+
+    if (desc.initializer === void 0) {
+      Object['define' + 'Property'](target, property, desc);
+      desc = null;
+    }
+
+    return desc;
+  }
+
+  function _initializerWarningHelper(descriptor, context) {
+    throw new Error('Decorating class property failed. Please ensure that transform-class-properties is enabled.');
+  }
+
+  var _dec, _dec2, _class, _desc, _value, _class2, _descriptor, _descriptor2, _descriptor3, _descriptor4;
+
+  var Repeat = exports.Repeat = (_dec = (0, _aureliaTemplating.customAttribute)('repeat'), _dec2 = (0, _aureliaDependencyInjection.inject)(_aureliaTemplating.BoundViewFactory, _aureliaTemplating.TargetInstruction, _aureliaTemplating.ViewSlot, _aureliaTemplating.ViewResources, _aureliaBinding.ObserverLocator, _repeatStrategyLocator.RepeatStrategyLocator), _dec(_class = (0, _aureliaTemplating.templateController)(_class = _dec2(_class = (_class2 = function (_AbstractRepeater) {
+    _inherits(Repeat, _AbstractRepeater);
+
+    function Repeat(viewFactory, instruction, viewSlot, viewResources, observerLocator, strategyLocator) {
+      
+
+      var _this = _possibleConstructorReturn(this, _AbstractRepeater.call(this, {
+        local: 'item',
+        viewsRequireLifecycle: (0, _analyzeViewFactory.viewsRequireLifecycle)(viewFactory)
+      }));
+
+      _initDefineProp(_this, 'items', _descriptor, _this);
+
+      _initDefineProp(_this, 'local', _descriptor2, _this);
+
+      _initDefineProp(_this, 'key', _descriptor3, _this);
+
+      _initDefineProp(_this, 'value', _descriptor4, _this);
+
+      _this.viewFactory = viewFactory;
+      _this.instruction = instruction;
+      _this.viewSlot = viewSlot;
+      _this.lookupFunctions = viewResources.lookupFunctions;
+      _this.observerLocator = observerLocator;
+      _this.key = 'key';
+      _this.value = 'value';
+      _this.strategyLocator = strategyLocator;
+      _this.ignoreMutation = false;
+      _this.sourceExpression = (0, _repeatUtilities.getItemsSourceExpression)(_this.instruction, 'repeat.for');
+      _this.isOneTime = (0, _repeatUtilities.isOneTime)(_this.sourceExpression);
+      _this.viewsRequireLifecycle = (0, _analyzeViewFactory.viewsRequireLifecycle)(viewFactory);
+      return _this;
+    }
+
+    Repeat.prototype.call = function call(context, changes) {
+      this[context](this.items, changes);
+    };
+
+    Repeat.prototype.bind = function bind(bindingContext, overrideContext) {
+      this.scope = { bindingContext: bindingContext, overrideContext: overrideContext };
+      this.matcherBinding = this._captureAndRemoveMatcherBinding();
+      this.itemsChanged();
+    };
+
+    Repeat.prototype.unbind = function unbind() {
+      this.scope = null;
+      this.items = null;
+      this.matcherBinding = null;
+      this.viewSlot.removeAll(true);
+      this._unsubscribeCollection();
+    };
+
+    Repeat.prototype._unsubscribeCollection = function _unsubscribeCollection() {
+      if (this.collectionObserver) {
+        this.collectionObserver.unsubscribe(this.callContext, this);
+        this.collectionObserver = null;
+        this.callContext = null;
+      }
+    };
+
+    Repeat.prototype.itemsChanged = function itemsChanged() {
+      this._unsubscribeCollection();
+
+      if (!this.scope) {
+        return;
+      }
+
+      var items = this.items;
+      this.strategy = this.strategyLocator.getStrategy(items);
+      if (!this.strategy) {
+        throw new Error('Value for \'' + this.sourceExpression + '\' is non-repeatable');
+      }
+
+      if (!this.isOneTime && !this._observeInnerCollection()) {
+        this._observeCollection();
+      }
+      this.strategy.instanceChanged(this, items);
+    };
+
+    Repeat.prototype._getInnerCollection = function _getInnerCollection() {
+      var expression = (0, _repeatUtilities.unwrapExpression)(this.sourceExpression);
+      if (!expression) {
+        return null;
+      }
+      return expression.evaluate(this.scope, null);
+    };
+
+    Repeat.prototype.handleCollectionMutated = function handleCollectionMutated(collection, changes) {
+      if (!this.collectionObserver) {
+        return;
+      }
+      this.strategy.instanceMutated(this, collection, changes);
+    };
+
+    Repeat.prototype.handleInnerCollectionMutated = function handleInnerCollectionMutated(collection, changes) {
+      var _this2 = this;
+
+      if (!this.collectionObserver) {
+        return;
+      }
+
+      if (this.ignoreMutation) {
+        return;
+      }
+      this.ignoreMutation = true;
+      var newItems = this.sourceExpression.evaluate(this.scope, this.lookupFunctions);
+      this.observerLocator.taskQueue.queueMicroTask(function () {
+        return _this2.ignoreMutation = false;
+      });
+
+      if (newItems === this.items) {
+        this.itemsChanged();
+      } else {
+        this.items = newItems;
+      }
+    };
+
+    Repeat.prototype._observeInnerCollection = function _observeInnerCollection() {
+      var items = this._getInnerCollection();
+      var strategy = this.strategyLocator.getStrategy(items);
+      if (!strategy) {
+        return false;
+      }
+      this.collectionObserver = strategy.getCollectionObserver(this.observerLocator, items);
+      if (!this.collectionObserver) {
+        return false;
+      }
+      this.callContext = 'handleInnerCollectionMutated';
+      this.collectionObserver.subscribe(this.callContext, this);
+      return true;
+    };
+
+    Repeat.prototype._observeCollection = function _observeCollection() {
+      var items = this.items;
+      this.collectionObserver = this.strategy.getCollectionObserver(this.observerLocator, items);
+      if (this.collectionObserver) {
+        this.callContext = 'handleCollectionMutated';
+        this.collectionObserver.subscribe(this.callContext, this);
+      }
+    };
+
+    Repeat.prototype._captureAndRemoveMatcherBinding = function _captureAndRemoveMatcherBinding() {
+      if (this.viewFactory.viewFactory) {
+        var instructions = this.viewFactory.viewFactory.instructions;
+        var instructionIds = Object.keys(instructions);
+        for (var i = 0; i < instructionIds.length; i++) {
+          var expressions = instructions[instructionIds[i]].expressions;
+          if (expressions) {
+            for (var ii = 0; i < expressions.length; i++) {
+              if (expressions[ii].targetProperty === 'matcher') {
+                var matcherBinding = expressions[ii];
+                expressions.splice(ii, 1);
+                return matcherBinding;
+              }
+            }
+          }
+        }
+      }
+
+      return undefined;
+    };
+
+    Repeat.prototype.viewCount = function viewCount() {
+      return this.viewSlot.children.length;
+    };
+
+    Repeat.prototype.views = function views() {
+      return this.viewSlot.children;
+    };
+
+    Repeat.prototype.view = function view(index) {
+      return this.viewSlot.children[index];
+    };
+
+    Repeat.prototype.matcher = function matcher() {
+      return this.matcherBinding ? this.matcherBinding.sourceExpression.evaluate(this.scope, this.matcherBinding.lookupFunctions) : null;
+    };
+
+    Repeat.prototype.addView = function addView(bindingContext, overrideContext) {
+      var view = this.viewFactory.create();
+      view.bind(bindingContext, overrideContext);
+      this.viewSlot.add(view);
+    };
+
+    Repeat.prototype.insertView = function insertView(index, bindingContext, overrideContext) {
+      var view = this.viewFactory.create();
+      view.bind(bindingContext, overrideContext);
+      this.viewSlot.insert(index, view);
+    };
+
+    Repeat.prototype.moveView = function moveView(sourceIndex, targetIndex) {
+      this.viewSlot.move(sourceIndex, targetIndex);
+    };
+
+    Repeat.prototype.removeAllViews = function removeAllViews(returnToCache, skipAnimation) {
+      return this.viewSlot.removeAll(returnToCache, skipAnimation);
+    };
+
+    Repeat.prototype.removeViews = function removeViews(viewsToRemove, returnToCache, skipAnimation) {
+      return this.viewSlot.removeMany(viewsToRemove, returnToCache, skipAnimation);
+    };
+
+    Repeat.prototype.removeView = function removeView(index, returnToCache, skipAnimation) {
+      return this.viewSlot.removeAt(index, returnToCache, skipAnimation);
+    };
+
+    Repeat.prototype.updateBindings = function updateBindings(view) {
+      var j = view.bindings.length;
+      while (j--) {
+        (0, _repeatUtilities.updateOneTimeBinding)(view.bindings[j]);
+      }
+      j = view.controllers.length;
+      while (j--) {
+        var k = view.controllers[j].boundProperties.length;
+        while (k--) {
+          var binding = view.controllers[j].boundProperties[k].binding;
+          (0, _repeatUtilities.updateOneTimeBinding)(binding);
+        }
+      }
+    };
+
+    return Repeat;
+  }(_abstractRepeater.AbstractRepeater), (_descriptor = _applyDecoratedDescriptor(_class2.prototype, 'items', [_aureliaTemplating.bindable], {
+    enumerable: true,
+    initializer: null
+  }), _descriptor2 = _applyDecoratedDescriptor(_class2.prototype, 'local', [_aureliaTemplating.bindable], {
+    enumerable: true,
+    initializer: null
+  }), _descriptor3 = _applyDecoratedDescriptor(_class2.prototype, 'key', [_aureliaTemplating.bindable], {
+    enumerable: true,
+    initializer: null
+  }), _descriptor4 = _applyDecoratedDescriptor(_class2.prototype, 'value', [_aureliaTemplating.bindable], {
+    enumerable: true,
+    initializer: null
+  })), _class2)) || _class) || _class) || _class);
+});
+define('aurelia-templating-resources/repeat-strategy-locator',['exports', './null-repeat-strategy', './array-repeat-strategy', './map-repeat-strategy', './set-repeat-strategy', './number-repeat-strategy'], function (exports, _nullRepeatStrategy, _arrayRepeatStrategy, _mapRepeatStrategy, _setRepeatStrategy, _numberRepeatStrategy) {
+  'use strict';
+
+  Object.defineProperty(exports, "__esModule", {
+    value: true
+  });
+  exports.RepeatStrategyLocator = undefined;
+
+  
+
+  var RepeatStrategyLocator = exports.RepeatStrategyLocator = function () {
+    function RepeatStrategyLocator() {
+      
+
+      this.matchers = [];
+      this.strategies = [];
+
+      this.addStrategy(function (items) {
+        return items === null || items === undefined;
+      }, new _nullRepeatStrategy.NullRepeatStrategy());
+      this.addStrategy(function (items) {
+        return items instanceof Array;
+      }, new _arrayRepeatStrategy.ArrayRepeatStrategy());
+      this.addStrategy(function (items) {
+        return items instanceof Map;
+      }, new _mapRepeatStrategy.MapRepeatStrategy());
+      this.addStrategy(function (items) {
+        return items instanceof Set;
+      }, new _setRepeatStrategy.SetRepeatStrategy());
+      this.addStrategy(function (items) {
+        return typeof items === 'number';
+      }, new _numberRepeatStrategy.NumberRepeatStrategy());
+    }
+
+    RepeatStrategyLocator.prototype.addStrategy = function addStrategy(matcher, strategy) {
+      this.matchers.push(matcher);
+      this.strategies.push(strategy);
+    };
+
+    RepeatStrategyLocator.prototype.getStrategy = function getStrategy(items) {
+      var matchers = this.matchers;
+
+      for (var i = 0, ii = matchers.length; i < ii; ++i) {
+        if (matchers[i](items)) {
+          return this.strategies[i];
+        }
+      }
+
+      return null;
+    };
+
+    return RepeatStrategyLocator;
+  }();
+});
+define('aurelia-templating-resources/null-repeat-strategy',["exports"], function (exports) {
+  "use strict";
+
+  Object.defineProperty(exports, "__esModule", {
+    value: true
+  });
+
+  
+
+  var NullRepeatStrategy = exports.NullRepeatStrategy = function () {
+    function NullRepeatStrategy() {
+      
+    }
+
+    NullRepeatStrategy.prototype.instanceChanged = function instanceChanged(repeat, items) {
+      repeat.removeAllViews(true);
+    };
+
+    NullRepeatStrategy.prototype.getCollectionObserver = function getCollectionObserver(observerLocator, items) {};
+
+    return NullRepeatStrategy;
+  }();
+});
+define('aurelia-templating-resources/array-repeat-strategy',['exports', './repeat-utilities', 'aurelia-binding'], function (exports, _repeatUtilities, _aureliaBinding) {
+  'use strict';
+
+  Object.defineProperty(exports, "__esModule", {
+    value: true
+  });
+  exports.ArrayRepeatStrategy = undefined;
+
+  
+
+  var ArrayRepeatStrategy = exports.ArrayRepeatStrategy = function () {
+    function ArrayRepeatStrategy() {
+      
+    }
+
+    ArrayRepeatStrategy.prototype.getCollectionObserver = function getCollectionObserver(observerLocator, items) {
+      return observerLocator.getArrayObserver(items);
+    };
+
+    ArrayRepeatStrategy.prototype.instanceChanged = function instanceChanged(repeat, items) {
+      var _this = this;
+
+      var itemsLength = items.length;
+
+      if (!items || itemsLength === 0) {
+        repeat.removeAllViews(true, !repeat.viewsRequireLifecycle);
+        return;
+      }
+
+      var children = repeat.views();
+      var viewsLength = children.length;
+
+      if (viewsLength === 0) {
+        this._standardProcessInstanceChanged(repeat, items);
+        return;
+      }
+
+      if (repeat.viewsRequireLifecycle) {
+        (function () {
+          var childrenSnapshot = children.slice(0);
+          var itemNameInBindingContext = repeat.local;
+          var matcher = repeat.matcher();
+
+          var itemsPreviouslyInViews = [];
+          var viewsToRemove = [];
+
+          for (var index = 0; index < viewsLength; index++) {
+            var view = childrenSnapshot[index];
+            var oldItem = view.bindingContext[itemNameInBindingContext];
+
+            if ((0, _repeatUtilities.indexOf)(items, oldItem, matcher) === -1) {
+              viewsToRemove.push(view);
+            } else {
+              itemsPreviouslyInViews.push(oldItem);
+            }
+          }
+
+          var updateViews = void 0;
+          var removePromise = void 0;
+
+          if (itemsPreviouslyInViews.length > 0) {
+            removePromise = repeat.removeViews(viewsToRemove, true, !repeat.viewsRequireLifecycle);
+            updateViews = function updateViews() {
+              for (var _index = 0; _index < itemsLength; _index++) {
+                var item = items[_index];
+                var indexOfView = (0, _repeatUtilities.indexOf)(itemsPreviouslyInViews, item, matcher, _index);
+                var _view = void 0;
+
+                if (indexOfView === -1) {
+                  var overrideContext = (0, _repeatUtilities.createFullOverrideContext)(repeat, items[_index], _index, itemsLength);
+                  repeat.insertView(_index, overrideContext.bindingContext, overrideContext);
+
+                  itemsPreviouslyInViews.splice(_index, 0, undefined);
+                } else if (indexOfView === _index) {
+                  _view = children[indexOfView];
+                  itemsPreviouslyInViews[indexOfView] = undefined;
+                } else {
+                  _view = children[indexOfView];
+                  repeat.moveView(indexOfView, _index);
+                  itemsPreviouslyInViews.splice(indexOfView, 1);
+                  itemsPreviouslyInViews.splice(_index, 0, undefined);
+                }
+
+                if (_view) {
+                  (0, _repeatUtilities.updateOverrideContext)(_view.overrideContext, _index, itemsLength);
+                }
+              }
+
+              _this._inPlaceProcessItems(repeat, items);
+            };
+          } else {
+            removePromise = repeat.removeAllViews(true, !repeat.viewsRequireLifecycle);
+            updateViews = function updateViews() {
+              return _this._standardProcessInstanceChanged(repeat, items);
+            };
+          }
+
+          if (removePromise instanceof Promise) {
+            removePromise.then(updateViews);
+          } else {
+            updateViews();
+          }
+        })();
+      } else {
+        this._inPlaceProcessItems(repeat, items);
+      }
+    };
+
+    ArrayRepeatStrategy.prototype._standardProcessInstanceChanged = function _standardProcessInstanceChanged(repeat, items) {
+      for (var i = 0, ii = items.length; i < ii; i++) {
+        var overrideContext = (0, _repeatUtilities.createFullOverrideContext)(repeat, items[i], i, ii);
+        repeat.addView(overrideContext.bindingContext, overrideContext);
+      }
+    };
+
+    ArrayRepeatStrategy.prototype._inPlaceProcessItems = function _inPlaceProcessItems(repeat, items) {
+      var itemsLength = items.length;
+      var viewsLength = repeat.viewCount();
+
+      while (viewsLength > itemsLength) {
+        viewsLength--;
+        repeat.removeView(viewsLength, true, !repeat.viewsRequireLifecycle);
+      }
+
+      var local = repeat.local;
+
+      for (var i = 0; i < viewsLength; i++) {
+        var view = repeat.view(i);
+        var last = i === itemsLength - 1;
+        var middle = i !== 0 && !last;
+
+        if (view.bindingContext[local] === items[i] && view.overrideContext.$middle === middle && view.overrideContext.$last === last) {
+          continue;
+        }
+
+        view.bindingContext[local] = items[i];
+        view.overrideContext.$middle = middle;
+        view.overrideContext.$last = last;
+        repeat.updateBindings(view);
+      }
+
+      for (var _i = viewsLength; _i < itemsLength; _i++) {
+        var overrideContext = (0, _repeatUtilities.createFullOverrideContext)(repeat, items[_i], _i, itemsLength);
+        repeat.addView(overrideContext.bindingContext, overrideContext);
+      }
+    };
+
+    ArrayRepeatStrategy.prototype.instanceMutated = function instanceMutated(repeat, array, splices) {
+      var _this2 = this;
+
+      if (repeat.__queuedSplices) {
+        for (var i = 0, ii = splices.length; i < ii; ++i) {
+          var _splices$i = splices[i];
+          var index = _splices$i.index;
+          var removed = _splices$i.removed;
+          var addedCount = _splices$i.addedCount;
+
+          (0, _aureliaBinding.mergeSplice)(repeat.__queuedSplices, index, removed, addedCount);
+        }
+
+        repeat.__array = array.slice(0);
+        return;
+      }
+
+      var maybePromise = this._runSplices(repeat, array.slice(0), splices);
+      if (maybePromise instanceof Promise) {
+        (function () {
+          var queuedSplices = repeat.__queuedSplices = [];
+
+          var runQueuedSplices = function runQueuedSplices() {
+            if (!queuedSplices.length) {
+              repeat.__queuedSplices = undefined;
+              repeat.__array = undefined;
+              return;
+            }
+
+            var nextPromise = _this2._runSplices(repeat, repeat.__array, queuedSplices) || Promise.resolve();
+            queuedSplices = repeat.__queuedSplices = [];
+            nextPromise.then(runQueuedSplices);
+          };
+
+          maybePromise.then(runQueuedSplices);
+        })();
+      }
+    };
+
+    ArrayRepeatStrategy.prototype._runSplices = function _runSplices(repeat, array, splices) {
+      var _this3 = this;
+
+      var removeDelta = 0;
+      var rmPromises = [];
+
+      for (var i = 0, ii = splices.length; i < ii; ++i) {
+        var splice = splices[i];
+        var removed = splice.removed;
+
+        for (var j = 0, jj = removed.length; j < jj; ++j) {
+          var viewOrPromise = repeat.removeView(splice.index + removeDelta + rmPromises.length, true);
+          if (viewOrPromise instanceof Promise) {
+            rmPromises.push(viewOrPromise);
+          }
+        }
+        removeDelta -= splice.addedCount;
+      }
+
+      if (rmPromises.length > 0) {
+        return Promise.all(rmPromises).then(function () {
+          var spliceIndexLow = _this3._handleAddedSplices(repeat, array, splices);
+          (0, _repeatUtilities.updateOverrideContexts)(repeat.views(), spliceIndexLow);
+        });
+      }
+
+      var spliceIndexLow = this._handleAddedSplices(repeat, array, splices);
+      (0, _repeatUtilities.updateOverrideContexts)(repeat.views(), spliceIndexLow);
+
+      return undefined;
+    };
+
+    ArrayRepeatStrategy.prototype._handleAddedSplices = function _handleAddedSplices(repeat, array, splices) {
+      var spliceIndex = void 0;
+      var spliceIndexLow = void 0;
+      var arrayLength = array.length;
+      for (var i = 0, ii = splices.length; i < ii; ++i) {
+        var splice = splices[i];
+        var addIndex = spliceIndex = splice.index;
+        var end = splice.index + splice.addedCount;
+
+        if (typeof spliceIndexLow === 'undefined' || spliceIndexLow === null || spliceIndexLow > splice.index) {
+          spliceIndexLow = spliceIndex;
+        }
+
+        for (; addIndex < end; ++addIndex) {
+          var overrideContext = (0, _repeatUtilities.createFullOverrideContext)(repeat, array[addIndex], addIndex, arrayLength);
+          repeat.insertView(addIndex, overrideContext.bindingContext, overrideContext);
+        }
+      }
+
+      return spliceIndexLow;
+    };
+
+    return ArrayRepeatStrategy;
+  }();
+});
+define('aurelia-templating-resources/repeat-utilities',['exports', 'aurelia-binding'], function (exports, _aureliaBinding) {
+  'use strict';
+
+  Object.defineProperty(exports, "__esModule", {
+    value: true
+  });
+  exports.updateOverrideContexts = updateOverrideContexts;
+  exports.createFullOverrideContext = createFullOverrideContext;
+  exports.updateOverrideContext = updateOverrideContext;
+  exports.getItemsSourceExpression = getItemsSourceExpression;
+  exports.unwrapExpression = unwrapExpression;
+  exports.isOneTime = isOneTime;
+  exports.updateOneTimeBinding = updateOneTimeBinding;
+  exports.indexOf = indexOf;
+
+
+  var oneTime = _aureliaBinding.bindingMode.oneTime;
+
+  function updateOverrideContexts(views, startIndex) {
+    var length = views.length;
+
+    if (startIndex > 0) {
+      startIndex = startIndex - 1;
+    }
+
+    for (; startIndex < length; ++startIndex) {
+      updateOverrideContext(views[startIndex].overrideContext, startIndex, length);
+    }
+  }
+
+  function createFullOverrideContext(repeat, data, index, length, key) {
+    var bindingContext = {};
+    var overrideContext = (0, _aureliaBinding.createOverrideContext)(bindingContext, repeat.scope.overrideContext);
+
+    if (typeof key !== 'undefined') {
+      bindingContext[repeat.key] = key;
+      bindingContext[repeat.value] = data;
+    } else {
+      bindingContext[repeat.local] = data;
+    }
+    updateOverrideContext(overrideContext, index, length);
+    return overrideContext;
+  }
+
+  function updateOverrideContext(overrideContext, index, length) {
+    var first = index === 0;
+    var last = index === length - 1;
+    var even = index % 2 === 0;
+
+    overrideContext.$index = index;
+    overrideContext.$first = first;
+    overrideContext.$last = last;
+    overrideContext.$middle = !(first || last);
+    overrideContext.$odd = !even;
+    overrideContext.$even = even;
+  }
+
+  function getItemsSourceExpression(instruction, attrName) {
+    return instruction.behaviorInstructions.filter(function (bi) {
+      return bi.originalAttrName === attrName;
+    })[0].attributes.items.sourceExpression;
+  }
+
+  function unwrapExpression(expression) {
+    var unwrapped = false;
+    while (expression instanceof _aureliaBinding.BindingBehavior) {
+      expression = expression.expression;
+    }
+    while (expression instanceof _aureliaBinding.ValueConverter) {
+      expression = expression.expression;
+      unwrapped = true;
+    }
+    return unwrapped ? expression : null;
+  }
+
+  function isOneTime(expression) {
+    while (expression instanceof _aureliaBinding.BindingBehavior) {
+      if (expression.name === 'oneTime') {
+        return true;
+      }
+      expression = expression.expression;
+    }
+    return false;
+  }
+
+  function updateOneTimeBinding(binding) {
+    if (binding.call && binding.mode === oneTime) {
+      binding.call(_aureliaBinding.sourceContext);
+    } else if (binding.updateOneTimeBindings) {
+      binding.updateOneTimeBindings();
+    }
+  }
+
+  function indexOf(array, item, matcher, startIndex) {
+    if (!matcher) {
+      return array.indexOf(item);
+    }
+    var length = array.length;
+    for (var index = startIndex || 0; index < length; index++) {
+      if (matcher(array[index], item)) {
+        return index;
+      }
+    }
+    return -1;
+  }
+});
+define('aurelia-templating-resources/map-repeat-strategy',['exports', './repeat-utilities'], function (exports, _repeatUtilities) {
+  'use strict';
+
+  Object.defineProperty(exports, "__esModule", {
+    value: true
+  });
+  exports.MapRepeatStrategy = undefined;
+
+  
+
+  var MapRepeatStrategy = exports.MapRepeatStrategy = function () {
+    function MapRepeatStrategy() {
+      
+    }
+
+    MapRepeatStrategy.prototype.getCollectionObserver = function getCollectionObserver(observerLocator, items) {
+      return observerLocator.getMapObserver(items);
+    };
+
+    MapRepeatStrategy.prototype.instanceChanged = function instanceChanged(repeat, items) {
+      var _this = this;
+
+      var removePromise = repeat.removeAllViews(true, !repeat.viewsRequireLifecycle);
+      if (removePromise instanceof Promise) {
+        removePromise.then(function () {
+          return _this._standardProcessItems(repeat, items);
+        });
+        return;
+      }
+      this._standardProcessItems(repeat, items);
+    };
+
+    MapRepeatStrategy.prototype._standardProcessItems = function _standardProcessItems(repeat, items) {
+      var index = 0;
+      var overrideContext = void 0;
+
+      items.forEach(function (value, key) {
+        overrideContext = (0, _repeatUtilities.createFullOverrideContext)(repeat, value, index, items.size, key);
+        repeat.addView(overrideContext.bindingContext, overrideContext);
+        ++index;
+      });
+    };
+
+    MapRepeatStrategy.prototype.instanceMutated = function instanceMutated(repeat, map, records) {
+      var key = void 0;
+      var i = void 0;
+      var ii = void 0;
+      var overrideContext = void 0;
+      var removeIndex = void 0;
+      var record = void 0;
+      var rmPromises = [];
+      var viewOrPromise = void 0;
+
+      for (i = 0, ii = records.length; i < ii; ++i) {
+        record = records[i];
+        key = record.key;
+        switch (record.type) {
+          case 'update':
+            removeIndex = this._getViewIndexByKey(repeat, key);
+            viewOrPromise = repeat.removeView(removeIndex, true, !repeat.viewsRequireLifecycle);
+            if (viewOrPromise instanceof Promise) {
+              rmPromises.push(viewOrPromise);
+            }
+            overrideContext = (0, _repeatUtilities.createFullOverrideContext)(repeat, map.get(key), removeIndex, map.size, key);
+            repeat.insertView(removeIndex, overrideContext.bindingContext, overrideContext);
+            break;
+          case 'add':
+            overrideContext = (0, _repeatUtilities.createFullOverrideContext)(repeat, map.get(key), map.size - 1, map.size, key);
+            repeat.insertView(map.size - 1, overrideContext.bindingContext, overrideContext);
+            break;
+          case 'delete':
+            if (record.oldValue === undefined) {
+              return;
+            }
+            removeIndex = this._getViewIndexByKey(repeat, key);
+            viewOrPromise = repeat.removeView(removeIndex, true, !repeat.viewsRequireLifecycle);
+            if (viewOrPromise instanceof Promise) {
+              rmPromises.push(viewOrPromise);
+            }
+            break;
+          case 'clear':
+            repeat.removeAllViews(true, !repeat.viewsRequireLifecycle);
+            break;
+          default:
+            continue;
+        }
+      }
+
+      if (rmPromises.length > 0) {
+        Promise.all(rmPromises).then(function () {
+          (0, _repeatUtilities.updateOverrideContexts)(repeat.views(), 0);
+        });
+      } else {
+        (0, _repeatUtilities.updateOverrideContexts)(repeat.views(), 0);
+      }
+    };
+
+    MapRepeatStrategy.prototype._getViewIndexByKey = function _getViewIndexByKey(repeat, key) {
+      var i = void 0;
+      var ii = void 0;
+      var child = void 0;
+
+      for (i = 0, ii = repeat.viewCount(); i < ii; ++i) {
+        child = repeat.view(i);
+        if (child.bindingContext[repeat.key] === key) {
+          return i;
+        }
+      }
+
+      return undefined;
+    };
+
+    return MapRepeatStrategy;
+  }();
+});
+define('aurelia-templating-resources/set-repeat-strategy',['exports', './repeat-utilities'], function (exports, _repeatUtilities) {
+  'use strict';
+
+  Object.defineProperty(exports, "__esModule", {
+    value: true
+  });
+  exports.SetRepeatStrategy = undefined;
+
+  
+
+  var SetRepeatStrategy = exports.SetRepeatStrategy = function () {
+    function SetRepeatStrategy() {
+      
+    }
+
+    SetRepeatStrategy.prototype.getCollectionObserver = function getCollectionObserver(observerLocator, items) {
+      return observerLocator.getSetObserver(items);
+    };
+
+    SetRepeatStrategy.prototype.instanceChanged = function instanceChanged(repeat, items) {
+      var _this = this;
+
+      var removePromise = repeat.removeAllViews(true, !repeat.viewsRequireLifecycle);
+      if (removePromise instanceof Promise) {
+        removePromise.then(function () {
+          return _this._standardProcessItems(repeat, items);
+        });
+        return;
+      }
+      this._standardProcessItems(repeat, items);
+    };
+
+    SetRepeatStrategy.prototype._standardProcessItems = function _standardProcessItems(repeat, items) {
+      var index = 0;
+      var overrideContext = void 0;
+
+      items.forEach(function (value) {
+        overrideContext = (0, _repeatUtilities.createFullOverrideContext)(repeat, value, index, items.size);
+        repeat.addView(overrideContext.bindingContext, overrideContext);
+        ++index;
+      });
+    };
+
+    SetRepeatStrategy.prototype.instanceMutated = function instanceMutated(repeat, set, records) {
+      var value = void 0;
+      var i = void 0;
+      var ii = void 0;
+      var overrideContext = void 0;
+      var removeIndex = void 0;
+      var record = void 0;
+      var rmPromises = [];
+      var viewOrPromise = void 0;
+
+      for (i = 0, ii = records.length; i < ii; ++i) {
+        record = records[i];
+        value = record.value;
+        switch (record.type) {
+          case 'add':
+            overrideContext = (0, _repeatUtilities.createFullOverrideContext)(repeat, value, set.size - 1, set.size);
+            repeat.insertView(set.size - 1, overrideContext.bindingContext, overrideContext);
+            break;
+          case 'delete':
+            removeIndex = this._getViewIndexByValue(repeat, value);
+            viewOrPromise = repeat.removeView(removeIndex, true, !repeat.viewsRequireLifecycle);
+            if (viewOrPromise instanceof Promise) {
+              rmPromises.push(viewOrPromise);
+            }
+            break;
+          case 'clear':
+            repeat.removeAllViews(true, !repeat.viewsRequireLifecycle);
+            break;
+          default:
+            continue;
+        }
+      }
+
+      if (rmPromises.length > 0) {
+        Promise.all(rmPromises).then(function () {
+          (0, _repeatUtilities.updateOverrideContexts)(repeat.views(), 0);
+        });
+      } else {
+        (0, _repeatUtilities.updateOverrideContexts)(repeat.views(), 0);
+      }
+    };
+
+    SetRepeatStrategy.prototype._getViewIndexByValue = function _getViewIndexByValue(repeat, value) {
+      var i = void 0;
+      var ii = void 0;
+      var child = void 0;
+
+      for (i = 0, ii = repeat.viewCount(); i < ii; ++i) {
+        child = repeat.view(i);
+        if (child.bindingContext[repeat.local] === value) {
+          return i;
+        }
+      }
+
+      return undefined;
+    };
+
+    return SetRepeatStrategy;
+  }();
+});
+define('aurelia-templating-resources/number-repeat-strategy',['exports', './repeat-utilities'], function (exports, _repeatUtilities) {
+  'use strict';
+
+  Object.defineProperty(exports, "__esModule", {
+    value: true
+  });
+  exports.NumberRepeatStrategy = undefined;
+
+  
+
+  var NumberRepeatStrategy = exports.NumberRepeatStrategy = function () {
+    function NumberRepeatStrategy() {
+      
+    }
+
+    NumberRepeatStrategy.prototype.getCollectionObserver = function getCollectionObserver() {
+      return null;
+    };
+
+    NumberRepeatStrategy.prototype.instanceChanged = function instanceChanged(repeat, value) {
+      var _this = this;
+
+      var removePromise = repeat.removeAllViews(true, !repeat.viewsRequireLifecycle);
+      if (removePromise instanceof Promise) {
+        removePromise.then(function () {
+          return _this._standardProcessItems(repeat, value);
+        });
+        return;
+      }
+      this._standardProcessItems(repeat, value);
+    };
+
+    NumberRepeatStrategy.prototype._standardProcessItems = function _standardProcessItems(repeat, value) {
+      var childrenLength = repeat.viewCount();
+      var i = void 0;
+      var ii = void 0;
+      var overrideContext = void 0;
+      var viewsToRemove = void 0;
+
+      value = Math.floor(value);
+      viewsToRemove = childrenLength - value;
+
+      if (viewsToRemove > 0) {
+        if (viewsToRemove > childrenLength) {
+          viewsToRemove = childrenLength;
+        }
+
+        for (i = 0, ii = viewsToRemove; i < ii; ++i) {
+          repeat.removeView(childrenLength - (i + 1), true, !repeat.viewsRequireLifecycle);
+        }
+
+        return;
+      }
+
+      for (i = childrenLength, ii = value; i < ii; ++i) {
+        overrideContext = (0, _repeatUtilities.createFullOverrideContext)(repeat, i, i, ii);
+        repeat.addView(overrideContext.bindingContext, overrideContext);
+      }
+
+      (0, _repeatUtilities.updateOverrideContexts)(repeat.views(), 0);
+    };
+
+    return NumberRepeatStrategy;
+  }();
+});
+define('aurelia-templating-resources/analyze-view-factory',['exports'], function (exports) {
+  'use strict';
+
+  Object.defineProperty(exports, "__esModule", {
+    value: true
+  });
+  exports.viewsRequireLifecycle = viewsRequireLifecycle;
+  var lifecycleOptionalBehaviors = exports.lifecycleOptionalBehaviors = ['focus', 'if', 'repeat', 'show', 'with'];
+
+  function behaviorRequiresLifecycle(instruction) {
+    var t = instruction.type;
+    var name = t.elementName !== null ? t.elementName : t.attributeName;
+    return lifecycleOptionalBehaviors.indexOf(name) === -1 && (t.handlesAttached || t.handlesBind || t.handlesCreated || t.handlesDetached || t.handlesUnbind) || t.viewFactory && viewsRequireLifecycle(t.viewFactory) || instruction.viewFactory && viewsRequireLifecycle(instruction.viewFactory);
+  }
+
+  function targetRequiresLifecycle(instruction) {
+    var behaviors = instruction.behaviorInstructions;
+    if (behaviors) {
+      var i = behaviors.length;
+      while (i--) {
+        if (behaviorRequiresLifecycle(behaviors[i])) {
+          return true;
+        }
+      }
+    }
+
+    return instruction.viewFactory && viewsRequireLifecycle(instruction.viewFactory);
+  }
+
+  function viewsRequireLifecycle(viewFactory) {
+    if ('_viewsRequireLifecycle' in viewFactory) {
+      return viewFactory._viewsRequireLifecycle;
+    }
+
+    viewFactory._viewsRequireLifecycle = false;
+
+    if (viewFactory.viewFactory) {
+      viewFactory._viewsRequireLifecycle = viewsRequireLifecycle(viewFactory.viewFactory);
+      return viewFactory._viewsRequireLifecycle;
+    }
+
+    if (viewFactory.template.querySelector('.au-animate')) {
+      viewFactory._viewsRequireLifecycle = true;
+      return true;
+    }
+
+    for (var id in viewFactory.instructions) {
+      if (targetRequiresLifecycle(viewFactory.instructions[id])) {
+        viewFactory._viewsRequireLifecycle = true;
+        return true;
+      }
+    }
+
+    viewFactory._viewsRequireLifecycle = false;
+    return false;
+  }
+});
+define('aurelia-templating-resources/abstract-repeater',['exports'], function (exports) {
+  'use strict';
+
+  Object.defineProperty(exports, "__esModule", {
+    value: true
+  });
+
+  
+
+  var AbstractRepeater = exports.AbstractRepeater = function () {
+    function AbstractRepeater(options) {
+      
+
+      Object.assign(this, {
+        local: 'items',
+        viewsRequireLifecycle: true
+      }, options);
+    }
+
+    AbstractRepeater.prototype.viewCount = function viewCount() {
+      throw new Error('subclass must implement `viewCount`');
+    };
+
+    AbstractRepeater.prototype.views = function views() {
+      throw new Error('subclass must implement `views`');
+    };
+
+    AbstractRepeater.prototype.view = function view(index) {
+      throw new Error('subclass must implement `view`');
+    };
+
+    AbstractRepeater.prototype.matcher = function matcher() {
+      throw new Error('subclass must implement `matcher`');
+    };
+
+    AbstractRepeater.prototype.addView = function addView(bindingContext, overrideContext) {
+      throw new Error('subclass must implement `addView`');
+    };
+
+    AbstractRepeater.prototype.insertView = function insertView(index, bindingContext, overrideContext) {
+      throw new Error('subclass must implement `insertView`');
+    };
+
+    AbstractRepeater.prototype.moveView = function moveView(sourceIndex, targetIndex) {
+      throw new Error('subclass must implement `moveView`');
+    };
+
+    AbstractRepeater.prototype.removeAllViews = function removeAllViews(returnToCache, skipAnimation) {
+      throw new Error('subclass must implement `removeAllViews`');
+    };
+
+    AbstractRepeater.prototype.removeViews = function removeViews(viewsToRemove, returnToCache, skipAnimation) {
+      throw new Error('subclass must implement `removeView`');
+    };
+
+    AbstractRepeater.prototype.removeView = function removeView(index, returnToCache, skipAnimation) {
+      throw new Error('subclass must implement `removeView`');
+    };
+
+    AbstractRepeater.prototype.updateBindings = function updateBindings(view) {
+      throw new Error('subclass must implement `updateBindings`');
+    };
+
+    return AbstractRepeater;
+  }();
+});
+define('aurelia-templating-resources/show',['exports', 'aurelia-dependency-injection', 'aurelia-templating', 'aurelia-pal', './aurelia-hide-style'], function (exports, _aureliaDependencyInjection, _aureliaTemplating, _aureliaPal, _aureliaHideStyle) {
+  'use strict';
+
+  Object.defineProperty(exports, "__esModule", {
+    value: true
+  });
+  exports.Show = undefined;
+
+  
+
+  var _dec, _dec2, _class;
+
+  var Show = exports.Show = (_dec = (0, _aureliaTemplating.customAttribute)('show'), _dec2 = (0, _aureliaDependencyInjection.inject)(_aureliaPal.DOM.Element, _aureliaTemplating.Animator, _aureliaDependencyInjection.Optional.of(_aureliaPal.DOM.boundary, true)), _dec(_class = _dec2(_class = function () {
+    function Show(element, animator, domBoundary) {
+      
+
+      this.element = element;
+      this.animator = animator;
+      this.domBoundary = domBoundary;
+    }
+
+    Show.prototype.created = function created() {
+      (0, _aureliaHideStyle.injectAureliaHideStyleAtBoundary)(this.domBoundary);
+    };
+
+    Show.prototype.valueChanged = function valueChanged(newValue) {
+      if (newValue) {
+        this.animator.removeClass(this.element, _aureliaHideStyle.aureliaHideClassName);
+      } else {
+        this.animator.addClass(this.element, _aureliaHideStyle.aureliaHideClassName);
+      }
+    };
+
+    Show.prototype.bind = function bind(bindingContext) {
+      this.valueChanged(this.value);
+    };
+
+    return Show;
+  }()) || _class) || _class);
+});
+define('aurelia-templating-resources/aurelia-hide-style',['exports', 'aurelia-pal'], function (exports, _aureliaPal) {
+  'use strict';
+
+  Object.defineProperty(exports, "__esModule", {
+    value: true
+  });
+  exports.aureliaHideClassName = undefined;
+  exports.injectAureliaHideStyleAtHead = injectAureliaHideStyleAtHead;
+  exports.injectAureliaHideStyleAtBoundary = injectAureliaHideStyleAtBoundary;
+  var aureliaHideClassName = exports.aureliaHideClassName = 'aurelia-hide';
+
+  var aureliaHideClass = '.' + aureliaHideClassName + ' { display:none !important; }';
+
+  function injectAureliaHideStyleAtHead() {
+    _aureliaPal.DOM.injectStyles(aureliaHideClass);
+  }
+
+  function injectAureliaHideStyleAtBoundary(domBoundary) {
+    if (_aureliaPal.FEATURE.shadowDOM && domBoundary && !domBoundary.hasAureliaHideStyle) {
+      domBoundary.hasAureliaHideStyle = true;
+      _aureliaPal.DOM.injectStyles(aureliaHideClass, domBoundary);
+    }
+  }
+});
+define('aurelia-templating-resources/hide',['exports', 'aurelia-dependency-injection', 'aurelia-templating', 'aurelia-pal', './aurelia-hide-style'], function (exports, _aureliaDependencyInjection, _aureliaTemplating, _aureliaPal, _aureliaHideStyle) {
+  'use strict';
+
+  Object.defineProperty(exports, "__esModule", {
+    value: true
+  });
+  exports.Hide = undefined;
+
+  
+
+  var _dec, _dec2, _class;
+
+  var Hide = exports.Hide = (_dec = (0, _aureliaTemplating.customAttribute)('hide'), _dec2 = (0, _aureliaDependencyInjection.inject)(_aureliaPal.DOM.Element, _aureliaTemplating.Animator, _aureliaDependencyInjection.Optional.of(_aureliaPal.DOM.boundary, true)), _dec(_class = _dec2(_class = function () {
+    function Hide(element, animator, domBoundary) {
+      
+
+      this.element = element;
+      this.animator = animator;
+      this.domBoundary = domBoundary;
+    }
+
+    Hide.prototype.created = function created() {
+      (0, _aureliaHideStyle.injectAureliaHideStyleAtBoundary)(this.domBoundary);
+    };
+
+    Hide.prototype.valueChanged = function valueChanged(newValue) {
+      if (newValue) {
+        this.animator.addClass(this.element, _aureliaHideStyle.aureliaHideClassName);
+      } else {
+        this.animator.removeClass(this.element, _aureliaHideStyle.aureliaHideClassName);
+      }
+    };
+
+    Hide.prototype.bind = function bind(bindingContext) {
+      this.valueChanged(this.value);
+    };
+
+    return Hide;
+  }()) || _class) || _class);
+});
+define('aurelia-templating-resources/sanitize-html',['exports', 'aurelia-binding', 'aurelia-dependency-injection', './html-sanitizer'], function (exports, _aureliaBinding, _aureliaDependencyInjection, _htmlSanitizer) {
+  'use strict';
+
+  Object.defineProperty(exports, "__esModule", {
+    value: true
+  });
+  exports.SanitizeHTMLValueConverter = undefined;
+
+  
+
+  var _dec, _dec2, _class;
+
+  var SanitizeHTMLValueConverter = exports.SanitizeHTMLValueConverter = (_dec = (0, _aureliaBinding.valueConverter)('sanitizeHTML'), _dec2 = (0, _aureliaDependencyInjection.inject)(_htmlSanitizer.HTMLSanitizer), _dec(_class = _dec2(_class = function () {
+    function SanitizeHTMLValueConverter(sanitizer) {
+      
+
+      this.sanitizer = sanitizer;
+    }
+
+    SanitizeHTMLValueConverter.prototype.toView = function toView(untrustedMarkup) {
+      if (untrustedMarkup === null || untrustedMarkup === undefined) {
+        return null;
+      }
+
+      return this.sanitizer.sanitize(untrustedMarkup);
+    };
+
+    return SanitizeHTMLValueConverter;
+  }()) || _class) || _class);
+});
+define('aurelia-templating-resources/html-sanitizer',['exports'], function (exports) {
+  'use strict';
+
+  Object.defineProperty(exports, "__esModule", {
+    value: true
+  });
+
+  
+
+  var SCRIPT_REGEX = /<script\b[^<]*(?:(?!<\/script>)<[^<]*)*<\/script>/gi;
+
+  var HTMLSanitizer = exports.HTMLSanitizer = function () {
+    function HTMLSanitizer() {
+      
+    }
+
+    HTMLSanitizer.prototype.sanitize = function sanitize(input) {
+      return input.replace(SCRIPT_REGEX, '');
+    };
+
+    return HTMLSanitizer;
+  }();
+});
+define('aurelia-templating-resources/replaceable',['exports', 'aurelia-dependency-injection', 'aurelia-templating'], function (exports, _aureliaDependencyInjection, _aureliaTemplating) {
+  'use strict';
+
+  Object.defineProperty(exports, "__esModule", {
+    value: true
+  });
+  exports.Replaceable = undefined;
+
+  
+
+  var _dec, _dec2, _class;
+
+  var Replaceable = exports.Replaceable = (_dec = (0, _aureliaTemplating.customAttribute)('replaceable'), _dec2 = (0, _aureliaDependencyInjection.inject)(_aureliaTemplating.BoundViewFactory, _aureliaTemplating.ViewSlot), _dec(_class = (0, _aureliaTemplating.templateController)(_class = _dec2(_class = function () {
+    function Replaceable(viewFactory, viewSlot) {
+      
+
+      this.viewFactory = viewFactory;
+      this.viewSlot = viewSlot;
+      this.view = null;
+    }
+
+    Replaceable.prototype.bind = function bind(bindingContext, overrideContext) {
+      if (this.view === null) {
+        this.view = this.viewFactory.create();
+        this.viewSlot.add(this.view);
+      }
+
+      this.view.bind(bindingContext, overrideContext);
+    };
+
+    Replaceable.prototype.unbind = function unbind() {
+      this.view.unbind();
+    };
+
+    return Replaceable;
+  }()) || _class) || _class) || _class);
+});
+define('aurelia-templating-resources/focus',['exports', 'aurelia-templating', 'aurelia-binding', 'aurelia-dependency-injection', 'aurelia-task-queue', 'aurelia-pal'], function (exports, _aureliaTemplating, _aureliaBinding, _aureliaDependencyInjection, _aureliaTaskQueue, _aureliaPal) {
+  'use strict';
+
+  Object.defineProperty(exports, "__esModule", {
+    value: true
+  });
+  exports.Focus = undefined;
+
+  
+
+  var _dec, _dec2, _class;
+
+  var Focus = exports.Focus = (_dec = (0, _aureliaTemplating.customAttribute)('focus', _aureliaBinding.bindingMode.twoWay), _dec2 = (0, _aureliaDependencyInjection.inject)(_aureliaPal.DOM.Element, _aureliaTaskQueue.TaskQueue), _dec(_class = _dec2(_class = function () {
+    function Focus(element, taskQueue) {
+      var _this = this;
+
+      
+
+      this.element = element;
+      this.taskQueue = taskQueue;
+      this.isAttached = false;
+      this.needsApply = false;
+
+      this.focusListener = function (e) {
+        _this.value = true;
+      };
+      this.blurListener = function (e) {
+        if (_aureliaPal.DOM.activeElement !== _this.element) {
+          _this.value = false;
+        }
+      };
+    }
+
+    Focus.prototype.valueChanged = function valueChanged(newValue) {
+      if (this.isAttached) {
+        this._apply();
+      } else {
+        this.needsApply = true;
+      }
+    };
+
+    Focus.prototype._apply = function _apply() {
+      var _this2 = this;
+
+      if (this.value) {
+        this.taskQueue.queueMicroTask(function () {
+          if (_this2.value) {
+            _this2.element.focus();
+          }
+        });
+      } else {
+        this.element.blur();
+      }
+    };
+
+    Focus.prototype.attached = function attached() {
+      this.isAttached = true;
+      if (this.needsApply) {
+        this.needsApply = false;
+        this._apply();
+      }
+      this.element.addEventListener('focus', this.focusListener);
+      this.element.addEventListener('blur', this.blurListener);
+    };
+
+    Focus.prototype.detached = function detached() {
+      this.isAttached = false;
+      this.element.removeEventListener('focus', this.focusListener);
+      this.element.removeEventListener('blur', this.blurListener);
+    };
+
+    return Focus;
+  }()) || _class) || _class);
+});
+define('aurelia-templating-resources/css-resource',['exports', 'aurelia-templating', 'aurelia-loader', 'aurelia-dependency-injection', 'aurelia-path', 'aurelia-pal'], function (exports, _aureliaTemplating, _aureliaLoader, _aureliaDependencyInjection, _aureliaPath, _aureliaPal) {
+  'use strict';
+
+  Object.defineProperty(exports, "__esModule", {
+    value: true
+  });
+  exports._createCSSResource = _createCSSResource;
+
+  function _possibleConstructorReturn(self, call) {
+    if (!self) {
+      throw new ReferenceError("this hasn't been initialised - super() hasn't been called");
+    }
+
+    return call && (typeof call === "object" || typeof call === "function") ? call : self;
+  }
+
+  function _inherits(subClass, superClass) {
+    if (typeof superClass !== "function" && superClass !== null) {
+      throw new TypeError("Super expression must either be null or a function, not " + typeof superClass);
+    }
+
+    subClass.prototype = Object.create(superClass && superClass.prototype, {
+      constructor: {
+        value: subClass,
+        enumerable: false,
+        writable: true,
+        configurable: true
+      }
+    });
+    if (superClass) Object.setPrototypeOf ? Object.setPrototypeOf(subClass, superClass) : subClass.__proto__ = superClass;
+  }
+
+  
+
+  var cssUrlMatcher = /url\((?!['"]data)([^)]+)\)/gi;
+
+  function fixupCSSUrls(address, css) {
+    if (typeof css !== 'string') {
+      throw new Error('Failed loading required CSS file: ' + address);
+    }
+    return css.replace(cssUrlMatcher, function (match, p1) {
+      var quote = p1.charAt(0);
+      if (quote === '\'' || quote === '"') {
+        p1 = p1.substr(1, p1.length - 2);
+      }
+      return 'url(\'' + (0, _aureliaPath.relativeToFile)(p1, address) + '\')';
+    });
+  }
+
+  var CSSResource = function () {
+    function CSSResource(address) {
+      
+
+      this.address = address;
+      this._scoped = null;
+      this._global = false;
+      this._alreadyGloballyInjected = false;
+    }
+
+    CSSResource.prototype.initialize = function initialize(container, target) {
+      this._scoped = new target(this);
+    };
+
+    CSSResource.prototype.register = function register(registry, name) {
+      if (name === 'scoped') {
+        registry.registerViewEngineHooks(this._scoped);
+      } else {
+        this._global = true;
+      }
+    };
+
+    CSSResource.prototype.load = function load(container) {
+      var _this = this;
+
+      return container.get(_aureliaLoader.Loader).loadText(this.address).catch(function (err) {
+        return null;
+      }).then(function (text) {
+        text = fixupCSSUrls(_this.address, text);
+        _this._scoped.css = text;
+        if (_this._global) {
+          _this._alreadyGloballyInjected = true;
+          _aureliaPal.DOM.injectStyles(text);
+        }
+      });
+    };
+
+    return CSSResource;
+  }();
+
+  var CSSViewEngineHooks = function () {
+    function CSSViewEngineHooks(owner) {
+      
+
+      this.owner = owner;
+      this.css = null;
+    }
+
+    CSSViewEngineHooks.prototype.beforeCompile = function beforeCompile(content, resources, instruction) {
+      if (instruction.targetShadowDOM) {
+        _aureliaPal.DOM.injectStyles(this.css, content, true);
+      } else if (_aureliaPal.FEATURE.scopedCSS) {
+        var styleNode = _aureliaPal.DOM.injectStyles(this.css, content, true);
+        styleNode.setAttribute('scoped', 'scoped');
+      } else if (!this.owner._alreadyGloballyInjected) {
+        _aureliaPal.DOM.injectStyles(this.css);
+        this.owner._alreadyGloballyInjected = true;
+      }
+    };
+
+    return CSSViewEngineHooks;
+  }();
+
+  function _createCSSResource(address) {
+    var _dec, _class;
+
+    var ViewCSS = (_dec = (0, _aureliaTemplating.resource)(new CSSResource(address)), _dec(_class = function (_CSSViewEngineHooks) {
+      _inherits(ViewCSS, _CSSViewEngineHooks);
+
+      function ViewCSS() {
+        
+
+        return _possibleConstructorReturn(this, _CSSViewEngineHooks.apply(this, arguments));
+      }
+
+      return ViewCSS;
+    }(CSSViewEngineHooks)) || _class);
+
+    return ViewCSS;
+  }
+});
+define('aurelia-templating-resources/binding-mode-behaviors',['exports', 'aurelia-binding', 'aurelia-metadata'], function (exports, _aureliaBinding, _aureliaMetadata) {
+  'use strict';
+
+  Object.defineProperty(exports, "__esModule", {
+    value: true
+  });
+  exports.TwoWayBindingBehavior = exports.OneWayBindingBehavior = exports.OneTimeBindingBehavior = undefined;
+
+  
+
+  var _dec, _class, _dec2, _class2, _dec3, _class3;
+
+  var modeBindingBehavior = {
+    bind: function bind(binding, source, lookupFunctions) {
+      binding.originalMode = binding.mode;
+      binding.mode = this.mode;
+    },
+    unbind: function unbind(binding, source) {
+      binding.mode = binding.originalMode;
+      binding.originalMode = null;
+    }
+  };
+
+  var OneTimeBindingBehavior = exports.OneTimeBindingBehavior = (_dec = (0, _aureliaMetadata.mixin)(modeBindingBehavior), _dec(_class = function OneTimeBindingBehavior() {
+    
+
+    this.mode = _aureliaBinding.bindingMode.oneTime;
+  }) || _class);
+  var OneWayBindingBehavior = exports.OneWayBindingBehavior = (_dec2 = (0, _aureliaMetadata.mixin)(modeBindingBehavior), _dec2(_class2 = function OneWayBindingBehavior() {
+    
+
+    this.mode = _aureliaBinding.bindingMode.oneWay;
+  }) || _class2);
+  var TwoWayBindingBehavior = exports.TwoWayBindingBehavior = (_dec3 = (0, _aureliaMetadata.mixin)(modeBindingBehavior), _dec3(_class3 = function TwoWayBindingBehavior() {
+    
+
+    this.mode = _aureliaBinding.bindingMode.twoWay;
+  }) || _class3);
+});
+define('aurelia-templating-resources/throttle-binding-behavior',['exports', 'aurelia-binding'], function (exports, _aureliaBinding) {
+  'use strict';
+
+  Object.defineProperty(exports, "__esModule", {
+    value: true
+  });
+  exports.ThrottleBindingBehavior = undefined;
+
+  
+
+  function throttle(newValue) {
+    var _this = this;
+
+    var state = this.throttleState;
+    var elapsed = +new Date() - state.last;
+    if (elapsed >= state.delay) {
+      clearTimeout(state.timeoutId);
+      state.timeoutId = null;
+      state.last = +new Date();
+      this.throttledMethod(newValue);
+      return;
+    }
+    state.newValue = newValue;
+    if (state.timeoutId === null) {
+      state.timeoutId = setTimeout(function () {
+        state.timeoutId = null;
+        state.last = +new Date();
+        _this.throttledMethod(state.newValue);
+      }, state.delay - elapsed);
+    }
+  }
+
+  var ThrottleBindingBehavior = exports.ThrottleBindingBehavior = function () {
+    function ThrottleBindingBehavior() {
+      
+    }
+
+    ThrottleBindingBehavior.prototype.bind = function bind(binding, source) {
+      var delay = arguments.length <= 2 || arguments[2] === undefined ? 200 : arguments[2];
+
+      var methodToThrottle = 'updateTarget';
+      if (binding.callSource) {
+        methodToThrottle = 'callSource';
+      } else if (binding.updateSource && binding.mode === _aureliaBinding.bindingMode.twoWay) {
+          methodToThrottle = 'updateSource';
+        }
+
+      binding.throttledMethod = binding[methodToThrottle];
+      binding.throttledMethod.originalName = methodToThrottle;
+
+      binding[methodToThrottle] = throttle;
+
+      binding.throttleState = {
+        delay: delay,
+        last: 0,
+        timeoutId: null
+      };
+    };
+
+    ThrottleBindingBehavior.prototype.unbind = function unbind(binding, source) {
+      var methodToRestore = binding.throttledMethod.originalName;
+      binding[methodToRestore] = binding.throttledMethod;
+      binding.throttledMethod = null;
+      clearTimeout(binding.throttleState.timeoutId);
+      binding.throttleState = null;
+    };
+
+    return ThrottleBindingBehavior;
+  }();
+});
+define('aurelia-templating-resources/debounce-binding-behavior',['exports', 'aurelia-binding'], function (exports, _aureliaBinding) {
+  'use strict';
+
+  Object.defineProperty(exports, "__esModule", {
+    value: true
+  });
+  exports.DebounceBindingBehavior = undefined;
+
+  
+
+  function debounce(newValue) {
+    var _this = this;
+
+    var state = this.debounceState;
+    if (state.immediate) {
+      state.immediate = false;
+      this.debouncedMethod(newValue);
+      return;
+    }
+    clearTimeout(state.timeoutId);
+    state.timeoutId = setTimeout(function () {
+      return _this.debouncedMethod(newValue);
+    }, state.delay);
+  }
+
+  var DebounceBindingBehavior = exports.DebounceBindingBehavior = function () {
+    function DebounceBindingBehavior() {
+      
+    }
+
+    DebounceBindingBehavior.prototype.bind = function bind(binding, source) {
+      var delay = arguments.length <= 2 || arguments[2] === undefined ? 200 : arguments[2];
+
+      var methodToDebounce = 'updateTarget';
+      if (binding.callSource) {
+        methodToDebounce = 'callSource';
+      } else if (binding.updateSource && binding.mode === _aureliaBinding.bindingMode.twoWay) {
+          methodToDebounce = 'updateSource';
+        }
+
+      binding.debouncedMethod = binding[methodToDebounce];
+      binding.debouncedMethod.originalName = methodToDebounce;
+
+      binding[methodToDebounce] = debounce;
+
+      binding.debounceState = {
+        delay: delay,
+        timeoutId: null,
+        immediate: methodToDebounce === 'updateTarget' };
+    };
+
+    DebounceBindingBehavior.prototype.unbind = function unbind(binding, source) {
+      var methodToRestore = binding.debouncedMethod.originalName;
+      binding[methodToRestore] = binding.debouncedMethod;
+      binding.debouncedMethod = null;
+      clearTimeout(binding.debounceState.timeoutId);
+      binding.debounceState = null;
+    };
+
+    return DebounceBindingBehavior;
+  }();
+});
+define('aurelia-templating-resources/signal-binding-behavior',['exports', './binding-signaler'], function (exports, _bindingSignaler) {
+  'use strict';
+
+  Object.defineProperty(exports, "__esModule", {
+    value: true
+  });
+  exports.SignalBindingBehavior = undefined;
+
+  
+
+  var SignalBindingBehavior = exports.SignalBindingBehavior = function () {
+    SignalBindingBehavior.inject = function inject() {
+      return [_bindingSignaler.BindingSignaler];
+    };
+
+    function SignalBindingBehavior(bindingSignaler) {
+      
+
+      this.signals = bindingSignaler.signals;
+    }
+
+    SignalBindingBehavior.prototype.bind = function bind(binding, source) {
+      if (!binding.updateTarget) {
+        throw new Error('Only property bindings and string interpolation bindings can be signaled.  Trigger, delegate and call bindings cannot be signaled.');
+      }
+      if (arguments.length === 3) {
+        var name = arguments[2];
+        var bindings = this.signals[name] || (this.signals[name] = []);
+        bindings.push(binding);
+        binding.signalName = name;
+      } else if (arguments.length > 3) {
+        var names = Array.prototype.slice.call(arguments, 2);
+        var i = names.length;
+        while (i--) {
+          var _name = names[i];
+          var _bindings = this.signals[_name] || (this.signals[_name] = []);
+          _bindings.push(binding);
+        }
+        binding.signalName = names;
+      } else {
+        throw new Error('Signal name is required.');
+      }
+    };
+
+    SignalBindingBehavior.prototype.unbind = function unbind(binding, source) {
+      var name = binding.signalName;
+      binding.signalName = null;
+      if (Array.isArray(name)) {
+        var names = name;
+        var i = names.length;
+        while (i--) {
+          var n = names[i];
+          var bindings = this.signals[n];
+          bindings.splice(bindings.indexOf(binding), 1);
+        }
+      } else {
+        var _bindings2 = this.signals[name];
+        _bindings2.splice(_bindings2.indexOf(binding), 1);
+      }
+    };
+
+    return SignalBindingBehavior;
+  }();
+});
+define('aurelia-templating-resources/binding-signaler',['exports', 'aurelia-binding'], function (exports, _aureliaBinding) {
+  'use strict';
+
+  Object.defineProperty(exports, "__esModule", {
+    value: true
+  });
+  exports.BindingSignaler = undefined;
+
+  
+
+  var BindingSignaler = exports.BindingSignaler = function () {
+    function BindingSignaler() {
+      
+
+      this.signals = {};
+    }
+
+    BindingSignaler.prototype.signal = function signal(name) {
+      var bindings = this.signals[name];
+      if (!bindings) {
+        return;
+      }
+      var i = bindings.length;
+      while (i--) {
+        bindings[i].call(_aureliaBinding.sourceContext);
+      }
+    };
+
+    return BindingSignaler;
+  }();
+});
+define('aurelia-templating-resources/update-trigger-binding-behavior',['exports', 'aurelia-binding'], function (exports, _aureliaBinding) {
+  'use strict';
+
+  Object.defineProperty(exports, "__esModule", {
+    value: true
+  });
+  exports.UpdateTriggerBindingBehavior = undefined;
+
+  
+
+  var _class, _temp;
+
+  var eventNamesRequired = 'The updateTrigger binding behavior requires at least one event name argument: eg <input value.bind="firstName & updateTrigger:\'blur\'">';
+  var notApplicableMessage = 'The updateTrigger binding behavior can only be applied to two-way bindings on input/select elements.';
+
+  var UpdateTriggerBindingBehavior = exports.UpdateTriggerBindingBehavior = (_temp = _class = function () {
+    function UpdateTriggerBindingBehavior(eventManager) {
+      
+
+      this.eventManager = eventManager;
+    }
+
+    UpdateTriggerBindingBehavior.prototype.bind = function bind(binding, source) {
+      for (var _len = arguments.length, events = Array(_len > 2 ? _len - 2 : 0), _key = 2; _key < _len; _key++) {
+        events[_key - 2] = arguments[_key];
+      }
+
+      if (events.length === 0) {
+        throw new Error(eventNamesRequired);
+      }
+      if (binding.mode !== _aureliaBinding.bindingMode.twoWay) {
+        throw new Error(notApplicableMessage);
+      }
+
+      var targetObserver = binding.observerLocator.getObserver(binding.target, binding.targetProperty);
+      if (!targetObserver.handler) {
+        throw new Error(notApplicableMessage);
+      }
+      binding.targetObserver = targetObserver;
+
+      targetObserver.originalHandler = binding.targetObserver.handler;
+
+      var handler = this.eventManager.createElementHandler(events);
+      targetObserver.handler = handler;
+    };
+
+    UpdateTriggerBindingBehavior.prototype.unbind = function unbind(binding, source) {
+      binding.targetObserver.handler = binding.targetObserver.originalHandler;
+      binding.targetObserver.originalHandler = null;
+    };
+
+    return UpdateTriggerBindingBehavior;
+  }(), _class.inject = [_aureliaBinding.EventManager], _temp);
+});
+define('aurelia-templating-resources/html-resource-plugin',['exports', 'aurelia-templating', './dynamic-element'], function (exports, _aureliaTemplating, _dynamicElement) {
+  'use strict';
+
+  Object.defineProperty(exports, "__esModule", {
+    value: true
+  });
+  exports.getElementName = getElementName;
+  exports.configure = configure;
+  function getElementName(address) {
+    return (/([^\/^\?]+)\.html/i.exec(address)[1].toLowerCase()
+    );
+  }
+
+  function configure(config) {
+    var viewEngine = config.container.get(_aureliaTemplating.ViewEngine);
+    var loader = config.aurelia.loader;
+
+    viewEngine.addResourcePlugin('.html', {
+      'fetch': function fetch(address) {
+        return loader.loadTemplate(address).then(function (registryEntry) {
+          var _ref;
+
+          var bindable = registryEntry.template.getAttribute('bindable');
+          var elementName = getElementName(address);
+
+          if (bindable) {
+            bindable = bindable.split(',').map(function (x) {
+              return x.trim();
+            });
+            registryEntry.template.removeAttribute('bindable');
+          } else {
+            bindable = [];
+          }
+
+          return _ref = {}, _ref[elementName] = (0, _dynamicElement._createDynamicElement)(elementName, address, bindable), _ref;
+        });
+      }
+    });
+  }
+});
+define('aurelia-templating-resources/dynamic-element',['exports', 'aurelia-templating'], function (exports, _aureliaTemplating) {
+  'use strict';
+
+  Object.defineProperty(exports, "__esModule", {
+    value: true
+  });
+  exports._createDynamicElement = _createDynamicElement;
+
+  
+
+  function _createDynamicElement(name, viewUrl, bindableNames) {
+    var _dec, _dec2, _class;
+
+    var DynamicElement = (_dec = (0, _aureliaTemplating.customElement)(name), _dec2 = (0, _aureliaTemplating.useView)(viewUrl), _dec(_class = _dec2(_class = function () {
+      function DynamicElement() {
+        
+      }
+
+      DynamicElement.prototype.bind = function bind(bindingContext) {
+        this.$parent = bindingContext;
+      };
+
+      return DynamicElement;
+    }()) || _class) || _class);
+
+    for (var i = 0, ii = bindableNames.length; i < ii; ++i) {
+      (0, _aureliaTemplating.bindable)(bindableNames[i])(DynamicElement);
+    }
+    return DynamicElement;
+  }
+});
+define('aurelia-templating-router/aurelia-templating-router',['exports', 'aurelia-router', './route-loader', './router-view', './route-href'], function (exports, _aureliaRouter, _routeLoader, _routerView, _routeHref) {
+  'use strict';
+
+  Object.defineProperty(exports, "__esModule", {
+    value: true
+  });
+  exports.configure = exports.RouteHref = exports.RouterView = exports.TemplatingRouteLoader = undefined;
+
+
+  function configure(config) {
+    config.singleton(_aureliaRouter.RouteLoader, _routeLoader.TemplatingRouteLoader).singleton(_aureliaRouter.Router, _aureliaRouter.AppRouter).globalResources('./router-view', './route-href');
+
+    config.container.registerAlias(_aureliaRouter.Router, _aureliaRouter.AppRouter);
+  }
+
+  exports.TemplatingRouteLoader = _routeLoader.TemplatingRouteLoader;
+  exports.RouterView = _routerView.RouterView;
+  exports.RouteHref = _routeHref.RouteHref;
+  exports.configure = configure;
+});;define('aurelia-templating-router', ['aurelia-templating-router/aurelia-templating-router'], function (main) { return main; });
+
+define('aurelia-templating-router/route-loader',['exports', 'aurelia-dependency-injection', 'aurelia-templating', 'aurelia-router', 'aurelia-path', 'aurelia-metadata'], function (exports, _aureliaDependencyInjection, _aureliaTemplating, _aureliaRouter, _aureliaPath, _aureliaMetadata) {
+  'use strict';
+
+  Object.defineProperty(exports, "__esModule", {
+    value: true
+  });
+  exports.TemplatingRouteLoader = undefined;
+
+  
+
+  function _possibleConstructorReturn(self, call) {
+    if (!self) {
+      throw new ReferenceError("this hasn't been initialised - super() hasn't been called");
+    }
+
+    return call && (typeof call === "object" || typeof call === "function") ? call : self;
+  }
+
+  function _inherits(subClass, superClass) {
+    if (typeof superClass !== "function" && superClass !== null) {
+      throw new TypeError("Super expression must either be null or a function, not " + typeof superClass);
+    }
+
+    subClass.prototype = Object.create(superClass && superClass.prototype, {
+      constructor: {
+        value: subClass,
+        enumerable: false,
+        writable: true,
+        configurable: true
+      }
+    });
+    if (superClass) Object.setPrototypeOf ? Object.setPrototypeOf(subClass, superClass) : subClass.__proto__ = superClass;
+  }
+
+  var _dec, _class;
+
+  var TemplatingRouteLoader = exports.TemplatingRouteLoader = (_dec = (0, _aureliaDependencyInjection.inject)(_aureliaTemplating.CompositionEngine), _dec(_class = function (_RouteLoader) {
+    _inherits(TemplatingRouteLoader, _RouteLoader);
+
+    function TemplatingRouteLoader(compositionEngine) {
+      
+
+      var _this = _possibleConstructorReturn(this, _RouteLoader.call(this));
+
+      _this.compositionEngine = compositionEngine;
+      return _this;
+    }
+
+    TemplatingRouteLoader.prototype.loadRoute = function loadRoute(router, config) {
+      var childContainer = router.container.createChild();
+      var instruction = {
+        viewModel: (0, _aureliaPath.relativeToFile)(config.moduleId, _aureliaMetadata.Origin.get(router.container.viewModel.constructor).moduleId),
+        childContainer: childContainer,
+        view: config.view || config.viewStrategy,
+        router: router
+      };
+
+      childContainer.getChildRouter = function () {
+        var childRouter = void 0;
+
+        childContainer.registerHandler(_aureliaRouter.Router, function (c) {
+          return childRouter || (childRouter = router.createChild(childContainer));
+        });
+
+        return childContainer.get(_aureliaRouter.Router);
+      };
+
+      return this.compositionEngine.ensureViewModel(instruction);
+    };
+
+    return TemplatingRouteLoader;
+  }(_aureliaRouter.RouteLoader)) || _class);
+});
+define('aurelia-templating-router/router-view',['exports', 'aurelia-dependency-injection', 'aurelia-templating', 'aurelia-router', 'aurelia-metadata', 'aurelia-pal'], function (exports, _aureliaDependencyInjection, _aureliaTemplating, _aureliaRouter, _aureliaMetadata, _aureliaPal) {
+  'use strict';
+
+  Object.defineProperty(exports, "__esModule", {
+    value: true
+  });
+  exports.RouterView = undefined;
+
+  function _initDefineProp(target, property, descriptor, context) {
+    if (!descriptor) return;
+    Object.defineProperty(target, property, {
+      enumerable: descriptor.enumerable,
+      configurable: descriptor.configurable,
+      writable: descriptor.writable,
+      value: descriptor.initializer ? descriptor.initializer.call(context) : void 0
+    });
+  }
+
+  function _applyDecoratedDescriptor(target, property, decorators, descriptor, context) {
+    var desc = {};
+    Object['ke' + 'ys'](descriptor).forEach(function (key) {
+      desc[key] = descriptor[key];
+    });
+    desc.enumerable = !!desc.enumerable;
+    desc.configurable = !!desc.configurable;
+
+    if ('value' in desc || desc.initializer) {
+      desc.writable = true;
+    }
+
+    desc = decorators.slice().reverse().reduce(function (desc, decorator) {
+      return decorator(target, property, desc) || desc;
+    }, desc);
+
+    if (context && desc.initializer !== void 0) {
+      desc.value = desc.initializer ? desc.initializer.call(context) : void 0;
+      desc.initializer = undefined;
+    }
+
+    if (desc.initializer === void 0) {
+      Object['define' + 'Property'](target, property, desc);
+      desc = null;
+    }
+
+    return desc;
+  }
+
+  function _initializerWarningHelper(descriptor, context) {
+    throw new Error('Decorating class property failed. Please ensure that transform-class-properties is enabled.');
+  }
+
+  var _dec, _dec2, _class, _desc, _value, _class2, _descriptor, _descriptor2, _descriptor3, _descriptor4;
+
+  
+
+  var SwapStrategies = function () {
+    function SwapStrategies() {
+      
+    }
+
+    SwapStrategies.prototype.before = function before(viewSlot, previousView, callback) {
+      var promise = Promise.resolve(callback());
+
+      if (previousView !== undefined) {
+        return promise.then(function () {
+          return viewSlot.remove(previousView, true);
+        });
+      }
+
+      return promise;
+    };
+
+    SwapStrategies.prototype.with = function _with(viewSlot, previousView, callback) {
+      var promise = Promise.resolve(callback());
+
+      if (previousView !== undefined) {
+        return Promise.all([viewSlot.remove(previousView, true), promise]);
+      }
+
+      return promise;
+    };
+
+    SwapStrategies.prototype.after = function after(viewSlot, previousView, callback) {
+      return Promise.resolve(viewSlot.removeAll(true)).then(callback);
+    };
+
+    return SwapStrategies;
+  }();
+
+  var swapStrategies = new SwapStrategies();
+
+  var RouterView = exports.RouterView = (_dec = (0, _aureliaTemplating.customElement)('router-view'), _dec2 = (0, _aureliaDependencyInjection.inject)(_aureliaPal.DOM.Element, _aureliaDependencyInjection.Container, _aureliaTemplating.ViewSlot, _aureliaRouter.Router, _aureliaTemplating.ViewLocator, _aureliaTemplating.CompositionTransaction, _aureliaTemplating.CompositionEngine), _dec(_class = (0, _aureliaTemplating.noView)(_class = _dec2(_class = (_class2 = function () {
+    function RouterView(element, container, viewSlot, router, viewLocator, compositionTransaction, compositionEngine) {
+      
+
+      _initDefineProp(this, 'swapOrder', _descriptor, this);
+
+      _initDefineProp(this, 'layoutView', _descriptor2, this);
+
+      _initDefineProp(this, 'layoutViewModel', _descriptor3, this);
+
+      _initDefineProp(this, 'layoutModel', _descriptor4, this);
+
+      this.element = element;
+      this.container = container;
+      this.viewSlot = viewSlot;
+      this.router = router;
+      this.viewLocator = viewLocator;
+      this.compositionTransaction = compositionTransaction;
+      this.compositionEngine = compositionEngine;
+      this.router.registerViewPort(this, this.element.getAttribute('name'));
+
+      if (!('initialComposition' in compositionTransaction)) {
+        compositionTransaction.initialComposition = true;
+        this.compositionTransactionNotifier = compositionTransaction.enlist();
+      }
+    }
+
+    RouterView.prototype.created = function created(owningView) {
+      this.owningView = owningView;
+    };
+
+    RouterView.prototype.bind = function bind(bindingContext, overrideContext) {
+      this.container.viewModel = bindingContext;
+      this.overrideContext = overrideContext;
+    };
+
+    RouterView.prototype.process = function process(viewPortInstruction, waitToSwap) {
+      var _this = this;
+
+      var component = viewPortInstruction.component;
+      var childContainer = component.childContainer;
+      var viewModel = component.viewModel;
+      var viewModelResource = component.viewModelResource;
+      var metadata = viewModelResource.metadata;
+      var config = component.router.currentInstruction.config;
+      var viewPort = config.viewPorts ? config.viewPorts[viewPortInstruction.name] : {};
+
+      var layoutInstruction = {
+        viewModel: viewPort.layoutViewModel || config.layoutViewModel || this.layoutViewModel,
+        view: viewPort.layoutView || config.layoutView || this.layoutView,
+        model: viewPort.layoutModel || config.layoutModel || this.layoutModel,
+        router: viewPortInstruction.component.router,
+        childContainer: childContainer,
+        viewSlot: this.viewSlot
+      };
+
+      var viewStrategy = this.viewLocator.getViewStrategy(component.view || viewModel);
+      if (viewStrategy && component.view) {
+        viewStrategy.makeRelativeTo(_aureliaMetadata.Origin.get(component.router.container.viewModel.constructor).moduleId);
+      }
+
+      return metadata.load(childContainer, viewModelResource.value, null, viewStrategy, true).then(function (viewFactory) {
+        if (!_this.compositionTransactionNotifier) {
+          _this.compositionTransactionOwnershipToken = _this.compositionTransaction.tryCapture();
+        }
+
+        if (layoutInstruction.viewModel || layoutInstruction.view) {
+          viewPortInstruction.layoutInstruction = layoutInstruction;
+        }
+
+        viewPortInstruction.controller = metadata.create(childContainer, _aureliaTemplating.BehaviorInstruction.dynamic(_this.element, viewModel, viewFactory));
+
+        if (waitToSwap) {
+          return;
+        }
+
+        _this.swap(viewPortInstruction);
+      });
+    };
+
+    RouterView.prototype.swap = function swap(viewPortInstruction) {
+      var _this2 = this;
+
+      var work = function work() {
+        var previousView = _this2.view;
+        var swapStrategy = void 0;
+        var viewSlot = _this2.viewSlot;
+        var layoutInstruction = viewPortInstruction.layoutInstruction;
+
+        swapStrategy = _this2.swapOrder in swapStrategies ? swapStrategies[_this2.swapOrder] : swapStrategies.after;
+
+        swapStrategy(viewSlot, previousView, function () {
+          var waitForView = void 0;
+
+          if (layoutInstruction) {
+            if (!layoutInstruction.viewModel) {
+              layoutInstruction.viewModel = {};
+            }
+
+            waitForView = _this2.compositionEngine.createController(layoutInstruction).then(function (layout) {
+              _aureliaTemplating.ShadowDOM.distributeView(viewPortInstruction.controller.view, layout.slots || layout.view.slots);
+              return layout.view || layout;
+            });
+          } else {
+            waitForView = Promise.resolve(viewPortInstruction.controller.view);
+          }
+
+          return waitForView.then(function (newView) {
+            _this2.view = newView;
+            return viewSlot.add(newView);
+          }).then(function () {
+            _this2._notify();
+          });
+        });
+      };
+
+      viewPortInstruction.controller.automate(this.overrideContext, this.owningView);
+
+      if (this.compositionTransactionOwnershipToken) {
+        return this.compositionTransactionOwnershipToken.waitForCompositionComplete().then(function () {
+          _this2.compositionTransactionOwnershipToken = null;
+          return work();
+        });
+      }
+
+      return work();
+    };
+
+    RouterView.prototype._notify = function _notify() {
+      if (this.compositionTransactionNotifier) {
+        this.compositionTransactionNotifier.done();
+        this.compositionTransactionNotifier = null;
+      }
+    };
+
+    return RouterView;
+  }(), (_descriptor = _applyDecoratedDescriptor(_class2.prototype, 'swapOrder', [_aureliaTemplating.bindable], {
+    enumerable: true,
+    initializer: null
+  }), _descriptor2 = _applyDecoratedDescriptor(_class2.prototype, 'layoutView', [_aureliaTemplating.bindable], {
+    enumerable: true,
+    initializer: null
+  }), _descriptor3 = _applyDecoratedDescriptor(_class2.prototype, 'layoutViewModel', [_aureliaTemplating.bindable], {
+    enumerable: true,
+    initializer: null
+  }), _descriptor4 = _applyDecoratedDescriptor(_class2.prototype, 'layoutModel', [_aureliaTemplating.bindable], {
+    enumerable: true,
+    initializer: null
+  })), _class2)) || _class) || _class) || _class);
+});
+define('aurelia-templating-router/route-href',['exports', 'aurelia-templating', 'aurelia-dependency-injection', 'aurelia-router', 'aurelia-pal', 'aurelia-logging'], function (exports, _aureliaTemplating, _aureliaDependencyInjection, _aureliaRouter, _aureliaPal, _aureliaLogging) {
+  'use strict';
+
+  Object.defineProperty(exports, "__esModule", {
+    value: true
+  });
+  exports.RouteHref = undefined;
+
+  var LogManager = _interopRequireWildcard(_aureliaLogging);
+
+  function _interopRequireWildcard(obj) {
+    if (obj && obj.__esModule) {
+      return obj;
+    } else {
+      var newObj = {};
+
+      if (obj != null) {
+        for (var key in obj) {
+          if (Object.prototype.hasOwnProperty.call(obj, key)) newObj[key] = obj[key];
+        }
+      }
+
+      newObj.default = obj;
+      return newObj;
+    }
+  }
+
+  
+
+  var _dec, _dec2, _dec3, _dec4, _dec5, _class;
+
+  var logger = LogManager.getLogger('route-href');
+
+  var RouteHref = exports.RouteHref = (_dec = (0, _aureliaTemplating.customAttribute)('route-href'), _dec2 = (0, _aureliaTemplating.bindable)({ name: 'route', changeHandler: 'processChange' }), _dec3 = (0, _aureliaTemplating.bindable)({ name: 'params', changeHandler: 'processChange' }), _dec4 = (0, _aureliaTemplating.bindable)({ name: 'attribute', defaultValue: 'href' }), _dec5 = (0, _aureliaDependencyInjection.inject)(_aureliaRouter.Router, _aureliaPal.DOM.Element), _dec(_class = _dec2(_class = _dec3(_class = _dec4(_class = _dec5(_class = function () {
+    function RouteHref(router, element) {
+      
+
+      this.router = router;
+      this.element = element;
+    }
+
+    RouteHref.prototype.bind = function bind() {
+      this.isActive = true;
+      this.processChange();
+    };
+
+    RouteHref.prototype.unbind = function unbind() {
+      this.isActive = false;
+    };
+
+    RouteHref.prototype.attributeChanged = function attributeChanged(value, previous) {
+      if (previous) {
+        this.element.removeAttribute(previous);
+      }
+
+      this.processChange();
+    };
+
+    RouteHref.prototype.processChange = function processChange() {
+      var _this = this;
+
+      return this.router.ensureConfigured().then(function () {
+        if (!_this.isActive) {
+          return null;
+        }
+
+        var href = _this.router.generate(_this.route, _this.params);
+        _this.element.setAttribute(_this.attribute, href);
+        return null;
+      }).catch(function (reason) {
+        logger.error(reason);
+      });
+    };
+
+    return RouteHref;
+  }()) || _class) || _class) || _class) || _class) || _class);
+});
+define('aurelia-testing/aurelia-testing',['exports', './compile-spy', './view-spy', './component-tester'], function (exports, _compileSpy, _viewSpy, _componentTester) {
+  'use strict';
+
+  Object.defineProperty(exports, "__esModule", {
+    value: true
+  });
+  exports.configure = exports.ComponentTester = exports.StageComponent = exports.ViewSpy = exports.CompileSpy = undefined;
+
+
+  function configure(config) {
+    config.globalResources('./compile-spy', './view-spy');
+  }
+
+  exports.CompileSpy = _compileSpy.CompileSpy;
+  exports.ViewSpy = _viewSpy.ViewSpy;
+  exports.StageComponent = _componentTester.StageComponent;
+  exports.ComponentTester = _componentTester.ComponentTester;
+  exports.configure = configure;
+});;define('aurelia-testing', ['aurelia-testing/aurelia-testing'], function (main) { return main; });
+
+define('aurelia-testing/compile-spy',['exports', 'aurelia-templating', 'aurelia-dependency-injection', 'aurelia-logging', 'aurelia-pal'], function (exports, _aureliaTemplating, _aureliaDependencyInjection, _aureliaLogging, _aureliaPal) {
+  'use strict';
+
+  Object.defineProperty(exports, "__esModule", {
+    value: true
+  });
+  exports.CompileSpy = undefined;
+
+  var LogManager = _interopRequireWildcard(_aureliaLogging);
+
+  function _interopRequireWildcard(obj) {
+    if (obj && obj.__esModule) {
+      return obj;
+    } else {
+      var newObj = {};
+
+      if (obj != null) {
+        for (var key in obj) {
+          if (Object.prototype.hasOwnProperty.call(obj, key)) newObj[key] = obj[key];
+        }
+      }
+
+      newObj.default = obj;
+      return newObj;
+    }
+  }
+
+  
+
+  var _dec, _dec2, _class;
+
+  var CompileSpy = exports.CompileSpy = (_dec = (0, _aureliaTemplating.customAttribute)('compile-spy'), _dec2 = (0, _aureliaDependencyInjection.inject)(_aureliaPal.DOM.Element, _aureliaTemplating.TargetInstruction), _dec(_class = _dec2(_class = function CompileSpy(element, instruction) {
+    
+
+    LogManager.getLogger('compile-spy').info(element, instruction);
+  }) || _class) || _class);
+});
+define('aurelia-testing/view-spy',['exports', 'aurelia-templating', 'aurelia-logging'], function (exports, _aureliaTemplating, _aureliaLogging) {
+  'use strict';
+
+  Object.defineProperty(exports, "__esModule", {
+    value: true
+  });
+  exports.ViewSpy = undefined;
+
+  var LogManager = _interopRequireWildcard(_aureliaLogging);
+
+  function _interopRequireWildcard(obj) {
+    if (obj && obj.__esModule) {
+      return obj;
+    } else {
+      var newObj = {};
+
+      if (obj != null) {
+        for (var key in obj) {
+          if (Object.prototype.hasOwnProperty.call(obj, key)) newObj[key] = obj[key];
+        }
+      }
+
+      newObj.default = obj;
+      return newObj;
+    }
+  }
+
+  
+
+  var _dec, _class;
+
+  var ViewSpy = exports.ViewSpy = (_dec = (0, _aureliaTemplating.customAttribute)('view-spy'), _dec(_class = function () {
+    function ViewSpy() {
+      
+
+      this.logger = LogManager.getLogger('view-spy');
+    }
+
+    ViewSpy.prototype._log = function _log(lifecycleName, context) {
+      if (!this.value && lifecycleName === 'created') {
+        this.logger.info(lifecycleName, this.view);
+      } else if (this.value && this.value.indexOf(lifecycleName) !== -1) {
+        this.logger.info(lifecycleName, this.view, context);
+      }
+    };
+
+    ViewSpy.prototype.created = function created(view) {
+      this.view = view;
+      this._log('created');
+    };
+
+    ViewSpy.prototype.bind = function bind(bindingContext) {
+      this._log('bind', bindingContext);
+    };
+
+    ViewSpy.prototype.attached = function attached() {
+      this._log('attached');
+    };
+
+    ViewSpy.prototype.detached = function detached() {
+      this._log('detached');
+    };
+
+    ViewSpy.prototype.unbind = function unbind() {
+      this._log('unbind');
+    };
+
+    return ViewSpy;
+  }()) || _class);
+});
+define('aurelia-testing/component-tester',['exports', 'aurelia-templating', 'aurelia-framework'], function (exports, _aureliaTemplating, _aureliaFramework) {
+  'use strict';
+
+  Object.defineProperty(exports, "__esModule", {
+    value: true
+  });
+  exports.ComponentTester = exports.StageComponent = undefined;
+
+  
+
+  var StageComponent = exports.StageComponent = {
+    withResources: function withResources(resources) {
+      return new ComponentTester().withResources(resources);
+    }
+  };
+
+  var ComponentTester = exports.ComponentTester = function () {
+    function ComponentTester() {
+      
+
+      this.configure = function (aurelia) {
+        return aurelia.use.standardConfiguration();
+      };
+
+      this._resources = [];
+    }
+
+    ComponentTester.prototype.bootstrap = function bootstrap(configure) {
+      this.configure = configure;
+    };
+
+    ComponentTester.prototype.withResources = function withResources(resources) {
+      this._resources = resources;
+      return this;
+    };
+
+    ComponentTester.prototype.inView = function inView(html) {
+      this._html = html;
+      return this;
+    };
+
+    ComponentTester.prototype.boundTo = function boundTo(bindingContext) {
+      this._bindingContext = bindingContext;
+      return this;
+    };
+
+    ComponentTester.prototype.manuallyHandleLifecycle = function manuallyHandleLifecycle() {
+      this._prepareLifecycle();
+      return this;
+    };
+
+    ComponentTester.prototype.create = function create(bootstrap) {
+      var _this = this;
+
+      return bootstrap(function (aurelia) {
+        return Promise.resolve(_this.configure(aurelia)).then(function () {
+          if (_this._resources) {
+            aurelia.use.globalResources(_this._resources);
+          }
+
+          return aurelia.start().then(function (a) {
+            _this.host = document.createElement('div');
+            _this.host.innerHTML = _this._html;
+
+            document.body.appendChild(_this.host);
+
+            return aurelia.enhance(_this._bindingContext, _this.host).then(function () {
+              _this._rootView = aurelia.root;
+              _this.element = _this.host.firstElementChild;
+
+              if (aurelia.root.controllers.length) {
+                _this.viewModel = aurelia.root.controllers[0].viewModel;
+              }
+
+              return new Promise(function (resolve) {
+                return setTimeout(function () {
+                  return resolve();
+                }, 0);
+              });
+            });
+          });
+        });
+      });
+    };
+
+    ComponentTester.prototype.dispose = function dispose() {
+      if (this.host === undefined || this._rootView === undefined) {
+        throw new Error('Cannot call ComponentTester.dispose() before ComponentTester.create()');
+      }
+
+      this._rootView.detached();
+      this._rootView.unbind();
+
+      return this.host.parentNode.removeChild(this.host);
+    };
+
+    ComponentTester.prototype._prepareLifecycle = function _prepareLifecycle() {
+      var _this2 = this;
+
+      var bindPrototype = _aureliaTemplating.View.prototype.bind;
+      _aureliaTemplating.View.prototype.bind = function () {};
+      this.bind = function (bindingContext) {
+        return new Promise(function (resolve) {
+          _aureliaTemplating.View.prototype.bind = bindPrototype;
+          if (bindingContext !== undefined) {
+            _this2._bindingContext = bindingContext;
+          }
+          _this2._rootView.bind(_this2._bindingContext);
+          setTimeout(function () {
+            return resolve();
+          }, 0);
+        });
+      };
+
+      var attachedPrototype = _aureliaTemplating.View.prototype.attached;
+      _aureliaTemplating.View.prototype.attached = function () {};
+      this.attached = function () {
+        return new Promise(function (resolve) {
+          _aureliaTemplating.View.prototype.attached = attachedPrototype;
+          _this2._rootView.attached();
+          setTimeout(function () {
+            return resolve();
+          }, 0);
+        });
+      };
+
+      this.detached = function () {
+        return new Promise(function (resolve) {
+          _this2._rootView.detached();
+          setTimeout(function () {
+            return resolve();
+          }, 0);
+        });
+      };
+
+      this.unbind = function () {
+        return new Promise(function (resolve) {
+          _this2._rootView.unbind();
+          setTimeout(function () {
+            return resolve();
+          }, 0);
+        });
+      };
+    };
+
+    return ComponentTester;
+  }();
 });
 define('aurelia-task-queue',['exports', 'aurelia-pal'], function (exports, _aureliaPal) {
   'use strict';
@@ -20860,7502 +24881,522 @@ define('aurelia-templating',['exports', 'aurelia-logging', 'aurelia-metadata', '
     return TemplatingEngine;
   }()) || _class23);
 });
-define('aurelia-templating-binding',['exports', 'aurelia-logging', 'aurelia-binding', 'aurelia-templating'], function (exports, _aureliaLogging, _aureliaBinding, _aureliaTemplating) {
+define('aurelia-pal-browser',['exports', 'aurelia-pal'], function (exports, _aureliaPal) {
   'use strict';
 
   Object.defineProperty(exports, "__esModule", {
     value: true
   });
-  exports.TemplatingBindingLanguage = exports.SyntaxInterpreter = exports.ChildInterpolationBinding = exports.InterpolationBinding = exports.InterpolationBindingExpression = exports.AttributeMap = undefined;
-  exports.configure = configure;
-
-  var LogManager = _interopRequireWildcard(_aureliaLogging);
-
-  function _interopRequireWildcard(obj) {
-    if (obj && obj.__esModule) {
-      return obj;
-    } else {
-      var newObj = {};
-
-      if (obj != null) {
-        for (var key in obj) {
-          if (Object.prototype.hasOwnProperty.call(obj, key)) newObj[key] = obj[key];
-        }
-      }
-
-      newObj.default = obj;
-      return newObj;
-    }
-  }
-
-  function _possibleConstructorReturn(self, call) {
-    if (!self) {
-      throw new ReferenceError("this hasn't been initialised - super() hasn't been called");
-    }
-
-    return call && (typeof call === "object" || typeof call === "function") ? call : self;
-  }
-
-  function _inherits(subClass, superClass) {
-    if (typeof superClass !== "function" && superClass !== null) {
-      throw new TypeError("Super expression must either be null or a function, not " + typeof superClass);
-    }
-
-    subClass.prototype = Object.create(superClass && superClass.prototype, {
-      constructor: {
-        value: subClass,
-        enumerable: false,
-        writable: true,
-        configurable: true
-      }
-    });
-    if (superClass) Object.setPrototypeOf ? Object.setPrototypeOf(subClass, superClass) : subClass.__proto__ = superClass;
-  }
-
-  
-
-  var _class, _temp, _dec, _class2, _class3, _temp2, _class4, _temp3;
-
-  var AttributeMap = exports.AttributeMap = (_temp = _class = function () {
-    function AttributeMap(svg) {
-      
-
-      this.elements = Object.create(null);
-      this.allElements = Object.create(null);
-
-      this.svg = svg;
-
-      this.registerUniversal('accesskey', 'accessKey');
-      this.registerUniversal('contenteditable', 'contentEditable');
-      this.registerUniversal('tabindex', 'tabIndex');
-      this.registerUniversal('textcontent', 'textContent');
-      this.registerUniversal('innerhtml', 'innerHTML');
-      this.registerUniversal('scrolltop', 'scrollTop');
-      this.registerUniversal('scrollleft', 'scrollLeft');
-      this.registerUniversal('readonly', 'readOnly');
-
-      this.register('label', 'for', 'htmlFor');
-
-      this.register('input', 'maxlength', 'maxLength');
-      this.register('input', 'minlength', 'minLength');
-      this.register('input', 'formaction', 'formAction');
-      this.register('input', 'formenctype', 'formEncType');
-      this.register('input', 'formmethod', 'formMethod');
-      this.register('input', 'formnovalidate', 'formNoValidate');
-      this.register('input', 'formtarget', 'formTarget');
-
-      this.register('textarea', 'maxlength', 'maxLength');
-
-      this.register('td', 'rowspan', 'rowSpan');
-      this.register('td', 'colspan', 'colSpan');
-      this.register('th', 'rowspan', 'rowSpan');
-      this.register('th', 'colspan', 'colSpan');
-    }
-
-    AttributeMap.prototype.register = function register(elementName, attributeName, propertyName) {
-      elementName = elementName.toLowerCase();
-      attributeName = attributeName.toLowerCase();
-      var element = this.elements[elementName] = this.elements[elementName] || Object.create(null);
-      element[attributeName] = propertyName;
-    };
-
-    AttributeMap.prototype.registerUniversal = function registerUniversal(attributeName, propertyName) {
-      attributeName = attributeName.toLowerCase();
-      this.allElements[attributeName] = propertyName;
-    };
-
-    AttributeMap.prototype.map = function map(elementName, attributeName) {
-      if (this.svg.isStandardSvgAttribute(elementName, attributeName)) {
-        return attributeName;
-      }
-      elementName = elementName.toLowerCase();
-      attributeName = attributeName.toLowerCase();
-      var element = this.elements[elementName];
-      if (element !== undefined && attributeName in element) {
-        return element[attributeName];
-      }
-      if (attributeName in this.allElements) {
-        return this.allElements[attributeName];
-      }
-
-      if (/(^data-)|(^aria-)|:/.test(attributeName)) {
-        return attributeName;
-      }
-      return (0, _aureliaBinding.camelCase)(attributeName);
-    };
-
-    return AttributeMap;
-  }(), _class.inject = [_aureliaBinding.SVGAnalyzer], _temp);
-
-  var InterpolationBindingExpression = exports.InterpolationBindingExpression = function () {
-    function InterpolationBindingExpression(observerLocator, targetProperty, parts, mode, lookupFunctions, attribute) {
-      
-
-      this.observerLocator = observerLocator;
-      this.targetProperty = targetProperty;
-      this.parts = parts;
-      this.mode = mode;
-      this.lookupFunctions = lookupFunctions;
-      this.attribute = this.attrToRemove = attribute;
-      this.discrete = false;
-    }
-
-    InterpolationBindingExpression.prototype.createBinding = function createBinding(target) {
-      if (this.parts.length === 3) {
-        return new ChildInterpolationBinding(target, this.observerLocator, this.parts[1], this.mode, this.lookupFunctions, this.targetProperty, this.parts[0], this.parts[2]);
-      }
-      return new InterpolationBinding(this.observerLocator, this.parts, target, this.targetProperty, this.mode, this.lookupFunctions);
-    };
-
-    return InterpolationBindingExpression;
-  }();
-
-  function validateTarget(target, propertyName) {
-    if (propertyName === 'style') {
-      LogManager.getLogger('templating-binding').info('Internet Explorer does not support interpolation in "style" attributes.  Use the style attribute\'s alias, "css" instead.');
-    } else if (target.parentElement && target.parentElement.nodeName === 'TEXTAREA' && propertyName === 'textContent') {
-      throw new Error('Interpolation binding cannot be used in the content of a textarea element.  Use <textarea value.bind="expression"></textarea> instead.');
-    }
-  }
-
-  var InterpolationBinding = exports.InterpolationBinding = function () {
-    function InterpolationBinding(observerLocator, parts, target, targetProperty, mode, lookupFunctions) {
-      
-
-      validateTarget(target, targetProperty);
-      this.observerLocator = observerLocator;
-      this.parts = parts;
-      this.target = target;
-      this.targetProperty = targetProperty;
-      this.targetAccessor = observerLocator.getAccessor(target, targetProperty);
-      this.mode = mode;
-      this.lookupFunctions = lookupFunctions;
-    }
-
-    InterpolationBinding.prototype.interpolate = function interpolate() {
-      if (this.isBound) {
-        var value = '';
-        var parts = this.parts;
-        for (var i = 0, ii = parts.length; i < ii; i++) {
-          value += i % 2 === 0 ? parts[i] : this['childBinding' + i].value;
-        }
-        this.targetAccessor.setValue(value, this.target, this.targetProperty);
-      }
-    };
-
-    InterpolationBinding.prototype.updateOneTimeBindings = function updateOneTimeBindings() {
-      for (var i = 1, ii = this.parts.length; i < ii; i += 2) {
-        var child = this['childBinding' + i];
-        if (child.mode === _aureliaBinding.bindingMode.oneTime) {
-          child.call();
-        }
-      }
-    };
-
-    InterpolationBinding.prototype.bind = function bind(source) {
-      if (this.isBound) {
-        if (this.source === source) {
-          return;
-        }
-        this.unbind();
-      }
-      this.source = source;
-
-      var parts = this.parts;
-      for (var i = 1, ii = parts.length; i < ii; i += 2) {
-        var binding = new ChildInterpolationBinding(this, this.observerLocator, parts[i], this.mode, this.lookupFunctions);
-        binding.bind(source);
-        this['childBinding' + i] = binding;
-      }
-
-      this.isBound = true;
-      this.interpolate();
-    };
-
-    InterpolationBinding.prototype.unbind = function unbind() {
-      if (!this.isBound) {
-        return;
-      }
-      this.isBound = false;
-      this.source = null;
-      var parts = this.parts;
-      for (var i = 1, ii = parts.length; i < ii; i += 2) {
-        var name = 'childBinding' + i;
-        this[name].unbind();
-      }
-    };
-
-    return InterpolationBinding;
-  }();
-
-  var ChildInterpolationBinding = exports.ChildInterpolationBinding = (_dec = (0, _aureliaBinding.connectable)(), _dec(_class2 = function () {
-    function ChildInterpolationBinding(target, observerLocator, sourceExpression, mode, lookupFunctions, targetProperty, left, right) {
-      
-
-      if (target instanceof InterpolationBinding) {
-        this.parent = target;
-      } else {
-        validateTarget(target, targetProperty);
-        this.target = target;
-        this.targetProperty = targetProperty;
-        this.targetAccessor = observerLocator.getAccessor(target, targetProperty);
-      }
-      this.observerLocator = observerLocator;
-      this.sourceExpression = sourceExpression;
-      this.mode = mode;
-      this.lookupFunctions = lookupFunctions;
-      this.left = left;
-      this.right = right;
-    }
-
-    ChildInterpolationBinding.prototype.updateTarget = function updateTarget(value) {
-      value = value === null || value === undefined ? '' : value.toString();
-      if (value !== this.value) {
-        this.value = value;
-        if (this.parent) {
-          this.parent.interpolate();
-        } else {
-          this.targetAccessor.setValue(this.left + value + this.right, this.target, this.targetProperty);
-        }
-      }
-    };
-
-    ChildInterpolationBinding.prototype.call = function call() {
-      if (!this.isBound) {
-        return;
-      }
-
-      this.rawValue = this.sourceExpression.evaluate(this.source, this.lookupFunctions);
-      this.updateTarget(this.rawValue);
-
-      if (this.mode !== _aureliaBinding.bindingMode.oneTime) {
-        this._version++;
-        this.sourceExpression.connect(this, this.source);
-        if (this.rawValue instanceof Array) {
-          this.observeArray(this.rawValue);
-        }
-        this.unobserve(false);
-      }
-    };
-
-    ChildInterpolationBinding.prototype.bind = function bind(source) {
-      if (this.isBound) {
-        if (this.source === source) {
-          return;
-        }
-        this.unbind();
-      }
-      this.isBound = true;
-      this.source = source;
-
-      var sourceExpression = this.sourceExpression;
-      if (sourceExpression.bind) {
-        sourceExpression.bind(this, source, this.lookupFunctions);
-      }
-
-      this.rawValue = sourceExpression.evaluate(source, this.lookupFunctions);
-      this.updateTarget(this.rawValue);
-
-      if (this.mode === _aureliaBinding.bindingMode.oneWay) {
-        (0, _aureliaBinding.enqueueBindingConnect)(this);
-      }
-    };
-
-    ChildInterpolationBinding.prototype.unbind = function unbind() {
-      if (!this.isBound) {
-        return;
-      }
-      this.isBound = false;
-      var sourceExpression = this.sourceExpression;
-      if (sourceExpression.unbind) {
-        sourceExpression.unbind(this, this.source);
-      }
-      this.source = null;
-      this.value = null;
-      this.rawValue = null;
-      this.unobserve(true);
-    };
-
-    ChildInterpolationBinding.prototype.connect = function connect(evaluate) {
-      if (!this.isBound) {
-        return;
-      }
-      if (evaluate) {
-        this.rawValue = this.sourceExpression.evaluate(this.source, this.lookupFunctions);
-        this.updateTarget(this.rawValue);
-      }
-      this.sourceExpression.connect(this, this.source);
-      if (this.rawValue instanceof Array) {
-        this.observeArray(this.rawValue);
-      }
-    };
-
-    return ChildInterpolationBinding;
-  }()) || _class2);
-  var SyntaxInterpreter = exports.SyntaxInterpreter = (_temp2 = _class3 = function () {
-    function SyntaxInterpreter(parser, observerLocator, eventManager, attributeMap) {
-      
-
-      this.parser = parser;
-      this.observerLocator = observerLocator;
-      this.eventManager = eventManager;
-      this.attributeMap = attributeMap;
-    }
-
-    SyntaxInterpreter.prototype.interpret = function interpret(resources, element, info, existingInstruction, context) {
-      if (info.command in this) {
-        return this[info.command](resources, element, info, existingInstruction, context);
-      }
-
-      return this.handleUnknownCommand(resources, element, info, existingInstruction, context);
-    };
-
-    SyntaxInterpreter.prototype.handleUnknownCommand = function handleUnknownCommand(resources, element, info, existingInstruction, context) {
-      LogManager.getLogger('templating-binding').warn('Unknown binding command.', info);
-      return existingInstruction;
-    };
-
-    SyntaxInterpreter.prototype.determineDefaultBindingMode = function determineDefaultBindingMode(element, attrName, context) {
-      var tagName = element.tagName.toLowerCase();
-
-      if (tagName === 'input' && (attrName === 'value' || attrName === 'files') && element.type !== 'checkbox' && element.type !== 'radio' || tagName === 'input' && attrName === 'checked' && (element.type === 'checkbox' || element.type === 'radio') || (tagName === 'textarea' || tagName === 'select') && attrName === 'value' || (attrName === 'textcontent' || attrName === 'innerhtml') && element.contentEditable === 'true' || attrName === 'scrolltop' || attrName === 'scrollleft') {
-        return _aureliaBinding.bindingMode.twoWay;
-      }
-
-      if (context && attrName in context.attributes && context.attributes[attrName] && context.attributes[attrName].defaultBindingMode >= _aureliaBinding.bindingMode.oneTime) {
-        return context.attributes[attrName].defaultBindingMode;
-      }
-
-      return _aureliaBinding.bindingMode.oneWay;
-    };
-
-    SyntaxInterpreter.prototype.bind = function bind(resources, element, info, existingInstruction, context) {
-      var instruction = existingInstruction || _aureliaTemplating.BehaviorInstruction.attribute(info.attrName);
-
-      instruction.attributes[info.attrName] = new _aureliaBinding.BindingExpression(this.observerLocator, this.attributeMap.map(element.tagName, info.attrName), this.parser.parse(info.attrValue), info.defaultBindingMode || this.determineDefaultBindingMode(element, info.attrName, context), resources.lookupFunctions);
-
-      return instruction;
-    };
-
-    SyntaxInterpreter.prototype.trigger = function trigger(resources, element, info) {
-      return new _aureliaBinding.ListenerExpression(this.eventManager, info.attrName, this.parser.parse(info.attrValue), false, true, resources.lookupFunctions);
-    };
-
-    SyntaxInterpreter.prototype.delegate = function delegate(resources, element, info) {
-      return new _aureliaBinding.ListenerExpression(this.eventManager, info.attrName, this.parser.parse(info.attrValue), true, true, resources.lookupFunctions);
-    };
-
-    SyntaxInterpreter.prototype.call = function call(resources, element, info, existingInstruction) {
-      var instruction = existingInstruction || _aureliaTemplating.BehaviorInstruction.attribute(info.attrName);
-
-      instruction.attributes[info.attrName] = new _aureliaBinding.CallExpression(this.observerLocator, info.attrName, this.parser.parse(info.attrValue), resources.lookupFunctions);
-
-      return instruction;
-    };
-
-    SyntaxInterpreter.prototype.options = function options(resources, element, info, existingInstruction, context) {
-      var instruction = existingInstruction || _aureliaTemplating.BehaviorInstruction.attribute(info.attrName);
-      var attrValue = info.attrValue;
-      var language = this.language;
-      var name = null;
-      var target = '';
-      var current = void 0;
-      var i = void 0;
-      var ii = void 0;
-      var inString = false;
-      var inEscape = false;
-
-      for (i = 0, ii = attrValue.length; i < ii; ++i) {
-        current = attrValue[i];
-
-        if (current === ';' && !inString) {
-          info = language.inspectAttribute(resources, '?', name, target.trim());
-          language.createAttributeInstruction(resources, element, info, instruction, context);
-
-          if (!instruction.attributes[info.attrName]) {
-            instruction.attributes[info.attrName] = info.attrValue;
-          }
-
-          target = '';
-          name = null;
-        } else if (current === ':' && name === null) {
-          name = target.trim();
-          target = '';
-        } else if (current === '\\') {
-          target += current;
-          inEscape = true;
-          continue;
-        } else {
-          target += current;
-
-          if (name !== null && inEscape === false && current === '\'') {
-            inString = !inString;
-          }
-        }
-
-        inEscape = false;
-      }
-
-      if (name !== null) {
-        info = language.inspectAttribute(resources, '?', name, target.trim());
-        language.createAttributeInstruction(resources, element, info, instruction, context);
-
-        if (!instruction.attributes[info.attrName]) {
-          instruction.attributes[info.attrName] = info.attrValue;
-        }
-      }
-
-      return instruction;
-    };
-
-    SyntaxInterpreter.prototype['for'] = function _for(resources, element, info, existingInstruction) {
-      var parts = void 0;
-      var keyValue = void 0;
-      var instruction = void 0;
-      var attrValue = void 0;
-      var isDestructuring = void 0;
-
-      attrValue = info.attrValue;
-      isDestructuring = attrValue.match(/^ *[[].+[\]]/);
-      parts = isDestructuring ? attrValue.split('of ') : attrValue.split(' of ');
-
-      if (parts.length !== 2) {
-        throw new Error('Incorrect syntax for "for". The form is: "$local of $items" or "[$key, $value] of $items".');
-      }
-
-      instruction = existingInstruction || _aureliaTemplating.BehaviorInstruction.attribute(info.attrName);
-
-      if (isDestructuring) {
-        keyValue = parts[0].replace(/[[\]]/g, '').replace(/,/g, ' ').replace(/\s+/g, ' ').trim().split(' ');
-        instruction.attributes.key = keyValue[0];
-        instruction.attributes.value = keyValue[1];
-      } else {
-        instruction.attributes.local = parts[0];
-      }
-
-      instruction.attributes.items = new _aureliaBinding.BindingExpression(this.observerLocator, 'items', this.parser.parse(parts[1]), _aureliaBinding.bindingMode.oneWay, resources.lookupFunctions);
-
-      return instruction;
-    };
-
-    SyntaxInterpreter.prototype['two-way'] = function twoWay(resources, element, info, existingInstruction) {
-      var instruction = existingInstruction || _aureliaTemplating.BehaviorInstruction.attribute(info.attrName);
-
-      instruction.attributes[info.attrName] = new _aureliaBinding.BindingExpression(this.observerLocator, this.attributeMap.map(element.tagName, info.attrName), this.parser.parse(info.attrValue), _aureliaBinding.bindingMode.twoWay, resources.lookupFunctions);
-
-      return instruction;
-    };
-
-    SyntaxInterpreter.prototype['one-way'] = function oneWay(resources, element, info, existingInstruction) {
-      var instruction = existingInstruction || _aureliaTemplating.BehaviorInstruction.attribute(info.attrName);
-
-      instruction.attributes[info.attrName] = new _aureliaBinding.BindingExpression(this.observerLocator, this.attributeMap.map(element.tagName, info.attrName), this.parser.parse(info.attrValue), _aureliaBinding.bindingMode.oneWay, resources.lookupFunctions);
-
-      return instruction;
-    };
-
-    SyntaxInterpreter.prototype['one-time'] = function oneTime(resources, element, info, existingInstruction) {
-      var instruction = existingInstruction || _aureliaTemplating.BehaviorInstruction.attribute(info.attrName);
-
-      instruction.attributes[info.attrName] = new _aureliaBinding.BindingExpression(this.observerLocator, this.attributeMap.map(element.tagName, info.attrName), this.parser.parse(info.attrValue), _aureliaBinding.bindingMode.oneTime, resources.lookupFunctions);
-
-      return instruction;
-    };
-
-    return SyntaxInterpreter;
-  }(), _class3.inject = [_aureliaBinding.Parser, _aureliaBinding.ObserverLocator, _aureliaBinding.EventManager, AttributeMap], _temp2);
-
-  var info = {};
-
-  var TemplatingBindingLanguage = exports.TemplatingBindingLanguage = (_temp3 = _class4 = function (_BindingLanguage) {
-    _inherits(TemplatingBindingLanguage, _BindingLanguage);
-
-    function TemplatingBindingLanguage(parser, observerLocator, syntaxInterpreter, attributeMap) {
-      
-
-      var _this = _possibleConstructorReturn(this, _BindingLanguage.call(this));
-
-      _this.parser = parser;
-      _this.observerLocator = observerLocator;
-      _this.syntaxInterpreter = syntaxInterpreter;
-      _this.emptyStringExpression = _this.parser.parse('\'\'');
-      syntaxInterpreter.language = _this;
-      _this.attributeMap = attributeMap;
-      return _this;
-    }
-
-    TemplatingBindingLanguage.prototype.inspectAttribute = function inspectAttribute(resources, elementName, attrName, attrValue) {
-      var parts = attrName.split('.');
-
-      info.defaultBindingMode = null;
-
-      if (parts.length === 2) {
-        info.attrName = parts[0].trim();
-        info.attrValue = attrValue;
-        info.command = parts[1].trim();
-
-        if (info.command === 'ref') {
-          info.expression = new _aureliaBinding.NameExpression(this.parser.parse(attrValue), info.attrName, resources.lookupFunctions);
-          info.command = null;
-          info.attrName = 'ref';
-        } else {
-          info.expression = null;
-        }
-      } else if (attrName === 'ref') {
-        info.attrName = attrName;
-        info.attrValue = attrValue;
-        info.command = null;
-        info.expression = new _aureliaBinding.NameExpression(this.parser.parse(attrValue), 'element', resources.lookupFunctions);
-      } else {
-        info.attrName = attrName;
-        info.attrValue = attrValue;
-        info.command = null;
-        var interpolationParts = this.parseInterpolation(resources, attrValue);
-        if (interpolationParts === null) {
-          info.expression = null;
-        } else {
-          info.expression = new InterpolationBindingExpression(this.observerLocator, this.attributeMap.map(elementName, attrName), interpolationParts, _aureliaBinding.bindingMode.oneWay, resources.lookupFunctions, attrName);
-        }
-      }
-
-      return info;
-    };
-
-    TemplatingBindingLanguage.prototype.createAttributeInstruction = function createAttributeInstruction(resources, element, theInfo, existingInstruction, context) {
-      var instruction = void 0;
-
-      if (theInfo.expression) {
-        if (theInfo.attrName === 'ref') {
-          return theInfo.expression;
-        }
-
-        instruction = existingInstruction || _aureliaTemplating.BehaviorInstruction.attribute(theInfo.attrName);
-        instruction.attributes[theInfo.attrName] = theInfo.expression;
-      } else if (theInfo.command) {
-        instruction = this.syntaxInterpreter.interpret(resources, element, theInfo, existingInstruction, context);
-      }
-
-      return instruction;
-    };
-
-    TemplatingBindingLanguage.prototype.inspectTextContent = function inspectTextContent(resources, value) {
-      var parts = this.parseInterpolation(resources, value);
-      if (parts === null) {
-        return null;
-      }
-      return new InterpolationBindingExpression(this.observerLocator, 'textContent', parts, _aureliaBinding.bindingMode.oneWay, resources.lookupFunctions, 'textContent');
-    };
-
-    TemplatingBindingLanguage.prototype.parseInterpolation = function parseInterpolation(resources, value) {
-      var i = value.indexOf('${', 0);
-      var ii = value.length;
-      var char = void 0;
-      var pos = 0;
-      var open = 0;
-      var quote = null;
-      var interpolationStart = void 0;
-      var parts = void 0;
-      var partIndex = 0;
-
-      while (i >= 0 && i < ii - 2) {
-        open = 1;
-        interpolationStart = i;
-        i += 2;
-
-        do {
-          char = value[i];
-          i++;
-
-          if (char === "'" || char === '"') {
-            if (quote === null) {
-              quote = char;
-            } else if (quote === char) {
-              quote = null;
-            }
-            continue;
-          }
-
-          if (char === '\\') {
-            i++;
-            continue;
-          }
-
-          if (quote !== null) {
-            continue;
-          }
-
-          if (char === '{') {
-            open++;
-          } else if (char === '}') {
-            open--;
-          }
-        } while (open > 0 && i < ii);
-
-        if (open === 0) {
-          parts = parts || [];
-          if (value[interpolationStart - 1] === '\\' && value[interpolationStart - 2] !== '\\') {
-            parts[partIndex] = value.substring(pos, interpolationStart - 1) + value.substring(interpolationStart, i);
-            partIndex++;
-            parts[partIndex] = this.emptyStringExpression;
-            partIndex++;
-          } else {
-            parts[partIndex] = value.substring(pos, interpolationStart);
-            partIndex++;
-            parts[partIndex] = this.parser.parse(value.substring(interpolationStart + 2, i - 1));
-            partIndex++;
-          }
-          pos = i;
-          i = value.indexOf('${', i);
-        } else {
-          break;
-        }
-      }
-
-      if (partIndex === 0) {
-        return null;
-      }
-
-      parts[partIndex] = value.substr(pos);
-      return parts;
-    };
-
-    return TemplatingBindingLanguage;
-  }(_aureliaTemplating.BindingLanguage), _class4.inject = [_aureliaBinding.Parser, _aureliaBinding.ObserverLocator, SyntaxInterpreter, AttributeMap], _temp3);
-  function configure(config) {
-    config.container.registerSingleton(_aureliaTemplating.BindingLanguage, TemplatingBindingLanguage);
-    config.container.registerAlias(_aureliaTemplating.BindingLanguage, TemplatingBindingLanguage);
-  }
-});
-define('aurelia-http-client',['exports', 'aurelia-path', 'aurelia-pal'], function (exports, _aureliaPath, _aureliaPal) {
-  'use strict';
-
-  Object.defineProperty(exports, "__esModule", {
-    value: true
-  });
-  exports.HttpClient = exports.RequestBuilder = exports.HttpRequestMessage = exports.JSONPRequestMessage = exports.RequestMessageProcessor = exports.mimeTypes = exports.HttpResponseMessage = exports.RequestMessage = exports.Headers = undefined;
-  exports.timeoutTransformer = timeoutTransformer;
-  exports.callbackParameterNameTransformer = callbackParameterNameTransformer;
-  exports.credentialsTransformer = credentialsTransformer;
-  exports.progressTransformer = progressTransformer;
-  exports.responseTypeTransformer = responseTypeTransformer;
-  exports.headerTransformer = headerTransformer;
-  exports.contentTransformer = contentTransformer;
-  exports.createJSONPRequestMessageProcessor = createJSONPRequestMessageProcessor;
-  exports.createHttpRequestMessageProcessor = createHttpRequestMessageProcessor;
-
-  function _possibleConstructorReturn(self, call) {
-    if (!self) {
-      throw new ReferenceError("this hasn't been initialised - super() hasn't been called");
-    }
-
-    return call && (typeof call === "object" || typeof call === "function") ? call : self;
-  }
-
-  function _inherits(subClass, superClass) {
-    if (typeof superClass !== "function" && superClass !== null) {
-      throw new TypeError("Super expression must either be null or a function, not " + typeof superClass);
-    }
-
-    subClass.prototype = Object.create(superClass && superClass.prototype, {
-      constructor: {
-        value: subClass,
-        enumerable: false,
-        writable: true,
-        configurable: true
-      }
-    });
-    if (superClass) Object.setPrototypeOf ? Object.setPrototypeOf(subClass, superClass) : subClass.__proto__ = superClass;
-  }
-
-  var _createClass = function () {
-    function defineProperties(target, props) {
-      for (var i = 0; i < props.length; i++) {
-        var descriptor = props[i];
-        descriptor.enumerable = descriptor.enumerable || false;
-        descriptor.configurable = true;
-        if ("value" in descriptor) descriptor.writable = true;
-        Object.defineProperty(target, descriptor.key, descriptor);
-      }
-    }
-
-    return function (Constructor, protoProps, staticProps) {
-      if (protoProps) defineProperties(Constructor.prototype, protoProps);
-      if (staticProps) defineProperties(Constructor, staticProps);
-      return Constructor;
-    };
-  }();
-
-  
-
-  var Headers = exports.Headers = function () {
-    function Headers() {
-      var headers = arguments.length <= 0 || arguments[0] === undefined ? {} : arguments[0];
-
-      
-
-      this.headers = headers;
-    }
-
-    Headers.prototype.add = function add(key, value) {
-      this.headers[key] = value;
-    };
-
-    Headers.prototype.get = function get(key) {
-      return this.headers[key];
-    };
-
-    Headers.prototype.clear = function clear() {
-      this.headers = {};
-    };
-
-    Headers.prototype.has = function has(header) {
-      var lowered = header.toLowerCase();
-      var headers = this.headers;
-
-      for (var _key in headers) {
-        if (_key.toLowerCase() === lowered) {
-          return true;
-        }
-      }
-
-      return false;
-    };
-
-    Headers.prototype.configureXHR = function configureXHR(xhr) {
-      var headers = this.headers;
-
-      for (var _key2 in headers) {
-        xhr.setRequestHeader(_key2, headers[_key2]);
-      }
-    };
-
-    Headers.parse = function parse(headerStr) {
-      var headers = new Headers();
-      if (!headerStr) {
-        return headers;
-      }
-
-      var headerPairs = headerStr.split('\r\n');
-      for (var i = 0; i < headerPairs.length; i++) {
-        var headerPair = headerPairs[i];
-
-        var index = headerPair.indexOf(': ');
-        if (index > 0) {
-          var _key3 = headerPair.substring(0, index);
-          var val = headerPair.substring(index + 2);
-          headers.add(_key3, val);
-        }
-      }
-
-      return headers;
-    };
-
-    return Headers;
-  }();
-
-  var RequestMessage = exports.RequestMessage = function () {
-    function RequestMessage(method, url, content, headers) {
-      
-
-      this.method = method;
-      this.url = url;
-      this.content = content;
-      this.headers = headers || new Headers();
-      this.baseUrl = '';
-    }
-
-    RequestMessage.prototype.buildFullUrl = function buildFullUrl() {
-      var absoluteUrl = /^([a-z][a-z0-9+\-.]*:)?\/\//i;
-      var url = absoluteUrl.test(this.url) ? this.url : (0, _aureliaPath.join)(this.baseUrl, this.url);
-
-      if (this.params) {
-        var qs = (0, _aureliaPath.buildQueryString)(this.params);
-        url = qs ? url + (this.url.indexOf('?') < 0 ? '?' : '&') + qs : url;
-      }
-
-      return url;
-    };
-
-    return RequestMessage;
-  }();
-
-  var HttpResponseMessage = exports.HttpResponseMessage = function () {
-    function HttpResponseMessage(requestMessage, xhr, responseType, reviver) {
-      
-
-      this.requestMessage = requestMessage;
-      this.statusCode = xhr.status;
-      this.response = xhr.response || xhr.responseText;
-      this.isSuccess = xhr.status >= 200 && xhr.status < 400;
-      this.statusText = xhr.statusText;
-      this.reviver = reviver;
-      this.mimeType = null;
-
-      if (xhr.getAllResponseHeaders) {
-        try {
-          this.headers = Headers.parse(xhr.getAllResponseHeaders());
-        } catch (err) {
-          if (xhr.requestHeaders) this.headers = { headers: xhr.requestHeaders };
-        }
-      } else {
-        this.headers = new Headers();
-      }
-
-      var contentType = void 0;
-      if (this.headers && this.headers.headers) contentType = this.headers.headers['Content-Type'];
-      if (contentType) {
-        this.mimeType = responseType = contentType.split(';')[0].trim();
-        if (mimeTypes.hasOwnProperty(this.mimeType)) responseType = mimeTypes[this.mimeType];
-      }
-
-      this.responseType = responseType;
-    }
-
-    _createClass(HttpResponseMessage, [{
-      key: 'content',
-      get: function get() {
-        try {
-          if (this._content !== undefined) {
-            return this._content;
-          }
-
-          if (this.response === undefined || this.response === null) {
-            this._content = this.response;
-            return this._content;
-          }
-
-          if (this.responseType === 'json') {
-            this._content = JSON.parse(this.response, this.reviver);
-            return this._content;
-          }
-
-          if (this.reviver) {
-            this._content = this.reviver(this.response);
-            return this._content;
-          }
-
-          this._content = this.response;
-          return this._content;
-        } catch (e) {
-          if (this.isSuccess) {
-            throw e;
-          }
-
-          this._content = null;
-          return this._content;
-        }
-      }
-    }]);
-
-    return HttpResponseMessage;
-  }();
-
-  var mimeTypes = exports.mimeTypes = {
-    'text/html': 'html',
-    'text/javascript': 'js',
-    'application/javascript': 'js',
-    'text/json': 'json',
-    'application/json': 'json',
-    'application/rss+xml': 'rss',
-    'application/atom+xml': 'atom',
-    'application/xhtml+xml': 'xhtml',
-    'text/markdown': 'md',
-    'text/xml': 'xml',
-    'text/mathml': 'mml',
-    'application/xml': 'xml',
-    'text/yml': 'yml',
-    'text/csv': 'csv',
-    'text/css': 'css',
-    'text/less': 'less',
-    'text/stylus': 'styl',
-    'text/scss': 'scss',
-    'text/sass': 'sass',
-    'text/plain': 'txt'
+  exports._DOM = exports._FEATURE = exports._PLATFORM = undefined;
+  exports._ensureFunctionName = _ensureFunctionName;
+  exports._ensureClassList = _ensureClassList;
+  exports._ensurePerformance = _ensurePerformance;
+  exports._ensureCustomEvent = _ensureCustomEvent;
+  exports._ensureElementMatches = _ensureElementMatches;
+  exports._ensureHTMLTemplateElement = _ensureHTMLTemplateElement;
+  exports.initialize = initialize;
+
+  var _typeof = typeof Symbol === "function" && typeof Symbol.iterator === "symbol" ? function (obj) {
+    return typeof obj;
+  } : function (obj) {
+    return obj && typeof Symbol === "function" && obj.constructor === Symbol ? "symbol" : typeof obj;
   };
 
-  function applyXhrTransformers(xhrTransformers, client, processor, message, xhr) {
-    var i = void 0;
-    var ii = void 0;
+  var _PLATFORM = exports._PLATFORM = {
+    location: window.location,
+    history: window.history,
+    addEventListener: function addEventListener(eventName, callback, capture) {
+      this.global.addEventListener(eventName, callback, capture);
+    },
+    removeEventListener: function removeEventListener(eventName, callback, capture) {
+      this.global.removeEventListener(eventName, callback, capture);
+    },
 
-    for (i = 0, ii = xhrTransformers.length; i < ii; ++i) {
-      xhrTransformers[i](client, processor, message, xhr);
+    performance: window.performance,
+    requestAnimationFrame: function requestAnimationFrame(callback) {
+      return this.global.requestAnimationFrame(callback);
     }
-  }
+  };
 
-  var RequestMessageProcessor = exports.RequestMessageProcessor = function () {
-    function RequestMessageProcessor(xhrType, xhrTransformers) {
-      
+  function _ensureFunctionName() {
+    function test() {}
 
-      this.XHRType = xhrType;
-      this.xhrTransformers = xhrTransformers;
-      this.isAborted = false;
-    }
+    if (!test.name) {
+      Object.defineProperty(Function.prototype, 'name', {
+        get: function get() {
+          var name = this.toString().match(/^\s*function\s*(\S*)\s*\(/)[1];
 
-    RequestMessageProcessor.prototype.abort = function abort() {
-      if (this.xhr && this.xhr.readyState !== _aureliaPal.PLATFORM.XMLHttpRequest.UNSENT) {
-        this.xhr.abort();
-      }
-
-      this.isAborted = true;
-    };
-
-    RequestMessageProcessor.prototype.process = function process(client, requestMessage) {
-      var _this = this;
-
-      var promise = new Promise(function (resolve, reject) {
-        var xhr = _this.xhr = new _this.XHRType();
-
-        xhr.onload = function (e) {
-          var response = new HttpResponseMessage(requestMessage, xhr, requestMessage.responseType, requestMessage.reviver);
-          if (response.isSuccess) {
-            resolve(response);
-          } else {
-            reject(response);
-          }
-        };
-
-        xhr.ontimeout = function (e) {
-          reject(new HttpResponseMessage(requestMessage, {
-            response: e,
-            status: xhr.status,
-            statusText: xhr.statusText
-          }, 'timeout'));
-        };
-
-        xhr.onerror = function (e) {
-          reject(new HttpResponseMessage(requestMessage, {
-            response: e,
-            status: xhr.status,
-            statusText: xhr.statusText
-          }, 'error'));
-        };
-
-        xhr.onabort = function (e) {
-          reject(new HttpResponseMessage(requestMessage, {
-            response: e,
-            status: xhr.status,
-            statusText: xhr.statusText
-          }, 'abort'));
-        };
-      });
-
-      return Promise.resolve(requestMessage).then(function (message) {
-        var processRequest = function processRequest() {
-          if (_this.isAborted) {
-            _this.xhr.abort();
-          } else {
-            _this.xhr.open(message.method, message.buildFullUrl(), true, message.user, message.password);
-            applyXhrTransformers(_this.xhrTransformers, client, _this, message, _this.xhr);
-            if (typeof message.content === 'undefined') {
-              _this.xhr.send();
-            } else {
-              _this.xhr.send(message.content);
-            }
-          }
-
-          return promise;
-        };
-
-        var chain = [[processRequest, undefined]];
-
-        var interceptors = message.interceptors || [];
-        interceptors.forEach(function (interceptor) {
-          if (interceptor.request || interceptor.requestError) {
-            chain.unshift([interceptor.request ? interceptor.request.bind(interceptor) : undefined, interceptor.requestError ? interceptor.requestError.bind(interceptor) : undefined]);
-          }
-
-          if (interceptor.response || interceptor.responseError) {
-            chain.push([interceptor.response ? interceptor.response.bind(interceptor) : undefined, interceptor.responseError ? interceptor.responseError.bind(interceptor) : undefined]);
-          }
-        });
-
-        var interceptorsPromise = Promise.resolve(message);
-
-        while (chain.length) {
-          var _interceptorsPromise;
-
-          interceptorsPromise = (_interceptorsPromise = interceptorsPromise).then.apply(_interceptorsPromise, chain.shift());
+          Object.defineProperty(this, 'name', { value: name });
+          return name;
         }
-
-        return interceptorsPromise;
       });
-    };
-
-    return RequestMessageProcessor;
-  }();
-
-  function timeoutTransformer(client, processor, message, xhr) {
-    if (message.timeout !== undefined) {
-      xhr.timeout = message.timeout;
     }
   }
 
-  function callbackParameterNameTransformer(client, processor, message, xhr) {
-    if (message.callbackParameterName !== undefined) {
-      xhr.callbackParameterName = message.callbackParameterName;
-    }
-  }
-
-  function credentialsTransformer(client, processor, message, xhr) {
-    if (message.withCredentials !== undefined) {
-      xhr.withCredentials = message.withCredentials;
-    }
-  }
-
-  function progressTransformer(client, processor, message, xhr) {
-    if (message.progressCallback) {
-      xhr.upload.onprogress = message.progressCallback;
-    }
-  }
-
-  function responseTypeTransformer(client, processor, message, xhr) {
-    var responseType = message.responseType;
-
-    if (responseType === 'json') {
-      responseType = 'text';
-    }
-
-    xhr.responseType = responseType;
-  }
-
-  function headerTransformer(client, processor, message, xhr) {
-    message.headers.configureXHR(xhr);
-  }
-
-  function contentTransformer(client, processor, message, xhr) {
-    if (message.skipContentProcessing) {
-      return;
-    }
-
-    if (_aureliaPal.PLATFORM.global.FormData && message.content instanceof FormData) {
-      return;
-    }
-
-    if (_aureliaPal.PLATFORM.global.Blob && message.content instanceof Blob) {
-      return;
-    }
-
-    if (_aureliaPal.PLATFORM.global.ArrayBufferView && message.content instanceof ArrayBufferView) {
-      return;
-    }
-
-    if (message.content instanceof Document) {
-      return;
-    }
-
-    if (typeof message.content === 'string') {
-      return;
-    }
-
-    if (message.content === null || message.content === undefined) {
-      return;
-    }
-
-    message.content = JSON.stringify(message.content, message.replacer);
-
-    if (!message.headers.has('Content-Type')) {
-      message.headers.add('Content-Type', 'application/json');
-    }
-  }
-
-  var JSONPRequestMessage = exports.JSONPRequestMessage = function (_RequestMessage) {
-    _inherits(JSONPRequestMessage, _RequestMessage);
-
-    function JSONPRequestMessage(url, callbackParameterName) {
-      
-
-      var _this2 = _possibleConstructorReturn(this, _RequestMessage.call(this, 'JSONP', url));
-
-      _this2.responseType = 'jsonp';
-      _this2.callbackParameterName = callbackParameterName;
-      return _this2;
-    }
-
-    return JSONPRequestMessage;
-  }(RequestMessage);
-
-  var JSONPXHR = function () {
-    function JSONPXHR() {
-      
-    }
-
-    JSONPXHR.prototype.open = function open(method, url) {
-      this.method = method;
-      this.url = url;
-      this.callbackName = 'jsonp_callback_' + Math.round(100000 * Math.random());
-    };
-
-    JSONPXHR.prototype.send = function send() {
-      var _this3 = this;
-
-      var url = this.url + (this.url.indexOf('?') >= 0 ? '&' : '?') + encodeURIComponent(this.callbackParameterName) + '=' + this.callbackName;
-      var script = _aureliaPal.DOM.createElement('script');
-
-      script.src = url;
-      script.onerror = function (e) {
-        cleanUp();
-
-        _this3.status = 0;
-        _this3.onerror(new Error('error'));
-      };
-
-      var cleanUp = function cleanUp() {
-        delete _aureliaPal.PLATFORM.global[_this3.callbackName];
-        _aureliaPal.DOM.removeNode(script);
-      };
-
-      _aureliaPal.PLATFORM.global[this.callbackName] = function (data) {
-        cleanUp();
-
-        if (_this3.status === undefined) {
-          _this3.status = 200;
-          _this3.statusText = 'OK';
-          _this3.response = data;
-          _this3.onload(_this3);
-        }
-      };
-
-      _aureliaPal.DOM.appendNode(script);
-
-      if (this.timeout !== undefined) {
-        setTimeout(function () {
-          if (_this3.status === undefined) {
-            _this3.status = 0;
-            _this3.ontimeout(new Error('timeout'));
-          }
-        }, this.timeout);
-      }
-    };
-
-    JSONPXHR.prototype.abort = function abort() {
-      if (this.status === undefined) {
-        this.status = 0;
-        this.onabort(new Error('abort'));
-      }
-    };
-
-    JSONPXHR.prototype.setRequestHeader = function setRequestHeader() {};
-
-    return JSONPXHR;
-  }();
-
-  function createJSONPRequestMessageProcessor() {
-    return new RequestMessageProcessor(JSONPXHR, [timeoutTransformer, callbackParameterNameTransformer]);
-  }
-
-  var HttpRequestMessage = exports.HttpRequestMessage = function (_RequestMessage2) {
-    _inherits(HttpRequestMessage, _RequestMessage2);
-
-    function HttpRequestMessage(method, url, content, headers) {
-      
-
-      var _this4 = _possibleConstructorReturn(this, _RequestMessage2.call(this, method, url, content, headers));
-
-      _this4.responseType = 'json';return _this4;
-    }
-
-    return HttpRequestMessage;
-  }(RequestMessage);
-
-  function createHttpRequestMessageProcessor() {
-    return new RequestMessageProcessor(_aureliaPal.PLATFORM.XMLHttpRequest, [timeoutTransformer, credentialsTransformer, progressTransformer, responseTypeTransformer, contentTransformer, headerTransformer]);
-  }
-
-  var RequestBuilder = exports.RequestBuilder = function () {
-    function RequestBuilder(client) {
-      
-
-      this.client = client;
-      this.transformers = client.requestTransformers.slice(0);
-      this.useJsonp = false;
-    }
-
-    RequestBuilder.prototype.asDelete = function asDelete() {
-      return this._addTransformer(function (client, processor, message) {
-        message.method = 'DELETE';
-      });
-    };
-
-    RequestBuilder.prototype.asGet = function asGet() {
-      return this._addTransformer(function (client, processor, message) {
-        message.method = 'GET';
-      });
-    };
-
-    RequestBuilder.prototype.asHead = function asHead() {
-      return this._addTransformer(function (client, processor, message) {
-        message.method = 'HEAD';
-      });
-    };
-
-    RequestBuilder.prototype.asOptions = function asOptions() {
-      return this._addTransformer(function (client, processor, message) {
-        message.method = 'OPTIONS';
-      });
-    };
-
-    RequestBuilder.prototype.asPatch = function asPatch() {
-      return this._addTransformer(function (client, processor, message) {
-        message.method = 'PATCH';
-      });
-    };
-
-    RequestBuilder.prototype.asPost = function asPost() {
-      return this._addTransformer(function (client, processor, message) {
-        message.method = 'POST';
-      });
-    };
-
-    RequestBuilder.prototype.asPut = function asPut() {
-      return this._addTransformer(function (client, processor, message) {
-        message.method = 'PUT';
-      });
-    };
-
-    RequestBuilder.prototype.asJsonp = function asJsonp(callbackParameterName) {
-      this.useJsonp = true;
-      return this._addTransformer(function (client, processor, message) {
-        message.callbackParameterName = callbackParameterName;
-      });
-    };
-
-    RequestBuilder.prototype.withUrl = function withUrl(url) {
-      return this._addTransformer(function (client, processor, message) {
-        message.url = url;
-      });
-    };
-
-    RequestBuilder.prototype.withContent = function withContent(content) {
-      return this._addTransformer(function (client, processor, message) {
-        message.content = content;
-      });
-    };
-
-    RequestBuilder.prototype.withBaseUrl = function withBaseUrl(baseUrl) {
-      return this._addTransformer(function (client, processor, message) {
-        message.baseUrl = baseUrl;
-      });
-    };
-
-    RequestBuilder.prototype.withParams = function withParams(params) {
-      return this._addTransformer(function (client, processor, message) {
-        message.params = params;
-      });
-    };
-
-    RequestBuilder.prototype.withResponseType = function withResponseType(responseType) {
-      return this._addTransformer(function (client, processor, message) {
-        message.responseType = responseType;
-      });
-    };
-
-    RequestBuilder.prototype.withTimeout = function withTimeout(timeout) {
-      return this._addTransformer(function (client, processor, message) {
-        message.timeout = timeout;
-      });
-    };
-
-    RequestBuilder.prototype.withHeader = function withHeader(key, value) {
-      return this._addTransformer(function (client, processor, message) {
-        message.headers.add(key, value);
-      });
-    };
-
-    RequestBuilder.prototype.withCredentials = function withCredentials(value) {
-      return this._addTransformer(function (client, processor, message) {
-        message.withCredentials = value;
-      });
-    };
-
-    RequestBuilder.prototype.withLogin = function withLogin(user, password) {
-      return this._addTransformer(function (client, processor, message) {
-        message.user = user;message.password = password;
-      });
-    };
-
-    RequestBuilder.prototype.withReviver = function withReviver(reviver) {
-      return this._addTransformer(function (client, processor, message) {
-        message.reviver = reviver;
-      });
-    };
-
-    RequestBuilder.prototype.withReplacer = function withReplacer(replacer) {
-      return this._addTransformer(function (client, processor, message) {
-        message.replacer = replacer;
-      });
-    };
-
-    RequestBuilder.prototype.withProgressCallback = function withProgressCallback(progressCallback) {
-      return this._addTransformer(function (client, processor, message) {
-        message.progressCallback = progressCallback;
-      });
-    };
-
-    RequestBuilder.prototype.withCallbackParameterName = function withCallbackParameterName(callbackParameterName) {
-      return this._addTransformer(function (client, processor, message) {
-        message.callbackParameterName = callbackParameterName;
-      });
-    };
-
-    RequestBuilder.prototype.withInterceptor = function withInterceptor(interceptor) {
-      return this._addTransformer(function (client, processor, message) {
-        message.interceptors = message.interceptors || [];
-        message.interceptors.unshift(interceptor);
-      });
-    };
-
-    RequestBuilder.prototype.skipContentProcessing = function skipContentProcessing() {
-      return this._addTransformer(function (client, processor, message) {
-        message.skipContentProcessing = true;
-      });
-    };
-
-    RequestBuilder.prototype._addTransformer = function _addTransformer(fn) {
-      this.transformers.push(fn);
-      return this;
-    };
-
-    RequestBuilder.addHelper = function addHelper(name, fn) {
-      RequestBuilder.prototype[name] = function () {
-        return this._addTransformer(fn.apply(this, arguments));
-      };
-    };
-
-    RequestBuilder.prototype.send = function send() {
-      var message = this.useJsonp ? new JSONPRequestMessage() : new HttpRequestMessage();
-      return this.client.send(message, this.transformers);
-    };
-
-    return RequestBuilder;
-  }();
-
-  function trackRequestStart(client, processor) {
-    client.pendingRequests.push(processor);
-    client.isRequesting = true;
-  }
-
-  function trackRequestEnd(client, processor) {
-    var index = client.pendingRequests.indexOf(processor);
-
-    client.pendingRequests.splice(index, 1);
-    client.isRequesting = client.pendingRequests.length > 0;
-
-    if (!client.isRequesting) {
+  function _ensureClassList() {
+    if (!('classList' in document.createElement('_')) || document.createElementNS && !('classList' in document.createElementNS('http://www.w3.org/2000/svg', 'g'))) {
       (function () {
-        var evt = _aureliaPal.DOM.createCustomEvent('aurelia-http-client-requests-drained', { bubbles: true, cancelable: true });
-        setTimeout(function () {
-          return _aureliaPal.DOM.dispatchEvent(evt);
-        }, 1);
+        var protoProp = 'prototype';
+        var strTrim = String.prototype.trim;
+        var arrIndexOf = Array.prototype.indexOf;
+        var emptyArray = [];
+
+        var DOMEx = function DOMEx(type, message) {
+          this.name = type;
+          this.code = DOMException[type];
+          this.message = message;
+        };
+
+        var checkTokenAndGetIndex = function checkTokenAndGetIndex(classList, token) {
+          if (token === '') {
+            throw new DOMEx('SYNTAX_ERR', 'An invalid or illegal string was specified');
+          }
+
+          if (/\s/.test(token)) {
+            throw new DOMEx('INVALID_CHARACTER_ERR', 'String contains an invalid character');
+          }
+
+          return arrIndexOf.call(classList, token);
+        };
+
+        var ClassList = function ClassList(elem) {
+          var trimmedClasses = strTrim.call(elem.getAttribute('class') || '');
+          var classes = trimmedClasses ? trimmedClasses.split(/\s+/) : emptyArray;
+
+          for (var i = 0, ii = classes.length; i < ii; ++i) {
+            this.push(classes[i]);
+          }
+
+          this._updateClassName = function () {
+            elem.setAttribute('class', this.toString());
+          };
+        };
+
+        var classListProto = ClassList[protoProp] = [];
+
+        DOMEx[protoProp] = Error[protoProp];
+
+        classListProto.item = function (i) {
+          return this[i] || null;
+        };
+
+        classListProto.contains = function (token) {
+          token += '';
+          return checkTokenAndGetIndex(this, token) !== -1;
+        };
+
+        classListProto.add = function () {
+          var tokens = arguments;
+          var i = 0;
+          var ii = tokens.length;
+          var token = void 0;
+          var updated = false;
+
+          do {
+            token = tokens[i] + '';
+            if (checkTokenAndGetIndex(this, token) === -1) {
+              this.push(token);
+              updated = true;
+            }
+          } while (++i < ii);
+
+          if (updated) {
+            this._updateClassName();
+          }
+        };
+
+        classListProto.remove = function () {
+          var tokens = arguments;
+          var i = 0;
+          var ii = tokens.length;
+          var token = void 0;
+          var updated = false;
+          var index = void 0;
+
+          do {
+            token = tokens[i] + '';
+            index = checkTokenAndGetIndex(this, token);
+            while (index !== -1) {
+              this.splice(index, 1);
+              updated = true;
+              index = checkTokenAndGetIndex(this, token);
+            }
+          } while (++i < ii);
+
+          if (updated) {
+            this._updateClassName();
+          }
+        };
+
+        classListProto.toggle = function (token, force) {
+          token += '';
+
+          var result = this.contains(token);
+          var method = result ? force !== true && 'remove' : force !== false && 'add';
+
+          if (method) {
+            this[method](token);
+          }
+
+          if (force === true || force === false) {
+            return force;
+          }
+
+          return !result;
+        };
+
+        classListProto.toString = function () {
+          return this.join(' ');
+        };
+
+        Object.defineProperty(Element.prototype, 'classList', {
+          get: function get() {
+            return new ClassList(this);
+          },
+          enumerable: true,
+          configurable: true
+        });
+      })();
+    } else {
+      var testElement = document.createElement('_');
+      testElement.classList.add('c1', 'c2');
+
+      if (!testElement.classList.contains('c2')) {
+        var createMethod = function createMethod(method) {
+          var original = DOMTokenList.prototype[method];
+
+          DOMTokenList.prototype[method] = function (token) {
+            for (var i = 0, ii = arguments.length; i < ii; ++i) {
+              token = arguments[i];
+              original.call(this, token);
+            }
+          };
+        };
+
+        createMethod('add');
+        createMethod('remove');
+      }
+
+      testElement.classList.toggle('c3', false);
+
+      if (testElement.classList.contains('c3')) {
+        (function () {
+          var _toggle = DOMTokenList.prototype.toggle;
+
+          DOMTokenList.prototype.toggle = function (token, force) {
+            if (1 in arguments && !this.contains(token) === !force) {
+              return force;
+            }
+
+            return _toggle.call(this, token);
+          };
+        })();
+      }
+
+      testElement = null;
+    }
+  }
+
+  function _ensurePerformance() {
+    // @license http://opensource.org/licenses/MIT
+
+
+    if ('performance' in window === false) {
+      window.performance = {};
+    }
+
+    if ('now' in window.performance === false) {
+      (function () {
+        var nowOffset = Date.now();
+
+        if (performance.timing && performance.timing.navigationStart) {
+          nowOffset = performance.timing.navigationStart;
+        }
+
+        window.performance.now = function now() {
+          return Date.now() - nowOffset;
+        };
       })();
     }
+
+    _PLATFORM.performance = window.performance;
   }
 
-  var HttpClient = exports.HttpClient = function () {
-    function HttpClient() {
-      
-
-      this.isRequesting = false;
-
-      this.requestTransformers = [];
-      this.requestProcessorFactories = new Map();
-      this.requestProcessorFactories.set(HttpRequestMessage, createHttpRequestMessageProcessor);
-      this.requestProcessorFactories.set(JSONPRequestMessage, createJSONPRequestMessageProcessor);
-      this.pendingRequests = [];
-    }
-
-    HttpClient.prototype.configure = function configure(fn) {
-      var builder = new RequestBuilder(this);
-      fn(builder);
-      this.requestTransformers = builder.transformers;
-      return this;
-    };
-
-    HttpClient.prototype.createRequest = function createRequest(url) {
-      var builder = new RequestBuilder(this);
-
-      if (url) {
-        builder.withUrl(url);
-      }
-
-      return builder;
-    };
-
-    HttpClient.prototype.send = function send(requestMessage, transformers) {
-      var _this5 = this;
-
-      var createProcessor = this.requestProcessorFactories.get(requestMessage.constructor);
-      var processor = void 0;
-      var promise = void 0;
-      var i = void 0;
-      var ii = void 0;
-
-      if (!createProcessor) {
-        throw new Error('No request message processor factory for ' + requestMessage.constructor + '.');
-      }
-
-      processor = createProcessor();
-      trackRequestStart(this, processor);
-
-      transformers = transformers || this.requestTransformers;
-
-      promise = Promise.resolve(requestMessage).then(function (message) {
-        for (i = 0, ii = transformers.length; i < ii; ++i) {
-          transformers[i](_this5, processor, message);
-        }
-
-        return processor.process(_this5, message).then(function (response) {
-          trackRequestEnd(_this5, processor);
-          return response;
-        }).catch(function (response) {
-          trackRequestEnd(_this5, processor);
-          throw response;
-        });
-      });
-
-      promise.abort = promise.cancel = function () {
-        processor.abort();
-      };
-
-      return promise;
-    };
-
-    HttpClient.prototype.delete = function _delete(url) {
-      return this.createRequest(url).asDelete().send();
-    };
-
-    HttpClient.prototype.get = function get(url) {
-      return this.createRequest(url).asGet().send();
-    };
-
-    HttpClient.prototype.head = function head(url) {
-      return this.createRequest(url).asHead().send();
-    };
-
-    HttpClient.prototype.jsonp = function jsonp(url) {
-      var callbackParameterName = arguments.length <= 1 || arguments[1] === undefined ? 'jsoncallback' : arguments[1];
-
-      return this.createRequest(url).asJsonp(callbackParameterName).send();
-    };
-
-    HttpClient.prototype.options = function options(url) {
-      return this.createRequest(url).asOptions().send();
-    };
-
-    HttpClient.prototype.put = function put(url, content) {
-      return this.createRequest(url).asPut().withContent(content).send();
-    };
-
-    HttpClient.prototype.patch = function patch(url, content) {
-      return this.createRequest(url).asPatch().withContent(content).send();
-    };
-
-    HttpClient.prototype.post = function post(url, content) {
-      return this.createRequest(url).asPost().withContent(content).send();
-    };
-
-    return HttpClient;
-  }();
-});
-define('aurelia-templating-resources/aurelia-templating-resources',['exports', './compose', './if', './with', './repeat', './show', './hide', './sanitize-html', './replaceable', './focus', 'aurelia-templating', './css-resource', './html-sanitizer', './binding-mode-behaviors', './throttle-binding-behavior', './debounce-binding-behavior', './signal-binding-behavior', './binding-signaler', './update-trigger-binding-behavior', './abstract-repeater', './repeat-strategy-locator', './html-resource-plugin', './null-repeat-strategy', './array-repeat-strategy', './map-repeat-strategy', './set-repeat-strategy', './number-repeat-strategy', './repeat-utilities', './analyze-view-factory', './aurelia-hide-style'], function (exports, _compose, _if, _with, _repeat, _show, _hide, _sanitizeHtml, _replaceable, _focus, _aureliaTemplating, _cssResource, _htmlSanitizer, _bindingModeBehaviors, _throttleBindingBehavior, _debounceBindingBehavior, _signalBindingBehavior, _bindingSignaler, _updateTriggerBindingBehavior, _abstractRepeater, _repeatStrategyLocator, _htmlResourcePlugin, _nullRepeatStrategy, _arrayRepeatStrategy, _mapRepeatStrategy, _setRepeatStrategy, _numberRepeatStrategy, _repeatUtilities, _analyzeViewFactory, _aureliaHideStyle) {
-  'use strict';
-
-  Object.defineProperty(exports, "__esModule", {
-    value: true
-  });
-  exports.viewsRequireLifecycle = exports.unwrapExpression = exports.updateOneTimeBinding = exports.isOneTime = exports.getItemsSourceExpression = exports.updateOverrideContext = exports.createFullOverrideContext = exports.NumberRepeatStrategy = exports.SetRepeatStrategy = exports.MapRepeatStrategy = exports.ArrayRepeatStrategy = exports.NullRepeatStrategy = exports.RepeatStrategyLocator = exports.AbstractRepeater = exports.UpdateTriggerBindingBehavior = exports.BindingSignaler = exports.SignalBindingBehavior = exports.DebounceBindingBehavior = exports.ThrottleBindingBehavior = exports.TwoWayBindingBehavior = exports.OneWayBindingBehavior = exports.OneTimeBindingBehavior = exports.configure = exports.Focus = exports.Replaceable = exports.SanitizeHTMLValueConverter = exports.HTMLSanitizer = exports.Hide = exports.Show = exports.Repeat = exports.With = exports.If = exports.Compose = undefined;
-
-
-  function configure(config) {
-    (0, _aureliaHideStyle.injectAureliaHideStyleAtHead)();
-
-    config.globalResources('./compose', './if', './with', './repeat', './show', './hide', './replaceable', './sanitize-html', './focus', './binding-mode-behaviors', './throttle-binding-behavior', './debounce-binding-behavior', './signal-binding-behavior', './update-trigger-binding-behavior');
-
-    (0, _htmlResourcePlugin.configure)(config);
-
-    var viewEngine = config.container.get(_aureliaTemplating.ViewEngine);
-    viewEngine.addResourcePlugin('.css', {
-      'fetch': function fetch(address) {
-        var _ref;
-
-        return _ref = {}, _ref[address] = (0, _cssResource._createCSSResource)(address), _ref;
-      }
-    });
-  }
-
-  exports.Compose = _compose.Compose;
-  exports.If = _if.If;
-  exports.With = _with.With;
-  exports.Repeat = _repeat.Repeat;
-  exports.Show = _show.Show;
-  exports.Hide = _hide.Hide;
-  exports.HTMLSanitizer = _htmlSanitizer.HTMLSanitizer;
-  exports.SanitizeHTMLValueConverter = _sanitizeHtml.SanitizeHTMLValueConverter;
-  exports.Replaceable = _replaceable.Replaceable;
-  exports.Focus = _focus.Focus;
-  exports.configure = configure;
-  exports.OneTimeBindingBehavior = _bindingModeBehaviors.OneTimeBindingBehavior;
-  exports.OneWayBindingBehavior = _bindingModeBehaviors.OneWayBindingBehavior;
-  exports.TwoWayBindingBehavior = _bindingModeBehaviors.TwoWayBindingBehavior;
-  exports.ThrottleBindingBehavior = _throttleBindingBehavior.ThrottleBindingBehavior;
-  exports.DebounceBindingBehavior = _debounceBindingBehavior.DebounceBindingBehavior;
-  exports.SignalBindingBehavior = _signalBindingBehavior.SignalBindingBehavior;
-  exports.BindingSignaler = _bindingSignaler.BindingSignaler;
-  exports.UpdateTriggerBindingBehavior = _updateTriggerBindingBehavior.UpdateTriggerBindingBehavior;
-  exports.AbstractRepeater = _abstractRepeater.AbstractRepeater;
-  exports.RepeatStrategyLocator = _repeatStrategyLocator.RepeatStrategyLocator;
-  exports.NullRepeatStrategy = _nullRepeatStrategy.NullRepeatStrategy;
-  exports.ArrayRepeatStrategy = _arrayRepeatStrategy.ArrayRepeatStrategy;
-  exports.MapRepeatStrategy = _mapRepeatStrategy.MapRepeatStrategy;
-  exports.SetRepeatStrategy = _setRepeatStrategy.SetRepeatStrategy;
-  exports.NumberRepeatStrategy = _numberRepeatStrategy.NumberRepeatStrategy;
-  exports.createFullOverrideContext = _repeatUtilities.createFullOverrideContext;
-  exports.updateOverrideContext = _repeatUtilities.updateOverrideContext;
-  exports.getItemsSourceExpression = _repeatUtilities.getItemsSourceExpression;
-  exports.isOneTime = _repeatUtilities.isOneTime;
-  exports.updateOneTimeBinding = _repeatUtilities.updateOneTimeBinding;
-  exports.unwrapExpression = _repeatUtilities.unwrapExpression;
-  exports.viewsRequireLifecycle = _analyzeViewFactory.viewsRequireLifecycle;
-});;define('aurelia-templating-resources', ['aurelia-templating-resources/aurelia-templating-resources'], function (main) { return main; });
-
-define('aurelia-templating-resources/compose',['exports', 'aurelia-dependency-injection', 'aurelia-task-queue', 'aurelia-templating', 'aurelia-pal'], function (exports, _aureliaDependencyInjection, _aureliaTaskQueue, _aureliaTemplating, _aureliaPal) {
-  'use strict';
-
-  Object.defineProperty(exports, "__esModule", {
-    value: true
-  });
-  exports.Compose = undefined;
-
-  function _initDefineProp(target, property, descriptor, context) {
-    if (!descriptor) return;
-    Object.defineProperty(target, property, {
-      enumerable: descriptor.enumerable,
-      configurable: descriptor.configurable,
-      writable: descriptor.writable,
-      value: descriptor.initializer ? descriptor.initializer.call(context) : void 0
-    });
-  }
-
-  
-
-  function _applyDecoratedDescriptor(target, property, decorators, descriptor, context) {
-    var desc = {};
-    Object['ke' + 'ys'](descriptor).forEach(function (key) {
-      desc[key] = descriptor[key];
-    });
-    desc.enumerable = !!desc.enumerable;
-    desc.configurable = !!desc.configurable;
-
-    if ('value' in desc || desc.initializer) {
-      desc.writable = true;
-    }
-
-    desc = decorators.slice().reverse().reduce(function (desc, decorator) {
-      return decorator(target, property, desc) || desc;
-    }, desc);
-
-    if (context && desc.initializer !== void 0) {
-      desc.value = desc.initializer ? desc.initializer.call(context) : void 0;
-      desc.initializer = undefined;
-    }
-
-    if (desc.initializer === void 0) {
-      Object['define' + 'Property'](target, property, desc);
-      desc = null;
-    }
-
-    return desc;
-  }
-
-  function _initializerWarningHelper(descriptor, context) {
-    throw new Error('Decorating class property failed. Please ensure that transform-class-properties is enabled.');
-  }
-
-  var _dec, _dec2, _class, _desc, _value, _class2, _descriptor, _descriptor2, _descriptor3;
-
-  var Compose = exports.Compose = (_dec = (0, _aureliaTemplating.customElement)('compose'), _dec2 = (0, _aureliaDependencyInjection.inject)(_aureliaPal.DOM.Element, _aureliaDependencyInjection.Container, _aureliaTemplating.CompositionEngine, _aureliaTemplating.ViewSlot, _aureliaTemplating.ViewResources, _aureliaTaskQueue.TaskQueue), _dec(_class = (0, _aureliaTemplating.noView)(_class = _dec2(_class = (_class2 = function () {
-    function Compose(element, container, compositionEngine, viewSlot, viewResources, taskQueue) {
-      
-
-      _initDefineProp(this, 'model', _descriptor, this);
-
-      _initDefineProp(this, 'view', _descriptor2, this);
-
-      _initDefineProp(this, 'viewModel', _descriptor3, this);
-
-      this.element = element;
-      this.container = container;
-      this.compositionEngine = compositionEngine;
-      this.viewSlot = viewSlot;
-      this.viewResources = viewResources;
-      this.taskQueue = taskQueue;
-      this.currentController = null;
-      this.currentViewModel = null;
-    }
-
-    Compose.prototype.created = function created(owningView) {
-      this.owningView = owningView;
-    };
-
-    Compose.prototype.bind = function bind(bindingContext, overrideContext) {
-      this.bindingContext = bindingContext;
-      this.overrideContext = overrideContext;
-      processInstruction(this, createInstruction(this, {
-        view: this.view,
-        viewModel: this.viewModel,
-        model: this.model
-      }));
-    };
-
-    Compose.prototype.unbind = function unbind(bindingContext, overrideContext) {
-      this.bindingContext = null;
-      this.overrideContext = null;
-      var returnToCache = true;
-      var skipAnimation = true;
-      this.viewSlot.removeAll(returnToCache, skipAnimation);
-    };
-
-    Compose.prototype.modelChanged = function modelChanged(newValue, oldValue) {
-      var _this = this;
-
-      if (this.currentInstruction) {
-        this.currentInstruction.model = newValue;
-        return;
-      }
-
-      this.taskQueue.queueMicroTask(function () {
-        if (_this.currentInstruction) {
-          _this.currentInstruction.model = newValue;
-          return;
-        }
-
-        var vm = _this.currentViewModel;
-
-        if (vm && typeof vm.activate === 'function') {
-          vm.activate(newValue);
-        }
-      });
-    };
-
-    Compose.prototype.viewChanged = function viewChanged(newValue, oldValue) {
-      var _this2 = this;
-
-      var instruction = createInstruction(this, {
-        view: newValue,
-        viewModel: this.currentViewModel || this.viewModel,
-        model: this.model
-      });
-
-      if (this.currentInstruction) {
-        this.currentInstruction = instruction;
-        return;
-      }
-
-      this.currentInstruction = instruction;
-      this.taskQueue.queueMicroTask(function () {
-        return processInstruction(_this2, _this2.currentInstruction);
-      });
-    };
-
-    Compose.prototype.viewModelChanged = function viewModelChanged(newValue, oldValue) {
-      var _this3 = this;
-
-      var instruction = createInstruction(this, {
-        viewModel: newValue,
-        view: this.view,
-        model: this.model
-      });
-
-      if (this.currentInstruction) {
-        this.currentInstruction = instruction;
-        return;
-      }
-
-      this.currentInstruction = instruction;
-      this.taskQueue.queueMicroTask(function () {
-        return processInstruction(_this3, _this3.currentInstruction);
-      });
-    };
-
-    return Compose;
-  }(), (_descriptor = _applyDecoratedDescriptor(_class2.prototype, 'model', [_aureliaTemplating.bindable], {
-    enumerable: true,
-    initializer: null
-  }), _descriptor2 = _applyDecoratedDescriptor(_class2.prototype, 'view', [_aureliaTemplating.bindable], {
-    enumerable: true,
-    initializer: null
-  }), _descriptor3 = _applyDecoratedDescriptor(_class2.prototype, 'viewModel', [_aureliaTemplating.bindable], {
-    enumerable: true,
-    initializer: null
-  })), _class2)) || _class) || _class) || _class);
-
-
-  function createInstruction(composer, instruction) {
-    return Object.assign(instruction, {
-      bindingContext: composer.bindingContext,
-      overrideContext: composer.overrideContext,
-      owningView: composer.owningView,
-      container: composer.container,
-      viewSlot: composer.viewSlot,
-      viewResources: composer.viewResources,
-      currentController: composer.currentController,
-      host: composer.element
-    });
-  }
-
-  function processInstruction(composer, instruction) {
-    composer.currentInstruction = null;
-    composer.compositionEngine.compose(instruction).then(function (controller) {
-      composer.currentController = controller;
-      composer.currentViewModel = controller ? controller.viewModel : null;
-    });
-  }
-});
-define('aurelia-templating-resources/if',['exports', 'aurelia-templating', 'aurelia-dependency-injection'], function (exports, _aureliaTemplating, _aureliaDependencyInjection) {
-  'use strict';
-
-  Object.defineProperty(exports, "__esModule", {
-    value: true
-  });
-  exports.If = undefined;
-
-  
-
-  var _dec, _dec2, _class;
-
-  var If = exports.If = (_dec = (0, _aureliaTemplating.customAttribute)('if'), _dec2 = (0, _aureliaDependencyInjection.inject)(_aureliaTemplating.BoundViewFactory, _aureliaTemplating.ViewSlot), _dec(_class = (0, _aureliaTemplating.templateController)(_class = _dec2(_class = function () {
-    function If(viewFactory, viewSlot) {
-      
-
-      this.viewFactory = viewFactory;
-      this.viewSlot = viewSlot;
-      this.showing = false;
-      this.view = null;
-      this.bindingContext = null;
-      this.overrideContext = null;
-    }
-
-    If.prototype.bind = function bind(bindingContext, overrideContext) {
-      this.bindingContext = bindingContext;
-      this.overrideContext = overrideContext;
-      this.valueChanged(this.value);
-    };
-
-    If.prototype.valueChanged = function valueChanged(newValue) {
-      var _this = this;
-
-      if (this.__queuedChanges) {
-        this.__queuedChanges.push(newValue);
-        return;
-      }
-
-      var maybePromise = this._runValueChanged(newValue);
-      if (maybePromise instanceof Promise) {
-        (function () {
-          var queuedChanges = _this.__queuedChanges = [];
-
-          var runQueuedChanges = function runQueuedChanges() {
-            if (!queuedChanges.length) {
-              _this.__queuedChanges = undefined;
-              return;
-            }
-
-            var nextPromise = _this._runValueChanged(queuedChanges.shift()) || Promise.resolve();
-            nextPromise.then(runQueuedChanges);
-          };
-
-          maybePromise.then(runQueuedChanges);
-        })();
-      }
-    };
-
-    If.prototype._runValueChanged = function _runValueChanged(newValue) {
-      var _this2 = this;
-
-      if (!newValue) {
-        var viewOrPromise = void 0;
-        if (this.view !== null && this.showing) {
-          viewOrPromise = this.viewSlot.remove(this.view);
-          if (viewOrPromise instanceof Promise) {
-            viewOrPromise.then(function () {
-              return _this2.view.unbind();
-            });
-          } else {
-            this.view.unbind();
-          }
-        }
-
-        this.showing = false;
-        return viewOrPromise;
-      }
-
-      if (this.view === null) {
-        this.view = this.viewFactory.create();
-      }
-
-      if (!this.view.isBound) {
-        this.view.bind(this.bindingContext, this.overrideContext);
-      }
-
-      if (!this.showing) {
-        this.showing = true;
-        return this.viewSlot.add(this.view);
-      }
-
-      return undefined;
-    };
-
-    If.prototype.unbind = function unbind() {
-      if (this.view === null) {
-        return;
-      }
-
-      this.view.unbind();
-
-      if (!this.viewFactory.isCaching) {
-        return;
-      }
-
-      if (this.showing) {
-        this.showing = false;
-        this.viewSlot.remove(this.view, true, true);
-      }
-      this.view.returnToCache();
-      this.view = null;
-    };
-
-    return If;
-  }()) || _class) || _class) || _class);
-});
-define('aurelia-templating-resources/with',['exports', 'aurelia-dependency-injection', 'aurelia-templating', 'aurelia-binding'], function (exports, _aureliaDependencyInjection, _aureliaTemplating, _aureliaBinding) {
-  'use strict';
-
-  Object.defineProperty(exports, "__esModule", {
-    value: true
-  });
-  exports.With = undefined;
-
-  
-
-  var _dec, _dec2, _class;
-
-  var With = exports.With = (_dec = (0, _aureliaTemplating.customAttribute)('with'), _dec2 = (0, _aureliaDependencyInjection.inject)(_aureliaTemplating.BoundViewFactory, _aureliaTemplating.ViewSlot), _dec(_class = (0, _aureliaTemplating.templateController)(_class = _dec2(_class = function () {
-    function With(viewFactory, viewSlot) {
-      
-
-      this.viewFactory = viewFactory;
-      this.viewSlot = viewSlot;
-      this.parentOverrideContext = null;
-      this.view = null;
-    }
-
-    With.prototype.bind = function bind(bindingContext, overrideContext) {
-      this.parentOverrideContext = overrideContext;
-      this.valueChanged(this.value);
-    };
-
-    With.prototype.valueChanged = function valueChanged(newValue) {
-      var overrideContext = (0, _aureliaBinding.createOverrideContext)(newValue, this.parentOverrideContext);
-      if (!this.view) {
-        this.view = this.viewFactory.create();
-        this.view.bind(newValue, overrideContext);
-        this.viewSlot.add(this.view);
-      } else {
-        this.view.bind(newValue, overrideContext);
-      }
-    };
-
-    With.prototype.unbind = function unbind() {
-      this.parentOverrideContext = null;
-
-      if (this.view) {
-        this.view.unbind();
-      }
-    };
-
-    return With;
-  }()) || _class) || _class) || _class);
-});
-define('aurelia-templating-resources/repeat',['exports', 'aurelia-dependency-injection', 'aurelia-binding', 'aurelia-templating', './repeat-strategy-locator', './repeat-utilities', './analyze-view-factory', './abstract-repeater'], function (exports, _aureliaDependencyInjection, _aureliaBinding, _aureliaTemplating, _repeatStrategyLocator, _repeatUtilities, _analyzeViewFactory, _abstractRepeater) {
-  'use strict';
-
-  Object.defineProperty(exports, "__esModule", {
-    value: true
-  });
-  exports.Repeat = undefined;
-
-  function _initDefineProp(target, property, descriptor, context) {
-    if (!descriptor) return;
-    Object.defineProperty(target, property, {
-      enumerable: descriptor.enumerable,
-      configurable: descriptor.configurable,
-      writable: descriptor.writable,
-      value: descriptor.initializer ? descriptor.initializer.call(context) : void 0
-    });
-  }
-
-  
-
-  function _possibleConstructorReturn(self, call) {
-    if (!self) {
-      throw new ReferenceError("this hasn't been initialised - super() hasn't been called");
-    }
-
-    return call && (typeof call === "object" || typeof call === "function") ? call : self;
-  }
-
-  function _inherits(subClass, superClass) {
-    if (typeof superClass !== "function" && superClass !== null) {
-      throw new TypeError("Super expression must either be null or a function, not " + typeof superClass);
-    }
-
-    subClass.prototype = Object.create(superClass && superClass.prototype, {
-      constructor: {
-        value: subClass,
-        enumerable: false,
-        writable: true,
-        configurable: true
-      }
-    });
-    if (superClass) Object.setPrototypeOf ? Object.setPrototypeOf(subClass, superClass) : subClass.__proto__ = superClass;
-  }
-
-  function _applyDecoratedDescriptor(target, property, decorators, descriptor, context) {
-    var desc = {};
-    Object['ke' + 'ys'](descriptor).forEach(function (key) {
-      desc[key] = descriptor[key];
-    });
-    desc.enumerable = !!desc.enumerable;
-    desc.configurable = !!desc.configurable;
-
-    if ('value' in desc || desc.initializer) {
-      desc.writable = true;
-    }
-
-    desc = decorators.slice().reverse().reduce(function (desc, decorator) {
-      return decorator(target, property, desc) || desc;
-    }, desc);
-
-    if (context && desc.initializer !== void 0) {
-      desc.value = desc.initializer ? desc.initializer.call(context) : void 0;
-      desc.initializer = undefined;
-    }
-
-    if (desc.initializer === void 0) {
-      Object['define' + 'Property'](target, property, desc);
-      desc = null;
-    }
-
-    return desc;
-  }
-
-  function _initializerWarningHelper(descriptor, context) {
-    throw new Error('Decorating class property failed. Please ensure that transform-class-properties is enabled.');
-  }
-
-  var _dec, _dec2, _class, _desc, _value, _class2, _descriptor, _descriptor2, _descriptor3, _descriptor4;
-
-  var Repeat = exports.Repeat = (_dec = (0, _aureliaTemplating.customAttribute)('repeat'), _dec2 = (0, _aureliaDependencyInjection.inject)(_aureliaTemplating.BoundViewFactory, _aureliaTemplating.TargetInstruction, _aureliaTemplating.ViewSlot, _aureliaTemplating.ViewResources, _aureliaBinding.ObserverLocator, _repeatStrategyLocator.RepeatStrategyLocator), _dec(_class = (0, _aureliaTemplating.templateController)(_class = _dec2(_class = (_class2 = function (_AbstractRepeater) {
-    _inherits(Repeat, _AbstractRepeater);
-
-    function Repeat(viewFactory, instruction, viewSlot, viewResources, observerLocator, strategyLocator) {
-      
-
-      var _this = _possibleConstructorReturn(this, _AbstractRepeater.call(this, {
-        local: 'item',
-        viewsRequireLifecycle: (0, _analyzeViewFactory.viewsRequireLifecycle)(viewFactory)
-      }));
-
-      _initDefineProp(_this, 'items', _descriptor, _this);
-
-      _initDefineProp(_this, 'local', _descriptor2, _this);
-
-      _initDefineProp(_this, 'key', _descriptor3, _this);
-
-      _initDefineProp(_this, 'value', _descriptor4, _this);
-
-      _this.viewFactory = viewFactory;
-      _this.instruction = instruction;
-      _this.viewSlot = viewSlot;
-      _this.lookupFunctions = viewResources.lookupFunctions;
-      _this.observerLocator = observerLocator;
-      _this.key = 'key';
-      _this.value = 'value';
-      _this.strategyLocator = strategyLocator;
-      _this.ignoreMutation = false;
-      _this.sourceExpression = (0, _repeatUtilities.getItemsSourceExpression)(_this.instruction, 'repeat.for');
-      _this.isOneTime = (0, _repeatUtilities.isOneTime)(_this.sourceExpression);
-      _this.viewsRequireLifecycle = (0, _analyzeViewFactory.viewsRequireLifecycle)(viewFactory);
-      return _this;
-    }
-
-    Repeat.prototype.call = function call(context, changes) {
-      this[context](this.items, changes);
-    };
-
-    Repeat.prototype.bind = function bind(bindingContext, overrideContext) {
-      this.scope = { bindingContext: bindingContext, overrideContext: overrideContext };
-      this.matcherBinding = this._captureAndRemoveMatcherBinding();
-      this.itemsChanged();
-    };
-
-    Repeat.prototype.unbind = function unbind() {
-      this.scope = null;
-      this.items = null;
-      this.matcherBinding = null;
-      this.viewSlot.removeAll(true);
-      this._unsubscribeCollection();
-    };
-
-    Repeat.prototype._unsubscribeCollection = function _unsubscribeCollection() {
-      if (this.collectionObserver) {
-        this.collectionObserver.unsubscribe(this.callContext, this);
-        this.collectionObserver = null;
-        this.callContext = null;
-      }
-    };
-
-    Repeat.prototype.itemsChanged = function itemsChanged() {
-      this._unsubscribeCollection();
-
-      if (!this.scope) {
-        return;
-      }
-
-      var items = this.items;
-      this.strategy = this.strategyLocator.getStrategy(items);
-      if (!this.strategy) {
-        throw new Error('Value for \'' + this.sourceExpression + '\' is non-repeatable');
-      }
-
-      if (!this.isOneTime && !this._observeInnerCollection()) {
-        this._observeCollection();
-      }
-      this.strategy.instanceChanged(this, items);
-    };
-
-    Repeat.prototype._getInnerCollection = function _getInnerCollection() {
-      var expression = (0, _repeatUtilities.unwrapExpression)(this.sourceExpression);
-      if (!expression) {
-        return null;
-      }
-      return expression.evaluate(this.scope, null);
-    };
-
-    Repeat.prototype.handleCollectionMutated = function handleCollectionMutated(collection, changes) {
-      if (!this.collectionObserver) {
-        return;
-      }
-      this.strategy.instanceMutated(this, collection, changes);
-    };
-
-    Repeat.prototype.handleInnerCollectionMutated = function handleInnerCollectionMutated(collection, changes) {
-      var _this2 = this;
-
-      if (!this.collectionObserver) {
-        return;
-      }
-
-      if (this.ignoreMutation) {
-        return;
-      }
-      this.ignoreMutation = true;
-      var newItems = this.sourceExpression.evaluate(this.scope, this.lookupFunctions);
-      this.observerLocator.taskQueue.queueMicroTask(function () {
-        return _this2.ignoreMutation = false;
-      });
-
-      if (newItems === this.items) {
-        this.itemsChanged();
-      } else {
-        this.items = newItems;
-      }
-    };
-
-    Repeat.prototype._observeInnerCollection = function _observeInnerCollection() {
-      var items = this._getInnerCollection();
-      var strategy = this.strategyLocator.getStrategy(items);
-      if (!strategy) {
-        return false;
-      }
-      this.collectionObserver = strategy.getCollectionObserver(this.observerLocator, items);
-      if (!this.collectionObserver) {
-        return false;
-      }
-      this.callContext = 'handleInnerCollectionMutated';
-      this.collectionObserver.subscribe(this.callContext, this);
-      return true;
-    };
-
-    Repeat.prototype._observeCollection = function _observeCollection() {
-      var items = this.items;
-      this.collectionObserver = this.strategy.getCollectionObserver(this.observerLocator, items);
-      if (this.collectionObserver) {
-        this.callContext = 'handleCollectionMutated';
-        this.collectionObserver.subscribe(this.callContext, this);
-      }
-    };
-
-    Repeat.prototype._captureAndRemoveMatcherBinding = function _captureAndRemoveMatcherBinding() {
-      if (this.viewFactory.viewFactory) {
-        var instructions = this.viewFactory.viewFactory.instructions;
-        var instructionIds = Object.keys(instructions);
-        for (var i = 0; i < instructionIds.length; i++) {
-          var expressions = instructions[instructionIds[i]].expressions;
-          if (expressions) {
-            for (var ii = 0; i < expressions.length; i++) {
-              if (expressions[ii].targetProperty === 'matcher') {
-                var matcherBinding = expressions[ii];
-                expressions.splice(ii, 1);
-                return matcherBinding;
-              }
-            }
-          }
-        }
-      }
-
-      return undefined;
-    };
-
-    Repeat.prototype.viewCount = function viewCount() {
-      return this.viewSlot.children.length;
-    };
-
-    Repeat.prototype.views = function views() {
-      return this.viewSlot.children;
-    };
-
-    Repeat.prototype.view = function view(index) {
-      return this.viewSlot.children[index];
-    };
-
-    Repeat.prototype.matcher = function matcher() {
-      return this.matcherBinding ? this.matcherBinding.sourceExpression.evaluate(this.scope, this.matcherBinding.lookupFunctions) : null;
-    };
-
-    Repeat.prototype.addView = function addView(bindingContext, overrideContext) {
-      var view = this.viewFactory.create();
-      view.bind(bindingContext, overrideContext);
-      this.viewSlot.add(view);
-    };
-
-    Repeat.prototype.insertView = function insertView(index, bindingContext, overrideContext) {
-      var view = this.viewFactory.create();
-      view.bind(bindingContext, overrideContext);
-      this.viewSlot.insert(index, view);
-    };
-
-    Repeat.prototype.moveView = function moveView(sourceIndex, targetIndex) {
-      this.viewSlot.move(sourceIndex, targetIndex);
-    };
-
-    Repeat.prototype.removeAllViews = function removeAllViews(returnToCache, skipAnimation) {
-      return this.viewSlot.removeAll(returnToCache, skipAnimation);
-    };
-
-    Repeat.prototype.removeViews = function removeViews(viewsToRemove, returnToCache, skipAnimation) {
-      return this.viewSlot.removeMany(viewsToRemove, returnToCache, skipAnimation);
-    };
-
-    Repeat.prototype.removeView = function removeView(index, returnToCache, skipAnimation) {
-      return this.viewSlot.removeAt(index, returnToCache, skipAnimation);
-    };
-
-    Repeat.prototype.updateBindings = function updateBindings(view) {
-      var j = view.bindings.length;
-      while (j--) {
-        (0, _repeatUtilities.updateOneTimeBinding)(view.bindings[j]);
-      }
-      j = view.controllers.length;
-      while (j--) {
-        var k = view.controllers[j].boundProperties.length;
-        while (k--) {
-          var binding = view.controllers[j].boundProperties[k].binding;
-          (0, _repeatUtilities.updateOneTimeBinding)(binding);
-        }
-      }
-    };
-
-    return Repeat;
-  }(_abstractRepeater.AbstractRepeater), (_descriptor = _applyDecoratedDescriptor(_class2.prototype, 'items', [_aureliaTemplating.bindable], {
-    enumerable: true,
-    initializer: null
-  }), _descriptor2 = _applyDecoratedDescriptor(_class2.prototype, 'local', [_aureliaTemplating.bindable], {
-    enumerable: true,
-    initializer: null
-  }), _descriptor3 = _applyDecoratedDescriptor(_class2.prototype, 'key', [_aureliaTemplating.bindable], {
-    enumerable: true,
-    initializer: null
-  }), _descriptor4 = _applyDecoratedDescriptor(_class2.prototype, 'value', [_aureliaTemplating.bindable], {
-    enumerable: true,
-    initializer: null
-  })), _class2)) || _class) || _class) || _class);
-});
-define('aurelia-templating-resources/repeat-strategy-locator',['exports', './null-repeat-strategy', './array-repeat-strategy', './map-repeat-strategy', './set-repeat-strategy', './number-repeat-strategy'], function (exports, _nullRepeatStrategy, _arrayRepeatStrategy, _mapRepeatStrategy, _setRepeatStrategy, _numberRepeatStrategy) {
-  'use strict';
-
-  Object.defineProperty(exports, "__esModule", {
-    value: true
-  });
-  exports.RepeatStrategyLocator = undefined;
-
-  
-
-  var RepeatStrategyLocator = exports.RepeatStrategyLocator = function () {
-    function RepeatStrategyLocator() {
-      
-
-      this.matchers = [];
-      this.strategies = [];
-
-      this.addStrategy(function (items) {
-        return items === null || items === undefined;
-      }, new _nullRepeatStrategy.NullRepeatStrategy());
-      this.addStrategy(function (items) {
-        return items instanceof Array;
-      }, new _arrayRepeatStrategy.ArrayRepeatStrategy());
-      this.addStrategy(function (items) {
-        return items instanceof Map;
-      }, new _mapRepeatStrategy.MapRepeatStrategy());
-      this.addStrategy(function (items) {
-        return items instanceof Set;
-      }, new _setRepeatStrategy.SetRepeatStrategy());
-      this.addStrategy(function (items) {
-        return typeof items === 'number';
-      }, new _numberRepeatStrategy.NumberRepeatStrategy());
-    }
-
-    RepeatStrategyLocator.prototype.addStrategy = function addStrategy(matcher, strategy) {
-      this.matchers.push(matcher);
-      this.strategies.push(strategy);
-    };
-
-    RepeatStrategyLocator.prototype.getStrategy = function getStrategy(items) {
-      var matchers = this.matchers;
-
-      for (var i = 0, ii = matchers.length; i < ii; ++i) {
-        if (matchers[i](items)) {
-          return this.strategies[i];
-        }
-      }
-
-      return null;
-    };
-
-    return RepeatStrategyLocator;
-  }();
-});
-define('aurelia-templating-resources/null-repeat-strategy',["exports"], function (exports) {
-  "use strict";
-
-  Object.defineProperty(exports, "__esModule", {
-    value: true
-  });
-
-  
-
-  var NullRepeatStrategy = exports.NullRepeatStrategy = function () {
-    function NullRepeatStrategy() {
-      
-    }
-
-    NullRepeatStrategy.prototype.instanceChanged = function instanceChanged(repeat, items) {
-      repeat.removeAllViews(true);
-    };
-
-    NullRepeatStrategy.prototype.getCollectionObserver = function getCollectionObserver(observerLocator, items) {};
-
-    return NullRepeatStrategy;
-  }();
-});
-define('aurelia-templating-resources/array-repeat-strategy',['exports', './repeat-utilities', 'aurelia-binding'], function (exports, _repeatUtilities, _aureliaBinding) {
-  'use strict';
-
-  Object.defineProperty(exports, "__esModule", {
-    value: true
-  });
-  exports.ArrayRepeatStrategy = undefined;
-
-  
-
-  var ArrayRepeatStrategy = exports.ArrayRepeatStrategy = function () {
-    function ArrayRepeatStrategy() {
-      
-    }
-
-    ArrayRepeatStrategy.prototype.getCollectionObserver = function getCollectionObserver(observerLocator, items) {
-      return observerLocator.getArrayObserver(items);
-    };
-
-    ArrayRepeatStrategy.prototype.instanceChanged = function instanceChanged(repeat, items) {
-      var _this = this;
-
-      var itemsLength = items.length;
-
-      if (!items || itemsLength === 0) {
-        repeat.removeAllViews(true, !repeat.viewsRequireLifecycle);
-        return;
-      }
-
-      var children = repeat.views();
-      var viewsLength = children.length;
-
-      if (viewsLength === 0) {
-        this._standardProcessInstanceChanged(repeat, items);
-        return;
-      }
-
-      if (repeat.viewsRequireLifecycle) {
-        (function () {
-          var childrenSnapshot = children.slice(0);
-          var itemNameInBindingContext = repeat.local;
-          var matcher = repeat.matcher();
-
-          var itemsPreviouslyInViews = [];
-          var viewsToRemove = [];
-
-          for (var index = 0; index < viewsLength; index++) {
-            var view = childrenSnapshot[index];
-            var oldItem = view.bindingContext[itemNameInBindingContext];
-
-            if ((0, _repeatUtilities.indexOf)(items, oldItem, matcher) === -1) {
-              viewsToRemove.push(view);
-            } else {
-              itemsPreviouslyInViews.push(oldItem);
-            }
-          }
-
-          var updateViews = void 0;
-          var removePromise = void 0;
-
-          if (itemsPreviouslyInViews.length > 0) {
-            removePromise = repeat.removeViews(viewsToRemove, true, !repeat.viewsRequireLifecycle);
-            updateViews = function updateViews() {
-              for (var _index = 0; _index < itemsLength; _index++) {
-                var item = items[_index];
-                var indexOfView = (0, _repeatUtilities.indexOf)(itemsPreviouslyInViews, item, matcher, _index);
-                var _view = void 0;
-
-                if (indexOfView === -1) {
-                  var overrideContext = (0, _repeatUtilities.createFullOverrideContext)(repeat, items[_index], _index, itemsLength);
-                  repeat.insertView(_index, overrideContext.bindingContext, overrideContext);
-
-                  itemsPreviouslyInViews.splice(_index, 0, undefined);
-                } else if (indexOfView === _index) {
-                  _view = children[indexOfView];
-                  itemsPreviouslyInViews[indexOfView] = undefined;
-                } else {
-                  _view = children[indexOfView];
-                  repeat.moveView(indexOfView, _index);
-                  itemsPreviouslyInViews.splice(indexOfView, 1);
-                  itemsPreviouslyInViews.splice(_index, 0, undefined);
-                }
-
-                if (_view) {
-                  (0, _repeatUtilities.updateOverrideContext)(_view.overrideContext, _index, itemsLength);
-                }
-              }
-
-              _this._inPlaceProcessItems(repeat, items);
-            };
-          } else {
-            removePromise = repeat.removeAllViews(true, !repeat.viewsRequireLifecycle);
-            updateViews = function updateViews() {
-              return _this._standardProcessInstanceChanged(repeat, items);
-            };
-          }
-
-          if (removePromise instanceof Promise) {
-            removePromise.then(updateViews);
-          } else {
-            updateViews();
-          }
-        })();
-      } else {
-        this._inPlaceProcessItems(repeat, items);
-      }
-    };
-
-    ArrayRepeatStrategy.prototype._standardProcessInstanceChanged = function _standardProcessInstanceChanged(repeat, items) {
-      for (var i = 0, ii = items.length; i < ii; i++) {
-        var overrideContext = (0, _repeatUtilities.createFullOverrideContext)(repeat, items[i], i, ii);
-        repeat.addView(overrideContext.bindingContext, overrideContext);
-      }
-    };
-
-    ArrayRepeatStrategy.prototype._inPlaceProcessItems = function _inPlaceProcessItems(repeat, items) {
-      var itemsLength = items.length;
-      var viewsLength = repeat.viewCount();
-
-      while (viewsLength > itemsLength) {
-        viewsLength--;
-        repeat.removeView(viewsLength, true, !repeat.viewsRequireLifecycle);
-      }
-
-      var local = repeat.local;
-
-      for (var i = 0; i < viewsLength; i++) {
-        var view = repeat.view(i);
-        var last = i === itemsLength - 1;
-        var middle = i !== 0 && !last;
-
-        if (view.bindingContext[local] === items[i] && view.overrideContext.$middle === middle && view.overrideContext.$last === last) {
-          continue;
-        }
-
-        view.bindingContext[local] = items[i];
-        view.overrideContext.$middle = middle;
-        view.overrideContext.$last = last;
-        repeat.updateBindings(view);
-      }
-
-      for (var _i = viewsLength; _i < itemsLength; _i++) {
-        var overrideContext = (0, _repeatUtilities.createFullOverrideContext)(repeat, items[_i], _i, itemsLength);
-        repeat.addView(overrideContext.bindingContext, overrideContext);
-      }
-    };
-
-    ArrayRepeatStrategy.prototype.instanceMutated = function instanceMutated(repeat, array, splices) {
-      var _this2 = this;
-
-      if (repeat.__queuedSplices) {
-        for (var i = 0, ii = splices.length; i < ii; ++i) {
-          var _splices$i = splices[i];
-          var index = _splices$i.index;
-          var removed = _splices$i.removed;
-          var addedCount = _splices$i.addedCount;
-
-          (0, _aureliaBinding.mergeSplice)(repeat.__queuedSplices, index, removed, addedCount);
-        }
-
-        repeat.__array = array.slice(0);
-        return;
-      }
-
-      var maybePromise = this._runSplices(repeat, array.slice(0), splices);
-      if (maybePromise instanceof Promise) {
-        (function () {
-          var queuedSplices = repeat.__queuedSplices = [];
-
-          var runQueuedSplices = function runQueuedSplices() {
-            if (!queuedSplices.length) {
-              repeat.__queuedSplices = undefined;
-              repeat.__array = undefined;
-              return;
-            }
-
-            var nextPromise = _this2._runSplices(repeat, repeat.__array, queuedSplices) || Promise.resolve();
-            queuedSplices = repeat.__queuedSplices = [];
-            nextPromise.then(runQueuedSplices);
-          };
-
-          maybePromise.then(runQueuedSplices);
-        })();
-      }
-    };
-
-    ArrayRepeatStrategy.prototype._runSplices = function _runSplices(repeat, array, splices) {
-      var _this3 = this;
-
-      var removeDelta = 0;
-      var rmPromises = [];
-
-      for (var i = 0, ii = splices.length; i < ii; ++i) {
-        var splice = splices[i];
-        var removed = splice.removed;
-
-        for (var j = 0, jj = removed.length; j < jj; ++j) {
-          var viewOrPromise = repeat.removeView(splice.index + removeDelta + rmPromises.length, true);
-          if (viewOrPromise instanceof Promise) {
-            rmPromises.push(viewOrPromise);
-          }
-        }
-        removeDelta -= splice.addedCount;
-      }
-
-      if (rmPromises.length > 0) {
-        return Promise.all(rmPromises).then(function () {
-          var spliceIndexLow = _this3._handleAddedSplices(repeat, array, splices);
-          (0, _repeatUtilities.updateOverrideContexts)(repeat.views(), spliceIndexLow);
-        });
-      }
-
-      var spliceIndexLow = this._handleAddedSplices(repeat, array, splices);
-      (0, _repeatUtilities.updateOverrideContexts)(repeat.views(), spliceIndexLow);
-
-      return undefined;
-    };
-
-    ArrayRepeatStrategy.prototype._handleAddedSplices = function _handleAddedSplices(repeat, array, splices) {
-      var spliceIndex = void 0;
-      var spliceIndexLow = void 0;
-      var arrayLength = array.length;
-      for (var i = 0, ii = splices.length; i < ii; ++i) {
-        var splice = splices[i];
-        var addIndex = spliceIndex = splice.index;
-        var end = splice.index + splice.addedCount;
-
-        if (typeof spliceIndexLow === 'undefined' || spliceIndexLow === null || spliceIndexLow > splice.index) {
-          spliceIndexLow = spliceIndex;
-        }
-
-        for (; addIndex < end; ++addIndex) {
-          var overrideContext = (0, _repeatUtilities.createFullOverrideContext)(repeat, array[addIndex], addIndex, arrayLength);
-          repeat.insertView(addIndex, overrideContext.bindingContext, overrideContext);
-        }
-      }
-
-      return spliceIndexLow;
-    };
-
-    return ArrayRepeatStrategy;
-  }();
-});
-define('aurelia-templating-resources/repeat-utilities',['exports', 'aurelia-binding'], function (exports, _aureliaBinding) {
-  'use strict';
-
-  Object.defineProperty(exports, "__esModule", {
-    value: true
-  });
-  exports.updateOverrideContexts = updateOverrideContexts;
-  exports.createFullOverrideContext = createFullOverrideContext;
-  exports.updateOverrideContext = updateOverrideContext;
-  exports.getItemsSourceExpression = getItemsSourceExpression;
-  exports.unwrapExpression = unwrapExpression;
-  exports.isOneTime = isOneTime;
-  exports.updateOneTimeBinding = updateOneTimeBinding;
-  exports.indexOf = indexOf;
-
-
-  var oneTime = _aureliaBinding.bindingMode.oneTime;
-
-  function updateOverrideContexts(views, startIndex) {
-    var length = views.length;
-
-    if (startIndex > 0) {
-      startIndex = startIndex - 1;
-    }
-
-    for (; startIndex < length; ++startIndex) {
-      updateOverrideContext(views[startIndex].overrideContext, startIndex, length);
-    }
-  }
-
-  function createFullOverrideContext(repeat, data, index, length, key) {
-    var bindingContext = {};
-    var overrideContext = (0, _aureliaBinding.createOverrideContext)(bindingContext, repeat.scope.overrideContext);
-
-    if (typeof key !== 'undefined') {
-      bindingContext[repeat.key] = key;
-      bindingContext[repeat.value] = data;
-    } else {
-      bindingContext[repeat.local] = data;
-    }
-    updateOverrideContext(overrideContext, index, length);
-    return overrideContext;
-  }
-
-  function updateOverrideContext(overrideContext, index, length) {
-    var first = index === 0;
-    var last = index === length - 1;
-    var even = index % 2 === 0;
-
-    overrideContext.$index = index;
-    overrideContext.$first = first;
-    overrideContext.$last = last;
-    overrideContext.$middle = !(first || last);
-    overrideContext.$odd = !even;
-    overrideContext.$even = even;
-  }
-
-  function getItemsSourceExpression(instruction, attrName) {
-    return instruction.behaviorInstructions.filter(function (bi) {
-      return bi.originalAttrName === attrName;
-    })[0].attributes.items.sourceExpression;
-  }
-
-  function unwrapExpression(expression) {
-    var unwrapped = false;
-    while (expression instanceof _aureliaBinding.BindingBehavior) {
-      expression = expression.expression;
-    }
-    while (expression instanceof _aureliaBinding.ValueConverter) {
-      expression = expression.expression;
-      unwrapped = true;
-    }
-    return unwrapped ? expression : null;
-  }
-
-  function isOneTime(expression) {
-    while (expression instanceof _aureliaBinding.BindingBehavior) {
-      if (expression.name === 'oneTime') {
-        return true;
-      }
-      expression = expression.expression;
-    }
-    return false;
-  }
-
-  function updateOneTimeBinding(binding) {
-    if (binding.call && binding.mode === oneTime) {
-      binding.call(_aureliaBinding.sourceContext);
-    } else if (binding.updateOneTimeBindings) {
-      binding.updateOneTimeBindings();
-    }
-  }
-
-  function indexOf(array, item, matcher, startIndex) {
-    if (!matcher) {
-      return array.indexOf(item);
-    }
-    var length = array.length;
-    for (var index = startIndex || 0; index < length; index++) {
-      if (matcher(array[index], item)) {
-        return index;
-      }
-    }
-    return -1;
-  }
-});
-define('aurelia-templating-resources/map-repeat-strategy',['exports', './repeat-utilities'], function (exports, _repeatUtilities) {
-  'use strict';
-
-  Object.defineProperty(exports, "__esModule", {
-    value: true
-  });
-  exports.MapRepeatStrategy = undefined;
-
-  
-
-  var MapRepeatStrategy = exports.MapRepeatStrategy = function () {
-    function MapRepeatStrategy() {
-      
-    }
-
-    MapRepeatStrategy.prototype.getCollectionObserver = function getCollectionObserver(observerLocator, items) {
-      return observerLocator.getMapObserver(items);
-    };
-
-    MapRepeatStrategy.prototype.instanceChanged = function instanceChanged(repeat, items) {
-      var _this = this;
-
-      var removePromise = repeat.removeAllViews(true, !repeat.viewsRequireLifecycle);
-      if (removePromise instanceof Promise) {
-        removePromise.then(function () {
-          return _this._standardProcessItems(repeat, items);
-        });
-        return;
-      }
-      this._standardProcessItems(repeat, items);
-    };
-
-    MapRepeatStrategy.prototype._standardProcessItems = function _standardProcessItems(repeat, items) {
-      var index = 0;
-      var overrideContext = void 0;
-
-      items.forEach(function (value, key) {
-        overrideContext = (0, _repeatUtilities.createFullOverrideContext)(repeat, value, index, items.size, key);
-        repeat.addView(overrideContext.bindingContext, overrideContext);
-        ++index;
-      });
-    };
-
-    MapRepeatStrategy.prototype.instanceMutated = function instanceMutated(repeat, map, records) {
-      var key = void 0;
-      var i = void 0;
-      var ii = void 0;
-      var overrideContext = void 0;
-      var removeIndex = void 0;
-      var record = void 0;
-      var rmPromises = [];
-      var viewOrPromise = void 0;
-
-      for (i = 0, ii = records.length; i < ii; ++i) {
-        record = records[i];
-        key = record.key;
-        switch (record.type) {
-          case 'update':
-            removeIndex = this._getViewIndexByKey(repeat, key);
-            viewOrPromise = repeat.removeView(removeIndex, true, !repeat.viewsRequireLifecycle);
-            if (viewOrPromise instanceof Promise) {
-              rmPromises.push(viewOrPromise);
-            }
-            overrideContext = (0, _repeatUtilities.createFullOverrideContext)(repeat, map.get(key), removeIndex, map.size, key);
-            repeat.insertView(removeIndex, overrideContext.bindingContext, overrideContext);
-            break;
-          case 'add':
-            overrideContext = (0, _repeatUtilities.createFullOverrideContext)(repeat, map.get(key), map.size - 1, map.size, key);
-            repeat.insertView(map.size - 1, overrideContext.bindingContext, overrideContext);
-            break;
-          case 'delete':
-            if (record.oldValue === undefined) {
-              return;
-            }
-            removeIndex = this._getViewIndexByKey(repeat, key);
-            viewOrPromise = repeat.removeView(removeIndex, true, !repeat.viewsRequireLifecycle);
-            if (viewOrPromise instanceof Promise) {
-              rmPromises.push(viewOrPromise);
-            }
-            break;
-          case 'clear':
-            repeat.removeAllViews(true, !repeat.viewsRequireLifecycle);
-            break;
-          default:
-            continue;
-        }
-      }
-
-      if (rmPromises.length > 0) {
-        Promise.all(rmPromises).then(function () {
-          (0, _repeatUtilities.updateOverrideContexts)(repeat.views(), 0);
-        });
-      } else {
-        (0, _repeatUtilities.updateOverrideContexts)(repeat.views(), 0);
-      }
-    };
-
-    MapRepeatStrategy.prototype._getViewIndexByKey = function _getViewIndexByKey(repeat, key) {
-      var i = void 0;
-      var ii = void 0;
-      var child = void 0;
-
-      for (i = 0, ii = repeat.viewCount(); i < ii; ++i) {
-        child = repeat.view(i);
-        if (child.bindingContext[repeat.key] === key) {
-          return i;
-        }
-      }
-
-      return undefined;
-    };
-
-    return MapRepeatStrategy;
-  }();
-});
-define('aurelia-templating-resources/set-repeat-strategy',['exports', './repeat-utilities'], function (exports, _repeatUtilities) {
-  'use strict';
-
-  Object.defineProperty(exports, "__esModule", {
-    value: true
-  });
-  exports.SetRepeatStrategy = undefined;
-
-  
-
-  var SetRepeatStrategy = exports.SetRepeatStrategy = function () {
-    function SetRepeatStrategy() {
-      
-    }
-
-    SetRepeatStrategy.prototype.getCollectionObserver = function getCollectionObserver(observerLocator, items) {
-      return observerLocator.getSetObserver(items);
-    };
-
-    SetRepeatStrategy.prototype.instanceChanged = function instanceChanged(repeat, items) {
-      var _this = this;
-
-      var removePromise = repeat.removeAllViews(true, !repeat.viewsRequireLifecycle);
-      if (removePromise instanceof Promise) {
-        removePromise.then(function () {
-          return _this._standardProcessItems(repeat, items);
-        });
-        return;
-      }
-      this._standardProcessItems(repeat, items);
-    };
-
-    SetRepeatStrategy.prototype._standardProcessItems = function _standardProcessItems(repeat, items) {
-      var index = 0;
-      var overrideContext = void 0;
-
-      items.forEach(function (value) {
-        overrideContext = (0, _repeatUtilities.createFullOverrideContext)(repeat, value, index, items.size);
-        repeat.addView(overrideContext.bindingContext, overrideContext);
-        ++index;
-      });
-    };
-
-    SetRepeatStrategy.prototype.instanceMutated = function instanceMutated(repeat, set, records) {
-      var value = void 0;
-      var i = void 0;
-      var ii = void 0;
-      var overrideContext = void 0;
-      var removeIndex = void 0;
-      var record = void 0;
-      var rmPromises = [];
-      var viewOrPromise = void 0;
-
-      for (i = 0, ii = records.length; i < ii; ++i) {
-        record = records[i];
-        value = record.value;
-        switch (record.type) {
-          case 'add':
-            overrideContext = (0, _repeatUtilities.createFullOverrideContext)(repeat, value, set.size - 1, set.size);
-            repeat.insertView(set.size - 1, overrideContext.bindingContext, overrideContext);
-            break;
-          case 'delete':
-            removeIndex = this._getViewIndexByValue(repeat, value);
-            viewOrPromise = repeat.removeView(removeIndex, true, !repeat.viewsRequireLifecycle);
-            if (viewOrPromise instanceof Promise) {
-              rmPromises.push(viewOrPromise);
-            }
-            break;
-          case 'clear':
-            repeat.removeAllViews(true, !repeat.viewsRequireLifecycle);
-            break;
-          default:
-            continue;
-        }
-      }
-
-      if (rmPromises.length > 0) {
-        Promise.all(rmPromises).then(function () {
-          (0, _repeatUtilities.updateOverrideContexts)(repeat.views(), 0);
-        });
-      } else {
-        (0, _repeatUtilities.updateOverrideContexts)(repeat.views(), 0);
-      }
-    };
-
-    SetRepeatStrategy.prototype._getViewIndexByValue = function _getViewIndexByValue(repeat, value) {
-      var i = void 0;
-      var ii = void 0;
-      var child = void 0;
-
-      for (i = 0, ii = repeat.viewCount(); i < ii; ++i) {
-        child = repeat.view(i);
-        if (child.bindingContext[repeat.local] === value) {
-          return i;
-        }
-      }
-
-      return undefined;
-    };
-
-    return SetRepeatStrategy;
-  }();
-});
-define('aurelia-templating-resources/number-repeat-strategy',['exports', './repeat-utilities'], function (exports, _repeatUtilities) {
-  'use strict';
-
-  Object.defineProperty(exports, "__esModule", {
-    value: true
-  });
-  exports.NumberRepeatStrategy = undefined;
-
-  
-
-  var NumberRepeatStrategy = exports.NumberRepeatStrategy = function () {
-    function NumberRepeatStrategy() {
-      
-    }
-
-    NumberRepeatStrategy.prototype.getCollectionObserver = function getCollectionObserver() {
-      return null;
-    };
-
-    NumberRepeatStrategy.prototype.instanceChanged = function instanceChanged(repeat, value) {
-      var _this = this;
-
-      var removePromise = repeat.removeAllViews(true, !repeat.viewsRequireLifecycle);
-      if (removePromise instanceof Promise) {
-        removePromise.then(function () {
-          return _this._standardProcessItems(repeat, value);
-        });
-        return;
-      }
-      this._standardProcessItems(repeat, value);
-    };
-
-    NumberRepeatStrategy.prototype._standardProcessItems = function _standardProcessItems(repeat, value) {
-      var childrenLength = repeat.viewCount();
-      var i = void 0;
-      var ii = void 0;
-      var overrideContext = void 0;
-      var viewsToRemove = void 0;
-
-      value = Math.floor(value);
-      viewsToRemove = childrenLength - value;
-
-      if (viewsToRemove > 0) {
-        if (viewsToRemove > childrenLength) {
-          viewsToRemove = childrenLength;
-        }
-
-        for (i = 0, ii = viewsToRemove; i < ii; ++i) {
-          repeat.removeView(childrenLength - (i + 1), true, !repeat.viewsRequireLifecycle);
-        }
-
-        return;
-      }
-
-      for (i = childrenLength, ii = value; i < ii; ++i) {
-        overrideContext = (0, _repeatUtilities.createFullOverrideContext)(repeat, i, i, ii);
-        repeat.addView(overrideContext.bindingContext, overrideContext);
-      }
-
-      (0, _repeatUtilities.updateOverrideContexts)(repeat.views(), 0);
-    };
-
-    return NumberRepeatStrategy;
-  }();
-});
-define('aurelia-templating-resources/analyze-view-factory',['exports'], function (exports) {
-  'use strict';
-
-  Object.defineProperty(exports, "__esModule", {
-    value: true
-  });
-  exports.viewsRequireLifecycle = viewsRequireLifecycle;
-  var lifecycleOptionalBehaviors = exports.lifecycleOptionalBehaviors = ['focus', 'if', 'repeat', 'show', 'with'];
-
-  function behaviorRequiresLifecycle(instruction) {
-    var t = instruction.type;
-    var name = t.elementName !== null ? t.elementName : t.attributeName;
-    return lifecycleOptionalBehaviors.indexOf(name) === -1 && (t.handlesAttached || t.handlesBind || t.handlesCreated || t.handlesDetached || t.handlesUnbind) || t.viewFactory && viewsRequireLifecycle(t.viewFactory) || instruction.viewFactory && viewsRequireLifecycle(instruction.viewFactory);
-  }
-
-  function targetRequiresLifecycle(instruction) {
-    var behaviors = instruction.behaviorInstructions;
-    if (behaviors) {
-      var i = behaviors.length;
-      while (i--) {
-        if (behaviorRequiresLifecycle(behaviors[i])) {
-          return true;
-        }
-      }
-    }
-
-    return instruction.viewFactory && viewsRequireLifecycle(instruction.viewFactory);
-  }
-
-  function viewsRequireLifecycle(viewFactory) {
-    if ('_viewsRequireLifecycle' in viewFactory) {
-      return viewFactory._viewsRequireLifecycle;
-    }
-
-    viewFactory._viewsRequireLifecycle = false;
-
-    if (viewFactory.viewFactory) {
-      viewFactory._viewsRequireLifecycle = viewsRequireLifecycle(viewFactory.viewFactory);
-      return viewFactory._viewsRequireLifecycle;
-    }
-
-    if (viewFactory.template.querySelector('.au-animate')) {
-      viewFactory._viewsRequireLifecycle = true;
-      return true;
-    }
-
-    for (var id in viewFactory.instructions) {
-      if (targetRequiresLifecycle(viewFactory.instructions[id])) {
-        viewFactory._viewsRequireLifecycle = true;
-        return true;
-      }
-    }
-
-    viewFactory._viewsRequireLifecycle = false;
-    return false;
-  }
-});
-define('aurelia-templating-resources/abstract-repeater',['exports'], function (exports) {
-  'use strict';
-
-  Object.defineProperty(exports, "__esModule", {
-    value: true
-  });
-
-  
-
-  var AbstractRepeater = exports.AbstractRepeater = function () {
-    function AbstractRepeater(options) {
-      
-
-      Object.assign(this, {
-        local: 'items',
-        viewsRequireLifecycle: true
-      }, options);
-    }
-
-    AbstractRepeater.prototype.viewCount = function viewCount() {
-      throw new Error('subclass must implement `viewCount`');
-    };
-
-    AbstractRepeater.prototype.views = function views() {
-      throw new Error('subclass must implement `views`');
-    };
-
-    AbstractRepeater.prototype.view = function view(index) {
-      throw new Error('subclass must implement `view`');
-    };
-
-    AbstractRepeater.prototype.matcher = function matcher() {
-      throw new Error('subclass must implement `matcher`');
-    };
-
-    AbstractRepeater.prototype.addView = function addView(bindingContext, overrideContext) {
-      throw new Error('subclass must implement `addView`');
-    };
-
-    AbstractRepeater.prototype.insertView = function insertView(index, bindingContext, overrideContext) {
-      throw new Error('subclass must implement `insertView`');
-    };
-
-    AbstractRepeater.prototype.moveView = function moveView(sourceIndex, targetIndex) {
-      throw new Error('subclass must implement `moveView`');
-    };
-
-    AbstractRepeater.prototype.removeAllViews = function removeAllViews(returnToCache, skipAnimation) {
-      throw new Error('subclass must implement `removeAllViews`');
-    };
-
-    AbstractRepeater.prototype.removeViews = function removeViews(viewsToRemove, returnToCache, skipAnimation) {
-      throw new Error('subclass must implement `removeView`');
-    };
-
-    AbstractRepeater.prototype.removeView = function removeView(index, returnToCache, skipAnimation) {
-      throw new Error('subclass must implement `removeView`');
-    };
-
-    AbstractRepeater.prototype.updateBindings = function updateBindings(view) {
-      throw new Error('subclass must implement `updateBindings`');
-    };
-
-    return AbstractRepeater;
-  }();
-});
-define('aurelia-templating-resources/show',['exports', 'aurelia-dependency-injection', 'aurelia-templating', 'aurelia-pal', './aurelia-hide-style'], function (exports, _aureliaDependencyInjection, _aureliaTemplating, _aureliaPal, _aureliaHideStyle) {
-  'use strict';
-
-  Object.defineProperty(exports, "__esModule", {
-    value: true
-  });
-  exports.Show = undefined;
-
-  
-
-  var _dec, _dec2, _class;
-
-  var Show = exports.Show = (_dec = (0, _aureliaTemplating.customAttribute)('show'), _dec2 = (0, _aureliaDependencyInjection.inject)(_aureliaPal.DOM.Element, _aureliaTemplating.Animator, _aureliaDependencyInjection.Optional.of(_aureliaPal.DOM.boundary, true)), _dec(_class = _dec2(_class = function () {
-    function Show(element, animator, domBoundary) {
-      
-
-      this.element = element;
-      this.animator = animator;
-      this.domBoundary = domBoundary;
-    }
-
-    Show.prototype.created = function created() {
-      (0, _aureliaHideStyle.injectAureliaHideStyleAtBoundary)(this.domBoundary);
-    };
-
-    Show.prototype.valueChanged = function valueChanged(newValue) {
-      if (newValue) {
-        this.animator.removeClass(this.element, _aureliaHideStyle.aureliaHideClassName);
-      } else {
-        this.animator.addClass(this.element, _aureliaHideStyle.aureliaHideClassName);
-      }
-    };
-
-    Show.prototype.bind = function bind(bindingContext) {
-      this.valueChanged(this.value);
-    };
-
-    return Show;
-  }()) || _class) || _class);
-});
-define('aurelia-templating-resources/aurelia-hide-style',['exports', 'aurelia-pal'], function (exports, _aureliaPal) {
-  'use strict';
-
-  Object.defineProperty(exports, "__esModule", {
-    value: true
-  });
-  exports.aureliaHideClassName = undefined;
-  exports.injectAureliaHideStyleAtHead = injectAureliaHideStyleAtHead;
-  exports.injectAureliaHideStyleAtBoundary = injectAureliaHideStyleAtBoundary;
-  var aureliaHideClassName = exports.aureliaHideClassName = 'aurelia-hide';
-
-  var aureliaHideClass = '.' + aureliaHideClassName + ' { display:none !important; }';
-
-  function injectAureliaHideStyleAtHead() {
-    _aureliaPal.DOM.injectStyles(aureliaHideClass);
-  }
-
-  function injectAureliaHideStyleAtBoundary(domBoundary) {
-    if (_aureliaPal.FEATURE.shadowDOM && domBoundary && !domBoundary.hasAureliaHideStyle) {
-      domBoundary.hasAureliaHideStyle = true;
-      _aureliaPal.DOM.injectStyles(aureliaHideClass, domBoundary);
-    }
-  }
-});
-define('aurelia-templating-resources/hide',['exports', 'aurelia-dependency-injection', 'aurelia-templating', 'aurelia-pal', './aurelia-hide-style'], function (exports, _aureliaDependencyInjection, _aureliaTemplating, _aureliaPal, _aureliaHideStyle) {
-  'use strict';
-
-  Object.defineProperty(exports, "__esModule", {
-    value: true
-  });
-  exports.Hide = undefined;
-
-  
-
-  var _dec, _dec2, _class;
-
-  var Hide = exports.Hide = (_dec = (0, _aureliaTemplating.customAttribute)('hide'), _dec2 = (0, _aureliaDependencyInjection.inject)(_aureliaPal.DOM.Element, _aureliaTemplating.Animator, _aureliaDependencyInjection.Optional.of(_aureliaPal.DOM.boundary, true)), _dec(_class = _dec2(_class = function () {
-    function Hide(element, animator, domBoundary) {
-      
-
-      this.element = element;
-      this.animator = animator;
-      this.domBoundary = domBoundary;
-    }
-
-    Hide.prototype.created = function created() {
-      (0, _aureliaHideStyle.injectAureliaHideStyleAtBoundary)(this.domBoundary);
-    };
-
-    Hide.prototype.valueChanged = function valueChanged(newValue) {
-      if (newValue) {
-        this.animator.addClass(this.element, _aureliaHideStyle.aureliaHideClassName);
-      } else {
-        this.animator.removeClass(this.element, _aureliaHideStyle.aureliaHideClassName);
-      }
-    };
-
-    Hide.prototype.bind = function bind(bindingContext) {
-      this.valueChanged(this.value);
-    };
-
-    return Hide;
-  }()) || _class) || _class);
-});
-define('aurelia-templating-resources/sanitize-html',['exports', 'aurelia-binding', 'aurelia-dependency-injection', './html-sanitizer'], function (exports, _aureliaBinding, _aureliaDependencyInjection, _htmlSanitizer) {
-  'use strict';
-
-  Object.defineProperty(exports, "__esModule", {
-    value: true
-  });
-  exports.SanitizeHTMLValueConverter = undefined;
-
-  
-
-  var _dec, _dec2, _class;
-
-  var SanitizeHTMLValueConverter = exports.SanitizeHTMLValueConverter = (_dec = (0, _aureliaBinding.valueConverter)('sanitizeHTML'), _dec2 = (0, _aureliaDependencyInjection.inject)(_htmlSanitizer.HTMLSanitizer), _dec(_class = _dec2(_class = function () {
-    function SanitizeHTMLValueConverter(sanitizer) {
-      
-
-      this.sanitizer = sanitizer;
-    }
-
-    SanitizeHTMLValueConverter.prototype.toView = function toView(untrustedMarkup) {
-      if (untrustedMarkup === null || untrustedMarkup === undefined) {
-        return null;
-      }
-
-      return this.sanitizer.sanitize(untrustedMarkup);
-    };
-
-    return SanitizeHTMLValueConverter;
-  }()) || _class) || _class);
-});
-define('aurelia-templating-resources/html-sanitizer',['exports'], function (exports) {
-  'use strict';
-
-  Object.defineProperty(exports, "__esModule", {
-    value: true
-  });
-
-  
-
-  var SCRIPT_REGEX = /<script\b[^<]*(?:(?!<\/script>)<[^<]*)*<\/script>/gi;
-
-  var HTMLSanitizer = exports.HTMLSanitizer = function () {
-    function HTMLSanitizer() {
-      
-    }
-
-    HTMLSanitizer.prototype.sanitize = function sanitize(input) {
-      return input.replace(SCRIPT_REGEX, '');
-    };
-
-    return HTMLSanitizer;
-  }();
-});
-define('aurelia-templating-resources/replaceable',['exports', 'aurelia-dependency-injection', 'aurelia-templating'], function (exports, _aureliaDependencyInjection, _aureliaTemplating) {
-  'use strict';
-
-  Object.defineProperty(exports, "__esModule", {
-    value: true
-  });
-  exports.Replaceable = undefined;
-
-  
-
-  var _dec, _dec2, _class;
-
-  var Replaceable = exports.Replaceable = (_dec = (0, _aureliaTemplating.customAttribute)('replaceable'), _dec2 = (0, _aureliaDependencyInjection.inject)(_aureliaTemplating.BoundViewFactory, _aureliaTemplating.ViewSlot), _dec(_class = (0, _aureliaTemplating.templateController)(_class = _dec2(_class = function () {
-    function Replaceable(viewFactory, viewSlot) {
-      
-
-      this.viewFactory = viewFactory;
-      this.viewSlot = viewSlot;
-      this.view = null;
-    }
-
-    Replaceable.prototype.bind = function bind(bindingContext, overrideContext) {
-      if (this.view === null) {
-        this.view = this.viewFactory.create();
-        this.viewSlot.add(this.view);
-      }
-
-      this.view.bind(bindingContext, overrideContext);
-    };
-
-    Replaceable.prototype.unbind = function unbind() {
-      this.view.unbind();
-    };
-
-    return Replaceable;
-  }()) || _class) || _class) || _class);
-});
-define('aurelia-templating-resources/focus',['exports', 'aurelia-templating', 'aurelia-binding', 'aurelia-dependency-injection', 'aurelia-task-queue', 'aurelia-pal'], function (exports, _aureliaTemplating, _aureliaBinding, _aureliaDependencyInjection, _aureliaTaskQueue, _aureliaPal) {
-  'use strict';
-
-  Object.defineProperty(exports, "__esModule", {
-    value: true
-  });
-  exports.Focus = undefined;
-
-  
-
-  var _dec, _dec2, _class;
-
-  var Focus = exports.Focus = (_dec = (0, _aureliaTemplating.customAttribute)('focus', _aureliaBinding.bindingMode.twoWay), _dec2 = (0, _aureliaDependencyInjection.inject)(_aureliaPal.DOM.Element, _aureliaTaskQueue.TaskQueue), _dec(_class = _dec2(_class = function () {
-    function Focus(element, taskQueue) {
-      var _this = this;
-
-      
-
-      this.element = element;
-      this.taskQueue = taskQueue;
-      this.isAttached = false;
-      this.needsApply = false;
-
-      this.focusListener = function (e) {
-        _this.value = true;
-      };
-      this.blurListener = function (e) {
-        if (_aureliaPal.DOM.activeElement !== _this.element) {
-          _this.value = false;
-        }
-      };
-    }
-
-    Focus.prototype.valueChanged = function valueChanged(newValue) {
-      if (this.isAttached) {
-        this._apply();
-      } else {
-        this.needsApply = true;
-      }
-    };
-
-    Focus.prototype._apply = function _apply() {
-      var _this2 = this;
-
-      if (this.value) {
-        this.taskQueue.queueMicroTask(function () {
-          if (_this2.value) {
-            _this2.element.focus();
-          }
-        });
-      } else {
-        this.element.blur();
-      }
-    };
-
-    Focus.prototype.attached = function attached() {
-      this.isAttached = true;
-      if (this.needsApply) {
-        this.needsApply = false;
-        this._apply();
-      }
-      this.element.addEventListener('focus', this.focusListener);
-      this.element.addEventListener('blur', this.blurListener);
-    };
-
-    Focus.prototype.detached = function detached() {
-      this.isAttached = false;
-      this.element.removeEventListener('focus', this.focusListener);
-      this.element.removeEventListener('blur', this.blurListener);
-    };
-
-    return Focus;
-  }()) || _class) || _class);
-});
-define('aurelia-templating-resources/css-resource',['exports', 'aurelia-templating', 'aurelia-loader', 'aurelia-dependency-injection', 'aurelia-path', 'aurelia-pal'], function (exports, _aureliaTemplating, _aureliaLoader, _aureliaDependencyInjection, _aureliaPath, _aureliaPal) {
-  'use strict';
-
-  Object.defineProperty(exports, "__esModule", {
-    value: true
-  });
-  exports._createCSSResource = _createCSSResource;
-
-  function _possibleConstructorReturn(self, call) {
-    if (!self) {
-      throw new ReferenceError("this hasn't been initialised - super() hasn't been called");
-    }
-
-    return call && (typeof call === "object" || typeof call === "function") ? call : self;
-  }
-
-  function _inherits(subClass, superClass) {
-    if (typeof superClass !== "function" && superClass !== null) {
-      throw new TypeError("Super expression must either be null or a function, not " + typeof superClass);
-    }
-
-    subClass.prototype = Object.create(superClass && superClass.prototype, {
-      constructor: {
-        value: subClass,
-        enumerable: false,
-        writable: true,
-        configurable: true
-      }
-    });
-    if (superClass) Object.setPrototypeOf ? Object.setPrototypeOf(subClass, superClass) : subClass.__proto__ = superClass;
-  }
-
-  
-
-  var cssUrlMatcher = /url\((?!['"]data)([^)]+)\)/gi;
-
-  function fixupCSSUrls(address, css) {
-    if (typeof css !== 'string') {
-      throw new Error('Failed loading required CSS file: ' + address);
-    }
-    return css.replace(cssUrlMatcher, function (match, p1) {
-      var quote = p1.charAt(0);
-      if (quote === '\'' || quote === '"') {
-        p1 = p1.substr(1, p1.length - 2);
-      }
-      return 'url(\'' + (0, _aureliaPath.relativeToFile)(p1, address) + '\')';
-    });
-  }
-
-  var CSSResource = function () {
-    function CSSResource(address) {
-      
-
-      this.address = address;
-      this._scoped = null;
-      this._global = false;
-      this._alreadyGloballyInjected = false;
-    }
-
-    CSSResource.prototype.initialize = function initialize(container, target) {
-      this._scoped = new target(this);
-    };
-
-    CSSResource.prototype.register = function register(registry, name) {
-      if (name === 'scoped') {
-        registry.registerViewEngineHooks(this._scoped);
-      } else {
-        this._global = true;
-      }
-    };
-
-    CSSResource.prototype.load = function load(container) {
-      var _this = this;
-
-      return container.get(_aureliaLoader.Loader).loadText(this.address).catch(function (err) {
-        return null;
-      }).then(function (text) {
-        text = fixupCSSUrls(_this.address, text);
-        _this._scoped.css = text;
-        if (_this._global) {
-          _this._alreadyGloballyInjected = true;
-          _aureliaPal.DOM.injectStyles(text);
-        }
-      });
-    };
-
-    return CSSResource;
-  }();
-
-  var CSSViewEngineHooks = function () {
-    function CSSViewEngineHooks(owner) {
-      
-
-      this.owner = owner;
-      this.css = null;
-    }
-
-    CSSViewEngineHooks.prototype.beforeCompile = function beforeCompile(content, resources, instruction) {
-      if (instruction.targetShadowDOM) {
-        _aureliaPal.DOM.injectStyles(this.css, content, true);
-      } else if (_aureliaPal.FEATURE.scopedCSS) {
-        var styleNode = _aureliaPal.DOM.injectStyles(this.css, content, true);
-        styleNode.setAttribute('scoped', 'scoped');
-      } else if (!this.owner._alreadyGloballyInjected) {
-        _aureliaPal.DOM.injectStyles(this.css);
-        this.owner._alreadyGloballyInjected = true;
-      }
-    };
-
-    return CSSViewEngineHooks;
-  }();
-
-  function _createCSSResource(address) {
-    var _dec, _class;
-
-    var ViewCSS = (_dec = (0, _aureliaTemplating.resource)(new CSSResource(address)), _dec(_class = function (_CSSViewEngineHooks) {
-      _inherits(ViewCSS, _CSSViewEngineHooks);
-
-      function ViewCSS() {
-        
-
-        return _possibleConstructorReturn(this, _CSSViewEngineHooks.apply(this, arguments));
-      }
-
-      return ViewCSS;
-    }(CSSViewEngineHooks)) || _class);
-
-    return ViewCSS;
-  }
-});
-define('aurelia-templating-resources/binding-mode-behaviors',['exports', 'aurelia-binding', 'aurelia-metadata'], function (exports, _aureliaBinding, _aureliaMetadata) {
-  'use strict';
-
-  Object.defineProperty(exports, "__esModule", {
-    value: true
-  });
-  exports.TwoWayBindingBehavior = exports.OneWayBindingBehavior = exports.OneTimeBindingBehavior = undefined;
-
-  
-
-  var _dec, _class, _dec2, _class2, _dec3, _class3;
-
-  var modeBindingBehavior = {
-    bind: function bind(binding, source, lookupFunctions) {
-      binding.originalMode = binding.mode;
-      binding.mode = this.mode;
-    },
-    unbind: function unbind(binding, source) {
-      binding.mode = binding.originalMode;
-      binding.originalMode = null;
-    }
-  };
-
-  var OneTimeBindingBehavior = exports.OneTimeBindingBehavior = (_dec = (0, _aureliaMetadata.mixin)(modeBindingBehavior), _dec(_class = function OneTimeBindingBehavior() {
-    
-
-    this.mode = _aureliaBinding.bindingMode.oneTime;
-  }) || _class);
-  var OneWayBindingBehavior = exports.OneWayBindingBehavior = (_dec2 = (0, _aureliaMetadata.mixin)(modeBindingBehavior), _dec2(_class2 = function OneWayBindingBehavior() {
-    
-
-    this.mode = _aureliaBinding.bindingMode.oneWay;
-  }) || _class2);
-  var TwoWayBindingBehavior = exports.TwoWayBindingBehavior = (_dec3 = (0, _aureliaMetadata.mixin)(modeBindingBehavior), _dec3(_class3 = function TwoWayBindingBehavior() {
-    
-
-    this.mode = _aureliaBinding.bindingMode.twoWay;
-  }) || _class3);
-});
-define('aurelia-templating-resources/throttle-binding-behavior',['exports', 'aurelia-binding'], function (exports, _aureliaBinding) {
-  'use strict';
-
-  Object.defineProperty(exports, "__esModule", {
-    value: true
-  });
-  exports.ThrottleBindingBehavior = undefined;
-
-  
-
-  function throttle(newValue) {
-    var _this = this;
-
-    var state = this.throttleState;
-    var elapsed = +new Date() - state.last;
-    if (elapsed >= state.delay) {
-      clearTimeout(state.timeoutId);
-      state.timeoutId = null;
-      state.last = +new Date();
-      this.throttledMethod(newValue);
-      return;
-    }
-    state.newValue = newValue;
-    if (state.timeoutId === null) {
-      state.timeoutId = setTimeout(function () {
-        state.timeoutId = null;
-        state.last = +new Date();
-        _this.throttledMethod(state.newValue);
-      }, state.delay - elapsed);
-    }
-  }
-
-  var ThrottleBindingBehavior = exports.ThrottleBindingBehavior = function () {
-    function ThrottleBindingBehavior() {
-      
-    }
-
-    ThrottleBindingBehavior.prototype.bind = function bind(binding, source) {
-      var delay = arguments.length <= 2 || arguments[2] === undefined ? 200 : arguments[2];
-
-      var methodToThrottle = 'updateTarget';
-      if (binding.callSource) {
-        methodToThrottle = 'callSource';
-      } else if (binding.updateSource && binding.mode === _aureliaBinding.bindingMode.twoWay) {
-          methodToThrottle = 'updateSource';
-        }
-
-      binding.throttledMethod = binding[methodToThrottle];
-      binding.throttledMethod.originalName = methodToThrottle;
-
-      binding[methodToThrottle] = throttle;
-
-      binding.throttleState = {
-        delay: delay,
-        last: 0,
-        timeoutId: null
-      };
-    };
-
-    ThrottleBindingBehavior.prototype.unbind = function unbind(binding, source) {
-      var methodToRestore = binding.throttledMethod.originalName;
-      binding[methodToRestore] = binding.throttledMethod;
-      binding.throttledMethod = null;
-      clearTimeout(binding.throttleState.timeoutId);
-      binding.throttleState = null;
-    };
-
-    return ThrottleBindingBehavior;
-  }();
-});
-define('aurelia-templating-resources/debounce-binding-behavior',['exports', 'aurelia-binding'], function (exports, _aureliaBinding) {
-  'use strict';
-
-  Object.defineProperty(exports, "__esModule", {
-    value: true
-  });
-  exports.DebounceBindingBehavior = undefined;
-
-  
-
-  function debounce(newValue) {
-    var _this = this;
-
-    var state = this.debounceState;
-    if (state.immediate) {
-      state.immediate = false;
-      this.debouncedMethod(newValue);
-      return;
-    }
-    clearTimeout(state.timeoutId);
-    state.timeoutId = setTimeout(function () {
-      return _this.debouncedMethod(newValue);
-    }, state.delay);
-  }
-
-  var DebounceBindingBehavior = exports.DebounceBindingBehavior = function () {
-    function DebounceBindingBehavior() {
-      
-    }
-
-    DebounceBindingBehavior.prototype.bind = function bind(binding, source) {
-      var delay = arguments.length <= 2 || arguments[2] === undefined ? 200 : arguments[2];
-
-      var methodToDebounce = 'updateTarget';
-      if (binding.callSource) {
-        methodToDebounce = 'callSource';
-      } else if (binding.updateSource && binding.mode === _aureliaBinding.bindingMode.twoWay) {
-          methodToDebounce = 'updateSource';
-        }
-
-      binding.debouncedMethod = binding[methodToDebounce];
-      binding.debouncedMethod.originalName = methodToDebounce;
-
-      binding[methodToDebounce] = debounce;
-
-      binding.debounceState = {
-        delay: delay,
-        timeoutId: null,
-        immediate: methodToDebounce === 'updateTarget' };
-    };
-
-    DebounceBindingBehavior.prototype.unbind = function unbind(binding, source) {
-      var methodToRestore = binding.debouncedMethod.originalName;
-      binding[methodToRestore] = binding.debouncedMethod;
-      binding.debouncedMethod = null;
-      clearTimeout(binding.debounceState.timeoutId);
-      binding.debounceState = null;
-    };
-
-    return DebounceBindingBehavior;
-  }();
-});
-define('aurelia-templating-resources/signal-binding-behavior',['exports', './binding-signaler'], function (exports, _bindingSignaler) {
-  'use strict';
-
-  Object.defineProperty(exports, "__esModule", {
-    value: true
-  });
-  exports.SignalBindingBehavior = undefined;
-
-  
-
-  var SignalBindingBehavior = exports.SignalBindingBehavior = function () {
-    SignalBindingBehavior.inject = function inject() {
-      return [_bindingSignaler.BindingSignaler];
-    };
-
-    function SignalBindingBehavior(bindingSignaler) {
-      
-
-      this.signals = bindingSignaler.signals;
-    }
-
-    SignalBindingBehavior.prototype.bind = function bind(binding, source) {
-      if (!binding.updateTarget) {
-        throw new Error('Only property bindings and string interpolation bindings can be signaled.  Trigger, delegate and call bindings cannot be signaled.');
-      }
-      if (arguments.length === 3) {
-        var name = arguments[2];
-        var bindings = this.signals[name] || (this.signals[name] = []);
-        bindings.push(binding);
-        binding.signalName = name;
-      } else if (arguments.length > 3) {
-        var names = Array.prototype.slice.call(arguments, 2);
-        var i = names.length;
-        while (i--) {
-          var _name = names[i];
-          var _bindings = this.signals[_name] || (this.signals[_name] = []);
-          _bindings.push(binding);
-        }
-        binding.signalName = names;
-      } else {
-        throw new Error('Signal name is required.');
-      }
-    };
-
-    SignalBindingBehavior.prototype.unbind = function unbind(binding, source) {
-      var name = binding.signalName;
-      binding.signalName = null;
-      if (Array.isArray(name)) {
-        var names = name;
-        var i = names.length;
-        while (i--) {
-          var n = names[i];
-          var bindings = this.signals[n];
-          bindings.splice(bindings.indexOf(binding), 1);
-        }
-      } else {
-        var _bindings2 = this.signals[name];
-        _bindings2.splice(_bindings2.indexOf(binding), 1);
-      }
-    };
-
-    return SignalBindingBehavior;
-  }();
-});
-define('aurelia-templating-resources/binding-signaler',['exports', 'aurelia-binding'], function (exports, _aureliaBinding) {
-  'use strict';
-
-  Object.defineProperty(exports, "__esModule", {
-    value: true
-  });
-  exports.BindingSignaler = undefined;
-
-  
-
-  var BindingSignaler = exports.BindingSignaler = function () {
-    function BindingSignaler() {
-      
-
-      this.signals = {};
-    }
-
-    BindingSignaler.prototype.signal = function signal(name) {
-      var bindings = this.signals[name];
-      if (!bindings) {
-        return;
-      }
-      var i = bindings.length;
-      while (i--) {
-        bindings[i].call(_aureliaBinding.sourceContext);
-      }
-    };
-
-    return BindingSignaler;
-  }();
-});
-define('aurelia-templating-resources/update-trigger-binding-behavior',['exports', 'aurelia-binding'], function (exports, _aureliaBinding) {
-  'use strict';
-
-  Object.defineProperty(exports, "__esModule", {
-    value: true
-  });
-  exports.UpdateTriggerBindingBehavior = undefined;
-
-  
-
-  var _class, _temp;
-
-  var eventNamesRequired = 'The updateTrigger binding behavior requires at least one event name argument: eg <input value.bind="firstName & updateTrigger:\'blur\'">';
-  var notApplicableMessage = 'The updateTrigger binding behavior can only be applied to two-way bindings on input/select elements.';
-
-  var UpdateTriggerBindingBehavior = exports.UpdateTriggerBindingBehavior = (_temp = _class = function () {
-    function UpdateTriggerBindingBehavior(eventManager) {
-      
-
-      this.eventManager = eventManager;
-    }
-
-    UpdateTriggerBindingBehavior.prototype.bind = function bind(binding, source) {
-      for (var _len = arguments.length, events = Array(_len > 2 ? _len - 2 : 0), _key = 2; _key < _len; _key++) {
-        events[_key - 2] = arguments[_key];
-      }
-
-      if (events.length === 0) {
-        throw new Error(eventNamesRequired);
-      }
-      if (binding.mode !== _aureliaBinding.bindingMode.twoWay) {
-        throw new Error(notApplicableMessage);
-      }
-
-      var targetObserver = binding.observerLocator.getObserver(binding.target, binding.targetProperty);
-      if (!targetObserver.handler) {
-        throw new Error(notApplicableMessage);
-      }
-      binding.targetObserver = targetObserver;
-
-      targetObserver.originalHandler = binding.targetObserver.handler;
-
-      var handler = this.eventManager.createElementHandler(events);
-      targetObserver.handler = handler;
-    };
-
-    UpdateTriggerBindingBehavior.prototype.unbind = function unbind(binding, source) {
-      binding.targetObserver.handler = binding.targetObserver.originalHandler;
-      binding.targetObserver.originalHandler = null;
-    };
-
-    return UpdateTriggerBindingBehavior;
-  }(), _class.inject = [_aureliaBinding.EventManager], _temp);
-});
-define('aurelia-templating-resources/html-resource-plugin',['exports', 'aurelia-templating', './dynamic-element'], function (exports, _aureliaTemplating, _dynamicElement) {
-  'use strict';
-
-  Object.defineProperty(exports, "__esModule", {
-    value: true
-  });
-  exports.getElementName = getElementName;
-  exports.configure = configure;
-  function getElementName(address) {
-    return (/([^\/^\?]+)\.html/i.exec(address)[1].toLowerCase()
-    );
-  }
-
-  function configure(config) {
-    var viewEngine = config.container.get(_aureliaTemplating.ViewEngine);
-    var loader = config.aurelia.loader;
-
-    viewEngine.addResourcePlugin('.html', {
-      'fetch': function fetch(address) {
-        return loader.loadTemplate(address).then(function (registryEntry) {
-          var _ref;
-
-          var bindable = registryEntry.template.getAttribute('bindable');
-          var elementName = getElementName(address);
-
-          if (bindable) {
-            bindable = bindable.split(',').map(function (x) {
-              return x.trim();
-            });
-            registryEntry.template.removeAttribute('bindable');
-          } else {
-            bindable = [];
-          }
-
-          return _ref = {}, _ref[elementName] = (0, _dynamicElement._createDynamicElement)(elementName, address, bindable), _ref;
-        });
-      }
-    });
-  }
-});
-define('aurelia-templating-resources/dynamic-element',['exports', 'aurelia-templating'], function (exports, _aureliaTemplating) {
-  'use strict';
-
-  Object.defineProperty(exports, "__esModule", {
-    value: true
-  });
-  exports._createDynamicElement = _createDynamicElement;
-
-  
-
-  function _createDynamicElement(name, viewUrl, bindableNames) {
-    var _dec, _dec2, _class;
-
-    var DynamicElement = (_dec = (0, _aureliaTemplating.customElement)(name), _dec2 = (0, _aureliaTemplating.useView)(viewUrl), _dec(_class = _dec2(_class = function () {
-      function DynamicElement() {
-        
-      }
-
-      DynamicElement.prototype.bind = function bind(bindingContext) {
-        this.$parent = bindingContext;
-      };
-
-      return DynamicElement;
-    }()) || _class) || _class);
-
-    for (var i = 0, ii = bindableNames.length; i < ii; ++i) {
-      (0, _aureliaTemplating.bindable)(bindableNames[i])(DynamicElement);
-    }
-    return DynamicElement;
-  }
-});
-define('aurelia-templating-router/aurelia-templating-router',['exports', 'aurelia-router', './route-loader', './router-view', './route-href'], function (exports, _aureliaRouter, _routeLoader, _routerView, _routeHref) {
-  'use strict';
-
-  Object.defineProperty(exports, "__esModule", {
-    value: true
-  });
-  exports.configure = exports.RouteHref = exports.RouterView = exports.TemplatingRouteLoader = undefined;
-
-
-  function configure(config) {
-    config.singleton(_aureliaRouter.RouteLoader, _routeLoader.TemplatingRouteLoader).singleton(_aureliaRouter.Router, _aureliaRouter.AppRouter).globalResources('./router-view', './route-href');
-
-    config.container.registerAlias(_aureliaRouter.Router, _aureliaRouter.AppRouter);
-  }
-
-  exports.TemplatingRouteLoader = _routeLoader.TemplatingRouteLoader;
-  exports.RouterView = _routerView.RouterView;
-  exports.RouteHref = _routeHref.RouteHref;
-  exports.configure = configure;
-});;define('aurelia-templating-router', ['aurelia-templating-router/aurelia-templating-router'], function (main) { return main; });
-
-define('aurelia-templating-router/route-loader',['exports', 'aurelia-dependency-injection', 'aurelia-templating', 'aurelia-router', 'aurelia-path', 'aurelia-metadata'], function (exports, _aureliaDependencyInjection, _aureliaTemplating, _aureliaRouter, _aureliaPath, _aureliaMetadata) {
-  'use strict';
-
-  Object.defineProperty(exports, "__esModule", {
-    value: true
-  });
-  exports.TemplatingRouteLoader = undefined;
-
-  
-
-  function _possibleConstructorReturn(self, call) {
-    if (!self) {
-      throw new ReferenceError("this hasn't been initialised - super() hasn't been called");
-    }
-
-    return call && (typeof call === "object" || typeof call === "function") ? call : self;
-  }
-
-  function _inherits(subClass, superClass) {
-    if (typeof superClass !== "function" && superClass !== null) {
-      throw new TypeError("Super expression must either be null or a function, not " + typeof superClass);
-    }
-
-    subClass.prototype = Object.create(superClass && superClass.prototype, {
-      constructor: {
-        value: subClass,
-        enumerable: false,
-        writable: true,
-        configurable: true
-      }
-    });
-    if (superClass) Object.setPrototypeOf ? Object.setPrototypeOf(subClass, superClass) : subClass.__proto__ = superClass;
-  }
-
-  var _dec, _class;
-
-  var TemplatingRouteLoader = exports.TemplatingRouteLoader = (_dec = (0, _aureliaDependencyInjection.inject)(_aureliaTemplating.CompositionEngine), _dec(_class = function (_RouteLoader) {
-    _inherits(TemplatingRouteLoader, _RouteLoader);
-
-    function TemplatingRouteLoader(compositionEngine) {
-      
-
-      var _this = _possibleConstructorReturn(this, _RouteLoader.call(this));
-
-      _this.compositionEngine = compositionEngine;
-      return _this;
-    }
-
-    TemplatingRouteLoader.prototype.loadRoute = function loadRoute(router, config) {
-      var childContainer = router.container.createChild();
-      var instruction = {
-        viewModel: (0, _aureliaPath.relativeToFile)(config.moduleId, _aureliaMetadata.Origin.get(router.container.viewModel.constructor).moduleId),
-        childContainer: childContainer,
-        view: config.view || config.viewStrategy,
-        router: router
-      };
-
-      childContainer.getChildRouter = function () {
-        var childRouter = void 0;
-
-        childContainer.registerHandler(_aureliaRouter.Router, function (c) {
-          return childRouter || (childRouter = router.createChild(childContainer));
-        });
-
-        return childContainer.get(_aureliaRouter.Router);
-      };
-
-      return this.compositionEngine.ensureViewModel(instruction);
-    };
-
-    return TemplatingRouteLoader;
-  }(_aureliaRouter.RouteLoader)) || _class);
-});
-define('aurelia-templating-router/router-view',['exports', 'aurelia-dependency-injection', 'aurelia-templating', 'aurelia-router', 'aurelia-metadata', 'aurelia-pal'], function (exports, _aureliaDependencyInjection, _aureliaTemplating, _aureliaRouter, _aureliaMetadata, _aureliaPal) {
-  'use strict';
-
-  Object.defineProperty(exports, "__esModule", {
-    value: true
-  });
-  exports.RouterView = undefined;
-
-  function _initDefineProp(target, property, descriptor, context) {
-    if (!descriptor) return;
-    Object.defineProperty(target, property, {
-      enumerable: descriptor.enumerable,
-      configurable: descriptor.configurable,
-      writable: descriptor.writable,
-      value: descriptor.initializer ? descriptor.initializer.call(context) : void 0
-    });
-  }
-
-  function _applyDecoratedDescriptor(target, property, decorators, descriptor, context) {
-    var desc = {};
-    Object['ke' + 'ys'](descriptor).forEach(function (key) {
-      desc[key] = descriptor[key];
-    });
-    desc.enumerable = !!desc.enumerable;
-    desc.configurable = !!desc.configurable;
-
-    if ('value' in desc || desc.initializer) {
-      desc.writable = true;
-    }
-
-    desc = decorators.slice().reverse().reduce(function (desc, decorator) {
-      return decorator(target, property, desc) || desc;
-    }, desc);
-
-    if (context && desc.initializer !== void 0) {
-      desc.value = desc.initializer ? desc.initializer.call(context) : void 0;
-      desc.initializer = undefined;
-    }
-
-    if (desc.initializer === void 0) {
-      Object['define' + 'Property'](target, property, desc);
-      desc = null;
-    }
-
-    return desc;
-  }
-
-  function _initializerWarningHelper(descriptor, context) {
-    throw new Error('Decorating class property failed. Please ensure that transform-class-properties is enabled.');
-  }
-
-  var _dec, _dec2, _class, _desc, _value, _class2, _descriptor, _descriptor2, _descriptor3, _descriptor4;
-
-  
-
-  var SwapStrategies = function () {
-    function SwapStrategies() {
-      
-    }
-
-    SwapStrategies.prototype.before = function before(viewSlot, previousView, callback) {
-      var promise = Promise.resolve(callback());
-
-      if (previousView !== undefined) {
-        return promise.then(function () {
-          return viewSlot.remove(previousView, true);
-        });
-      }
-
-      return promise;
-    };
-
-    SwapStrategies.prototype.with = function _with(viewSlot, previousView, callback) {
-      var promise = Promise.resolve(callback());
-
-      if (previousView !== undefined) {
-        return Promise.all([viewSlot.remove(previousView, true), promise]);
-      }
-
-      return promise;
-    };
-
-    SwapStrategies.prototype.after = function after(viewSlot, previousView, callback) {
-      return Promise.resolve(viewSlot.removeAll(true)).then(callback);
-    };
-
-    return SwapStrategies;
-  }();
-
-  var swapStrategies = new SwapStrategies();
-
-  var RouterView = exports.RouterView = (_dec = (0, _aureliaTemplating.customElement)('router-view'), _dec2 = (0, _aureliaDependencyInjection.inject)(_aureliaPal.DOM.Element, _aureliaDependencyInjection.Container, _aureliaTemplating.ViewSlot, _aureliaRouter.Router, _aureliaTemplating.ViewLocator, _aureliaTemplating.CompositionTransaction, _aureliaTemplating.CompositionEngine), _dec(_class = (0, _aureliaTemplating.noView)(_class = _dec2(_class = (_class2 = function () {
-    function RouterView(element, container, viewSlot, router, viewLocator, compositionTransaction, compositionEngine) {
-      
-
-      _initDefineProp(this, 'swapOrder', _descriptor, this);
-
-      _initDefineProp(this, 'layoutView', _descriptor2, this);
-
-      _initDefineProp(this, 'layoutViewModel', _descriptor3, this);
-
-      _initDefineProp(this, 'layoutModel', _descriptor4, this);
-
-      this.element = element;
-      this.container = container;
-      this.viewSlot = viewSlot;
-      this.router = router;
-      this.viewLocator = viewLocator;
-      this.compositionTransaction = compositionTransaction;
-      this.compositionEngine = compositionEngine;
-      this.router.registerViewPort(this, this.element.getAttribute('name'));
-
-      if (!('initialComposition' in compositionTransaction)) {
-        compositionTransaction.initialComposition = true;
-        this.compositionTransactionNotifier = compositionTransaction.enlist();
-      }
-    }
-
-    RouterView.prototype.created = function created(owningView) {
-      this.owningView = owningView;
-    };
-
-    RouterView.prototype.bind = function bind(bindingContext, overrideContext) {
-      this.container.viewModel = bindingContext;
-      this.overrideContext = overrideContext;
-    };
-
-    RouterView.prototype.process = function process(viewPortInstruction, waitToSwap) {
-      var _this = this;
-
-      var component = viewPortInstruction.component;
-      var childContainer = component.childContainer;
-      var viewModel = component.viewModel;
-      var viewModelResource = component.viewModelResource;
-      var metadata = viewModelResource.metadata;
-      var config = component.router.currentInstruction.config;
-      var viewPort = config.viewPorts ? config.viewPorts[viewPortInstruction.name] : {};
-
-      var layoutInstruction = {
-        viewModel: viewPort.layoutViewModel || config.layoutViewModel || this.layoutViewModel,
-        view: viewPort.layoutView || config.layoutView || this.layoutView,
-        model: viewPort.layoutModel || config.layoutModel || this.layoutModel,
-        router: viewPortInstruction.component.router,
-        childContainer: childContainer,
-        viewSlot: this.viewSlot
-      };
-
-      var viewStrategy = this.viewLocator.getViewStrategy(component.view || viewModel);
-      if (viewStrategy && component.view) {
-        viewStrategy.makeRelativeTo(_aureliaMetadata.Origin.get(component.router.container.viewModel.constructor).moduleId);
-      }
-
-      return metadata.load(childContainer, viewModelResource.value, null, viewStrategy, true).then(function (viewFactory) {
-        if (!_this.compositionTransactionNotifier) {
-          _this.compositionTransactionOwnershipToken = _this.compositionTransaction.tryCapture();
-        }
-
-        if (layoutInstruction.viewModel || layoutInstruction.view) {
-          viewPortInstruction.layoutInstruction = layoutInstruction;
-        }
-
-        viewPortInstruction.controller = metadata.create(childContainer, _aureliaTemplating.BehaviorInstruction.dynamic(_this.element, viewModel, viewFactory));
-
-        if (waitToSwap) {
-          return;
-        }
-
-        _this.swap(viewPortInstruction);
-      });
-    };
-
-    RouterView.prototype.swap = function swap(viewPortInstruction) {
-      var _this2 = this;
-
-      var work = function work() {
-        var previousView = _this2.view;
-        var swapStrategy = void 0;
-        var viewSlot = _this2.viewSlot;
-        var layoutInstruction = viewPortInstruction.layoutInstruction;
-
-        swapStrategy = _this2.swapOrder in swapStrategies ? swapStrategies[_this2.swapOrder] : swapStrategies.after;
-
-        swapStrategy(viewSlot, previousView, function () {
-          var waitForView = void 0;
-
-          if (layoutInstruction) {
-            if (!layoutInstruction.viewModel) {
-              layoutInstruction.viewModel = {};
-            }
-
-            waitForView = _this2.compositionEngine.createController(layoutInstruction).then(function (layout) {
-              _aureliaTemplating.ShadowDOM.distributeView(viewPortInstruction.controller.view, layout.slots || layout.view.slots);
-              return layout.view || layout;
-            });
-          } else {
-            waitForView = Promise.resolve(viewPortInstruction.controller.view);
-          }
-
-          return waitForView.then(function (newView) {
-            _this2.view = newView;
-            return viewSlot.add(newView);
-          }).then(function () {
-            _this2._notify();
-          });
-        });
-      };
-
-      viewPortInstruction.controller.automate(this.overrideContext, this.owningView);
-
-      if (this.compositionTransactionOwnershipToken) {
-        return this.compositionTransactionOwnershipToken.waitForCompositionComplete().then(function () {
-          _this2.compositionTransactionOwnershipToken = null;
-          return work();
-        });
-      }
-
-      return work();
-    };
-
-    RouterView.prototype._notify = function _notify() {
-      if (this.compositionTransactionNotifier) {
-        this.compositionTransactionNotifier.done();
-        this.compositionTransactionNotifier = null;
-      }
-    };
-
-    return RouterView;
-  }(), (_descriptor = _applyDecoratedDescriptor(_class2.prototype, 'swapOrder', [_aureliaTemplating.bindable], {
-    enumerable: true,
-    initializer: null
-  }), _descriptor2 = _applyDecoratedDescriptor(_class2.prototype, 'layoutView', [_aureliaTemplating.bindable], {
-    enumerable: true,
-    initializer: null
-  }), _descriptor3 = _applyDecoratedDescriptor(_class2.prototype, 'layoutViewModel', [_aureliaTemplating.bindable], {
-    enumerable: true,
-    initializer: null
-  }), _descriptor4 = _applyDecoratedDescriptor(_class2.prototype, 'layoutModel', [_aureliaTemplating.bindable], {
-    enumerable: true,
-    initializer: null
-  })), _class2)) || _class) || _class) || _class);
-});
-define('aurelia-templating-router/route-href',['exports', 'aurelia-templating', 'aurelia-dependency-injection', 'aurelia-router', 'aurelia-pal', 'aurelia-logging'], function (exports, _aureliaTemplating, _aureliaDependencyInjection, _aureliaRouter, _aureliaPal, _aureliaLogging) {
-  'use strict';
-
-  Object.defineProperty(exports, "__esModule", {
-    value: true
-  });
-  exports.RouteHref = undefined;
-
-  var LogManager = _interopRequireWildcard(_aureliaLogging);
-
-  function _interopRequireWildcard(obj) {
-    if (obj && obj.__esModule) {
-      return obj;
-    } else {
-      var newObj = {};
-
-      if (obj != null) {
-        for (var key in obj) {
-          if (Object.prototype.hasOwnProperty.call(obj, key)) newObj[key] = obj[key];
-        }
-      }
-
-      newObj.default = obj;
-      return newObj;
-    }
-  }
-
-  
-
-  var _dec, _dec2, _dec3, _dec4, _dec5, _class;
-
-  var logger = LogManager.getLogger('route-href');
-
-  var RouteHref = exports.RouteHref = (_dec = (0, _aureliaTemplating.customAttribute)('route-href'), _dec2 = (0, _aureliaTemplating.bindable)({ name: 'route', changeHandler: 'processChange' }), _dec3 = (0, _aureliaTemplating.bindable)({ name: 'params', changeHandler: 'processChange' }), _dec4 = (0, _aureliaTemplating.bindable)({ name: 'attribute', defaultValue: 'href' }), _dec5 = (0, _aureliaDependencyInjection.inject)(_aureliaRouter.Router, _aureliaPal.DOM.Element), _dec(_class = _dec2(_class = _dec3(_class = _dec4(_class = _dec5(_class = function () {
-    function RouteHref(router, element) {
-      
-
-      this.router = router;
-      this.element = element;
-    }
-
-    RouteHref.prototype.bind = function bind() {
-      this.isActive = true;
-      this.processChange();
-    };
-
-    RouteHref.prototype.unbind = function unbind() {
-      this.isActive = false;
-    };
-
-    RouteHref.prototype.attributeChanged = function attributeChanged(value, previous) {
-      if (previous) {
-        this.element.removeAttribute(previous);
-      }
-
-      this.processChange();
-    };
-
-    RouteHref.prototype.processChange = function processChange() {
-      var _this = this;
-
-      return this.router.ensureConfigured().then(function () {
-        if (!_this.isActive) {
-          return null;
-        }
-
-        var href = _this.router.generate(_this.route, _this.params);
-        _this.element.setAttribute(_this.attribute, href);
-        return null;
-      }).catch(function (reason) {
-        logger.error(reason);
-      });
-    };
-
-    return RouteHref;
-  }()) || _class) || _class) || _class) || _class) || _class);
-});
-/* jquery.signalR.core.js */
-/*global window:false */
-/*!
- * ASP.NET SignalR JavaScript Library v2.2.1
- * http://signalr.net/
- *
- * Copyright (c) .NET Foundation. All rights reserved.
- * Licensed under the Apache License, Version 2.0. See License.txt in the project root for license information.
- *
- */
-
-/// <reference path="Scripts/jquery-1.6.4.js" />
-/// <reference path="jquery.signalR.version.js" />
-(function ($, window, undefined) {
-
-    var resources = {
-        nojQuery: "jQuery was not found. Please ensure jQuery is referenced before the SignalR client JavaScript file.",
-        noTransportOnInit: "No transport could be initialized successfully. Try specifying a different transport or none at all for auto initialization.",
-        errorOnNegotiate: "Error during negotiation request.",
-        stoppedWhileLoading: "The connection was stopped during page load.",
-        stoppedWhileNegotiating: "The connection was stopped during the negotiate request.",
-        errorParsingNegotiateResponse: "Error parsing negotiate response.",
-        errorDuringStartRequest: "Error during start request. Stopping the connection.",
-        stoppedDuringStartRequest: "The connection was stopped during the start request.",
-        errorParsingStartResponse: "Error parsing start response: '{0}'. Stopping the connection.",
-        invalidStartResponse: "Invalid start response: '{0}'. Stopping the connection.",
-        protocolIncompatible: "You are using a version of the client that isn't compatible with the server. Client version {0}, server version {1}.",
-        sendFailed: "Send failed.",
-        parseFailed: "Failed at parsing response: {0}",
-        longPollFailed: "Long polling request failed.",
-        eventSourceFailedToConnect: "EventSource failed to connect.",
-        eventSourceError: "Error raised by EventSource",
-        webSocketClosed: "WebSocket closed.",
-        pingServerFailedInvalidResponse: "Invalid ping response when pinging server: '{0}'.",
-        pingServerFailed: "Failed to ping server.",
-        pingServerFailedStatusCode: "Failed to ping server.  Server responded with status code {0}, stopping the connection.",
-        pingServerFailedParse: "Failed to parse ping server response, stopping the connection.",
-        noConnectionTransport: "Connection is in an invalid state, there is no transport active.",
-        webSocketsInvalidState: "The Web Socket transport is in an invalid state, transitioning into reconnecting.",
-        reconnectTimeout: "Couldn't reconnect within the configured timeout of {0} ms, disconnecting.",
-        reconnectWindowTimeout: "The client has been inactive since {0} and it has exceeded the inactivity timeout of {1} ms. Stopping the connection."
-    };
-
-    if (typeof ($) !== "function") {
-        // no jQuery!
-        throw new Error(resources.nojQuery);
-    }
-
-    var signalR,
-        _connection,
-        _pageLoaded = (window.document.readyState === "complete"),
-        _pageWindow = $(window),
-        _negotiateAbortText = "__Negotiate Aborted__",
-        events = {
-            onStart: "onStart",
-            onStarting: "onStarting",
-            onReceived: "onReceived",
-            onError: "onError",
-            onConnectionSlow: "onConnectionSlow",
-            onReconnecting: "onReconnecting",
-            onReconnect: "onReconnect",
-            onStateChanged: "onStateChanged",
-            onDisconnect: "onDisconnect"
-        },
-        ajaxDefaults = {
-            processData: true,
-            timeout: null,
-            async: true,
-            global: false,
-            cache: false
-        },
-        log = function (msg, logging) {
-            if (logging === false) {
-                return;
-            }
-            var m;
-            if (typeof (window.console) === "undefined") {
-                return;
-            }
-            m = "[" + new Date().toTimeString() + "] SignalR: " + msg;
-            if (window.console.debug) {
-                window.console.debug(m);
-            } else if (window.console.log) {
-                window.console.log(m);
-            }
-        },
-
-        changeState = function (connection, expectedState, newState) {
-            if (expectedState === connection.state) {
-                connection.state = newState;
-
-                $(connection).triggerHandler(events.onStateChanged, [{ oldState: expectedState, newState: newState }]);
-                return true;
-            }
-
-            return false;
-        },
-
-        isDisconnecting = function (connection) {
-            return connection.state === signalR.connectionState.disconnected;
-        },
-
-        supportsKeepAlive = function (connection) {
-            return connection._.keepAliveData.activated &&
-                   connection.transport.supportsKeepAlive(connection);
-        },
-
-        configureStopReconnectingTimeout = function (connection) {
-            var stopReconnectingTimeout,
-                onReconnectTimeout;
-
-            // Check if this connection has already been configured to stop reconnecting after a specified timeout.
-            // Without this check if a connection is stopped then started events will be bound multiple times.
-            if (!connection._.configuredStopReconnectingTimeout) {
-                onReconnectTimeout = function (connection) {
-                    var message = signalR._.format(signalR.resources.reconnectTimeout, connection.disconnectTimeout);
-                    connection.log(message);
-                    $(connection).triggerHandler(events.onError, [signalR._.error(message, /* source */ "TimeoutException")]);
-                    connection.stop(/* async */ false, /* notifyServer */ false);
-                };
-
-                connection.reconnecting(function () {
-                    var connection = this;
-
-                    // Guard against state changing in a previous user defined even handler
-                    if (connection.state === signalR.connectionState.reconnecting) {
-                        stopReconnectingTimeout = window.setTimeout(function () { onReconnectTimeout(connection); }, connection.disconnectTimeout);
-                    }
-                });
-
-                connection.stateChanged(function (data) {
-                    if (data.oldState === signalR.connectionState.reconnecting) {
-                        // Clear the pending reconnect timeout check
-                        window.clearTimeout(stopReconnectingTimeout);
-                    }
-                });
-
-                connection._.configuredStopReconnectingTimeout = true;
-            }
+  function _ensureCustomEvent() {
+    if (!window.CustomEvent || typeof window.CustomEvent !== 'function') {
+      var _CustomEvent = function _CustomEvent(event, params) {
+        params = params || {
+          bubbles: false,
+          cancelable: false,
+          detail: undefined
         };
 
-    signalR = function (url, qs, logging) {
-        /// <summary>Creates a new SignalR connection for the given url</summary>
-        /// <param name="url" type="String">The URL of the long polling endpoint</param>
-        /// <param name="qs" type="Object">
-        ///     [Optional] Custom querystring parameters to add to the connection URL.
-        ///     If an object, every non-function member will be added to the querystring.
-        ///     If a string, it's added to the QS as specified.
-        /// </param>
-        /// <param name="logging" type="Boolean">
-        ///     [Optional] A flag indicating whether connection logging is enabled to the browser
-        ///     console/log. Defaults to false.
-        /// </param>
+        var evt = document.createEvent('CustomEvent');
+        evt.initCustomEvent(event, params.bubbles, params.cancelable, params.detail);
+        return evt;
+      };
 
-        return new signalR.fn.init(url, qs, logging);
-    };
-
-    signalR._ = {
-        defaultContentType: "application/x-www-form-urlencoded; charset=UTF-8",
-
-        ieVersion: (function () {
-            var version,
-                matches;
-
-            if (window.navigator.appName === 'Microsoft Internet Explorer') {
-                // Check if the user agent has the pattern "MSIE (one or more numbers).(one or more numbers)";
-                matches = /MSIE ([0-9]+\.[0-9]+)/.exec(window.navigator.userAgent);
-
-                if (matches) {
-                    version = window.parseFloat(matches[1]);
-                }
-            }
-
-            // undefined value means not IE
-            return version;
-        })(),
-
-        error: function (message, source, context) {
-            var e = new Error(message);
-            e.source = source;
-
-            if (typeof context !== "undefined") {
-                e.context = context;
-            }
-
-            return e;
-        },
-
-        transportError: function (message, transport, source, context) {
-            var e = this.error(message, source, context);
-            e.transport = transport ? transport.name : undefined;
-            return e;
-        },
-
-        format: function () {
-            /// <summary>Usage: format("Hi {0}, you are {1}!", "Foo", 100) </summary>
-            var s = arguments[0];
-            for (var i = 0; i < arguments.length - 1; i++) {
-                s = s.replace("{" + i + "}", arguments[i + 1]);
-            }
-            return s;
-        },
-
-        firefoxMajorVersion: function (userAgent) {
-            // Firefox user agents: http://useragentstring.com/pages/Firefox/
-            var matches = userAgent.match(/Firefox\/(\d+)/);
-            if (!matches || !matches.length || matches.length < 2) {
-                return 0;
-            }
-            return parseInt(matches[1], 10 /* radix */);
-        },
-
-        configurePingInterval: function (connection) {
-            var config = connection._.config,
-                onFail = function (error) {
-                    $(connection).triggerHandler(events.onError, [error]);
-                };
-
-            if (config && !connection._.pingIntervalId && config.pingInterval) {
-                connection._.pingIntervalId = window.setInterval(function () {
-                    signalR.transports._logic.pingServer(connection).fail(onFail);
-                }, config.pingInterval);
-            }
-        }
-    };
-
-    signalR.events = events;
-
-    signalR.resources = resources;
-
-    signalR.ajaxDefaults = ajaxDefaults;
-
-    signalR.changeState = changeState;
-
-    signalR.isDisconnecting = isDisconnecting;
-
-    signalR.connectionState = {
-        connecting: 0,
-        connected: 1,
-        reconnecting: 2,
-        disconnected: 4
-    };
-
-    signalR.hub = {
-        start: function () {
-            // This will get replaced with the real hub connection start method when hubs is referenced correctly
-            throw new Error("SignalR: Error loading hubs. Ensure your hubs reference is correct, e.g. <script src='/signalr/js'></script>.");
-        }
-    };
-
-    // .on() was added in version 1.7.0, .load() was removed in version 3.0.0 so we fallback to .load() if .on() does
-    // not exist to not break existing applications
-    if (typeof _pageWindow.on == "function") {
-        _pageWindow.on("load", function () { _pageLoaded = true; });
+      _CustomEvent.prototype = window.Event.prototype;
+      window.CustomEvent = _CustomEvent;
     }
-    else {
-        _pageWindow.load(function () { _pageLoaded = true; });
+  }
+
+  function _ensureElementMatches() {
+    if (Element && !Element.prototype.matches) {
+      var proto = Element.prototype;
+      proto.matches = proto.matchesSelector || proto.mozMatchesSelector || proto.msMatchesSelector || proto.oMatchesSelector || proto.webkitMatchesSelector;
+    }
+  }
+
+  var _FEATURE = exports._FEATURE = {};
+
+  _FEATURE.shadowDOM = function () {
+    return !!HTMLElement.prototype.attachShadow;
+  }();
+
+  _FEATURE.scopedCSS = function () {
+    return 'scoped' in document.createElement('style');
+  }();
+
+  _FEATURE.htmlTemplateElement = function () {
+    return 'content' in document.createElement('template');
+  }();
+
+  _FEATURE.mutationObserver = function () {
+    return !!(window.MutationObserver || window.WebKitMutationObserver);
+  }();
+
+  function _ensureHTMLTemplateElement() {
+    function isSVGTemplate(el) {
+      return el.tagName === 'template' && el.namespaceURI === 'http://www.w3.org/2000/svg';
     }
 
-    function validateTransport(requestedTransport, connection) {
-        /// <summary>Validates the requested transport by cross checking it with the pre-defined signalR.transports</summary>
-        /// <param name="requestedTransport" type="Object">The designated transports that the user has specified.</param>
-        /// <param name="connection" type="signalR">The connection that will be using the requested transports.  Used for logging purposes.</param>
-        /// <returns type="Object" />
+    function fixSVGTemplateElement(el) {
+      var template = el.ownerDocument.createElement('template');
+      var attrs = el.attributes;
+      var length = attrs.length;
+      var attr = void 0;
 
-        if ($.isArray(requestedTransport)) {
-            // Go through transport array and remove an "invalid" tranports
-            for (var i = requestedTransport.length - 1; i >= 0; i--) {
-                var transport = requestedTransport[i];
-                if ($.type(transport) !== "string" || !signalR.transports[transport]) {
-                    connection.log("Invalid transport: " + transport + ", removing it from the transports list.");
-                    requestedTransport.splice(i, 1);
-                }
-            }
+      el.parentNode.insertBefore(template, el);
 
-            // Verify we still have transports left, if we dont then we have invalid transports
-            if (requestedTransport.length === 0) {
-                connection.log("No transports remain within the specified transport array.");
-                requestedTransport = null;
-            }
-        } else if (!signalR.transports[requestedTransport] && requestedTransport !== "auto") {
-            connection.log("Invalid transport: " + requestedTransport.toString() + ".");
-            requestedTransport = null;
-        } else if (requestedTransport === "auto" && signalR._.ieVersion <= 8) {
-            // If we're doing an auto transport and we're IE8 then force longPolling, #1764
-            return ["longPolling"];
+      while (length-- > 0) {
+        attr = attrs[length];
+        template.setAttribute(attr.name, attr.value);
+        el.removeAttribute(attr.name);
+      }
 
-        }
+      el.parentNode.removeChild(el);
 
-        return requestedTransport;
+      return fixHTMLTemplateElement(template);
     }
 
-    function getDefaultPort(protocol) {
-        if (protocol === "http:") {
-            return 80;
-        } else if (protocol === "https:") {
-            return 443;
-        }
+    function fixHTMLTemplateElement(template) {
+      var content = template.content = document.createDocumentFragment();
+      var child = void 0;
+
+      while (child = template.firstChild) {
+        content.appendChild(child);
+      }
+
+      return template;
     }
 
-    function addDefaultPort(protocol, url) {
-        // Remove ports  from url.  We have to check if there's a / or end of line
-        // following the port in order to avoid removing ports such as 8080.
-        if (url.match(/:\d+$/)) {
-            return url;
+    function fixHTMLTemplateElementRoot(template) {
+      var content = fixHTMLTemplateElement(template).content;
+      var childTemplates = content.querySelectorAll('template');
+
+      for (var i = 0, ii = childTemplates.length; i < ii; ++i) {
+        var child = childTemplates[i];
+
+        if (isSVGTemplate(child)) {
+          fixSVGTemplateElement(child);
         } else {
-            return url + ":" + getDefaultPort(protocol);
+          fixHTMLTemplateElement(child);
         }
+      }
+
+      return template;
     }
 
-    function ConnectingMessageBuffer(connection, drainCallback) {
-        var that = this,
-            buffer = [];
-
-        that.tryBuffer = function (message) {
-            if (connection.state === $.signalR.connectionState.connecting) {
-                buffer.push(message);
-
-                return true;
-            }
-
-            return false;
-        };
-
-        that.drain = function () {
-            // Ensure that the connection is connected when we drain (do not want to drain while a connection is not active)
-            if (connection.state === $.signalR.connectionState.connected) {
-                while (buffer.length > 0) {
-                    drainCallback(buffer.shift());
-                }
-            }
-        };
-
-        that.clear = function () {
-            buffer = [];
-        };
-    }
-
-    signalR.fn = signalR.prototype = {
-        init: function (url, qs, logging) {
-            var $connection = $(this);
-
-            this.url = url;
-            this.qs = qs;
-            this.lastError = null;
-            this._ = {
-                keepAliveData: {},
-                connectingMessageBuffer: new ConnectingMessageBuffer(this, function (message) {
-                    $connection.triggerHandler(events.onReceived, [message]);
-                }),
-                lastMessageAt: new Date().getTime(),
-                lastActiveAt: new Date().getTime(),
-                beatInterval: 5000, // Default value, will only be overridden if keep alive is enabled,
-                beatHandle: null,
-                totalTransportConnectTimeout: 0 // This will be the sum of the TransportConnectTimeout sent in response to negotiate and connection.transportConnectTimeout
-            };
-            if (typeof (logging) === "boolean") {
-                this.logging = logging;
-            }
-        },
-
-        _parseResponse: function (response) {
-            var that = this;
-
-            if (!response) {
-                return response;
-            } else if (typeof response === "string") {
-                return that.json.parse(response);
-            } else {
-                return response;
-            }
-        },
-
-        _originalJson: window.JSON,
-
-        json: window.JSON,
-
-        isCrossDomain: function (url, against) {
-            /// <summary>Checks if url is cross domain</summary>
-            /// <param name="url" type="String">The base URL</param>
-            /// <param name="against" type="Object">
-            ///     An optional argument to compare the URL against, if not specified it will be set to window.location.
-            ///     If specified it must contain a protocol and a host property.
-            /// </param>
-            var link;
-
-            url = $.trim(url);
-
-            against = against || window.location;
-
-            if (url.indexOf("http") !== 0) {
-                return false;
-            }
-
-            // Create an anchor tag.
-            link = window.document.createElement("a");
-            link.href = url;
-
-            // When checking for cross domain we have to special case port 80 because the window.location will remove the
-            return link.protocol + addDefaultPort(link.protocol, link.host) !== against.protocol + addDefaultPort(against.protocol, against.host);
-        },
-
-        ajaxDataType: "text",
-
-        contentType: "application/json; charset=UTF-8",
-
-        logging: false,
-
-        state: signalR.connectionState.disconnected,
-
-        clientProtocol: "1.5",
-
-        reconnectDelay: 2000,
-
-        transportConnectTimeout: 0,
-
-        disconnectTimeout: 30000, // This should be set by the server in response to the negotiate request (30s default)
-
-        reconnectWindow: 30000, // This should be set by the server in response to the negotiate request
-
-        keepAliveWarnAt: 2 / 3, // Warn user of slow connection if we breach the X% mark of the keep alive timeout
-
-        start: function (options, callback) {
-            /// <summary>Starts the connection</summary>
-            /// <param name="options" type="Object">Options map</param>
-            /// <param name="callback" type="Function">A callback function to execute when the connection has started</param>
-            var connection = this,
-                config = {
-                    pingInterval: 300000,
-                    waitForPageLoad: true,
-                    transport: "auto",
-                    jsonp: false
-                },
-                initialize,
-                deferred = connection._deferral || $.Deferred(), // Check to see if there is a pre-existing deferral that's being built on, if so we want to keep using it
-                parser = window.document.createElement("a");
-
-            connection.lastError = null;
-
-            // Persist the deferral so that if start is called multiple times the same deferral is used.
-            connection._deferral = deferred;
-
-            if (!connection.json) {
-                // no JSON!
-                throw new Error("SignalR: No JSON parser found. Please ensure json2.js is referenced before the SignalR.js file if you need to support clients without native JSON parsing support, e.g. IE<8.");
-            }
-
-            if ($.type(options) === "function") {
-                // Support calling with single callback parameter
-                callback = options;
-            } else if ($.type(options) === "object") {
-                $.extend(config, options);
-                if ($.type(config.callback) === "function") {
-                    callback = config.callback;
-                }
-            }
-
-            config.transport = validateTransport(config.transport, connection);
-
-            // If the transport is invalid throw an error and abort start
-            if (!config.transport) {
-                throw new Error("SignalR: Invalid transport(s) specified, aborting start.");
-            }
-
-            connection._.config = config;
-
-            // Check to see if start is being called prior to page load
-            // If waitForPageLoad is true we then want to re-direct function call to the window load event
-            if (!_pageLoaded && config.waitForPageLoad === true) {
-                connection._.deferredStartHandler = function () {
-                    connection.start(options, callback);
-                };
-                _pageWindow.bind("load", connection._.deferredStartHandler);
-
-                return deferred.promise();
-            }
-
-            // If we're already connecting just return the same deferral as the original connection start
-            if (connection.state === signalR.connectionState.connecting) {
-                return deferred.promise();
-            } else if (changeState(connection,
-                            signalR.connectionState.disconnected,
-                            signalR.connectionState.connecting) === false) {
-                // We're not connecting so try and transition into connecting.
-                // If we fail to transition then we're either in connected or reconnecting.
-
-                deferred.resolve(connection);
-                return deferred.promise();
-            }
-
-            configureStopReconnectingTimeout(connection);
-
-            // Resolve the full url
-            parser.href = connection.url;
-            if (!parser.protocol || parser.protocol === ":") {
-                connection.protocol = window.document.location.protocol;
-                connection.host = parser.host || window.document.location.host;
-            } else {
-                connection.protocol = parser.protocol;
-                connection.host = parser.host;
-            }
-
-            connection.baseUrl = connection.protocol + "//" + connection.host;
-
-            // Set the websocket protocol
-            connection.wsProtocol = connection.protocol === "https:" ? "wss://" : "ws://";
-
-            // If jsonp with no/auto transport is specified, then set the transport to long polling
-            // since that is the only transport for which jsonp really makes sense.
-            // Some developers might actually choose to specify jsonp for same origin requests
-            // as demonstrated by Issue #623.
-            if (config.transport === "auto" && config.jsonp === true) {
-                config.transport = "longPolling";
-            }
-
-            // If the url is protocol relative, prepend the current windows protocol to the url.
-            if (connection.url.indexOf("//") === 0) {
-                connection.url = window.location.protocol + connection.url;
-                connection.log("Protocol relative URL detected, normalizing it to '" + connection.url + "'.");
-            }
-
-            if (this.isCrossDomain(connection.url)) {
-                connection.log("Auto detected cross domain url.");
-
-                if (config.transport === "auto") {
-                    // TODO: Support XDM with foreverFrame
-                    config.transport = ["webSockets", "serverSentEvents", "longPolling"];
-                }
-
-                if (typeof (config.withCredentials) === "undefined") {
-                    config.withCredentials = true;
-                }
-
-                // Determine if jsonp is the only choice for negotiation, ajaxSend and ajaxAbort.
-                // i.e. if the browser doesn't supports CORS
-                // If it is, ignore any preference to the contrary, and switch to jsonp.
-                if (!config.jsonp) {
-                    config.jsonp = !$.support.cors;
-
-                    if (config.jsonp) {
-                        connection.log("Using jsonp because this browser doesn't support CORS.");
-                    }
-                }
-
-                connection.contentType = signalR._.defaultContentType;
-            }
-
-            connection.withCredentials = config.withCredentials;
-
-            connection.ajaxDataType = config.jsonp ? "jsonp" : "text";
-
-            $(connection).bind(events.onStart, function (e, data) {
-                if ($.type(callback) === "function") {
-                    callback.call(connection);
-                }
-                deferred.resolve(connection);
-            });
-
-            connection._.initHandler = signalR.transports._logic.initHandler(connection);
-
-            initialize = function (transports, index) {
-                var noTransportError = signalR._.error(resources.noTransportOnInit);
-
-                index = index || 0;
-                if (index >= transports.length) {
-                    if (index === 0) {
-                        connection.log("No transports supported by the server were selected.");
-                    } else if (index === 1) {
-                        connection.log("No fallback transports were selected.");
-                    } else {
-                        connection.log("Fallback transports exhausted.");
-                    }
-
-                    // No transport initialized successfully
-                    $(connection).triggerHandler(events.onError, [noTransportError]);
-                    deferred.reject(noTransportError);
-                    // Stop the connection if it has connected and move it into the disconnected state
-                    connection.stop();
-                    return;
-                }
-
-                // The connection was aborted
-                if (connection.state === signalR.connectionState.disconnected) {
-                    return;
-                }
-
-                var transportName = transports[index],
-                    transport = signalR.transports[transportName],
-                    onFallback = function () {
-                        initialize(transports, index + 1);
-                    };
-
-                connection.transport = transport;
-
-                try {
-                    connection._.initHandler.start(transport, function () { // success
-                        // Firefox 11+ doesn't allow sync XHR withCredentials: https://developer.mozilla.org/en-US/docs/Web/API/XMLHttpRequest#withCredentials
-                        var isFirefox11OrGreater = signalR._.firefoxMajorVersion(window.navigator.userAgent) >= 11,
-                            asyncAbort = !!connection.withCredentials && isFirefox11OrGreater;
-
-                        connection.log("The start request succeeded. Transitioning to the connected state.");
-
-                        if (supportsKeepAlive(connection)) {
-                            signalR.transports._logic.monitorKeepAlive(connection);
-                        }
-
-                        signalR.transports._logic.startHeartbeat(connection);
-
-                        // Used to ensure low activity clients maintain their authentication.
-                        // Must be configured once a transport has been decided to perform valid ping requests.
-                        signalR._.configurePingInterval(connection);
-
-                        if (!changeState(connection,
-                                            signalR.connectionState.connecting,
-                                            signalR.connectionState.connected)) {
-                            connection.log("WARNING! The connection was not in the connecting state.");
-                        }
-
-                        // Drain any incoming buffered messages (messages that came in prior to connect)
-                        connection._.connectingMessageBuffer.drain();
-
-                        $(connection).triggerHandler(events.onStart);
-
-                        // wire the stop handler for when the user leaves the page
-                        _pageWindow.bind("unload", function () {
-                            connection.log("Window unloading, stopping the connection.");
-
-                            connection.stop(asyncAbort);
-                        });
-
-                        if (isFirefox11OrGreater) {
-                            // Firefox does not fire cross-domain XHRs in the normal unload handler on tab close.
-                            // #2400
-                            _pageWindow.bind("beforeunload", function () {
-                                // If connection.stop() runs runs in beforeunload and fails, it will also fail
-                                // in unload unless connection.stop() runs after a timeout.
-                                window.setTimeout(function () {
-                                    connection.stop(asyncAbort);
-                                }, 0);
-                            });
-                        }
-                    }, onFallback);
-                }
-                catch (error) {
-                    connection.log(transport.name + " transport threw '" + error.message + "' when attempting to start.");
-                    onFallback();
-                }
-            };
-
-            var url = connection.url + "/negotiate",
-                onFailed = function (error, connection) {
-                    var err = signalR._.error(resources.errorOnNegotiate, error, connection._.negotiateRequest);
-
-                    $(connection).triggerHandler(events.onError, err);
-                    deferred.reject(err);
-                    // Stop the connection if negotiate failed
-                    connection.stop();
-                };
-
-            $(connection).triggerHandler(events.onStarting);
-
-            url = signalR.transports._logic.prepareQueryString(connection, url);
-
-            connection.log("Negotiating with '" + url + "'.");
-
-            // Save the ajax negotiate request object so we can abort it if stop is called while the request is in flight.
-            connection._.negotiateRequest = signalR.transports._logic.ajax(connection, {
-                url: url,
-                error: function (error, statusText) {
-                    // We don't want to cause any errors if we're aborting our own negotiate request.
-                    if (statusText !== _negotiateAbortText) {
-                        onFailed(error, connection);
-                    } else {
-                        // This rejection will noop if the deferred has already been resolved or rejected.
-                        deferred.reject(signalR._.error(resources.stoppedWhileNegotiating, null /* error */, connection._.negotiateRequest));
-                    }
-                },
-                success: function (result) {
-                    var res,
-                        keepAliveData,
-                        protocolError,
-                        transports = [],
-                        supportedTransports = [];
-
-                    try {
-                        res = connection._parseResponse(result);
-                    } catch (error) {
-                        onFailed(signalR._.error(resources.errorParsingNegotiateResponse, error), connection);
-                        return;
-                    }
-
-                    keepAliveData = connection._.keepAliveData;
-                    connection.appRelativeUrl = res.Url;
-                    connection.id = res.ConnectionId;
-                    connection.token = res.ConnectionToken;
-                    connection.webSocketServerUrl = res.WebSocketServerUrl;
-
-                    // The long poll timeout is the ConnectionTimeout plus 10 seconds
-                    connection._.pollTimeout = res.ConnectionTimeout * 1000 + 10000; // in ms
-
-                    // Once the server has labeled the PersistentConnection as Disconnected, we should stop attempting to reconnect
-                    // after res.DisconnectTimeout seconds.
-                    connection.disconnectTimeout = res.DisconnectTimeout * 1000; // in ms
-
-                    // Add the TransportConnectTimeout from the response to the transportConnectTimeout from the client to calculate the total timeout
-                    connection._.totalTransportConnectTimeout = connection.transportConnectTimeout + res.TransportConnectTimeout * 1000;
-
-                    // If we have a keep alive
-                    if (res.KeepAliveTimeout) {
-                        // Register the keep alive data as activated
-                        keepAliveData.activated = true;
-
-                        // Timeout to designate when to force the connection into reconnecting converted to milliseconds
-                        keepAliveData.timeout = res.KeepAliveTimeout * 1000;
-
-                        // Timeout to designate when to warn the developer that the connection may be dead or is not responding.
-                        keepAliveData.timeoutWarning = keepAliveData.timeout * connection.keepAliveWarnAt;
-
-                        // Instantiate the frequency in which we check the keep alive.  It must be short in order to not miss/pick up any changes
-                        connection._.beatInterval = (keepAliveData.timeout - keepAliveData.timeoutWarning) / 3;
-                    } else {
-                        keepAliveData.activated = false;
-                    }
-
-                    connection.reconnectWindow = connection.disconnectTimeout + (keepAliveData.timeout || 0);
-
-                    if (!res.ProtocolVersion || res.ProtocolVersion !== connection.clientProtocol) {
-                        protocolError = signalR._.error(signalR._.format(resources.protocolIncompatible, connection.clientProtocol, res.ProtocolVersion));
-                        $(connection).triggerHandler(events.onError, [protocolError]);
-                        deferred.reject(protocolError);
-
-                        return;
-                    }
-
-                    $.each(signalR.transports, function (key) {
-                        if ((key.indexOf("_") === 0) || (key === "webSockets" && !res.TryWebSockets)) {
-                            return true;
-                        }
-                        supportedTransports.push(key);
-                    });
-
-                    if ($.isArray(config.transport)) {
-                        $.each(config.transport, function (_, transport) {
-                            if ($.inArray(transport, supportedTransports) >= 0) {
-                                transports.push(transport);
-                            }
-                        });
-                    } else if (config.transport === "auto") {
-                        transports = supportedTransports;
-                    } else if ($.inArray(config.transport, supportedTransports) >= 0) {
-                        transports.push(config.transport);
-                    }
-
-                    initialize(transports);
-                }
-            });
-
-            return deferred.promise();
-        },
-
-        starting: function (callback) {
-            /// <summary>Adds a callback that will be invoked before anything is sent over the connection</summary>
-            /// <param name="callback" type="Function">A callback function to execute before the connection is fully instantiated.</param>
-            /// <returns type="signalR" />
-            var connection = this;
-            $(connection).bind(events.onStarting, function (e, data) {
-                callback.call(connection);
-            });
-            return connection;
-        },
-
-        send: function (data) {
-            /// <summary>Sends data over the connection</summary>
-            /// <param name="data" type="String">The data to send over the connection</param>
-            /// <returns type="signalR" />
-            var connection = this;
-
-            if (connection.state === signalR.connectionState.disconnected) {
-                // Connection hasn't been started yet
-                throw new Error("SignalR: Connection must be started before data can be sent. Call .start() before .send()");
-            }
-
-            if (connection.state === signalR.connectionState.connecting) {
-                // Connection hasn't been started yet
-                throw new Error("SignalR: Connection has not been fully initialized. Use .start().done() or .start().fail() to run logic after the connection has started.");
-            }
-
-            connection.transport.send(connection, data);
-            // REVIEW: Should we return deferred here?
-            return connection;
-        },
-
-        received: function (callback) {
-            /// <summary>Adds a callback that will be invoked after anything is received over the connection</summary>
-            /// <param name="callback" type="Function">A callback function to execute when any data is received on the connection</param>
-            /// <returns type="signalR" />
-            var connection = this;
-            $(connection).bind(events.onReceived, function (e, data) {
-                callback.call(connection, data);
-            });
-            return connection;
-        },
-
-        stateChanged: function (callback) {
-            /// <summary>Adds a callback that will be invoked when the connection state changes</summary>
-            /// <param name="callback" type="Function">A callback function to execute when the connection state changes</param>
-            /// <returns type="signalR" />
-            var connection = this;
-            $(connection).bind(events.onStateChanged, function (e, data) {
-                callback.call(connection, data);
-            });
-            return connection;
-        },
-
-        error: function (callback) {
-            /// <summary>Adds a callback that will be invoked after an error occurs with the connection</summary>
-            /// <param name="callback" type="Function">A callback function to execute when an error occurs on the connection</param>
-            /// <returns type="signalR" />
-            var connection = this;
-            $(connection).bind(events.onError, function (e, errorData, sendData) {
-                connection.lastError = errorData;
-                // In practice 'errorData' is the SignalR built error object.
-                // In practice 'sendData' is undefined for all error events except those triggered by
-                // 'ajaxSend' and 'webSockets.send'.'sendData' is the original send payload.
-                callback.call(connection, errorData, sendData);
-            });
-            return connection;
-        },
-
-        disconnected: function (callback) {
-            /// <summary>Adds a callback that will be invoked when the client disconnects</summary>
-            /// <param name="callback" type="Function">A callback function to execute when the connection is broken</param>
-            /// <returns type="signalR" />
-            var connection = this;
-            $(connection).bind(events.onDisconnect, function (e, data) {
-                callback.call(connection);
-            });
-            return connection;
-        },
-
-        connectionSlow: function (callback) {
-            /// <summary>Adds a callback that will be invoked when the client detects a slow connection</summary>
-            /// <param name="callback" type="Function">A callback function to execute when the connection is slow</param>
-            /// <returns type="signalR" />
-            var connection = this;
-            $(connection).bind(events.onConnectionSlow, function (e, data) {
-                callback.call(connection);
-            });
-
-            return connection;
-        },
-
-        reconnecting: function (callback) {
-            /// <summary>Adds a callback that will be invoked when the underlying transport begins reconnecting</summary>
-            /// <param name="callback" type="Function">A callback function to execute when the connection enters a reconnecting state</param>
-            /// <returns type="signalR" />
-            var connection = this;
-            $(connection).bind(events.onReconnecting, function (e, data) {
-                callback.call(connection);
-            });
-            return connection;
-        },
-
-        reconnected: function (callback) {
-            /// <summary>Adds a callback that will be invoked when the underlying transport reconnects</summary>
-            /// <param name="callback" type="Function">A callback function to execute when the connection is restored</param>
-            /// <returns type="signalR" />
-            var connection = this;
-            $(connection).bind(events.onReconnect, function (e, data) {
-                callback.call(connection);
-            });
-            return connection;
-        },
-
-        stop: function (async, notifyServer) {
-            /// <summary>Stops listening</summary>
-            /// <param name="async" type="Boolean">Whether or not to asynchronously abort the connection</param>
-            /// <param name="notifyServer" type="Boolean">Whether we want to notify the server that we are aborting the connection</param>
-            /// <returns type="signalR" />
-            var connection = this,
-                // Save deferral because this is always cleaned up
-                deferral = connection._deferral;
-
-            // Verify that we've bound a load event.
-            if (connection._.deferredStartHandler) {
-                // Unbind the event.
-                _pageWindow.unbind("load", connection._.deferredStartHandler);
-            }
-
-            // Always clean up private non-timeout based state.
-            delete connection._.config;
-            delete connection._.deferredStartHandler;
-
-            // This needs to be checked despite the connection state because a connection start can be deferred until page load.
-            // If we've deferred the start due to a page load we need to unbind the "onLoad" -> start event.
-            if (!_pageLoaded && (!connection._.config || connection._.config.waitForPageLoad === true)) {
-                connection.log("Stopping connection prior to negotiate.");
-
-                // If we have a deferral we should reject it
-                if (deferral) {
-                    deferral.reject(signalR._.error(resources.stoppedWhileLoading));
-                }
-
-                // Short-circuit because the start has not been fully started.
-                return;
-            }
-
-            if (connection.state === signalR.connectionState.disconnected) {
-                return;
-            }
-
-            connection.log("Stopping connection.");
-
-            // Clear this no matter what
-            window.clearTimeout(connection._.beatHandle);
-            window.clearInterval(connection._.pingIntervalId);
-
-            if (connection.transport) {
-                connection.transport.stop(connection);
-
-                if (notifyServer !== false) {
-                    connection.transport.abort(connection, async);
-                }
-
-                if (supportsKeepAlive(connection)) {
-                    signalR.transports._logic.stopMonitoringKeepAlive(connection);
-                }
-
-                connection.transport = null;
-            }
-
-            if (connection._.negotiateRequest) {
-                // If the negotiation request has already completed this will noop.
-                connection._.negotiateRequest.abort(_negotiateAbortText);
-                delete connection._.negotiateRequest;
-            }
-
-            // Ensure that initHandler.stop() is called before connection._deferral is deleted
-            if (connection._.initHandler) {
-                connection._.initHandler.stop();
-            }
-
-            delete connection._deferral;
-            delete connection.messageId;
-            delete connection.groupsToken;
-            delete connection.id;
-            delete connection._.pingIntervalId;
-            delete connection._.lastMessageAt;
-            delete connection._.lastActiveAt;
-
-            // Clear out our message buffer
-            connection._.connectingMessageBuffer.clear();
-
-            // Trigger the disconnect event
-            changeState(connection, connection.state, signalR.connectionState.disconnected);
-            $(connection).triggerHandler(events.onDisconnect);
-
-            return connection;
-        },
-
-        log: function (msg) {
-            log(msg, this.logging);
-        }
-    };
-
-    signalR.fn.init.prototype = signalR.fn;
-
-    signalR.noConflict = function () {
-        /// <summary>Reinstates the original value of $.connection and returns the signalR object for manual assignment</summary>
-        /// <returns type="signalR" />
-        if ($.connection === signalR) {
-            $.connection = _connection;
-        }
-        return signalR;
-    };
-
-    if ($.connection) {
-        _connection = $.connection;
-    }
-
-    $.connection = $.signalR = signalR;
-
-}(window.jQuery, window));
-/* jquery.signalR.transports.common.js */
-// Copyright (c) .NET Foundation. All rights reserved.
-// Licensed under the Apache License, Version 2.0. See License.txt in the project root for license information.
-
-/*global window:false */
-/// <reference path="jquery.signalR.core.js" />
-
-(function ($, window, undefined) {
-
-    var signalR = $.signalR,
-        events = $.signalR.events,
-        changeState = $.signalR.changeState,
-        startAbortText = "__Start Aborted__",
-        transportLogic;
-
-    signalR.transports = {};
-
-    function beat(connection) {
-        if (connection._.keepAliveData.monitoring) {
-            checkIfAlive(connection);
-        }
-
-        // Ensure that we successfully marked active before continuing the heartbeat.
-        if (transportLogic.markActive(connection)) {
-            connection._.beatHandle = window.setTimeout(function () {
-                beat(connection);
-            }, connection._.beatInterval);
-        }
-    }
-
-    function checkIfAlive(connection) {
-        var keepAliveData = connection._.keepAliveData,
-            timeElapsed;
-
-        // Only check if we're connected
-        if (connection.state === signalR.connectionState.connected) {
-            timeElapsed = new Date().getTime() - connection._.lastMessageAt;
-
-            // Check if the keep alive has completely timed out
-            if (timeElapsed >= keepAliveData.timeout) {
-                connection.log("Keep alive timed out.  Notifying transport that connection has been lost.");
-
-                // Notify transport that the connection has been lost
-                connection.transport.lostConnection(connection);
-            } else if (timeElapsed >= keepAliveData.timeoutWarning) {
-                // This is to assure that the user only gets a single warning
-                if (!keepAliveData.userNotified) {
-                    connection.log("Keep alive has been missed, connection may be dead/slow.");
-                    $(connection).triggerHandler(events.onConnectionSlow);
-                    keepAliveData.userNotified = true;
-                }
-            } else {
-                keepAliveData.userNotified = false;
-            }
-        }
-    }
-
-    function getAjaxUrl(connection, path) {
-        var url = connection.url + path;
-
-        if (connection.transport) {
-            url += "?transport=" + connection.transport.name;
-        }
-
-        return transportLogic.prepareQueryString(connection, url);
-    }
-
-    function InitHandler(connection) {
-        this.connection = connection;
-
-        this.startRequested = false;
-        this.startCompleted = false;
-        this.connectionStopped = false;
-    }
-
-    InitHandler.prototype = {
-        start: function (transport, onSuccess, onFallback) {
-            var that = this,
-                connection = that.connection,
-                failCalled = false;
-
-            if (that.startRequested || that.connectionStopped) {
-                connection.log("WARNING! " + transport.name + " transport cannot be started. Initialization ongoing or completed.");
-                return;
-            }
-
-            connection.log(transport.name + " transport starting.");
-
-            transport.start(connection, function () {
-                if (!failCalled) {
-                    that.initReceived(transport, onSuccess);
-                }
-            }, function (error) {
-                // Don't allow the same transport to cause onFallback to be called twice
-                if (!failCalled) {
-                    failCalled = true;
-                    that.transportFailed(transport, error, onFallback);
-                }
-
-                // Returns true if the transport should stop;
-                // false if it should attempt to reconnect
-                return !that.startCompleted || that.connectionStopped;
-            });
-
-            that.transportTimeoutHandle = window.setTimeout(function () {
-                if (!failCalled) {
-                    failCalled = true;
-                    connection.log(transport.name + " transport timed out when trying to connect.");
-                    that.transportFailed(transport, undefined, onFallback);
-                }
-            }, connection._.totalTransportConnectTimeout);
-        },
-
-        stop: function () {
-            this.connectionStopped = true;
-            window.clearTimeout(this.transportTimeoutHandle);
-            signalR.transports._logic.tryAbortStartRequest(this.connection);
-        },
-
-        initReceived: function (transport, onSuccess) {
-            var that = this,
-                connection = that.connection;
-
-            if (that.startRequested) {
-                connection.log("WARNING! The client received multiple init messages.");
-                return;
-            }
-
-            if (that.connectionStopped) {
-                return;
-            }
-
-            that.startRequested = true;
-            window.clearTimeout(that.transportTimeoutHandle);
-
-            connection.log(transport.name + " transport connected. Initiating start request.");
-            signalR.transports._logic.ajaxStart(connection, function () {
-                that.startCompleted = true;
-                onSuccess();
-            });
-        },
-
-        transportFailed: function (transport, error, onFallback) {
-            var connection = this.connection,
-                deferred = connection._deferral,
-                wrappedError;
-
-            if (this.connectionStopped) {
-                return;
-            }
-
-            window.clearTimeout(this.transportTimeoutHandle);
-
-            if (!this.startRequested) {
-                transport.stop(connection);
-
-                connection.log(transport.name + " transport failed to connect. Attempting to fall back.");
-                onFallback();
-            } else if (!this.startCompleted) {
-                // Do not attempt to fall back if a start request is ongoing during a transport failure.
-                // Instead, trigger an error and stop the connection.
-                wrappedError = signalR._.error(signalR.resources.errorDuringStartRequest, error);
-
-                connection.log(transport.name + " transport failed during the start request. Stopping the connection.");
-                $(connection).triggerHandler(events.onError, [wrappedError]);
-                if (deferred) {
-                    deferred.reject(wrappedError);
-                }
-
-                connection.stop();
-            } else {
-                // The start request has completed, but the connection has not stopped.
-                // No need to do anything here. The transport should attempt its normal reconnect logic.
-            }
-        }
-    };
-
-    transportLogic = signalR.transports._logic = {
-        ajax: function (connection, options) {
-            return $.ajax(
-                $.extend(/*deep copy*/ true, {}, $.signalR.ajaxDefaults, {
-                    type: "GET",
-                    data: {},
-                    xhrFields: { withCredentials: connection.withCredentials },
-                    contentType: connection.contentType,
-                    dataType: connection.ajaxDataType
-                }, options));
-        },
-
-        pingServer: function (connection) {
-            /// <summary>Pings the server</summary>
-            /// <param name="connection" type="signalr">Connection associated with the server ping</param>
-            /// <returns type="signalR" />
-            var url,
-                xhr,
-                deferral = $.Deferred();
-
-            if (connection.transport) {
-                url = connection.url + "/ping";
-
-                url = transportLogic.addQs(url, connection.qs);
-
-                xhr = transportLogic.ajax(connection, {
-                    url: url,
-                    success: function (result) {
-                        var data;
-
-                        try {
-                            data = connection._parseResponse(result);
-                        }
-                        catch (error) {
-                            deferral.reject(
-                                signalR._.transportError(
-                                    signalR.resources.pingServerFailedParse,
-                                    connection.transport,
-                                    error,
-                                    xhr
-                                )
-                            );
-                            connection.stop();
-                            return;
-                        }
-
-                        if (data.Response === "pong") {
-                            deferral.resolve();
-                        }
-                        else {
-                            deferral.reject(
-                                signalR._.transportError(
-                                    signalR._.format(signalR.resources.pingServerFailedInvalidResponse, result),
-                                    connection.transport,
-                                    null /* error */,
-                                    xhr
-                                )
-                            );
-                        }
-                    },
-                    error: function (error) {
-                        if (error.status === 401 || error.status === 403) {
-                            deferral.reject(
-                                signalR._.transportError(
-                                    signalR._.format(signalR.resources.pingServerFailedStatusCode, error.status),
-                                    connection.transport,
-                                    error,
-                                    xhr
-                                )
-                            );
-                            connection.stop();
-                        }
-                        else {
-                            deferral.reject(
-                                signalR._.transportError(
-                                    signalR.resources.pingServerFailed,
-                                    connection.transport,
-                                    error,
-                                    xhr
-                                )
-                            );
-                        }
-                    }
-                });
-            }
-            else {
-                deferral.reject(
-                    signalR._.transportError(
-                        signalR.resources.noConnectionTransport,
-                        connection.transport
-                    )
-                );
-            }
-
-            return deferral.promise();
-        },
-
-        prepareQueryString: function (connection, url) {
-            var preparedUrl;
-
-            // Use addQs to start since it handles the ?/& prefix for us
-            preparedUrl = transportLogic.addQs(url, "clientProtocol=" + connection.clientProtocol);
-
-            // Add the user-specified query string params if any
-            preparedUrl = transportLogic.addQs(preparedUrl, connection.qs);
-
-            if (connection.token) {
-                preparedUrl += "&connectionToken=" + window.encodeURIComponent(connection.token);
-            }
-
-            if (connection.data) {
-                preparedUrl += "&connectionData=" + window.encodeURIComponent(connection.data);
-            }
-
-            return preparedUrl;
-        },
-
-        addQs: function (url, qs) {
-            var appender = url.indexOf("?") !== -1 ? "&" : "?",
-                firstChar;
-
-            if (!qs) {
-                return url;
-            }
-
-            if (typeof (qs) === "object") {
-                return url + appender + $.param(qs);
-            }
-
-            if (typeof (qs) === "string") {
-                firstChar = qs.charAt(0);
-
-                if (firstChar === "?" || firstChar === "&") {
-                    appender = "";
-                }
-
-                return url + appender + qs;
-            }
-
-            throw new Error("Query string property must be either a string or object.");
-        },
-
-        // BUG #2953: The url needs to be same otherwise it will cause a memory leak
-        getUrl: function (connection, transport, reconnecting, poll, ajaxPost) {
-            /// <summary>Gets the url for making a GET based connect request</summary>
-            var baseUrl = transport === "webSockets" ? "" : connection.baseUrl,
-                url = baseUrl + connection.appRelativeUrl,
-                qs = "transport=" + transport;
-
-            if (!ajaxPost && connection.groupsToken) {
-                qs += "&groupsToken=" + window.encodeURIComponent(connection.groupsToken);
-            }
-
-            if (!reconnecting) {
-                url += "/connect";
-            } else {
-                if (poll) {
-                    // longPolling transport specific
-                    url += "/poll";
-                } else {
-                    url += "/reconnect";
-                }
-
-                if (!ajaxPost && connection.messageId) {
-                    qs += "&messageId=" + window.encodeURIComponent(connection.messageId);
-                }
-            }
-            url += "?" + qs;
-            url = transportLogic.prepareQueryString(connection, url);
-
-            if (!ajaxPost) {
-                url += "&tid=" + Math.floor(Math.random() * 11);
-            }
-
-            return url;
-        },
-
-        maximizePersistentResponse: function (minPersistentResponse) {
-            return {
-                MessageId: minPersistentResponse.C,
-                Messages: minPersistentResponse.M,
-                Initialized: typeof (minPersistentResponse.S) !== "undefined" ? true : false,
-                ShouldReconnect: typeof (minPersistentResponse.T) !== "undefined" ? true : false,
-                LongPollDelay: minPersistentResponse.L,
-                GroupsToken: minPersistentResponse.G
-            };
-        },
-
-        updateGroups: function (connection, groupsToken) {
-            if (groupsToken) {
-                connection.groupsToken = groupsToken;
-            }
-        },
-
-        stringifySend: function (connection, message) {
-            if (typeof (message) === "string" || typeof (message) === "undefined" || message === null) {
-                return message;
-            }
-            return connection.json.stringify(message);
-        },
-
-        ajaxSend: function (connection, data) {
-            var payload = transportLogic.stringifySend(connection, data),
-                url = getAjaxUrl(connection, "/send"),
-                xhr,
-                onFail = function (error, connection) {
-                    $(connection).triggerHandler(events.onError, [signalR._.transportError(signalR.resources.sendFailed, connection.transport, error, xhr), data]);
-                };
-
-
-            xhr = transportLogic.ajax(connection, {
-                url: url,
-                type: connection.ajaxDataType === "jsonp" ? "GET" : "POST",
-                contentType: signalR._.defaultContentType,
-                data: {
-                    data: payload
-                },
-                success: function (result) {
-                    var res;
-
-                    if (result) {
-                        try {
-                            res = connection._parseResponse(result);
-                        }
-                        catch (error) {
-                            onFail(error, connection);
-                            connection.stop();
-                            return;
-                        }
-
-                        transportLogic.triggerReceived(connection, res);
-                    }
-                },
-                error: function (error, textStatus) {
-                    if (textStatus === "abort" || textStatus === "parsererror") {
-                        // The parsererror happens for sends that don't return any data, and hence
-                        // don't write the jsonp callback to the response. This is harder to fix on the server
-                        // so just hack around it on the client for now.
-                        return;
-                    }
-
-                    onFail(error, connection);
-                }
-            });
-
-            return xhr;
-        },
-
-        ajaxAbort: function (connection, async) {
-            if (typeof (connection.transport) === "undefined") {
-                return;
-            }
-
-            // Async by default unless explicitly overidden
-            async = typeof async === "undefined" ? true : async;
-
-            var url = getAjaxUrl(connection, "/abort");
-
-            transportLogic.ajax(connection, {
-                url: url,
-                async: async,
-                timeout: 1000,
-                type: "POST"
-            });
-
-            connection.log("Fired ajax abort async = " + async + ".");
-        },
-
-        ajaxStart: function (connection, onSuccess) {
-            var rejectDeferred = function (error) {
-                    var deferred = connection._deferral;
-                    if (deferred) {
-                        deferred.reject(error);
-                    }
-                },
-                triggerStartError = function (error) {
-                    connection.log("The start request failed. Stopping the connection.");
-                    $(connection).triggerHandler(events.onError, [error]);
-                    rejectDeferred(error);
-                    connection.stop();
-                };
-
-            connection._.startRequest = transportLogic.ajax(connection, {
-                url: getAjaxUrl(connection, "/start"),
-                success: function (result, statusText, xhr) {
-                    var data;
-
-                    try {
-                        data = connection._parseResponse(result);
-                    } catch (error) {
-                        triggerStartError(signalR._.error(
-                            signalR._.format(signalR.resources.errorParsingStartResponse, result),
-                            error, xhr));
-                        return;
-                    }
-
-                    if (data.Response === "started") {
-                        onSuccess();
-                    } else {
-                        triggerStartError(signalR._.error(
-                            signalR._.format(signalR.resources.invalidStartResponse, result),
-                            null /* error */, xhr));
-                    }
-                },
-                error: function (xhr, statusText, error) {
-                    if (statusText !== startAbortText) {
-                        triggerStartError(signalR._.error(
-                            signalR.resources.errorDuringStartRequest,
-                            error, xhr));
-                    } else {
-                        // Stop has been called, no need to trigger the error handler
-                        // or stop the connection again with onStartError
-                        connection.log("The start request aborted because connection.stop() was called.");
-                        rejectDeferred(signalR._.error(
-                            signalR.resources.stoppedDuringStartRequest,
-                            null /* error */, xhr));
-                    }
-                }
-            });
-        },
-
-        tryAbortStartRequest: function (connection) {
-            if (connection._.startRequest) {
-                // If the start request has already completed this will noop.
-                connection._.startRequest.abort(startAbortText);
-                delete connection._.startRequest;
-            }
-        },
-
-        tryInitialize: function (connection, persistentResponse, onInitialized) {
-            if (persistentResponse.Initialized && onInitialized) {
-                onInitialized();
-            } else if (persistentResponse.Initialized) {
-                connection.log("WARNING! The client received an init message after reconnecting.");
-            }
-
-        },
-
-        triggerReceived: function (connection, data) {
-            if (!connection._.connectingMessageBuffer.tryBuffer(data)) {
-                $(connection).triggerHandler(events.onReceived, [data]);
-            }
-        },
-
-        processMessages: function (connection, minData, onInitialized) {
-            var data;
-
-            // Update the last message time stamp
-            transportLogic.markLastMessage(connection);
-
-            if (minData) {
-                data = transportLogic.maximizePersistentResponse(minData);
-
-                transportLogic.updateGroups(connection, data.GroupsToken);
-
-                if (data.MessageId) {
-                    connection.messageId = data.MessageId;
-                }
-
-                if (data.Messages) {
-                    $.each(data.Messages, function (index, message) {
-                        transportLogic.triggerReceived(connection, message);
-                    });
-
-                    transportLogic.tryInitialize(connection, data, onInitialized);
-                }
-            }
-        },
-
-        monitorKeepAlive: function (connection) {
-            var keepAliveData = connection._.keepAliveData;
-
-            // If we haven't initiated the keep alive timeouts then we need to
-            if (!keepAliveData.monitoring) {
-                keepAliveData.monitoring = true;
-
-                transportLogic.markLastMessage(connection);
-
-                // Save the function so we can unbind it on stop
-                connection._.keepAliveData.reconnectKeepAliveUpdate = function () {
-                    // Mark a new message so that keep alive doesn't time out connections
-                    transportLogic.markLastMessage(connection);
-                };
-
-                // Update Keep alive on reconnect
-                $(connection).bind(events.onReconnect, connection._.keepAliveData.reconnectKeepAliveUpdate);
-
-                connection.log("Now monitoring keep alive with a warning timeout of " + keepAliveData.timeoutWarning + ", keep alive timeout of " + keepAliveData.timeout + " and disconnecting timeout of " + connection.disconnectTimeout);
-            } else {
-                connection.log("Tried to monitor keep alive but it's already being monitored.");
-            }
-        },
-
-        stopMonitoringKeepAlive: function (connection) {
-            var keepAliveData = connection._.keepAliveData;
-
-            // Only attempt to stop the keep alive monitoring if its being monitored
-            if (keepAliveData.monitoring) {
-                // Stop monitoring
-                keepAliveData.monitoring = false;
-
-                // Remove the updateKeepAlive function from the reconnect event
-                $(connection).unbind(events.onReconnect, connection._.keepAliveData.reconnectKeepAliveUpdate);
-
-                // Clear all the keep alive data
-                connection._.keepAliveData = {};
-                connection.log("Stopping the monitoring of the keep alive.");
-            }
-        },
-
-        startHeartbeat: function (connection) {
-            connection._.lastActiveAt = new Date().getTime();
-            beat(connection);
-        },
-
-        markLastMessage: function (connection) {
-            connection._.lastMessageAt = new Date().getTime();
-        },
-
-        markActive: function (connection) {
-            if (transportLogic.verifyLastActive(connection)) {
-                connection._.lastActiveAt = new Date().getTime();
-                return true;
-            }
-
-            return false;
-        },
-
-        isConnectedOrReconnecting: function (connection) {
-            return connection.state === signalR.connectionState.connected ||
-                   connection.state === signalR.connectionState.reconnecting;
-        },
-
-        ensureReconnectingState: function (connection) {
-            if (changeState(connection,
-                        signalR.connectionState.connected,
-                        signalR.connectionState.reconnecting) === true) {
-                $(connection).triggerHandler(events.onReconnecting);
-            }
-            return connection.state === signalR.connectionState.reconnecting;
-        },
-
-        clearReconnectTimeout: function (connection) {
-            if (connection && connection._.reconnectTimeout) {
-                window.clearTimeout(connection._.reconnectTimeout);
-                delete connection._.reconnectTimeout;
-            }
-        },
-
-        verifyLastActive: function (connection) {
-            if (new Date().getTime() - connection._.lastActiveAt >= connection.reconnectWindow) {
-                var message = signalR._.format(signalR.resources.reconnectWindowTimeout, new Date(connection._.lastActiveAt), connection.reconnectWindow);
-                connection.log(message);
-                $(connection).triggerHandler(events.onError, [signalR._.error(message, /* source */ "TimeoutException")]);
-                connection.stop(/* async */ false, /* notifyServer */ false);
-                return false;
-            }
-
-            return true;
-        },
-
-        reconnect: function (connection, transportName) {
-            var transport = signalR.transports[transportName];
-
-            // We should only set a reconnectTimeout if we are currently connected
-            // and a reconnectTimeout isn't already set.
-            if (transportLogic.isConnectedOrReconnecting(connection) && !connection._.reconnectTimeout) {
-                // Need to verify before the setTimeout occurs because an application sleep could occur during the setTimeout duration.
-                if (!transportLogic.verifyLastActive(connection)) {
-                    return;
-                }
-
-                connection._.reconnectTimeout = window.setTimeout(function () {
-                    if (!transportLogic.verifyLastActive(connection)) {
-                        return;
-                    }
-
-                    transport.stop(connection);
-
-                    if (transportLogic.ensureReconnectingState(connection)) {
-                        connection.log(transportName + " reconnecting.");
-                        transport.start(connection);
-                    }
-                }, connection.reconnectDelay);
-            }
-        },
-
-        handleParseFailure: function (connection, result, error, onFailed, context) {
-            var wrappedError = signalR._.transportError(
-                signalR._.format(signalR.resources.parseFailed, result),
-                connection.transport,
-                error,
-                context);
-
-            // If we're in the initialization phase trigger onFailed, otherwise stop the connection.
-            if (onFailed && onFailed(wrappedError)) {
-                connection.log("Failed to parse server response while attempting to connect.");
-            } else {
-                $(connection).triggerHandler(events.onError, [wrappedError]);
-                connection.stop();
-            }
-        },
-
-        initHandler: function (connection) {
-            return new InitHandler(connection);
-        },
-
-        foreverFrame: {
-            count: 0,
-            connections: {}
-        }
-    };
-
-}(window.jQuery, window));
-/* jquery.signalR.transports.webSockets.js */
-// Copyright (c) .NET Foundation. All rights reserved.
-// Licensed under the Apache License, Version 2.0. See License.txt in the project root for license information.
-
-
-/*global window:false */
-/// <reference path="jquery.signalR.transports.common.js" />
-
-(function ($, window, undefined) {
-
-    var signalR = $.signalR,
-        events = $.signalR.events,
-        changeState = $.signalR.changeState,
-        transportLogic = signalR.transports._logic;
-
-    signalR.transports.webSockets = {
-        name: "webSockets",
-
-        supportsKeepAlive: function () {
-            return true;
-        },
-
-        send: function (connection, data) {
-            var payload = transportLogic.stringifySend(connection, data);
-
-            try {
-                connection.socket.send(payload);
-            } catch (ex) {
-                $(connection).triggerHandler(events.onError,
-                    [signalR._.transportError(
-                        signalR.resources.webSocketsInvalidState,
-                        connection.transport,
-                        ex,
-                        connection.socket
-                    ),
-                    data]);
-            }
-        },
-
-        start: function (connection, onSuccess, onFailed) {
-            var url,
-                opened = false,
-                that = this,
-                reconnecting = !onSuccess,
-                $connection = $(connection);
-
-            if (!window.WebSocket) {
-                onFailed();
-                return;
-            }
-
-            if (!connection.socket) {
-                if (connection.webSocketServerUrl) {
-                    url = connection.webSocketServerUrl;
-                } else {
-                    url = connection.wsProtocol + connection.host;
-                }
-
-                url += transportLogic.getUrl(connection, this.name, reconnecting);
-
-                connection.log("Connecting to websocket endpoint '" + url + "'.");
-                connection.socket = new window.WebSocket(url);
-
-                connection.socket.onopen = function () {
-                    opened = true;
-                    connection.log("Websocket opened.");
-
-                    transportLogic.clearReconnectTimeout(connection);
-
-                    if (changeState(connection,
-                                    signalR.connectionState.reconnecting,
-                                    signalR.connectionState.connected) === true) {
-                        $connection.triggerHandler(events.onReconnect);
-                    }
-                };
-
-                connection.socket.onclose = function (event) {
-                    var error;
-
-                    // Only handle a socket close if the close is from the current socket.
-                    // Sometimes on disconnect the server will push down an onclose event
-                    // to an expired socket.
-
-                    if (this === connection.socket) {
-                        if (opened && typeof event.wasClean !== "undefined" && event.wasClean === false) {
-                            // Ideally this would use the websocket.onerror handler (rather than checking wasClean in onclose) but
-                            // I found in some circumstances Chrome won't call onerror. This implementation seems to work on all browsers.
-                            error = signalR._.transportError(
-                                signalR.resources.webSocketClosed,
-                                connection.transport,
-                                event);
-
-                            connection.log("Unclean disconnect from websocket: " + (event.reason || "[no reason given]."));
-                        } else {
-                            connection.log("Websocket closed.");
-                        }
-
-                        if (!onFailed || !onFailed(error)) {
-                            if (error) {
-                                $(connection).triggerHandler(events.onError, [error]);
-                            }
-
-                            that.reconnect(connection);
-                        }
-                    }
-                };
-
-                connection.socket.onmessage = function (event) {
-                    var data;
-
-                    try {
-                        data = connection._parseResponse(event.data);
-                    }
-                    catch (error) {
-                        transportLogic.handleParseFailure(connection, event.data, error, onFailed, event);
-                        return;
-                    }
-
-                    if (data) {
-                        // data.M is PersistentResponse.Messages
-                        if ($.isEmptyObject(data) || data.M) {
-                            transportLogic.processMessages(connection, data, onSuccess);
-                        } else {
-                            // For websockets we need to trigger onReceived
-                            // for callbacks to outgoing hub calls.
-                            transportLogic.triggerReceived(connection, data);
-                        }
-                    }
-                };
-            }
-        },
-
-        reconnect: function (connection) {
-            transportLogic.reconnect(connection, this.name);
-        },
-
-        lostConnection: function (connection) {
-            this.reconnect(connection);
-        },
-
-        stop: function (connection) {
-            // Don't trigger a reconnect after stopping
-            transportLogic.clearReconnectTimeout(connection);
-
-            if (connection.socket) {
-                connection.log("Closing the Websocket.");
-                connection.socket.close();
-                connection.socket = null;
-            }
-        },
-
-        abort: function (connection, async) {
-            transportLogic.ajaxAbort(connection, async);
-        }
-    };
-
-}(window.jQuery, window));
-/* jquery.signalR.transports.serverSentEvents.js */
-// Copyright (c) .NET Foundation. All rights reserved.
-// Licensed under the Apache License, Version 2.0. See License.txt in the project root for license information.
-
-
-/*global window:false */
-/// <reference path="jquery.signalR.transports.common.js" />
-
-(function ($, window, undefined) {
-
-    var signalR = $.signalR,
-        events = $.signalR.events,
-        changeState = $.signalR.changeState,
-        transportLogic = signalR.transports._logic,
-        clearReconnectAttemptTimeout = function (connection) {
-            window.clearTimeout(connection._.reconnectAttemptTimeoutHandle);
-            delete connection._.reconnectAttemptTimeoutHandle;
-        };
-
-    signalR.transports.serverSentEvents = {
-        name: "serverSentEvents",
-
-        supportsKeepAlive: function () {
-            return true;
-        },
-
-        timeOut: 3000,
-
-        start: function (connection, onSuccess, onFailed) {
-            var that = this,
-                opened = false,
-                $connection = $(connection),
-                reconnecting = !onSuccess,
-                url;
-
-            if (connection.eventSource) {
-                connection.log("The connection already has an event source. Stopping it.");
-                connection.stop();
-            }
-
-            if (!window.EventSource) {
-                if (onFailed) {
-                    connection.log("This browser doesn't support SSE.");
-                    onFailed();
-                }
-                return;
-            }
-
-            url = transportLogic.getUrl(connection, this.name, reconnecting);
-
-            try {
-                connection.log("Attempting to connect to SSE endpoint '" + url + "'.");
-                connection.eventSource = new window.EventSource(url, { withCredentials: connection.withCredentials });
-            }
-            catch (e) {
-                connection.log("EventSource failed trying to connect with error " + e.Message + ".");
-                if (onFailed) {
-                    // The connection failed, call the failed callback
-                    onFailed();
-                } else {
-                    $connection.triggerHandler(events.onError, [signalR._.transportError(signalR.resources.eventSourceFailedToConnect, connection.transport, e)]);
-                    if (reconnecting) {
-                        // If we were reconnecting, rather than doing initial connect, then try reconnect again
-                        that.reconnect(connection);
-                    }
-                }
-                return;
-            }
-
-            if (reconnecting) {
-                connection._.reconnectAttemptTimeoutHandle = window.setTimeout(function () {
-                    if (opened === false) {
-                        // If we're reconnecting and the event source is attempting to connect,
-                        // don't keep retrying. This causes duplicate connections to spawn.
-                        if (connection.eventSource.readyState !== window.EventSource.OPEN) {
-                            // If we were reconnecting, rather than doing initial connect, then try reconnect again
-                            that.reconnect(connection);
-                        }
-                    }
-                },
-                that.timeOut);
-            }
-
-            connection.eventSource.addEventListener("open", function (e) {
-                connection.log("EventSource connected.");
-
-                clearReconnectAttemptTimeout(connection);
-                transportLogic.clearReconnectTimeout(connection);
-
-                if (opened === false) {
-                    opened = true;
-
-                    if (changeState(connection,
-                                         signalR.connectionState.reconnecting,
-                                         signalR.connectionState.connected) === true) {
-                        $connection.triggerHandler(events.onReconnect);
-                    }
-                }
-            }, false);
-
-            connection.eventSource.addEventListener("message", function (e) {
-                var res;
-
-                // process messages
-                if (e.data === "initialized") {
-                    return;
-                }
-
-                try {
-                    res = connection._parseResponse(e.data);
-                }
-                catch (error) {
-                    transportLogic.handleParseFailure(connection, e.data, error, onFailed, e);
-                    return;
-                }
-
-                transportLogic.processMessages(connection, res, onSuccess);
-            }, false);
-
-            connection.eventSource.addEventListener("error", function (e) {
-                var error = signalR._.transportError(
-                    signalR.resources.eventSourceError,
-                    connection.transport,
-                    e);
-
-                // Only handle an error if the error is from the current Event Source.
-                // Sometimes on disconnect the server will push down an error event
-                // to an expired Event Source.
-                if (this !== connection.eventSource) {
-                    return;
-                }
-
-                if (onFailed && onFailed(error)) {
-                    return;
-                }
-
-                connection.log("EventSource readyState: " + connection.eventSource.readyState + ".");
-
-                if (e.eventPhase === window.EventSource.CLOSED) {
-                    // We don't use the EventSource's native reconnect function as it
-                    // doesn't allow us to change the URL when reconnecting. We need
-                    // to change the URL to not include the /connect suffix, and pass
-                    // the last message id we received.
-                    connection.log("EventSource reconnecting due to the server connection ending.");
-                    that.reconnect(connection);
-                } else {
-                    // connection error
-                    connection.log("EventSource error.");
-                    $connection.triggerHandler(events.onError, [error]);
-                }
-            }, false);
-        },
-
-        reconnect: function (connection) {
-            transportLogic.reconnect(connection, this.name);
-        },
-
-        lostConnection: function (connection) {
-            this.reconnect(connection);
-        },
-
-        send: function (connection, data) {
-            transportLogic.ajaxSend(connection, data);
-        },
-
-        stop: function (connection) {
-            // Don't trigger a reconnect after stopping
-            clearReconnectAttemptTimeout(connection);
-            transportLogic.clearReconnectTimeout(connection);
-
-            if (connection && connection.eventSource) {
-                connection.log("EventSource calling close().");
-                connection.eventSource.close();
-                connection.eventSource = null;
-                delete connection.eventSource;
-            }
-        },
-
-        abort: function (connection, async) {
-            transportLogic.ajaxAbort(connection, async);
-        }
-    };
-
-}(window.jQuery, window));
-/* jquery.signalR.transports.foreverFrame.js */
-// Copyright (c) .NET Foundation. All rights reserved.
-// Licensed under the Apache License, Version 2.0. See License.txt in the project root for license information.
-
-
-/*global window:false */
-/// <reference path="jquery.signalR.transports.common.js" />
-
-(function ($, window, undefined) {
-
-    var signalR = $.signalR,
-        events = $.signalR.events,
-        changeState = $.signalR.changeState,
-        transportLogic = signalR.transports._logic,
-        createFrame = function () {
-            var frame = window.document.createElement("iframe");
-            frame.setAttribute("style", "position:absolute;top:0;left:0;width:0;height:0;visibility:hidden;");
-            return frame;
-        },
-        // Used to prevent infinite loading icon spins in older versions of ie
-        // We build this object inside a closure so we don't pollute the rest of
-        // the foreverFrame transport with unnecessary functions/utilities.
-        loadPreventer = (function () {
-            var loadingFixIntervalId = null,
-                loadingFixInterval = 1000,
-                attachedTo = 0;
-
-            return {
-                prevent: function () {
-                    // Prevent additional iframe removal procedures from newer browsers
-                    if (signalR._.ieVersion <= 8) {
-                        // We only ever want to set the interval one time, so on the first attachedTo
-                        if (attachedTo === 0) {
-                            // Create and destroy iframe every 3 seconds to prevent loading icon, super hacky
-                            loadingFixIntervalId = window.setInterval(function () {
-                                var tempFrame = createFrame();
-
-                                window.document.body.appendChild(tempFrame);
-                                window.document.body.removeChild(tempFrame);
-
-                                tempFrame = null;
-                            }, loadingFixInterval);
-                        }
-
-                        attachedTo++;
-                    }
-                },
-                cancel: function () {
-                    // Only clear the interval if there's only one more object that the loadPreventer is attachedTo
-                    if (attachedTo === 1) {
-                        window.clearInterval(loadingFixIntervalId);
-                    }
-
-                    if (attachedTo > 0) {
-                        attachedTo--;
-                    }
-                }
-            };
-        })();
-
-    signalR.transports.foreverFrame = {
-        name: "foreverFrame",
-
-        supportsKeepAlive: function () {
-            return true;
-        },
-
-        // Added as a value here so we can create tests to verify functionality
-        iframeClearThreshold: 50,
-
-        start: function (connection, onSuccess, onFailed) {
-            var that = this,
-                frameId = (transportLogic.foreverFrame.count += 1),
-                url,
-                frame = createFrame(),
-                frameLoadHandler = function () {
-                    connection.log("Forever frame iframe finished loading and is no longer receiving messages.");
-                    if (!onFailed || !onFailed()) {
-                        that.reconnect(connection);
-                    }
-                };
-
-            if (window.EventSource) {
-                // If the browser supports SSE, don't use Forever Frame
-                if (onFailed) {
-                    connection.log("Forever Frame is not supported by SignalR on browsers with SSE support.");
-                    onFailed();
-                }
-                return;
-            }
-
-            frame.setAttribute("data-signalr-connection-id", connection.id);
-
-            // Start preventing loading icon
-            // This will only perform work if the loadPreventer is not attached to another connection.
-            loadPreventer.prevent();
-
-            // Build the url
-            url = transportLogic.getUrl(connection, this.name);
-            url += "&frameId=" + frameId;
-
-            // add frame to the document prior to setting URL to avoid caching issues.
-            window.document.documentElement.appendChild(frame);
-
-            connection.log("Binding to iframe's load event.");
-
-            if (frame.addEventListener) {
-                frame.addEventListener("load", frameLoadHandler, false);
-            } else if (frame.attachEvent) {
-                frame.attachEvent("onload", frameLoadHandler);
-            }
-
-            frame.src = url;
-            transportLogic.foreverFrame.connections[frameId] = connection;
-
-            connection.frame = frame;
-            connection.frameId = frameId;
-
-            if (onSuccess) {
-                connection.onSuccess = function () {
-                    connection.log("Iframe transport started.");
-                    onSuccess();
-                };
-            }
-        },
-
-        reconnect: function (connection) {
-            var that = this;
-
-            // Need to verify connection state and verify before the setTimeout occurs because an application sleep could occur during the setTimeout duration.
-            if (transportLogic.isConnectedOrReconnecting(connection) && transportLogic.verifyLastActive(connection)) {
-                window.setTimeout(function () {
-                    // Verify that we're ok to reconnect.
-                    if (!transportLogic.verifyLastActive(connection)) {
-                        return;
-                    }
-
-                    if (connection.frame && transportLogic.ensureReconnectingState(connection)) {
-                        var frame = connection.frame,
-                            src = transportLogic.getUrl(connection, that.name, true) + "&frameId=" + connection.frameId;
-                        connection.log("Updating iframe src to '" + src + "'.");
-                        frame.src = src;
-                    }
-                }, connection.reconnectDelay);
-            }
-        },
-
-        lostConnection: function (connection) {
-            this.reconnect(connection);
-        },
-
-        send: function (connection, data) {
-            transportLogic.ajaxSend(connection, data);
-        },
-
-        receive: function (connection, data) {
-            var cw,
-                body,
-                response;
-
-            if (connection.json !== connection._originalJson) {
-                // If there's a custom JSON parser configured then serialize the object
-                // using the original (browser) JSON parser and then deserialize it using
-                // the custom parser (connection._parseResponse does that). This is so we
-                // can easily send the response from the server as "raw" JSON but still
-                // support custom JSON deserialization in the browser.
-                data = connection._originalJson.stringify(data);
-            }
-
-            response = connection._parseResponse(data);
-
-            transportLogic.processMessages(connection, response, connection.onSuccess);
-
-            // Protect against connection stopping from a callback trigger within the processMessages above.
-            if (connection.state === $.signalR.connectionState.connected) {
-                // Delete the script & div elements
-                connection.frameMessageCount = (connection.frameMessageCount || 0) + 1;
-                if (connection.frameMessageCount > signalR.transports.foreverFrame.iframeClearThreshold) {
-                    connection.frameMessageCount = 0;
-                    cw = connection.frame.contentWindow || connection.frame.contentDocument;
-                    if (cw && cw.document && cw.document.body) {
-                        body = cw.document.body;
-
-                        // Remove all the child elements from the iframe's body to conserver memory
-                        while (body.firstChild) {
-                            body.removeChild(body.firstChild);
-                        }
-                    }
-                }
-            }
-        },
-
-        stop: function (connection) {
-            var cw = null;
-
-            // Stop attempting to prevent loading icon
-            loadPreventer.cancel();
-
-            if (connection.frame) {
-                if (connection.frame.stop) {
-                    connection.frame.stop();
-                } else {
-                    try {
-                        cw = connection.frame.contentWindow || connection.frame.contentDocument;
-                        if (cw.document && cw.document.execCommand) {
-                            cw.document.execCommand("Stop");
-                        }
-                    }
-                    catch (e) {
-                        connection.log("Error occurred when stopping foreverFrame transport. Message = " + e.message + ".");
-                    }
-                }
-
-                // Ensure the iframe is where we left it
-                if (connection.frame.parentNode === window.document.body) {
-                    window.document.body.removeChild(connection.frame);
-                }
-
-                delete transportLogic.foreverFrame.connections[connection.frameId];
-                connection.frame = null;
-                connection.frameId = null;
-                delete connection.frame;
-                delete connection.frameId;
-                delete connection.onSuccess;
-                delete connection.frameMessageCount;
-                connection.log("Stopping forever frame.");
-            }
-        },
-
-        abort: function (connection, async) {
-            transportLogic.ajaxAbort(connection, async);
-        },
-
-        getConnection: function (id) {
-            return transportLogic.foreverFrame.connections[id];
-        },
-
-        started: function (connection) {
-            if (changeState(connection,
-                signalR.connectionState.reconnecting,
-                signalR.connectionState.connected) === true) {
-
-                $(connection).triggerHandler(events.onReconnect);
-            }
-        }
-    };
-
-}(window.jQuery, window));
-/* jquery.signalR.transports.longPolling.js */
-// Copyright (c) .NET Foundation. All rights reserved.
-// Licensed under the Apache License, Version 2.0. See License.txt in the project root for license information.
-
-
-/*global window:false */
-/// <reference path="jquery.signalR.transports.common.js" />
-
-(function ($, window, undefined) {
-
-    var signalR = $.signalR,
-        events = $.signalR.events,
-        changeState = $.signalR.changeState,
-        isDisconnecting = $.signalR.isDisconnecting,
-        transportLogic = signalR.transports._logic;
-
-    signalR.transports.longPolling = {
-        name: "longPolling",
-
-        supportsKeepAlive: function () {
-            return false;
-        },
-
-        reconnectDelay: 3000,
-
-        start: function (connection, onSuccess, onFailed) {
-            /// <summary>Starts the long polling connection</summary>
-            /// <param name="connection" type="signalR">The SignalR connection to start</param>
-            var that = this,
-                fireConnect = function () {
-                    fireConnect = $.noop;
-
-                    connection.log("LongPolling connected.");
-
-                    if (onSuccess) {
-                        onSuccess();
-                    } else {
-                        connection.log("WARNING! The client received an init message after reconnecting.");
-                    }
-                },
-                tryFailConnect = function (error) {
-                    if (onFailed(error)) {
-                        connection.log("LongPolling failed to connect.");
-                        return true;
-                    }
-
-                    return false;
-                },
-                privateData = connection._,
-                reconnectErrors = 0,
-                fireReconnected = function (instance) {
-                    window.clearTimeout(privateData.reconnectTimeoutId);
-                    privateData.reconnectTimeoutId = null;
-
-                    if (changeState(instance,
-                                    signalR.connectionState.reconnecting,
-                                    signalR.connectionState.connected) === true) {
-                        // Successfully reconnected!
-                        instance.log("Raising the reconnect event");
-                        $(instance).triggerHandler(events.onReconnect);
-                    }
-                },
-                // 1 hour
-                maxFireReconnectedTimeout = 3600000;
-
-            if (connection.pollXhr) {
-                connection.log("Polling xhr requests already exists, aborting.");
-                connection.stop();
-            }
-
-            connection.messageId = null;
-
-            privateData.reconnectTimeoutId = null;
-
-            privateData.pollTimeoutId = window.setTimeout(function () {
-                (function poll(instance, raiseReconnect) {
-                    var messageId = instance.messageId,
-                        connect = (messageId === null),
-                        reconnecting = !connect,
-                        polling = !raiseReconnect,
-                        url = transportLogic.getUrl(instance, that.name, reconnecting, polling, true /* use Post for longPolling */),
-                        postData = {};
-
-                    if (instance.messageId) {
-                        postData.messageId = instance.messageId;
-                    }
-
-                    if (instance.groupsToken) {
-                        postData.groupsToken = instance.groupsToken;
-                    }
-
-                    // If we've disconnected during the time we've tried to re-instantiate the poll then stop.
-                    if (isDisconnecting(instance) === true) {
-                        return;
-                    }
-
-                    connection.log("Opening long polling request to '" + url + "'.");
-                    instance.pollXhr = transportLogic.ajax(connection, {
-                        xhrFields: {
-                            onprogress: function () {
-                                transportLogic.markLastMessage(connection);
-                            }
-                        },
-                        url: url,
-                        type: "POST",
-                        contentType: signalR._.defaultContentType,
-                        data: postData,
-                        timeout: connection._.pollTimeout,
-                        success: function (result) {
-                            var minData,
-                                delay = 0,
-                                data,
-                                shouldReconnect;
-
-                            connection.log("Long poll complete.");
-
-                            // Reset our reconnect errors so if we transition into a reconnecting state again we trigger
-                            // reconnected quickly
-                            reconnectErrors = 0;
-
-                            try {
-                                // Remove any keep-alives from the beginning of the result
-                                minData = connection._parseResponse(result);
-                            }
-                            catch (error) {
-                                transportLogic.handleParseFailure(instance, result, error, tryFailConnect, instance.pollXhr);
-                                return;
-                            }
-
-                            // If there's currently a timeout to trigger reconnect, fire it now before processing messages
-                            if (privateData.reconnectTimeoutId !== null) {
-                                fireReconnected(instance);
-                            }
-
-                            if (minData) {
-                                data = transportLogic.maximizePersistentResponse(minData);
-                            }
-
-                            transportLogic.processMessages(instance, minData, fireConnect);
-
-                            if (data &&
-                                $.type(data.LongPollDelay) === "number") {
-                                delay = data.LongPollDelay;
-                            }
-
-                            if (isDisconnecting(instance) === true) {
-                                return;
-                            }
-
-                            shouldReconnect = data && data.ShouldReconnect;
-                            if (shouldReconnect) {
-                                // Transition into the reconnecting state
-                                // If this fails then that means that the user transitioned the connection into a invalid state in processMessages.
-                                if (!transportLogic.ensureReconnectingState(instance)) {
-                                    return;
-                                }
-                            }
-
-                            // We never want to pass a raiseReconnect flag after a successful poll.  This is handled via the error function
-                            if (delay > 0) {
-                                privateData.pollTimeoutId = window.setTimeout(function () {
-                                    poll(instance, shouldReconnect);
-                                }, delay);
-                            } else {
-                                poll(instance, shouldReconnect);
-                            }
-                        },
-
-                        error: function (data, textStatus) {
-                            var error = signalR._.transportError(signalR.resources.longPollFailed, connection.transport, data, instance.pollXhr);
-
-                            // Stop trying to trigger reconnect, connection is in an error state
-                            // If we're not in the reconnect state this will noop
-                            window.clearTimeout(privateData.reconnectTimeoutId);
-                            privateData.reconnectTimeoutId = null;
-
-                            if (textStatus === "abort") {
-                                connection.log("Aborted xhr request.");
-                                return;
-                            }
-
-                            if (!tryFailConnect(error)) {
-
-                                // Increment our reconnect errors, we assume all errors to be reconnect errors
-                                // In the case that it's our first error this will cause Reconnect to be fired
-                                // after 1 second due to reconnectErrors being = 1.
-                                reconnectErrors++;
-
-                                if (connection.state !== signalR.connectionState.reconnecting) {
-                                    connection.log("An error occurred using longPolling. Status = " + textStatus + ".  Response = " + data.responseText + ".");
-                                    $(instance).triggerHandler(events.onError, [error]);
-                                }
-
-                                // We check the state here to verify that we're not in an invalid state prior to verifying Reconnect.
-                                // If we're not in connected or reconnecting then the next ensureReconnectingState check will fail and will return.
-                                // Therefore we don't want to change that failure code path.
-                                if ((connection.state === signalR.connectionState.connected ||
-                                    connection.state === signalR.connectionState.reconnecting) &&
-                                    !transportLogic.verifyLastActive(connection)) {
-                                    return;
-                                }
-
-                                // Transition into the reconnecting state
-                                // If this fails then that means that the user transitioned the connection into the disconnected or connecting state within the above error handler trigger.
-                                if (!transportLogic.ensureReconnectingState(instance)) {
-                                    return;
-                                }
-
-                                // Call poll with the raiseReconnect flag as true after the reconnect delay
-                                privateData.pollTimeoutId = window.setTimeout(function () {
-                                    poll(instance, true);
-                                }, that.reconnectDelay);
-                            }
-                        }
-                    });
-
-                    // This will only ever pass after an error has occurred via the poll ajax procedure.
-                    if (reconnecting && raiseReconnect === true) {
-                        // We wait to reconnect depending on how many times we've failed to reconnect.
-                        // This is essentially a heuristic that will exponentially increase in wait time before
-                        // triggering reconnected.  This depends on the "error" handler of Poll to cancel this
-                        // timeout if it triggers before the Reconnected event fires.
-                        // The Math.min at the end is to ensure that the reconnect timeout does not overflow.
-                        privateData.reconnectTimeoutId = window.setTimeout(function () { fireReconnected(instance); }, Math.min(1000 * (Math.pow(2, reconnectErrors) - 1), maxFireReconnectedTimeout));
-                    }
-                }(connection));
-            }, 250); // Have to delay initial poll so Chrome doesn't show loader spinner in tab
-        },
-
-        lostConnection: function (connection) {
-            if (connection.pollXhr) {
-                connection.pollXhr.abort("lostConnection");
-            }
-        },
-
-        send: function (connection, data) {
-            transportLogic.ajaxSend(connection, data);
-        },
-
-        stop: function (connection) {
-            /// <summary>Stops the long polling connection</summary>
-            /// <param name="connection" type="signalR">The SignalR connection to stop</param>
-
-            window.clearTimeout(connection._.pollTimeoutId);
-            window.clearTimeout(connection._.reconnectTimeoutId);
-
-            delete connection._.pollTimeoutId;
-            delete connection._.reconnectTimeoutId;
-
-            if (connection.pollXhr) {
-                connection.pollXhr.abort();
-                connection.pollXhr = null;
-                delete connection.pollXhr;
-            }
-        },
-
-        abort: function (connection, async) {
-            transportLogic.ajaxAbort(connection, async);
-        }
-    };
-
-}(window.jQuery, window));
-/* jquery.signalR.hubs.js */
-// Copyright (c) .NET Foundation. All rights reserved.
-// Licensed under the Apache License, Version 2.0. See License.txt in the project root for license information.
-
-/*global window:false */
-/// <reference path="jquery.signalR.core.js" />
-
-(function ($, window, undefined) {
-
-    var eventNamespace = ".hubProxy",
-        signalR = $.signalR;
-
-    function makeEventName(event) {
-        return event + eventNamespace;
-    }
-
-    // Equivalent to Array.prototype.map
-    function map(arr, fun, thisp) {
-        var i,
-            length = arr.length,
-            result = [];
-        for (i = 0; i < length; i += 1) {
-            if (arr.hasOwnProperty(i)) {
-                result[i] = fun.call(thisp, arr[i], i, arr);
-            }
-        }
-        return result;
-    }
-
-    function getArgValue(a) {
-        return $.isFunction(a) ? null : ($.type(a) === "undefined" ? null : a);
-    }
-
-    function hasMembers(obj) {
-        for (var key in obj) {
-            // If we have any properties in our callback map then we have callbacks and can exit the loop via return
-            if (obj.hasOwnProperty(key)) {
-                return true;
-            }
-        }
-
-        return false;
-    }
-
-    function clearInvocationCallbacks(connection, error) {
-        /// <param name="connection" type="hubConnection" />
-        var callbacks = connection._.invocationCallbacks,
-            callback;
-
-        if (hasMembers(callbacks)) {
-            connection.log("Clearing hub invocation callbacks with error: " + error + ".");
-        }
-
-        // Reset the callback cache now as we have a local var referencing it
-        connection._.invocationCallbackId = 0;
-        delete connection._.invocationCallbacks;
-        connection._.invocationCallbacks = {};
-
-        // Loop over the callbacks and invoke them.
-        // We do this using a local var reference and *after* we've cleared the cache
-        // so that if a fail callback itself tries to invoke another method we don't
-        // end up with its callback in the list we're looping over.
-        for (var callbackId in callbacks) {
-            callback = callbacks[callbackId];
-            callback.method.call(callback.scope, { E: error });
-        }
-    }
-
-    // hubProxy
-    function hubProxy(hubConnection, hubName) {
-        /// <summary>
-        ///     Creates a new proxy object for the given hub connection that can be used to invoke
-        ///     methods on server hubs and handle client method invocation requests from the server.
-        /// </summary>
-        return new hubProxy.fn.init(hubConnection, hubName);
-    }
-
-    hubProxy.fn = hubProxy.prototype = {
-        init: function (connection, hubName) {
-            this.state = {};
-            this.connection = connection;
-            this.hubName = hubName;
-            this._ = {
-                callbackMap: {}
-            };
-        },
-
-        constructor: hubProxy,
-
-        hasSubscriptions: function () {
-            return hasMembers(this._.callbackMap);
-        },
-
-        on: function (eventName, callback) {
-            /// <summary>Wires up a callback to be invoked when a invocation request is received from the server hub.</summary>
-            /// <param name="eventName" type="String">The name of the hub event to register the callback for.</param>
-            /// <param name="callback" type="Function">The callback to be invoked.</param>
-            var that = this,
-                callbackMap = that._.callbackMap;
-
-            // Normalize the event name to lowercase
-            eventName = eventName.toLowerCase();
-
-            // If there is not an event registered for this callback yet we want to create its event space in the callback map.
-            if (!callbackMap[eventName]) {
-                callbackMap[eventName] = {};
-            }
-
-            // Map the callback to our encompassed function
-            callbackMap[eventName][callback] = function (e, data) {
-                callback.apply(that, data);
-            };
-
-            $(that).bind(makeEventName(eventName), callbackMap[eventName][callback]);
-
-            return that;
-        },
-
-        off: function (eventName, callback) {
-            /// <summary>Removes the callback invocation request from the server hub for the given event name.</summary>
-            /// <param name="eventName" type="String">The name of the hub event to unregister the callback for.</param>
-            /// <param name="callback" type="Function">The callback to be invoked.</param>
-            var that = this,
-                callbackMap = that._.callbackMap,
-                callbackSpace;
-
-            // Normalize the event name to lowercase
-            eventName = eventName.toLowerCase();
-
-            callbackSpace = callbackMap[eventName];
-
-            // Verify that there is an event space to unbind
-            if (callbackSpace) {
-                // Only unbind if there's an event bound with eventName and a callback with the specified callback
-                if (callbackSpace[callback]) {
-                    $(that).unbind(makeEventName(eventName), callbackSpace[callback]);
-
-                    // Remove the callback from the callback map
-                    delete callbackSpace[callback];
-
-                    // Check if there are any members left on the event, if not we need to destroy it.
-                    if (!hasMembers(callbackSpace)) {
-                        delete callbackMap[eventName];
-                    }
-                } else if (!callback) { // Check if we're removing the whole event and we didn't error because of an invalid callback
-                    $(that).unbind(makeEventName(eventName));
-
-                    delete callbackMap[eventName];
-                }
-            }
-
-            return that;
-        },
-
-        invoke: function (methodName) {
-            /// <summary>Invokes a server hub method with the given arguments.</summary>
-            /// <param name="methodName" type="String">The name of the server hub method.</param>
-
-            var that = this,
-                connection = that.connection,
-                args = $.makeArray(arguments).slice(1),
-                argValues = map(args, getArgValue),
-                data = { H: that.hubName, M: methodName, A: argValues, I: connection._.invocationCallbackId },
-                d = $.Deferred(),
-                callback = function (minResult) {
-                    var result = that._maximizeHubResponse(minResult),
-                        source,
-                        error;
-
-                    // Update the hub state
-                    $.extend(that.state, result.State);
-
-                    if (result.Progress) {
-                        if (d.notifyWith) {
-                            // Progress is only supported in jQuery 1.7+
-                            d.notifyWith(that, [result.Progress.Data]);
-                        } else if(!connection._.progressjQueryVersionLogged) {
-                            connection.log("A hub method invocation progress update was received but the version of jQuery in use (" + $.prototype.jquery + ") does not support progress updates. Upgrade to jQuery 1.7+ to receive progress notifications.");
-                            connection._.progressjQueryVersionLogged = true;
-                        }
-                    } else if (result.Error) {
-                        // Server hub method threw an exception, log it & reject the deferred
-                        if (result.StackTrace) {
-                            connection.log(result.Error + "\n" + result.StackTrace + ".");
-                        }
-
-                        // result.ErrorData is only set if a HubException was thrown
-                        source = result.IsHubException ? "HubException" : "Exception";
-                        error = signalR._.error(result.Error, source);
-                        error.data = result.ErrorData;
-
-                        connection.log(that.hubName + "." + methodName + " failed to execute. Error: " + error.message);
-                        d.rejectWith(that, [error]);
-                    } else {
-                        // Server invocation succeeded, resolve the deferred
-                        connection.log("Invoked " + that.hubName + "." + methodName);
-                        d.resolveWith(that, [result.Result]);
-                    }
-                };
-
-            connection._.invocationCallbacks[connection._.invocationCallbackId.toString()] = { scope: that, method: callback };
-            connection._.invocationCallbackId += 1;
-
-            if (!$.isEmptyObject(that.state)) {
-                data.S = that.state;
-            }
-
-            connection.log("Invoking " + that.hubName + "." + methodName);
-            connection.send(data);
-
-            return d.promise();
-        },
-
-        _maximizeHubResponse: function (minHubResponse) {
-            return {
-                State: minHubResponse.S,
-                Result: minHubResponse.R,
-                Progress: minHubResponse.P ? {
-                    Id: minHubResponse.P.I,
-                    Data: minHubResponse.P.D
-                } : null,
-                Id: minHubResponse.I,
-                IsHubException: minHubResponse.H,
-                Error: minHubResponse.E,
-                StackTrace: minHubResponse.T,
-                ErrorData: minHubResponse.D
-            };
-        }
-    };
-
-    hubProxy.fn.init.prototype = hubProxy.fn;
-
-    // hubConnection
-    function hubConnection(url, options) {
-        /// <summary>Creates a new hub connection.</summary>
-        /// <param name="url" type="String">[Optional] The hub route url, defaults to "/signalr".</param>
-        /// <param name="options" type="Object">[Optional] Settings to use when creating the hubConnection.</param>
-        var settings = {
-            qs: null,
-            logging: false,
-            useDefaultPath: true
-        };
-
-        $.extend(settings, options);
-
-        if (!url || settings.useDefaultPath) {
-            url = (url || "") + "/signalr";
-        }
-        return new hubConnection.fn.init(url, settings);
-    }
-
-    hubConnection.fn = hubConnection.prototype = $.connection();
-
-    hubConnection.fn.init = function (url, options) {
-        var settings = {
-                qs: null,
-                logging: false,
-                useDefaultPath: true
-            },
-            connection = this;
-
-        $.extend(settings, options);
-
-        // Call the base constructor
-        $.signalR.fn.init.call(connection, url, settings.qs, settings.logging);
-
-        // Object to store hub proxies for this connection
-        connection.proxies = {};
-
-        connection._.invocationCallbackId = 0;
-        connection._.invocationCallbacks = {};
-
-        // Wire up the received handler
-        connection.received(function (minData) {
-            var data, proxy, dataCallbackId, callback, hubName, eventName;
-            if (!minData) {
-                return;
-            }
-
-            // We have to handle progress updates first in order to ensure old clients that receive
-            // progress updates enter the return value branch and then no-op when they can't find
-            // the callback in the map (because the minData.I value will not be a valid callback ID)
-            if (typeof (minData.P) !== "undefined") {
-                // Process progress notification
-                dataCallbackId = minData.P.I.toString();
-                callback = connection._.invocationCallbacks[dataCallbackId];
-                if (callback) {
-                    callback.method.call(callback.scope, minData);
-                }
-            } else if (typeof (minData.I) !== "undefined") {
-                // We received the return value from a server method invocation, look up callback by id and call it
-                dataCallbackId = minData.I.toString();
-                callback = connection._.invocationCallbacks[dataCallbackId];
-                if (callback) {
-                    // Delete the callback from the proxy
-                    connection._.invocationCallbacks[dataCallbackId] = null;
-                    delete connection._.invocationCallbacks[dataCallbackId];
-
-                    // Invoke the callback
-                    callback.method.call(callback.scope, minData);
-                }
-            } else {
-                data = this._maximizeClientHubInvocation(minData);
-
-                // We received a client invocation request, i.e. broadcast from server hub
-                connection.log("Triggering client hub event '" + data.Method + "' on hub '" + data.Hub + "'.");
-
-                // Normalize the names to lowercase
-                hubName = data.Hub.toLowerCase();
-                eventName = data.Method.toLowerCase();
-
-                // Trigger the local invocation event
-                proxy = this.proxies[hubName];
-
-                // Update the hub state
-                $.extend(proxy.state, data.State);
-                $(proxy).triggerHandler(makeEventName(eventName), [data.Args]);
-            }
-        });
-
-        connection.error(function (errData, origData) {
-            var callbackId, callback;
-
-            if (!origData) {
-                // No original data passed so this is not a send error
-                return;
-            }
-
-            callbackId = origData.I;
-            callback = connection._.invocationCallbacks[callbackId];
-
-            // Verify that there is a callback bound (could have been cleared)
-            if (callback) {
-                // Delete the callback
-                connection._.invocationCallbacks[callbackId] = null;
-                delete connection._.invocationCallbacks[callbackId];
-
-                // Invoke the callback with an error to reject the promise
-                callback.method.call(callback.scope, { E: errData });
-            }
-        });
-
-        connection.reconnecting(function () {
-            if (connection.transport && connection.transport.name === "webSockets") {
-                clearInvocationCallbacks(connection, "Connection started reconnecting before invocation result was received.");
-            }
-        });
-
-        connection.disconnected(function () {
-            clearInvocationCallbacks(connection, "Connection was disconnected before invocation result was received.");
-        });
-    };
-
-    hubConnection.fn._maximizeClientHubInvocation = function (minClientHubInvocation) {
-        return {
-            Hub: minClientHubInvocation.H,
-            Method: minClientHubInvocation.M,
-            Args: minClientHubInvocation.A,
-            State: minClientHubInvocation.S
-        };
-    };
-
-    hubConnection.fn._registerSubscribedHubs = function () {
-        /// <summary>
-        ///     Sets the starting event to loop through the known hubs and register any new hubs
-        ///     that have been added to the proxy.
-        /// </summary>
-        var connection = this;
-
-        if (!connection._subscribedToHubs) {
-            connection._subscribedToHubs = true;
-            connection.starting(function () {
-                // Set the connection's data object with all the hub proxies with active subscriptions.
-                // These proxies will receive notifications from the server.
-                var subscribedHubs = [];
-
-                $.each(connection.proxies, function (key) {
-                    if (this.hasSubscriptions()) {
-                        subscribedHubs.push({ name: key });
-                        connection.log("Client subscribed to hub '" + key + "'.");
-                    }
-                });
-
-                if (subscribedHubs.length === 0) {
-                    connection.log("No hubs have been subscribed to.  The client will not receive data from hubs.  To fix, declare at least one client side function prior to connection start for each hub you wish to subscribe to.");
-                }
-
-                connection.data = connection.json.stringify(subscribedHubs);
-            });
-        }
-    };
-
-    hubConnection.fn.createHubProxy = function (hubName) {
-        /// <summary>
-        ///     Creates a new proxy object for the given hub connection that can be used to invoke
-        ///     methods on server hubs and handle client method invocation requests from the server.
-        /// </summary>
-        /// <param name="hubName" type="String">
-        ///     The name of the hub on the server to create the proxy for.
-        /// </param>
-
-        // Normalize the name to lowercase
-        hubName = hubName.toLowerCase();
-
-        var proxy = this.proxies[hubName];
-        if (!proxy) {
-            proxy = hubProxy(this, hubName);
-            this.proxies[hubName] = proxy;
-        }
-
-        this._registerSubscribedHubs();
-
-        return proxy;
-    };
-
-    hubConnection.fn.init.prototype = hubConnection.fn;
-
-    $.hubConnection = hubConnection;
-
-}(window.jQuery, window));
-/* jquery.signalR.version.js */
-// Copyright (c) .NET Foundation. All rights reserved.
-// Licensed under the Apache License, Version 2.0. See License.txt in the project root for license information.
-
-
-/*global window:false */
-/// <reference path="jquery.signalR.core.js" />
-(function ($, undefined) {
-    $.signalR.version = "2.2.1";
-}(window.jQuery));
-
-define("signalr/jquery.signalR", [],function(){});
-;define('signalr', ['signalr/jquery.signalR'], function (main) { return main; });
-
-define('aurelia-testing/aurelia-testing',['exports', './compile-spy', './view-spy', './component-tester'], function (exports, _compileSpy, _viewSpy, _componentTester) {
-  'use strict';
-
-  Object.defineProperty(exports, "__esModule", {
-    value: true
-  });
-  exports.configure = exports.ComponentTester = exports.StageComponent = exports.ViewSpy = exports.CompileSpy = undefined;
-
-
-  function configure(config) {
-    config.globalResources('./compile-spy', './view-spy');
-  }
-
-  exports.CompileSpy = _compileSpy.CompileSpy;
-  exports.ViewSpy = _viewSpy.ViewSpy;
-  exports.StageComponent = _componentTester.StageComponent;
-  exports.ComponentTester = _componentTester.ComponentTester;
-  exports.configure = configure;
-});;define('aurelia-testing', ['aurelia-testing/aurelia-testing'], function (main) { return main; });
-
-define('aurelia-testing/compile-spy',['exports', 'aurelia-templating', 'aurelia-dependency-injection', 'aurelia-logging', 'aurelia-pal'], function (exports, _aureliaTemplating, _aureliaDependencyInjection, _aureliaLogging, _aureliaPal) {
-  'use strict';
-
-  Object.defineProperty(exports, "__esModule", {
-    value: true
-  });
-  exports.CompileSpy = undefined;
-
-  var LogManager = _interopRequireWildcard(_aureliaLogging);
-
-  function _interopRequireWildcard(obj) {
-    if (obj && obj.__esModule) {
-      return obj;
+    if (_FEATURE.htmlTemplateElement) {
+      _FEATURE.ensureHTMLTemplateElement = function (template) {
+        return template;
+      };
     } else {
-      var newObj = {};
-
-      if (obj != null) {
-        for (var key in obj) {
-          if (Object.prototype.hasOwnProperty.call(obj, key)) newObj[key] = obj[key];
-        }
-      }
-
-      newObj.default = obj;
-      return newObj;
+      _FEATURE.ensureHTMLTemplateElement = fixHTMLTemplateElementRoot;
     }
   }
 
-  
+  var shadowPoly = window.ShadowDOMPolyfill || null;
 
-  var _dec, _dec2, _class;
+  var _DOM = exports._DOM = {
+    Element: Element,
+    SVGElement: SVGElement,
+    boundary: 'aurelia-dom-boundary',
+    addEventListener: function addEventListener(eventName, callback, capture) {
+      document.addEventListener(eventName, callback, capture);
+    },
+    removeEventListener: function removeEventListener(eventName, callback, capture) {
+      document.removeEventListener(eventName, callback, capture);
+    },
+    adoptNode: function adoptNode(node) {
+      return document.adoptNode(node, true);
+    },
+    createElement: function createElement(tagName) {
+      return document.createElement(tagName);
+    },
+    createTextNode: function createTextNode(text) {
+      return document.createTextNode(text);
+    },
+    createComment: function createComment(text) {
+      return document.createComment(text);
+    },
+    createDocumentFragment: function createDocumentFragment() {
+      return document.createDocumentFragment();
+    },
+    createMutationObserver: function createMutationObserver(callback) {
+      return new (window.MutationObserver || window.WebKitMutationObserver)(callback);
+    },
+    createCustomEvent: function createCustomEvent(eventType, options) {
+      return new window.CustomEvent(eventType, options);
+    },
+    dispatchEvent: function dispatchEvent(evt) {
+      document.dispatchEvent(evt);
+    },
+    getComputedStyle: function getComputedStyle(element) {
+      return window.getComputedStyle(element);
+    },
+    getElementById: function getElementById(id) {
+      return document.getElementById(id);
+    },
+    querySelectorAll: function querySelectorAll(query) {
+      return document.querySelectorAll(query);
+    },
+    nextElementSibling: function nextElementSibling(element) {
+      if (element.nextElementSibling) {
+        return element.nextElementSibling;
+      }
+      do {
+        element = element.nextSibling;
+      } while (element && element.nodeType !== 1);
+      return element;
+    },
+    createTemplateFromMarkup: function createTemplateFromMarkup(markup) {
+      var parser = document.createElement('div');
+      parser.innerHTML = markup;
 
-  var CompileSpy = exports.CompileSpy = (_dec = (0, _aureliaTemplating.customAttribute)('compile-spy'), _dec2 = (0, _aureliaDependencyInjection.inject)(_aureliaPal.DOM.Element, _aureliaTemplating.TargetInstruction), _dec(_class = _dec2(_class = function CompileSpy(element, instruction) {
-    
+      var temp = parser.firstElementChild;
+      if (!temp || temp.nodeName !== 'TEMPLATE') {
+        throw new Error('Template markup must be wrapped in a <template> element e.g. <template> <!-- markup here --> </template>');
+      }
 
-    LogManager.getLogger('compile-spy').info(element, instruction);
-  }) || _class) || _class);
-});
-define('aurelia-testing/view-spy',['exports', 'aurelia-templating', 'aurelia-logging'], function (exports, _aureliaTemplating, _aureliaLogging) {
-  'use strict';
-
-  Object.defineProperty(exports, "__esModule", {
-    value: true
-  });
-  exports.ViewSpy = undefined;
-
-  var LogManager = _interopRequireWildcard(_aureliaLogging);
-
-  function _interopRequireWildcard(obj) {
-    if (obj && obj.__esModule) {
-      return obj;
-    } else {
-      var newObj = {};
-
-      if (obj != null) {
-        for (var key in obj) {
-          if (Object.prototype.hasOwnProperty.call(obj, key)) newObj[key] = obj[key];
+      return _FEATURE.ensureHTMLTemplateElement(temp);
+    },
+    appendNode: function appendNode(newNode, parentNode) {
+      (parentNode || document.body).appendChild(newNode);
+    },
+    replaceNode: function replaceNode(newNode, node, parentNode) {
+      if (node.parentNode) {
+        node.parentNode.replaceChild(newNode, node);
+      } else if (shadowPoly !== null) {
+        shadowPoly.unwrap(parentNode).replaceChild(shadowPoly.unwrap(newNode), shadowPoly.unwrap(node));
+      } else {
+        parentNode.replaceChild(newNode, node);
+      }
+    },
+    removeNode: function removeNode(node, parentNode) {
+      if (node.parentNode) {
+        node.parentNode.removeChild(node);
+      } else if (parentNode) {
+        if (shadowPoly !== null) {
+          shadowPoly.unwrap(parentNode).removeChild(shadowPoly.unwrap(node));
+        } else {
+          parentNode.removeChild(node);
         }
       }
+    },
+    injectStyles: function injectStyles(styles, destination, prepend) {
+      var node = document.createElement('style');
+      node.innerHTML = styles;
+      node.type = 'text/css';
 
-      newObj.default = obj;
-      return newObj;
-    }
-  }
+      destination = destination || document.head;
 
-  
-
-  var _dec, _class;
-
-  var ViewSpy = exports.ViewSpy = (_dec = (0, _aureliaTemplating.customAttribute)('view-spy'), _dec(_class = function () {
-    function ViewSpy() {
-      
-
-      this.logger = LogManager.getLogger('view-spy');
-    }
-
-    ViewSpy.prototype._log = function _log(lifecycleName, context) {
-      if (!this.value && lifecycleName === 'created') {
-        this.logger.info(lifecycleName, this.view);
-      } else if (this.value && this.value.indexOf(lifecycleName) !== -1) {
-        this.logger.info(lifecycleName, this.view, context);
+      if (prepend && destination.childNodes.length > 0) {
+        destination.insertBefore(node, destination.childNodes[0]);
+      } else {
+        destination.appendChild(node);
       }
-    };
 
-    ViewSpy.prototype.created = function created(view) {
-      this.view = view;
-      this._log('created');
-    };
-
-    ViewSpy.prototype.bind = function bind(bindingContext) {
-      this._log('bind', bindingContext);
-    };
-
-    ViewSpy.prototype.attached = function attached() {
-      this._log('attached');
-    };
-
-    ViewSpy.prototype.detached = function detached() {
-      this._log('detached');
-    };
-
-    ViewSpy.prototype.unbind = function unbind() {
-      this._log('unbind');
-    };
-
-    return ViewSpy;
-  }()) || _class);
-});
-define('aurelia-testing/component-tester',['exports', 'aurelia-templating', 'aurelia-framework'], function (exports, _aureliaTemplating, _aureliaFramework) {
-  'use strict';
-
-  Object.defineProperty(exports, "__esModule", {
-    value: true
-  });
-  exports.ComponentTester = exports.StageComponent = undefined;
-
-  
-
-  var StageComponent = exports.StageComponent = {
-    withResources: function withResources(resources) {
-      return new ComponentTester().withResources(resources);
+      return node;
     }
   };
 
-  var ComponentTester = exports.ComponentTester = function () {
-    function ComponentTester() {
-      
+  var isInitialized = false;
 
-      this.configure = function (aurelia) {
-        return aurelia.use.standardConfiguration();
-      };
-
-      this._resources = [];
+  function initialize() {
+    if (isInitialized) {
+      return;
     }
 
-    ComponentTester.prototype.bootstrap = function bootstrap(configure) {
-      this.configure = configure;
-    };
+    isInitialized = true;
 
-    ComponentTester.prototype.withResources = function withResources(resources) {
-      this._resources = resources;
-      return this;
-    };
+    _ensureCustomEvent();
+    _ensureFunctionName();
+    _ensureHTMLTemplateElement();
+    _ensureElementMatches();
+    _ensureClassList();
+    _ensurePerformance();
 
-    ComponentTester.prototype.inView = function inView(html) {
-      this._html = html;
-      return this;
-    };
+    (0, _aureliaPal.initializePAL)(function (platform, feature, dom) {
+      Object.assign(platform, _PLATFORM);
+      Object.assign(feature, _FEATURE);
+      Object.assign(dom, _DOM);
 
-    ComponentTester.prototype.boundTo = function boundTo(bindingContext) {
-      this._bindingContext = bindingContext;
-      return this;
-    };
+      (function (global) {
+        global.console = global.console || {};
+        var con = global.console;
+        var prop = void 0;
+        var method = void 0;
+        var empty = {};
+        var dummy = function dummy() {};
+        var properties = 'memory'.split(',');
+        var methods = ('assert,clear,count,debug,dir,dirxml,error,exception,group,' + 'groupCollapsed,groupEnd,info,log,markTimeline,profile,profiles,profileEnd,' + 'show,table,time,timeEnd,timeline,timelineEnd,timeStamp,trace,warn').split(',');
+        while (prop = properties.pop()) {
+          if (!con[prop]) con[prop] = empty;
+        }while (method = methods.pop()) {
+          if (!con[method]) con[method] = dummy;
+        }
+      })(platform.global);
 
-    ComponentTester.prototype.manuallyHandleLifecycle = function manuallyHandleLifecycle() {
-      this._prepareLifecycle();
-      return this;
-    };
-
-    ComponentTester.prototype.create = function create(bootstrap) {
-      var _this = this;
-
-      return bootstrap(function (aurelia) {
-        return Promise.resolve(_this.configure(aurelia)).then(function () {
-          if (_this._resources) {
-            aurelia.use.globalResources(_this._resources);
-          }
-
-          return aurelia.start().then(function (a) {
-            _this.host = document.createElement('div');
-            _this.host.innerHTML = _this._html;
-
-            document.body.appendChild(_this.host);
-
-            return aurelia.enhance(_this._bindingContext, _this.host).then(function () {
-              _this._rootView = aurelia.root;
-              _this.element = _this.host.firstElementChild;
-
-              if (aurelia.root.controllers.length) {
-                _this.viewModel = aurelia.root.controllers[0].viewModel;
-              }
-
-              return new Promise(function (resolve) {
-                return setTimeout(function () {
-                  return resolve();
-                }, 0);
-              });
-            });
-          });
-        });
-      });
-    };
-
-    ComponentTester.prototype.dispose = function dispose() {
-      if (this.host === undefined || this._rootView === undefined) {
-        throw new Error('Cannot call ComponentTester.dispose() before ComponentTester.create()');
+      if (platform.global.console && _typeof(console.log) === 'object') {
+        ['log', 'info', 'warn', 'error', 'assert', 'dir', 'clear', 'profile', 'profileEnd'].forEach(function (method) {
+          console[method] = this.bind(console[method], console);
+        }, Function.prototype.call);
       }
 
-      this._rootView.detached();
-      this._rootView.unbind();
+      Object.defineProperty(dom, 'title', {
+        get: function get() {
+          return document.title;
+        },
+        set: function set(value) {
+          document.title = value;
+        }
+      });
 
-      return this.host.parentNode.removeChild(this.host);
-    };
+      Object.defineProperty(dom, 'activeElement', {
+        get: function get() {
+          return document.activeElement;
+        }
+      });
 
-    ComponentTester.prototype._prepareLifecycle = function _prepareLifecycle() {
-      var _this2 = this;
-
-      var bindPrototype = _aureliaTemplating.View.prototype.bind;
-      _aureliaTemplating.View.prototype.bind = function () {};
-      this.bind = function (bindingContext) {
-        return new Promise(function (resolve) {
-          _aureliaTemplating.View.prototype.bind = bindPrototype;
-          if (bindingContext !== undefined) {
-            _this2._bindingContext = bindingContext;
-          }
-          _this2._rootView.bind(_this2._bindingContext);
-          setTimeout(function () {
-            return resolve();
-          }, 0);
-        });
-      };
-
-      var attachedPrototype = _aureliaTemplating.View.prototype.attached;
-      _aureliaTemplating.View.prototype.attached = function () {};
-      this.attached = function () {
-        return new Promise(function (resolve) {
-          _aureliaTemplating.View.prototype.attached = attachedPrototype;
-          _this2._rootView.attached();
-          setTimeout(function () {
-            return resolve();
-          }, 0);
-        });
-      };
-
-      this.detached = function () {
-        return new Promise(function (resolve) {
-          _this2._rootView.detached();
-          setTimeout(function () {
-            return resolve();
-          }, 0);
-        });
-      };
-
-      this.unbind = function () {
-        return new Promise(function (resolve) {
-          _this2._rootView.unbind();
-          setTimeout(function () {
-            return resolve();
-          }, 0);
-        });
-      };
-    };
-
-    return ComponentTester;
-  }();
+      Object.defineProperty(platform, 'XMLHttpRequest', {
+        get: function get() {
+          return platform.global.XMLHttpRequest;
+        }
+      });
+    });
+  }
 });
 // Exports
 define('aurelia-validation/aurelia-validation',["require", "exports", './validate-binding-behavior', './validate-trigger', './validation-controller', './validation-controller-factory', './validation-error', './validation-errors-custom-attribute', './validation-renderer-custom-attribute', './validator', './implementation/rules', './implementation/standard-validator', './implementation/validation-messages', './implementation/validation-parser', './implementation/validation-rules', './validator', './implementation/standard-validator', './implementation/validation-parser', './implementation/validation-rules'], function (require, exports, validate_binding_behavior_1, validate_trigger_1, validation_controller_1, validation_controller_factory_1, validation_error_1, validation_errors_custom_attribute_1, validation_renderer_custom_attribute_1, validator_1, rules_1, standard_validator_1, validation_messages_1, validation_parser_1, validation_rules_1, validator_2, standard_validator_2, validation_parser_2, validation_rules_2) {

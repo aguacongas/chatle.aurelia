@@ -1,6 +1,6 @@
 import { autoinject } from 'aurelia-framework';
 import { Router, Redirect, NavigationInstruction, RouterConfiguration, Next, RouteConfig } from 'aurelia-router';
-import { EventAggregator, Subscription } from 'aurelia-event-aggregator';
+import { EventAggregator } from 'aurelia-event-aggregator';
 
 import { ChatService, ConnectionState } from './services/chat.service';
 import { ConnectionStateChanged } from './events/connectionStateChanged';
