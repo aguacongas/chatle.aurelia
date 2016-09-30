@@ -1,20 +1,23 @@
 import { autoinject } from 'aurelia-framework';
 import { Router } from 'aurelia-router';
 
-import { ChatService, ConnectionState } from '../services/chat.service';
+import { LoginService } from '../services/login.service';
 
 @autoinject
 export class Login {
-    errorMessage: string;
-    password: string;
+    userName: '';
+    password: '';
+    error: Error;
+    
+    constructor(private service: LoginService, private router: Router) { }
 
-    constructor(private service: ChatService, private router: Router) { }
-
-    login(userName: string) {
-        this.service.login(userName, this.password)
+    login() {        
+        this.service.login(this.userName, this.password)
             .then(() => {
                 this.router.navigateToRoute('home');
             })
-            .catch(error => this.errorMessage = error);
+            .catch((error: Error) => {
+                this.error = error;
+            });
     }
 }

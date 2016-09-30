@@ -1,7 +1,10 @@
 import { autoinject } from 'aurelia-framework';
 import { EventAggregator, Subscription } from 'aurelia-event-aggregator';
 
-import { ChatService,ConnectionState } from '../services/chat.service';
+import { ConnectionState } from '../services/chat.service';
+import { ConversationService } from '../services/conversation.service';
+import { State } from '../services/state';
+
 import { Conversation } from '../model/conversation';
 import { ConversationJoined } from '../events/conversationJoined';
 import { UserDisconnected } from '../events/userDisconnected';
@@ -14,7 +17,9 @@ export class ConversationList {
   private userDisconnectedSubscription: Subscription;
   private connectionStateSubscription: Subscription;
 
-  constructor(private service: ChatService, private ea: EventAggregator) { }
+  constructor(private service: ConversationService,
+    private state: State,
+    private ea: EventAggregator) { }
 
   attached() {
     this.conversations = new Array<Conversation>();
@@ -84,7 +89,7 @@ export class ConversationList {
   private setConversationTitle(conversation: Conversation) {
       let title = '';
       conversation.attendees.forEach(attendee => {
-          if (attendee && attendee.userId && attendee.userId !== this.service.userName) {
+          if (attendee && attendee.userId && attendee.userId !== this.state.userName) {
               title += attendee.userId + ' ';
           }                
       });

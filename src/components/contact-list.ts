@@ -1,7 +1,10 @@
 import { autoinject } from 'aurelia-framework';
 import { EventAggregator, Subscription } from 'aurelia-event-aggregator';
 
-import { ChatService, ConnectionState } from '../services/chat.service';
+import { ConnectionState } from '../services/chat.service';
+import { UserService } from '../services/user.service';
+import { ChatService } from '../services/chat.service';
+
 import { User } from '../model/user';
 import { UserConnected } from '../events/userConnected'
 import { UserDisconnected } from '../events/userDisconnected'
@@ -15,7 +18,9 @@ export class ContactList {
     private userDisconnectedSubscription: Subscription;
     private connectionStateChangeSubscription: Subscription;
 
-    constructor(private service: ChatService, private ea: EventAggregator) { }
+    constructor(private userService: UserService,
+        private chatService: ChatService,
+        private ea: EventAggregator) { }
 
     attached() {
         this.connectionStateChangeSubscription = this.ea.subscribe(ConnectionStateChanged, e => {
@@ -24,7 +29,7 @@ export class ContactList {
             }            
         });
 
-        if (this.service.currentState === ConnectionState.Connected) {
+        if (this.chatService.currentState === ConnectionState.Connected) {
             this.getUser();
         }        
     }
@@ -40,7 +45,7 @@ export class ContactList {
     }
 
     private getUser() {
-        this.service.getUsers()
+        this.userService.getUsers()
             .then(users => {
                 this.users = users;
 

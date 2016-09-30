@@ -2,7 +2,8 @@ import { bindable, autoinject } from 'aurelia-framework';
 import { EventAggregator, Subscription } from 'aurelia-event-aggregator';
 import { Router } from 'aurelia-router';
 
-import { ChatService } from '../services/chat.service';
+import { ConversationService } from '../services/conversation.service';
+import { State } from '../services/state';
 import { User } from '../model/user';
 import { Conversation } from '../model/conversation';
 import { Attendee } from '../model/attendee';
@@ -15,7 +16,10 @@ export class Contact {
     isSelected: boolean;
     private conversationSelectedSubscription: Subscription;
 
-    constructor(private service: ChatService, private ea: EventAggregator, private router: Router) { }
+    constructor(private service: ConversationService, 
+        private state,
+        private ea: EventAggregator, 
+        private router: Router) { }
 
     select() {
         if (!this.user.conversation) {
@@ -42,7 +46,7 @@ export class Contact {
             this.isSelected = false;
             if (attendees.length == 2) {
                 attendees.forEach(a => {
-                    if (a.userId !== this.service.userName && a.userId === this.user.id) {
+                    if (a.userId !== this.state.userName && a.userId === this.user.id) {
                         this.isSelected = true;
                     }
                 })

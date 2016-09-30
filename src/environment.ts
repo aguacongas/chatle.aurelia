@@ -1,5 +1,5 @@
 export default {
-  debug: false,
-  testing: false,
-  apiBaseUrl: 'https://chatle-server.herokuapp.com'
+  debug: true,
+  testing: true,
+  apiBaseUrl: 'http://localhost:5000'
 };
