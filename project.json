@@ -54,7 +54,7 @@
 		"debian.8-x64": {}
 	},
 	"scripts": {
-    "prepublish": [ "npm install", "npm install aurelia-cli -g", "au build --env prod" ]
+    "prepublish": [ "npm install -g aurelia-cli", "npm install", "au build --env prod" ]
   },
   "publishOptions": {
     "include": [
