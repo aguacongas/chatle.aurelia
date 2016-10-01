@@ -128,6 +128,10 @@ export class ChatService {
         });
     }
 
+    stop() {
+        jQuery.connection.hub.stop();
+    }
+
     private setConnectionState(connectionState: ConnectionState) {
         if (this.currentState === connectionState) {
             return;

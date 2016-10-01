@@ -1,6 +1,7 @@
 import { autoinject } from 'aurelia-framework';
 import { Router, Redirect, NavigationInstruction, RouterConfiguration, Next, RouteConfig } from 'aurelia-router';
 import { EventAggregator } from 'aurelia-event-aggregator';
+import { HttpClient } from 'aurelia-http-client';
 import environment from './environment';
 
 import { ConnectionState } from './services/chat.service';
@@ -23,8 +24,13 @@ export class App {
     constructor(private service: LoginService, 
         private ea: EventAggregator,
         private state: State,
-        settings: Settings) { 
-        settings.apiBaseUrl = environment.apiBaseUrl;
+        settings: Settings,
+        http: HttpClient) { 
+            settings.apiBaseUrl = environment.apiBaseUrl;
+            http.configure(
+            builder => builder
+                .withBaseUrl(environment.apiBaseUrl)
+                .withCredentials(true));
     }
 
     configureRouter(config: RouterConfiguration, router: Router) {
@@ -44,7 +50,6 @@ export class App {
             this.setIsConnected();
         });
         this.setIsConnected();
-        this.service.setXhrf(() => {}, error => this.errorMessage = error);
     }
 
     logoff() {

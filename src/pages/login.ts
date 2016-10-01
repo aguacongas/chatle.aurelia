@@ -11,8 +11,8 @@ export class Login {
     
     constructor(private service: LoginService, private router: Router) { }
 
-    login() {        
-        this.service.login(this.userName, this.password)
+    login(userName: string) {        
+        this.service.login(userName, this.password)
             .then(() => {
                 this.router.navigateToRoute('home');
             })

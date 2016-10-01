@@ -23,6 +23,36 @@ define('config/settings',["require", "exports"], function (require, exports) {
     exports.Settings = Settings;
 });
 
+define('services/state',["require", "exports"], function (require, exports) {
+    "use strict";
+    var State = (function () {
+        function State() {
+        }
+        return State;
+    }());
+    exports.State = State;
+});
+
+define('model/serviceError',["require", "exports"], function (require, exports) {
+    "use strict";
+    var Key = (function () {
+        function Key() {
+        }
+        return Key;
+    }());
+    var ErrorMessage = (function () {
+        function ErrorMessage() {
+        }
+        return ErrorMessage;
+    }());
+    var ServiceError = (function () {
+        function ServiceError() {
+        }
+        return ServiceError;
+    }());
+    exports.ServiceError = ServiceError;
+});
+
 define('model/attendee',["require", "exports"], function (require, exports) {
     "use strict";
     var Attendee = (function () {
@@ -53,6 +83,46 @@ define('model/conversation',["require", "exports"], function (require, exports) 
     exports.Conversation = Conversation;
 });
 
+var __decorate = (this && this.__decorate) || function (decorators, target, key, desc) {
+    var c = arguments.length, r = c < 3 ? target : desc === null ? desc = Object.getOwnPropertyDescriptor(target, key) : desc, d;
+    if (typeof Reflect === "object" && typeof Reflect.decorate === "function") r = Reflect.decorate(decorators, target, key, desc);
+    else for (var i = decorators.length - 1; i >= 0; i--) if (d = decorators[i]) r = (c < 3 ? d(r) : c > 3 ? d(target, key, r) : d(target, key)) || r;
+    return c > 3 && r && Object.defineProperty(target, key, r), r;
+};
+var __metadata = (this && this.__metadata) || function (k, v) {
+    if (typeof Reflect === "object" && typeof Reflect.metadata === "function") return Reflect.metadata(k, v);
+};
+define('services/helpers',["require", "exports", 'aurelia-framework', './state'], function (require, exports, aurelia_framework_1, state_1) {
+    "use strict";
+    var Helpers = (function () {
+        function Helpers(state) {
+            this.state = state;
+        }
+        Helpers.prototype.getErrorMessage = function (error) {
+            return error.content[0].errors[0].errorMessage;
+        };
+        Helpers.prototype.setConverationTitle = function (conversation) {
+            var _this = this;
+            if (conversation.title) {
+                return;
+            }
+            var title = '';
+            conversation.attendees.forEach(function (attendee) {
+                if (attendee && attendee.userId && attendee.userId !== _this.state.userName) {
+                    title += attendee.userId + ' ';
+                }
+            });
+            conversation.title = title.trim();
+        };
+        Helpers = __decorate([
+            aurelia_framework_1.autoinject, 
+            __metadata('design:paramtypes', [state_1.State])
+        ], Helpers);
+        return Helpers;
+    }());
+    exports.Helpers = Helpers;
+});
+
 define('model/user',["require", "exports"], function (require, exports) {
     "use strict";
     var User = (function () {
@@ -61,16 +131,6 @@ define('model/user',["require", "exports"], function (require, exports) {
         return User;
     }());
     exports.User = User;
-});
-
-define('model/changePassword',["require", "exports"], function (require, exports) {
-    "use strict";
-    var ChangePassword = (function () {
-        function ChangePassword() {
-        }
-        return ChangePassword;
-    }());
-    exports.ChangePassword = ChangePassword;
 });
 
 define('events/connectionStateChanged',["require", "exports"], function (require, exports) {
@@ -139,26 +199,6 @@ define('events/userDisconnected',["require", "exports"], function (require, expo
     exports.UserDisconnected = UserDisconnected;
 });
 
-define('model/serviceError',["require", "exports"], function (require, exports) {
-    "use strict";
-    var Key = (function () {
-        function Key() {
-        }
-        return Key;
-    }());
-    var ErrorMessage = (function () {
-        function ErrorMessage() {
-        }
-        return ErrorMessage;
-    }());
-    var ServiceError = (function () {
-        function ServiceError() {
-        }
-        return ServiceError;
-    }());
-    exports.ServiceError = ServiceError;
-});
-
 var __decorate = (this && this.__decorate) || function (decorators, target, key, desc) {
     var c = arguments.length, r = c < 3 ? target : desc === null ? desc = Object.getOwnPropertyDescriptor(target, key) : desc, d;
     if (typeof Reflect === "object" && typeof Reflect.decorate === "function") r = Reflect.decorate(decorators, target, key, desc);
@@ -168,7 +208,7 @@ var __decorate = (this && this.__decorate) || function (decorators, target, key,
 var __metadata = (this && this.__metadata) || function (k, v) {
     if (typeof Reflect === "object" && typeof Reflect.metadata === "function") return Reflect.metadata(k, v);
 };
-define('services/chat.service',["require", "exports", 'aurelia-event-aggregator', 'aurelia-http-client', 'aurelia-framework', '../environment', '../config/settings', '../model/message', '../events/connectionStateChanged', '../events/conversationJoined', '../events/conversationSelected', '../events/messageReceived', '../events/userConnected', '../events/userDisconnected'], function (require, exports, aurelia_event_aggregator_1, aurelia_http_client_1, aurelia_framework_1, environment_1, settings_1, message_1, connectionStateChanged_1, conversationJoined_1, conversationSelected_1, messageReceived_1, userConnected_1, userDisconnected_1) {
+define('services/chat.service',["require", "exports", 'aurelia-event-aggregator', 'aurelia-http-client', 'aurelia-framework', '../environment', '../config/settings', './helpers', './state', '../events/connectionStateChanged', '../events/conversationJoined', '../events/messageReceived', '../events/userConnected', '../events/userDisconnected'], function (require, exports, aurelia_event_aggregator_1, aurelia_http_client_1, aurelia_framework_1, environment_1, settings_1, helpers_1, state_1, connectionStateChanged_1, conversationJoined_1, messageReceived_1, userConnected_1, userDisconnected_1) {
     "use strict";
     (function (ConnectionState) {
         ConnectionState[ConnectionState["Connected"] = 1] = "Connected";
@@ -177,15 +217,13 @@ define('services/chat.service',["require", "exports", 'aurelia-event-aggregator'
     })(exports.ConnectionState || (exports.ConnectionState = {}));
     var ConnectionState = exports.ConnectionState;
     var ChatService = (function () {
-        function ChatService(settings, ea, http) {
+        function ChatService(settings, ea, http, state, helpers) {
             this.settings = settings;
             this.ea = ea;
             this.http = http;
+            this.state = state;
+            this.helpers = helpers;
             this.currentState = ConnectionState.Disconnected;
-            http.configure(function (builder) { return builder
-                .withBaseUrl(settings.apiBaseUrl)
-                .withCredentials(true); });
-            this.userName = sessionStorage.getItem('userName');
         }
         ChatService.prototype.start = function () {
             var _this = this;
@@ -229,121 +267,6 @@ define('services/chat.service',["require", "exports", 'aurelia-event-aggregator'
                 });
             });
         };
-        ChatService.prototype.showConversation = function (conversation, router) {
-            this.currentConversation = conversation;
-            this.setConverationTitle(conversation);
-            this.ea.publish(new conversationSelected_1.ConversationSelected(conversation));
-            router.navigateToRoute('conversation', { id: conversation.title });
-        };
-        ChatService.prototype.sendMessage = function (conversation, message) {
-            var _this = this;
-            var m = new message_1.Message();
-            m.conversationId = conversation.id;
-            m.from = this.userName;
-            m.text = message;
-            if (conversation.id) {
-                return new Promise(function (resolve, reject) {
-                    _this.http.post(_this.settings.chatAPI, {
-                        to: conversation.id,
-                        text: message
-                    })
-                        .then(function (response) {
-                        conversation.messages.unshift(m);
-                        resolve(m);
-                    })
-                        .catch(function (error) { return reject(new Error(_this.getErrorMessage(error))); });
-                });
-            }
-            else {
-                var attendee_1;
-                conversation.attendees.forEach(function (a) {
-                    if (a.userId !== _this.userName) {
-                        attendee_1 = a;
-                    }
-                });
-                return new Promise(function (resolve, reject) {
-                    _this.http.post(_this.settings.convAPI, {
-                        to: attendee_1.userId,
-                        text: message
-                    })
-                        .then(function (response) {
-                        conversation.id = response.content;
-                        _this.ea.publish(new conversationJoined_1.ConversationJoined(conversation));
-                        conversation.messages.unshift(m);
-                        resolve(m);
-                    })
-                        .catch(function (error) { return reject(new Error(_this.getErrorMessage(error))); });
-                });
-            }
-        };
-        ChatService.prototype.getUsers = function () {
-            var _this = this;
-            return new Promise(function (resolve, reject) {
-                _this.http.get(_this.settings.userAPI)
-                    .then(function (response) {
-                    var data = response.content;
-                    if (data && data.users) {
-                        resolve(data.users);
-                    }
-                })
-                    .catch(function (error) { return reject(new Error('The service is down')); });
-            });
-        };
-        ChatService.prototype.getConversations = function () {
-            var _this = this;
-            return new Promise(function (resolve, reject) {
-                _this.http.get(_this.settings.chatAPI)
-                    .then(function (response) {
-                    if (response.response) {
-                        var data = response.content;
-                        if (data) {
-                            resolve(data);
-                        }
-                    }
-                    else {
-                        resolve(null);
-                    }
-                })
-                    .catch(function (error) { return reject(new Error('The service is down')); });
-            });
-        };
-        ChatService.prototype.changePassword = function (model) {
-            var _this = this;
-            if (this.isGuess) {
-                return new Promise(function (resolve, reject) {
-                    _this.http.post(_this.settings.accountdAPI + '/setpassword', model)
-                        .then(function (response) {
-                        _this.isGuess = false;
-                        sessionStorage.setItem('userName', _this.userName);
-                        resolve();
-                    })
-                        .catch(function (error) { return reject(new Error(_this.getErrorMessage(error))); });
-                });
-            }
-            else {
-                return new Promise(function (resolve, reject) {
-                    _this.http.put(_this.settings.accountdAPI + '/changepassword', model)
-                        .then(function (response) { return resolve(); })
-                        .catch(function (error) { return reject(new Error(_this.getErrorMessage(error))); });
-                });
-            }
-        };
-        ChatService.prototype.getErrorMessage = function (error) {
-            return error.content[0].errors[0].errorMessage;
-        };
-        ChatService.prototype.setConverationTitle = function (conversation) {
-            var _this = this;
-            if (conversation.title) {
-                return;
-            }
-            var title = '';
-            conversation.attendees.forEach(function (attendee) {
-                if (attendee && attendee.userId && attendee.userId !== _this.userName) {
-                    title += attendee.userId + ' ';
-                }
-            });
-            conversation.title = title.trim();
-        };
         ChatService.prototype.setConnectionState = function (connectionState) {
             if (this.currentState === connectionState) {
                 return;
@@ -367,7 +290,7 @@ define('services/chat.service',["require", "exports", 'aurelia-event-aggregator'
         };
         ChatService.prototype.onUserDisconnected = function (id) {
             console.log("Chat Hub user disconnected: " + id);
-            if (id !== this.userName) {
+            if (id !== this.state.userName) {
                 this.ea.publish(new userDisconnected_1.UserDisconnected(id));
             }
         };
@@ -375,29 +298,16 @@ define('services/chat.service',["require", "exports", 'aurelia-event-aggregator'
             this.ea.publish(new messageReceived_1.MessageReceived(message));
         };
         ChatService.prototype.onJoinConversation = function (conversation) {
-            this.setConverationTitle(conversation);
+            this.helpers.setConverationTitle(conversation);
             this.ea.publish(new conversationJoined_1.ConversationJoined(conversation));
         };
         ChatService = __decorate([
             aurelia_framework_1.autoinject, 
-            __metadata('design:paramtypes', [settings_1.Settings, aurelia_event_aggregator_1.EventAggregator, aurelia_http_client_1.HttpClient])
+            __metadata('design:paramtypes', [settings_1.Settings, aurelia_event_aggregator_1.EventAggregator, aurelia_http_client_1.HttpClient, state_1.State, helpers_1.Helpers])
         ], ChatService);
         return ChatService;
     }());
     exports.ChatService = ChatService;
-});
-
-define('services/helpers',["require", "exports"], function (require, exports) {
-    "use strict";
-    var Helpers = (function () {
-        function Helpers() {
-        }
-        Helpers.prototype.getErrorMessage = function (error) {
-            return error.content[0].errors[0].errorMessage;
-        };
-        return Helpers;
-    }());
-    exports.Helpers = Helpers;
 });
 
 var __decorate = (this && this.__decorate) || function (decorators, target, key, desc) {
@@ -409,48 +319,39 @@ var __decorate = (this && this.__decorate) || function (decorators, target, key,
 var __metadata = (this && this.__metadata) || function (k, v) {
     if (typeof Reflect === "object" && typeof Reflect.metadata === "function") return Reflect.metadata(k, v);
 };
-define('services/login.service',["require", "exports", 'aurelia-http-client', 'aurelia-framework', '../config/settings', './chat.service', './helpers'], function (require, exports, aurelia_http_client_1, aurelia_framework_1, settings_1, chat_service_1, helpers_1) {
+define('services/login.service',["require", "exports", 'aurelia-http-client', 'aurelia-framework', '../config/settings', './chat.service', './helpers', './state'], function (require, exports, aurelia_http_client_1, aurelia_framework_1, settings_1, chat_service_1, helpers_1, state_1) {
     "use strict";
     var LoginService = (function () {
-        function LoginService(http, settings, chatService, helpers) {
+        function LoginService(http, settings, chatService, state, helpers) {
             this.http = http;
             this.settings = settings;
             this.chatService = chatService;
+            this.state = state;
             this.helpers = helpers;
         }
         LoginService.prototype.login = function (userName, password) {
             var _this = this;
-            this.isGuess = !password;
+            this.state.isGuess = !password;
             return new Promise(function (resolve, reject) {
-                if (_this.isGuess) {
-                    _this.http.post(_this.settings.accountdAPI + '/spaguess', { userName: userName })
-                        .then(function (response) {
-                        _this.userName = userName;
-                        _this.chatService.start();
-                        _this.setXhrf(resolve, reject);
-                    })
-                        .catch(function (error) {
-                        reject(new Error(_this.helpers.getErrorMessage(error)));
+                _this.http.get('xhrf')
+                    .then(function (r) {
+                    _this.http.configure(function (builder) {
+                        builder.withHeader('X-XSRF-TOKEN', r.response);
                     });
-                }
-                else {
-                    _this.http.post(_this.settings.accountdAPI + '/spalogin', { userName: userName, password: password })
-                        .then(function (response) {
-                        _this.userName = userName;
-                        sessionStorage.setItem('userName', userName);
-                        _this.chatService.start();
-                        _this.setXhrf(resolve, reject);
-                    })
-                        .catch(function (error) {
-                        reject(new Error(_this.helpers.getErrorMessage(error)));
-                    });
-                }
+                    if (_this.state.isGuess) {
+                        _this.loginAsGuess(userName, resolve, reject);
+                    }
+                    else {
+                        _this.loginAsRegistered(userName, password, resolve, reject);
+                    }
+                })
+                    .catch(function (error) { return reject(new Error('the service is down')); });
             });
         };
         LoginService.prototype.logoff = function () {
-            delete this.userName;
+            delete this.state.userName;
             sessionStorage.removeItem('userName');
-            jQuery.connection.hub.stop();
+            this.chatService.stop();
             this.http.post(this.settings.accountdAPI + '/spalogoff', null);
         };
         LoginService.prototype.setXhrf = function (resolve, reject) {
@@ -464,9 +365,34 @@ define('services/login.service',["require", "exports", 'aurelia-http-client', 'a
             })
                 .catch(function (error) { return reject(new Error('the service is down')); });
         };
+        LoginService.prototype.loginAsGuess = function (userName, resolve, reject) {
+            var _this = this;
+            this.http.post(this.settings.accountdAPI + '/spaguess', { userName: userName })
+                .then(function (response) {
+                _this.state.userName = userName;
+                _this.chatService.start();
+                _this.setXhrf(resolve, reject);
+            })
+                .catch(function (error) {
+                reject(new Error(_this.helpers.getErrorMessage(error)));
+            });
+        };
+        LoginService.prototype.loginAsRegistered = function (userName, password, resolve, reject) {
+            var _this = this;
+            this.http.post(this.settings.accountdAPI + '/spalogin', { userName: userName, password: password })
+                .then(function (response) {
+                _this.state.userName = userName;
+                sessionStorage.setItem('userName', userName);
+                _this.chatService.start();
+                _this.setXhrf(resolve, reject);
+            })
+                .catch(function (error) {
+                reject(new Error(_this.helpers.getErrorMessage(error)));
+            });
+        };
         LoginService = __decorate([
             aurelia_framework_1.autoinject, 
-            __metadata('design:paramtypes', [aurelia_http_client_1.HttpClient, settings_1.Settings, chat_service_1.ChatService, helpers_1.Helpers])
+            __metadata('design:paramtypes', [aurelia_http_client_1.HttpClient, settings_1.Settings, chat_service_1.ChatService, state_1.State, helpers_1.Helpers])
         ], LoginService);
         return LoginService;
     }());
@@ -482,13 +408,17 @@ var __decorate = (this && this.__decorate) || function (decorators, target, key,
 var __metadata = (this && this.__metadata) || function (k, v) {
     if (typeof Reflect === "object" && typeof Reflect.metadata === "function") return Reflect.metadata(k, v);
 };
-define('app',["require", "exports", 'aurelia-framework', 'aurelia-router', 'aurelia-event-aggregator', './environment', './services/login.service', './events/connectionStateChanged', './config/settings'], function (require, exports, aurelia_framework_1, aurelia_router_1, aurelia_event_aggregator_1, environment_1, login_service_1, connectionStateChanged_1, settings_1) {
+define('app',["require", "exports", 'aurelia-framework', 'aurelia-router', 'aurelia-event-aggregator', 'aurelia-http-client', './environment', './services/login.service', './services/state', './events/connectionStateChanged', './config/settings'], function (require, exports, aurelia_framework_1, aurelia_router_1, aurelia_event_aggregator_1, aurelia_http_client_1, environment_1, login_service_1, state_1, connectionStateChanged_1, settings_1) {
     "use strict";
     var App = (function () {
-        function App(service, ea, settings) {
+        function App(service, ea, state, settings, http) {
             this.service = service;
             this.ea = ea;
+            this.state = state;
             settings.apiBaseUrl = environment_1.default.apiBaseUrl;
+            http.configure(function (builder) { return builder
+                .withBaseUrl(environment_1.default.apiBaseUrl)
+                .withCredentials(true); });
         }
         App.prototype.configureRouter = function (config, router) {
             config.title = 'Chatle';
@@ -506,7 +436,6 @@ define('app',["require", "exports", 'aurelia-framework', 'aurelia-router', 'aure
                 _this.setIsConnected();
             });
             this.setIsConnected();
-            this.service.setXhrf(function () { }, function (error) { return _this.errorMessage = error; });
         };
         App.prototype.logoff = function () {
             this.service.logoff();
@@ -515,29 +444,30 @@ define('app',["require", "exports", 'aurelia-framework', 'aurelia-router', 'aure
             this.router.navigateToRoute('account');
         };
         App.prototype.setIsConnected = function () {
-            this.isConnected = this.service.userName !== undefined && this.service.userName != null;
-            this.userName = this.service.userName;
+            this.isConnected = this.state.userName !== undefined && this.state.userName != null;
+            this.userName = this.state.userName;
             if (!this.isConnected) {
                 this.router.navigateToRoute('login');
             }
         };
         App = __decorate([
             aurelia_framework_1.autoinject, 
-            __metadata('design:paramtypes', [login_service_1.LoginService, aurelia_event_aggregator_1.EventAggregator, settings_1.Settings])
+            __metadata('design:paramtypes', [login_service_1.LoginService, aurelia_event_aggregator_1.EventAggregator, state_1.State, settings_1.Settings, aurelia_http_client_1.HttpClient])
         ], App);
         return App;
     }());
     exports.App = App;
     var AuthorizeStep = (function () {
-        function AuthorizeStep(service) {
+        function AuthorizeStep(service, state) {
             this.service = service;
+            this.state = state;
         }
         AuthorizeStep.prototype.run = function (navigationInstruction, next) {
             if (navigationInstruction.getAllInstructions().some(function (i) {
                 var route = i.config;
                 return !route.anomymous;
             })) {
-                var isLoggedIn = this.service.userName;
+                var isLoggedIn = this.state.userName;
                 if (!isLoggedIn) {
                     return next.cancel(new aurelia_router_1.Redirect('login'));
                 }
@@ -546,7 +476,7 @@ define('app',["require", "exports", 'aurelia-framework', 'aurelia-router', 'aure
         };
         AuthorizeStep = __decorate([
             aurelia_framework_1.autoinject, 
-            __metadata('design:paramtypes', [login_service_1.LoginService])
+            __metadata('design:paramtypes', [login_service_1.LoginService, state_1.State])
         ], AuthorizeStep);
         return AuthorizeStep;
     }());
@@ -588,11 +518,52 @@ var __decorate = (this && this.__decorate) || function (decorators, target, key,
 var __metadata = (this && this.__metadata) || function (k, v) {
     if (typeof Reflect === "object" && typeof Reflect.metadata === "function") return Reflect.metadata(k, v);
 };
-define('components/contact-list',["require", "exports", 'aurelia-framework', 'aurelia-event-aggregator', '../services/chat.service', '../events/userConnected', '../events/userDisconnected', '../events/connectionStateChanged'], function (require, exports, aurelia_framework_1, aurelia_event_aggregator_1, chat_service_1, userConnected_1, userDisconnected_1, connectionStateChanged_1) {
+define('services/user.service',["require", "exports", 'aurelia-http-client', 'aurelia-framework', '../config/settings', './state', './helpers'], function (require, exports, aurelia_http_client_1, aurelia_framework_1, settings_1, state_1, helpers_1) {
+    "use strict";
+    var UserService = (function () {
+        function UserService(http, settings, state, helpers) {
+            this.http = http;
+            this.settings = settings;
+            this.state = state;
+            this.helpers = helpers;
+        }
+        UserService.prototype.getUsers = function () {
+            var _this = this;
+            return new Promise(function (resolve, reject) {
+                _this.http.get(_this.settings.userAPI)
+                    .then(function (response) {
+                    var data = response.content;
+                    if (data && data.users) {
+                        resolve(data.users);
+                    }
+                })
+                    .catch(function (error) { return reject(new Error('The service is down')); });
+            });
+        };
+        UserService = __decorate([
+            aurelia_framework_1.autoinject, 
+            __metadata('design:paramtypes', [aurelia_http_client_1.HttpClient, settings_1.Settings, state_1.State, helpers_1.Helpers])
+        ], UserService);
+        return UserService;
+    }());
+    exports.UserService = UserService;
+});
+
+var __decorate = (this && this.__decorate) || function (decorators, target, key, desc) {
+    var c = arguments.length, r = c < 3 ? target : desc === null ? desc = Object.getOwnPropertyDescriptor(target, key) : desc, d;
+    if (typeof Reflect === "object" && typeof Reflect.decorate === "function") r = Reflect.decorate(decorators, target, key, desc);
+    else for (var i = decorators.length - 1; i >= 0; i--) if (d = decorators[i]) r = (c < 3 ? d(r) : c > 3 ? d(target, key, r) : d(target, key)) || r;
+    return c > 3 && r && Object.defineProperty(target, key, r), r;
+};
+var __metadata = (this && this.__metadata) || function (k, v) {
+    if (typeof Reflect === "object" && typeof Reflect.metadata === "function") return Reflect.metadata(k, v);
+};
+define('components/contact-list',["require", "exports", 'aurelia-framework', 'aurelia-event-aggregator', '../services/chat.service', '../services/user.service', '../services/chat.service', '../events/userConnected', '../events/userDisconnected', '../events/connectionStateChanged'], function (require, exports, aurelia_framework_1, aurelia_event_aggregator_1, chat_service_1, user_service_1, chat_service_2, userConnected_1, userDisconnected_1, connectionStateChanged_1) {
     "use strict";
     var ContactList = (function () {
-        function ContactList(service, ea) {
-            this.service = service;
+        function ContactList(userService, chatService, ea) {
+            this.userService = userService;
+            this.chatService = chatService;
             this.ea = ea;
             this.loadingMessage = "loading...";
         }
@@ -603,7 +574,7 @@ define('components/contact-list',["require", "exports", 'aurelia-framework', 'au
                     _this.getUser();
                 }
             });
-            if (this.service.currentState === chat_service_1.ConnectionState.Connected) {
+            if (this.chatService.currentState === chat_service_1.ConnectionState.Connected) {
                 this.getUser();
             }
         };
@@ -618,7 +589,7 @@ define('components/contact-list',["require", "exports", 'aurelia-framework', 'au
         };
         ContactList.prototype.getUser = function () {
             var _this = this;
-            this.service.getUsers()
+            this.userService.getUsers()
                 .then(function (users) {
                 _this.users = users;
                 _this.userConnectedSubscription = _this.ea.subscribe(userConnected_1.UserConnected, function (e) {
@@ -645,7 +616,7 @@ define('components/contact-list',["require", "exports", 'aurelia-framework', 'au
         };
         ContactList = __decorate([
             aurelia_framework_1.autoinject, 
-            __metadata('design:paramtypes', [chat_service_1.ChatService, aurelia_event_aggregator_1.EventAggregator])
+            __metadata('design:paramtypes', [user_service_1.UserService, chat_service_2.ChatService, aurelia_event_aggregator_1.EventAggregator])
         ], ContactList);
         return ContactList;
     }());
@@ -661,11 +632,118 @@ var __decorate = (this && this.__decorate) || function (decorators, target, key,
 var __metadata = (this && this.__metadata) || function (k, v) {
     if (typeof Reflect === "object" && typeof Reflect.metadata === "function") return Reflect.metadata(k, v);
 };
-define('components/contact',["require", "exports", 'aurelia-framework', 'aurelia-event-aggregator', 'aurelia-router', '../services/chat.service', '../model/user', '../model/conversation', '../model/attendee', '../events/conversationSelected'], function (require, exports, aurelia_framework_1, aurelia_event_aggregator_1, aurelia_router_1, chat_service_1, user_1, conversation_1, attendee_1, conversationSelected_1) {
+define('services/conversation.service',["require", "exports", 'aurelia-event-aggregator', 'aurelia-http-client', 'aurelia-framework', '../config/settings', './state', './helpers', '../model/message', '../events/conversationSelected', '../events/conversationJoined'], function (require, exports, aurelia_event_aggregator_1, aurelia_http_client_1, aurelia_framework_1, settings_1, state_1, helpers_1, message_1, conversationSelected_1, conversationJoined_1) {
+    "use strict";
+    var ConversationService = (function () {
+        function ConversationService(http, settings, state, helpers, ea) {
+            this.http = http;
+            this.settings = settings;
+            this.state = state;
+            this.helpers = helpers;
+            this.ea = ea;
+        }
+        ConversationService.prototype.showConversation = function (conversation, router) {
+            this.currentConversation = conversation;
+            this.setConverationTitle(conversation);
+            this.ea.publish(new conversationSelected_1.ConversationSelected(conversation));
+            router.navigateToRoute('conversation', { id: conversation.title });
+        };
+        ConversationService.prototype.sendMessage = function (conversation, message) {
+            var _this = this;
+            var m = new message_1.Message();
+            m.conversationId = conversation.id;
+            m.from = this.state.userName;
+            m.text = message;
+            if (conversation.id) {
+                return new Promise(function (resolve, reject) {
+                    _this.http.post(_this.settings.chatAPI, {
+                        to: conversation.id,
+                        text: message
+                    })
+                        .then(function (response) {
+                        conversation.messages.unshift(m);
+                        resolve(m);
+                    })
+                        .catch(function (error) { return reject(new Error(_this.helpers.getErrorMessage(error))); });
+                });
+            }
+            else {
+                var attendee_1;
+                conversation.attendees.forEach(function (a) {
+                    if (a.userId !== _this.state.userName) {
+                        attendee_1 = a;
+                    }
+                });
+                return new Promise(function (resolve, reject) {
+                    _this.http.post(_this.settings.convAPI, {
+                        to: attendee_1.userId,
+                        text: message
+                    })
+                        .then(function (response) {
+                        conversation.id = response.content;
+                        _this.ea.publish(new conversationJoined_1.ConversationJoined(conversation));
+                        conversation.messages.unshift(m);
+                        resolve(m);
+                    })
+                        .catch(function (error) { return reject(new Error(_this.helpers.getErrorMessage(error))); });
+                });
+            }
+        };
+        ConversationService.prototype.getConversations = function () {
+            var _this = this;
+            return new Promise(function (resolve, reject) {
+                _this.http.get(_this.settings.chatAPI)
+                    .then(function (response) {
+                    if (response.response) {
+                        var data = response.content;
+                        if (data) {
+                            resolve(data);
+                        }
+                    }
+                    else {
+                        resolve(null);
+                    }
+                })
+                    .catch(function (error) { return reject(new Error('The service is down')); });
+            });
+        };
+        ConversationService.prototype.setConverationTitle = function (conversation) {
+            var _this = this;
+            if (conversation.title) {
+                return;
+            }
+            var title = '';
+            conversation.attendees.forEach(function (attendee) {
+                if (attendee && attendee.userId && attendee.userId !== _this.state.userName) {
+                    title += attendee.userId + ' ';
+                }
+            });
+            conversation.title = title.trim();
+        };
+        ConversationService = __decorate([
+            aurelia_framework_1.autoinject, 
+            __metadata('design:paramtypes', [aurelia_http_client_1.HttpClient, settings_1.Settings, state_1.State, helpers_1.Helpers, aurelia_event_aggregator_1.EventAggregator])
+        ], ConversationService);
+        return ConversationService;
+    }());
+    exports.ConversationService = ConversationService;
+});
+
+var __decorate = (this && this.__decorate) || function (decorators, target, key, desc) {
+    var c = arguments.length, r = c < 3 ? target : desc === null ? desc = Object.getOwnPropertyDescriptor(target, key) : desc, d;
+    if (typeof Reflect === "object" && typeof Reflect.decorate === "function") r = Reflect.decorate(decorators, target, key, desc);
+    else for (var i = decorators.length - 1; i >= 0; i--) if (d = decorators[i]) r = (c < 3 ? d(r) : c > 3 ? d(target, key, r) : d(target, key)) || r;
+    return c > 3 && r && Object.defineProperty(target, key, r), r;
+};
+var __metadata = (this && this.__metadata) || function (k, v) {
+    if (typeof Reflect === "object" && typeof Reflect.metadata === "function") return Reflect.metadata(k, v);
+};
+define('components/contact',["require", "exports", 'aurelia-framework', 'aurelia-event-aggregator', 'aurelia-router', '../services/conversation.service', '../model/user', '../model/conversation', '../model/attendee', '../events/conversationSelected'], function (require, exports, aurelia_framework_1, aurelia_event_aggregator_1, aurelia_router_1, conversation_service_1, user_1, conversation_1, attendee_1, conversationSelected_1) {
     "use strict";
     var Contact = (function () {
-        function Contact(service, ea, router) {
+        function Contact(service, state, ea, router) {
             this.service = service;
+            this.state = state;
             this.ea = ea;
             this.router = router;
         }
@@ -690,7 +768,7 @@ define('components/contact',["require", "exports", 'aurelia-framework', 'aurelia
                 _this.isSelected = false;
                 if (attendees.length == 2) {
                     attendees.forEach(function (a) {
-                        if (a.userId !== _this.service.userName && a.userId === _this.user.id) {
+                        if (a.userId !== _this.state.userName && a.userId === _this.user.id) {
                             _this.isSelected = true;
                         }
                     });
@@ -706,7 +784,7 @@ define('components/contact',["require", "exports", 'aurelia-framework', 'aurelia
         ], Contact.prototype, "user", void 0);
         Contact = __decorate([
             aurelia_framework_1.autoinject, 
-            __metadata('design:paramtypes', [chat_service_1.ChatService, aurelia_event_aggregator_1.EventAggregator, aurelia_router_1.Router])
+            __metadata('design:paramtypes', [conversation_service_1.ConversationService, Object, aurelia_event_aggregator_1.EventAggregator, aurelia_router_1.Router])
         ], Contact);
         return Contact;
     }());
@@ -722,7 +800,7 @@ var __decorate = (this && this.__decorate) || function (decorators, target, key,
 var __metadata = (this && this.__metadata) || function (k, v) {
     if (typeof Reflect === "object" && typeof Reflect.metadata === "function") return Reflect.metadata(k, v);
 };
-define('components/conversation-component',["require", "exports", 'aurelia-framework', 'aurelia-router', '../services/chat.service'], function (require, exports, aurelia_framework_1, aurelia_router_1, chat_service_1) {
+define('components/conversation-component',["require", "exports", 'aurelia-framework', 'aurelia-router', '../services/conversation.service'], function (require, exports, aurelia_framework_1, aurelia_router_1, conversation_service_1) {
     "use strict";
     var ConversationComponent = (function () {
         function ConversationComponent(service, router) {
@@ -748,7 +826,7 @@ define('components/conversation-component',["require", "exports", 'aurelia-frame
         };
         ConversationComponent = __decorate([
             aurelia_framework_1.autoinject, 
-            __metadata('design:paramtypes', [chat_service_1.ChatService, aurelia_router_1.Router])
+            __metadata('design:paramtypes', [conversation_service_1.ConversationService, aurelia_router_1.Router])
         ], ConversationComponent);
         return ConversationComponent;
     }());
@@ -764,11 +842,12 @@ var __decorate = (this && this.__decorate) || function (decorators, target, key,
 var __metadata = (this && this.__metadata) || function (k, v) {
     if (typeof Reflect === "object" && typeof Reflect.metadata === "function") return Reflect.metadata(k, v);
 };
-define('components/conversation-list',["require", "exports", 'aurelia-framework', 'aurelia-event-aggregator', '../services/chat.service', '../events/conversationJoined', '../events/userDisconnected', '../events/connectionStateChanged'], function (require, exports, aurelia_framework_1, aurelia_event_aggregator_1, chat_service_1, conversationJoined_1, userDisconnected_1, connectionStateChanged_1) {
+define('components/conversation-list',["require", "exports", 'aurelia-framework', 'aurelia-event-aggregator', '../services/chat.service', '../services/conversation.service', '../services/state', '../events/conversationJoined', '../events/userDisconnected', '../events/connectionStateChanged'], function (require, exports, aurelia_framework_1, aurelia_event_aggregator_1, chat_service_1, conversation_service_1, state_1, conversationJoined_1, userDisconnected_1, connectionStateChanged_1) {
     "use strict";
     var ConversationList = (function () {
-        function ConversationList(service, ea) {
+        function ConversationList(service, state, ea) {
             this.service = service;
+            this.state = state;
             this.ea = ea;
         }
         ConversationList.prototype.attached = function () {
@@ -830,7 +909,7 @@ define('components/conversation-list',["require", "exports", 'aurelia-framework'
             var _this = this;
             var title = '';
             conversation.attendees.forEach(function (attendee) {
-                if (attendee && attendee.userId && attendee.userId !== _this.service.userName) {
+                if (attendee && attendee.userId && attendee.userId !== _this.state.userName) {
                     title += attendee.userId + ' ';
                 }
             });
@@ -838,7 +917,7 @@ define('components/conversation-list',["require", "exports", 'aurelia-framework'
         };
         ConversationList = __decorate([
             aurelia_framework_1.autoinject, 
-            __metadata('design:paramtypes', [chat_service_1.ChatService, aurelia_event_aggregator_1.EventAggregator])
+            __metadata('design:paramtypes', [conversation_service_1.ConversationService, state_1.State, aurelia_event_aggregator_1.EventAggregator])
         ], ConversationList);
         return ConversationList;
     }());
@@ -854,7 +933,7 @@ var __decorate = (this && this.__decorate) || function (decorators, target, key,
 var __metadata = (this && this.__metadata) || function (k, v) {
     if (typeof Reflect === "object" && typeof Reflect.metadata === "function") return Reflect.metadata(k, v);
 };
-define('components/conversation-preview',["require", "exports", 'aurelia-framework', 'aurelia-event-aggregator', 'aurelia-router', '../services/chat.service', '../model/conversation', '../events/conversationSelected', '../events/messageReceived'], function (require, exports, aurelia_framework_1, aurelia_event_aggregator_1, aurelia_router_1, chat_service_1, conversation_1, conversationSelected_1, messageReceived_1) {
+define('components/conversation-preview',["require", "exports", 'aurelia-framework', 'aurelia-event-aggregator', 'aurelia-router', '../services/conversation.service', '../model/conversation', '../events/conversationSelected', '../events/messageReceived'], function (require, exports, aurelia_framework_1, aurelia_event_aggregator_1, aurelia_router_1, conversation_service_1, conversation_1, conversationSelected_1, messageReceived_1) {
     "use strict";
     var ConversationPreview = (function () {
         function ConversationPreview(service, ea, router) {
@@ -894,11 +973,21 @@ define('components/conversation-preview',["require", "exports", 'aurelia-framewo
         ], ConversationPreview.prototype, "conversation", void 0);
         ConversationPreview = __decorate([
             aurelia_framework_1.autoinject, 
-            __metadata('design:paramtypes', [chat_service_1.ChatService, aurelia_event_aggregator_1.EventAggregator, aurelia_router_1.Router])
+            __metadata('design:paramtypes', [conversation_service_1.ConversationService, aurelia_event_aggregator_1.EventAggregator, aurelia_router_1.Router])
         ], ConversationPreview);
         return ConversationPreview;
     }());
     exports.ConversationPreview = ConversationPreview;
+});
+
+define('model/changePassword',["require", "exports"], function (require, exports) {
+    "use strict";
+    var ChangePassword = (function () {
+        function ChangePassword() {
+        }
+        return ChangePassword;
+    }());
+    exports.ChangePassword = ChangePassword;
 });
 
 var __decorate = (this && this.__decorate) || function (decorators, target, key, desc) {
@@ -910,22 +999,74 @@ var __decorate = (this && this.__decorate) || function (decorators, target, key,
 var __metadata = (this && this.__metadata) || function (k, v) {
     if (typeof Reflect === "object" && typeof Reflect.metadata === "function") return Reflect.metadata(k, v);
 };
-define('pages/account',["require", "exports", 'aurelia-framework', 'aurelia-router', 'aurelia-event-aggregator', 'aurelia-validation', 'aurelia-validation', '../services/chat.service', '../events/connectionStateChanged'], function (require, exports, aurelia_framework_1, aurelia_router_1, aurelia_event_aggregator_1, aurelia_validation_1, aurelia_validation_2, chat_service_1, connectionStateChanged_1) {
+define('services/account.service',["require", "exports", 'aurelia-http-client', 'aurelia-framework', './chat.service', '../config/settings', './state', './helpers'], function (require, exports, aurelia_http_client_1, aurelia_framework_1, chat_service_1, settings_1, state_1, helpers_1) {
+    "use strict";
+    var AccountService = (function () {
+        function AccountService(http, chatService, settings, state, helpers) {
+            this.http = http;
+            this.chatService = chatService;
+            this.settings = settings;
+            this.state = state;
+            this.helpers = helpers;
+        }
+        AccountService.prototype.changePassword = function (model) {
+            var _this = this;
+            if (this.state.isGuess) {
+                this.chatService.stop();
+                return new Promise(function (resolve, reject) {
+                    _this.http.post(_this.settings.accountdAPI + '/setpassword', model)
+                        .then(function (response) {
+                        _this.state.isGuess = false;
+                        sessionStorage.setItem('userName', _this.state.userName);
+                        _this.chatService.start();
+                        resolve();
+                    })
+                        .catch(function (error) { return reject(new Error(_this.helpers.getErrorMessage(error))); });
+                });
+            }
+            else {
+                return new Promise(function (resolve, reject) {
+                    _this.http.put(_this.settings.accountdAPI + '/changepassword', model)
+                        .then(function (response) { return resolve(); })
+                        .catch(function (error) { return reject(new Error(_this.helpers.getErrorMessage(error))); });
+                });
+            }
+        };
+        AccountService = __decorate([
+            aurelia_framework_1.autoinject, 
+            __metadata('design:paramtypes', [aurelia_http_client_1.HttpClient, chat_service_1.ChatService, settings_1.Settings, state_1.State, helpers_1.Helpers])
+        ], AccountService);
+        return AccountService;
+    }());
+    exports.AccountService = AccountService;
+});
+
+var __decorate = (this && this.__decorate) || function (decorators, target, key, desc) {
+    var c = arguments.length, r = c < 3 ? target : desc === null ? desc = Object.getOwnPropertyDescriptor(target, key) : desc, d;
+    if (typeof Reflect === "object" && typeof Reflect.decorate === "function") r = Reflect.decorate(decorators, target, key, desc);
+    else for (var i = decorators.length - 1; i >= 0; i--) if (d = decorators[i]) r = (c < 3 ? d(r) : c > 3 ? d(target, key, r) : d(target, key)) || r;
+    return c > 3 && r && Object.defineProperty(target, key, r), r;
+};
+var __metadata = (this && this.__metadata) || function (k, v) {
+    if (typeof Reflect === "object" && typeof Reflect.metadata === "function") return Reflect.metadata(k, v);
+};
+define('pages/account',["require", "exports", 'aurelia-framework', 'aurelia-router', 'aurelia-event-aggregator', 'aurelia-validation', 'aurelia-validation', '../services/chat.service', '../services/state', '../services/account.service', '../events/connectionStateChanged'], function (require, exports, aurelia_framework_1, aurelia_router_1, aurelia_event_aggregator_1, aurelia_validation_1, aurelia_validation_2, chat_service_1, state_1, account_service_1, connectionStateChanged_1) {
     "use strict";
     var Account = (function () {
-        function Account(service, router, ea, controllerFactory) {
+        function Account(service, router, ea, state, controllerFactory) {
             this.service = service;
             this.router = router;
             this.ea = ea;
-            this.userName = service.userName;
-            this.isGuess = service.isGuess;
+            this.state = state;
+            this.userName = state.userName;
+            this.isGuess = state.isGuess;
             this.controller = controllerFactory.createForCurrentScope();
         }
         Account.prototype.attached = function () {
             var _this = this;
             this.connectionStateSubscription = this.ea.subscribe(connectionStateChanged_1.ConnectionStateChanged, function (e) {
                 if (e.state === chat_service_1.ConnectionState.Connected) {
-                    _this.isGuess = _this.service.isGuess;
+                    _this.isGuess = _this.state.isGuess;
                 }
             });
         };
@@ -951,7 +1092,7 @@ define('pages/account',["require", "exports", 'aurelia-framework', 'aurelia-rout
         };
         Account = __decorate([
             aurelia_framework_1.autoinject, 
-            __metadata('design:paramtypes', [chat_service_1.ChatService, aurelia_router_1.Router, aurelia_event_aggregator_1.EventAggregator, aurelia_validation_2.ValidationControllerFactory])
+            __metadata('design:paramtypes', [account_service_1.AccountService, aurelia_router_1.Router, aurelia_event_aggregator_1.EventAggregator, state_1.State, aurelia_validation_2.ValidationControllerFactory])
         ], Account);
         return Account;
     }());
@@ -989,11 +1130,12 @@ var __decorate = (this && this.__decorate) || function (decorators, target, key,
 var __metadata = (this && this.__metadata) || function (k, v) {
     if (typeof Reflect === "object" && typeof Reflect.metadata === "function") return Reflect.metadata(k, v);
 };
-define('pages/home',["require", "exports", 'aurelia-framework', 'aurelia-router', 'aurelia-event-aggregator', '../services/chat.service', '../events/connectionStateChanged'], function (require, exports, aurelia_framework_1, aurelia_router_1, aurelia_event_aggregator_1, chat_service_1, connectionStateChanged_1) {
+define('pages/home',["require", "exports", 'aurelia-framework', 'aurelia-router', 'aurelia-event-aggregator', '../services/chat.service', '../services/login.service', '../events/connectionStateChanged'], function (require, exports, aurelia_framework_1, aurelia_router_1, aurelia_event_aggregator_1, chat_service_1, login_service_1, connectionStateChanged_1) {
     "use strict";
     var Home = (function () {
-        function Home(service, config, ea) {
-            this.service = service;
+        function Home(chatService, loginService, config, ea) {
+            this.chatService = chatService;
+            this.loginService = loginService;
             this.config = config;
             this.ea = ea;
         }
@@ -1008,9 +1150,9 @@ define('pages/home',["require", "exports", 'aurelia-framework', 'aurelia-router'
             this.connectionStateSubscription = this.ea.subscribe(connectionStateChanged_1.ConnectionStateChanged, function (e) {
                 _this.setIsDisconnected(e.state);
             });
-            this.setIsDisconnected(this.service.currentState);
-            if (this.service.currentState !== chat_service_1.ConnectionState.Connected) {
-                this.service.start();
+            this.setIsDisconnected(this.chatService.currentState);
+            if (this.chatService.currentState !== chat_service_1.ConnectionState.Connected) {
+                this.chatService.start();
             }
         };
         Home.prototype.detached = function () {
@@ -1018,7 +1160,7 @@ define('pages/home',["require", "exports", 'aurelia-framework', 'aurelia-router'
         };
         Home.prototype.setIsDisconnected = function (state) {
             if (state === chat_service_1.ConnectionState.Error) {
-                this.service.logoff();
+                this.loginService.logoff();
             }
             if (state === chat_service_1.ConnectionState.Disconnected) {
                 this.isDisconnected = true;
@@ -1029,7 +1171,7 @@ define('pages/home',["require", "exports", 'aurelia-framework', 'aurelia-router'
         };
         Home = __decorate([
             aurelia_framework_1.autoinject, 
-            __metadata('design:paramtypes', [chat_service_1.ChatService, aurelia_router_1.RouterConfiguration, aurelia_event_aggregator_1.EventAggregator])
+            __metadata('design:paramtypes', [chat_service_1.ChatService, login_service_1.LoginService, aurelia_router_1.RouterConfiguration, aurelia_event_aggregator_1.EventAggregator])
         ], Home);
         return Home;
     }());
@@ -1052,9 +1194,9 @@ define('pages/login',["require", "exports", 'aurelia-framework', 'aurelia-router
             this.service = service;
             this.router = router;
         }
-        Login.prototype.login = function () {
+        Login.prototype.login = function (userName) {
             var _this = this;
-            this.service.login(this.userName, this.password)
+            this.service.login(userName, this.password)
                 .then(function () {
                 _this.router.navigateToRoute('home');
             })
@@ -1076,35 +1218,6 @@ define('resources/index',["require", "exports"], function (require, exports) {
     function configure(config) {
     }
     exports.configure = configure;
-});
-
-var __decorate = (this && this.__decorate) || function (decorators, target, key, desc) {
-    var c = arguments.length, r = c < 3 ? target : desc === null ? desc = Object.getOwnPropertyDescriptor(target, key) : desc, d;
-    if (typeof Reflect === "object" && typeof Reflect.decorate === "function") r = Reflect.decorate(decorators, target, key, desc);
-    else for (var i = decorators.length - 1; i >= 0; i--) if (d = decorators[i]) r = (c < 3 ? d(r) : c > 3 ? d(target, key, r) : d(target, key)) || r;
-    return c > 3 && r && Object.defineProperty(target, key, r), r;
-};
-var __metadata = (this && this.__metadata) || function (k, v) {
-    if (typeof Reflect === "object" && typeof Reflect.metadata === "function") return Reflect.metadata(k, v);
-};
-define('services/http.service',["require", "exports", 'aurelia-http-client', 'aurelia-framework', '../environment', '../config/settings'], function (require, exports, aurelia_http_client_1, aurelia_framework_1, environment_1, settings_1) {
-    "use strict";
-    var HttpService = (function () {
-        function HttpService(settings, http) {
-            this.settings = settings;
-            this.http = http;
-            settings.apiBaseUrl = environment_1.default.apiBaseUrl;
-            http.configure(function (builder) { return builder
-                .withBaseUrl(settings.apiBaseUrl)
-                .withCredentials(true); });
-        }
-        HttpService = __decorate([
-            aurelia_framework_1.autoinject, 
-            __metadata('design:paramtypes', [settings_1.Settings, aurelia_http_client_1.HttpClient])
-        ], HttpService);
-        return HttpService;
-    }());
-    exports.HttpService = HttpService;
 });
 
 define('aurelia-validation/validate-binding-behavior',["require", "exports", 'aurelia-dependency-injection', 'aurelia-pal', 'aurelia-task-queue', './validation-controller', './validate-trigger'], function (require, exports, aurelia_dependency_injection_1, aurelia_pal_1, aurelia_task_queue_1, validation_controller_1, validate_trigger_1) {
@@ -2443,5 +2556,5 @@ define('text!components/conversation-list.html', ['module'], function(module) { 
 define('text!components/conversation-preview.html', ['module'], function(module) { module.exports = "<template>\n  <li class=\"list-group-item ${isSelected ? 'active' : ''}\" click.delegate=\"select()\">\n    <a>${conversation.title}</a><br/>\n    <span>${lastMessage}</span>\n  </li>\n</template>"; });
 define('text!pages/account.html', ['module'], function(module) { module.exports = "<template>\n    <h2>Manage Account.</h2>\n    <div class=\"row\">\n        <div class=\"col-md-12\">\n            <p>You're logged in as <strong>${userName}</strong>.</p>\n            <form class=\"form-horizontal\">\n                <h4 if.bind=\"!isGuess\">Change Password Form</h4>\n                <h4 if.bind=\"isGuess\">Create Password Form</h4>\n                <hr>\n                <div if.bind=\"errorMessage\" class=\"text-danger\">\n                    <ul>\n                        <li>${errorMessage}</li>\n                    </ul>\n                </div>\n                <div class=\"form-group\" if.bind=\"!isGuess\">\n                    <label class=\"col-md-2 control-label\" for=\"oldPassword\">Current password</label>\n                    <div class=\"col-md-10\">\n                        <input class=\"form-control\" type=\"password\" id=\"oldPassword\" value.bind=\"model.oldPassword\" />\t\t\t\n                    </div>\n                </div>\n                <div class=\"form-group\" validation-errors.bind=\"newPasswordErrors\" class.bind=\"newPasswordErrors.length ? 'has-error' : ''\">\n                    <label class=\"col-md-2 control-label\" for=\"newPassword\">New password</label>\t\n                    <div class=\"col-md-10\">\n                        <input class=\"form-control\" type=\"password\" name=\"newPassword\" value.bind=\"newPassword & validate\" change.delegate=\"confirmPassword = ''\"/>\n                    </div>\n                    <span class=\"help-block\" repeat.for=\"errorInfo of newPasswordErrors\">\n                        ${errorInfo.error.message}\n                    <span>\n                </div>\n                <div class=\"form-group\" validation-errors.bind=\"confirmPasswordErrors\" class.bind=\"confirmPasswordErrors.length ? 'has-error' : ''\">\n                    <label class=\"col-md-2 control-label\" for=\"confirmPassword\">Confirm new password</label>\n                    <div class=\"col-md-10\">\n                        <input class=\"form-control\" type=\"password\" name=\"confirmPassword\" value.bind=\"confirmPassword & validate\" />\n                    </div>\n                    <span class=\"help-block\" repeat.for=\"errorInfo of confirmPasswordErrors\">\n                        ${errorInfo.error.message}\n                    <span>\n                </div>\n                <div class=\"form-group\">\n                    <div class=\"col-md-offset-2 col-md-10\">\n                        <input class=\"btn btn-default\" type=\"submit\" value=\"Change password\" click.delegate=\"changePassword()\" disabled.bind=\"controller.errors.length > 0\"/>\n                    </div>\n                </div>\n            </form>\n        </div>\n    </div>\n</template>"; });
 define('text!pages/home.html', ['module'], function(module) { module.exports = "<template>\n    <require from=\"../components/contact-list\"></require>\n    <require from=\"../components/conversation-list\"></require>\n\n    <div class=\"row\">\n        <div class=\"col-xs-3\">\n            <h6>CONVERSATION</h6>\n            <conversation-list></conversation-list>\n        </div>\n        <router-view class=\"col-xs-6\"></router-view>\n        <div class=\"col-xs-3\">\n            <h6>CONNECTED</h6>\n            <contact-list></contact-list>\n        </div>\n    </div>\n</template>"; });
-define('text!pages/login.html', ['module'], function(module) { module.exports = "<template>\n    <h2>Loging</h2>\n    <hr />\n    <form class=\"form-horizontal\">\n        <div class=\"form-group\">\n            <label class=\"col-xs-3 control-label\" for=\"userName\"></label>\n            <div class=\"col-xs-9\">\n                <input class=\"form-control\" name=\"userName\" value.bind=\"userName\" change.delegate=\"delete error\" />\n                <span class=\"text-danger\" if.bind=\"error\">${error.message}</span>\n            </div>\n        </div>\n        <div class=\"form-group\">\n            <label class=\"col-xs-3 control-label\" for=\"password\"></label>\n            <div class=\"col-xs-9\">\n                <input class=\"form-control\" type=\"password\" name=\"password\" value.bind=\"password\" />\n                <div>\n                    <span>Don't enter a password il you want to login as guess user.</span>\n                </div>\n            </div>\n        </div>\n        <div class=\"form-group\">\n            <div class=\"col-xs-offset-3 col-xs-9\">\n                <input type=\"submit\" value=\"Log in\" class=\"btn btn-default\" click.delegate=\"login()\" />\n            </div>\n        </div>\n    </form>\n</template>"; });
+define('text!pages/login.html', ['module'], function(module) { module.exports = "<template>\n    <h2>Loging</h2>\n    <hr />\n    <form class=\"form-horizontal\">\n        <div class=\"form-group\">\n            <label class=\"col-xs-3 control-label\" for=\"userName\"></label>\n            <div class=\"col-xs-9\">\n                <input class=\"form-control\" name=\"userName\" value.bind=\"userName\" change.delegate=\"delete error\" />\n                <span class=\"text-danger\" if.bind=\"error\">${error.message}</span>\n            </div>\n        </div>\n        <div class=\"form-group\">\n            <label class=\"col-xs-3 control-label\" for=\"password\"></label>\n            <div class=\"col-xs-9\">\n                <input class=\"form-control\" type=\"password\" name=\"password\" value.bind=\"password\" />\n                <div>\n                    <span>Don't enter a password il you want to login as guess user.</span>\n                </div>\n            </div>\n        </div>\n        <div class=\"form-group\">\n            <div class=\"col-xs-offset-3 col-xs-9\">\n                <input type=\"submit\" value=\"Log in\" class=\"btn btn-default\" click.delegate=\"login(userName)\" />\n            </div>\n        </div>\n    </form>\n</template>"; });
 //# sourceMappingURL=app-bundle.js.map
