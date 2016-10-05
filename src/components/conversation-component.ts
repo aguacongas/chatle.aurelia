@@ -1,7 +1,7 @@
 import { autoinject } from 'aurelia-framework';
 import { Router, RouterConfiguration } from 'aurelia-router';
 
-import { ChatService } from '../services/chat.service';
+import { ConversationService } from '../services/conversation.service';
 import { Conversation } from '../model/conversation';
 import { ConversationSelected } from '../events/conversationSelected';
 
@@ -10,7 +10,7 @@ export class ConversationComponent {
     conversation: Conversation;
     message: string;
 
-    constructor(private service: ChatService, private router: Router) {
+    constructor(private service: ConversationService, private router: Router) {
     }
 
     activate(params, routeConfig) {

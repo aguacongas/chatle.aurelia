@@ -6,7 +6,7 @@ class ErrorMessage {
     errorMessage: string;
 }
 
-export class Error {
+export class ServiceError {
     subKey: Key;
     errors: Array<ErrorMessage>;
 }

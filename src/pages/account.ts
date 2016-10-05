@@ -4,7 +4,9 @@ import { EventAggregator, Subscription } from 'aurelia-event-aggregator';
 import { ValidationRules } from 'aurelia-validation';
 import { ValidationControllerFactory, ValidationController} from 'aurelia-validation';
 
-import { ChatService, ConnectionState } from '../services/chat.service';
+import { ConnectionState } from '../services/chat.service';
+import { State } from '../services/state';
+import { AccountService } from '../services/account.service';
 import { ChangePassword } from '../model/changePassword';
 import { ConnectionStateChanged } from '../events/connectionStateChanged';
 
@@ -20,19 +22,20 @@ export class Account {
 
     private connectionStateSubscription: Subscription;
 
-    constructor(private service: ChatService, 
+    constructor(private service: AccountService, 
             private router: Router, 
             private ea: EventAggregator,
+            private state: State,
             controllerFactory: ValidationControllerFactory) { 
-        this.userName = service.userName;
-        this.isGuess = service.isGuess;
+        this.userName = state.userName;
+        this.isGuess = state.isGuess;
         this.controller = controllerFactory.createForCurrentScope();                
     }
 
     attached() {
         this.connectionStateSubscription = this.ea.subscribe(ConnectionStateChanged, e => {
             if ((<ConnectionStateChanged>e).state === ConnectionState.Connected) {
-                this.isGuess = this.service.isGuess;
+                this.isGuess = this.state.isGuess;
             }
         });
     }

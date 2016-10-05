@@ -1,9 +1,14 @@
 import { autoinject } from 'aurelia-framework';
 import { Router, Redirect, NavigationInstruction, RouterConfiguration, Next, RouteConfig } from 'aurelia-router';
 import { EventAggregator } from 'aurelia-event-aggregator';
+import { HttpClient } from 'aurelia-http-client';
+import environment from './environment';
 
-import { ChatService, ConnectionState } from './services/chat.service';
+import { ConnectionState } from './services/chat.service';
+import { LoginService } from './services/login.service';
+import { State } from './services/state';
 import { ConnectionStateChanged } from './events/connectionStateChanged';
+import { Settings } from './config/settings';
 
 interface CustomRouteConfig extends RouteConfig {
     anomymous: boolean;
@@ -16,7 +21,17 @@ export class App {
     userName: string;
     errorMessage: string;
 
-    constructor(private service: ChatService, private ea: EventAggregator) { }
+    constructor(private service: LoginService, 
+        private ea: EventAggregator,
+        private state: State,
+        settings: Settings,
+        http: HttpClient) { 
+            settings.apiBaseUrl = environment.apiBaseUrl;
+            http.configure(
+            builder => builder
+                .withBaseUrl(environment.apiBaseUrl)
+                .withCredentials(true));
+    }
 
     configureRouter(config: RouterConfiguration, router: Router) {
         config.title = 'Chatle';
@@ -35,7 +50,6 @@ export class App {
             this.setIsConnected();
         });
         this.setIsConnected();
-        this.service.setXhrf(() => {}, error => this.errorMessage = error);
     }
 
     logoff() {
@@ -47,8 +61,8 @@ export class App {
     }
 
     private setIsConnected() {
-        this.isConnected = this.service.userName !== undefined && this.service.userName != null;
-        this.userName = this.service.userName;
+        this.isConnected = this.state.userName !== undefined && this.state.userName != null;
+        this.userName = this.state.userName;
         if (!this.isConnected) {
             this.router.navigateToRoute('login');
         }
@@ -59,14 +73,14 @@ export class App {
 @autoinject
 class AuthorizeStep {
 
-    constructor(private service: ChatService) { }
+    constructor(private service: LoginService, private state: State) { }
 
     run(navigationInstruction: NavigationInstruction, next: Next): Promise<any> {
         if (navigationInstruction.getAllInstructions().some(i => {
             let route = i.config as CustomRouteConfig;
-            return !route.anomymous
+            return !route.anomymous;
         })) {
-            var isLoggedIn = this.service.userName;
+            var isLoggedIn = this.state.userName;
             if (!isLoggedIn) {
                 return next.cancel(new Redirect('login'));
             }

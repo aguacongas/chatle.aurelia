@@ -5,11 +5,13 @@ import { Router } from 'aurelia-router';
 import environment from '../environment';
 
 import { Settings } from '../config/settings';
+import { Helpers } from './helpers';
+import { State } from './state';
+
 import { User } from '../model/user';
 import { Message } from '../model/message';
 import { Conversation } from '../model/conversation';
 import { Attendee } from '../model/attendee';
-import { ChangePassword } from '../model/changePassword';
 
 import { ConnectionStateChanged } from '../events/connectionStateChanged';
 import { ConversationJoined } from '../events/conversationJoined';
@@ -17,7 +19,7 @@ import { ConversationSelected } from '../events/conversationSelected';
 import { MessageReceived } from '../events/messageReceived';
 import { UserConnected } from '../events/userConnected';
 import { UserDisconnected } from '../events/userDisconnected';
-import { Error } from '../model/error';
+import { ServiceError } from '../model/serviceError';
 
 interface ChatSignalR extends SignalR {
     chat: ChatProxy,
@@ -44,19 +46,13 @@ export enum ConnectionState {
 @autoinject
 export class ChatService {
     currentState = ConnectionState.Disconnected;    
-    userName: string;
     currentConversation: Conversation;
-    isGuess: boolean;
 
-    constructor(private settings: Settings, private ea: EventAggregator, private http: HttpClient) {
-        settings.apiBaseUrl = environment.apiBaseUrl;
-        http.configure(
-            builder => builder
-                .withBaseUrl(settings.apiBaseUrl)
-                .withCredentials(true));
-
-        this.userName = sessionStorage.getItem('userName');
-    }
+    constructor(private settings: Settings, 
+        private ea: EventAggregator, 
+        private http: HttpClient, 
+        private state: State, 
+        private helpers: Helpers) { }
     
     start(): Promise<ConnectionState> {
         
@@ -132,180 +128,8 @@ export class ChatService {
         });
     }
 
-    showConversation(conversation: Conversation, router: Router) {
-        this.currentConversation = conversation;
-        this.setConverationTitle(conversation);
-        this.ea.publish(new ConversationSelected(conversation));
-        router.navigateToRoute('conversation', { id: conversation.title });
-    }
-
-    sendMessage(conversation: Conversation, message: string): Promise<Message> {
-        let m = new Message();
-        m.conversationId = conversation.id;
-        m.from = this.userName;
-        m.text = message;
-
-        if (conversation.id) {
-            return new Promise<Message>((resolve, reject) => {
-                this.http.post(this.settings.chatAPI, {
-                    to: conversation.id,
-                    text: message
-                })
-                .then(response => {
-                    conversation.messages.unshift(m);
-                    resolve(m);
-                })
-                .catch(error => reject('Error when sending the message'));
-            });
-        } else {
-            let attendee: Attendee;
-             conversation.attendees.forEach(a => {
-                 if (a.userId !== this.userName) {
-                     attendee = a;
-                 }
-             });
-
-             return new Promise<Message>((resolve, reject) => {
-                this.http.post(this.settings.convAPI, {
-                    to: attendee.userId,
-                    text: message
-                })
-                .then(
-                    response => {
-                        conversation.id = response.content;
-                        this.ea.publish(new ConversationJoined(conversation));
-                        conversation.messages.unshift(m);
-                        resolve(m);
-                    })
-                    .catch(error => reject('Error when creating the conversation'));
-            });
-            
-        }
-    }
-    
-    login(userName: string, password: string): Promise<any> {
-        this.isGuess = !password;
-
-        return new Promise<any>((resolve, reject) => {
-            if (this.isGuess) {
-                this.http.post(this.settings.accountdAPI + '/spaguess', { userName: userName })
-                    .then(response => {
-                        this.userName = userName;
-                        this.start();
-                        // get a new token for the session lifecycle
-                        this.setXhrf(resolve, reject);
-                    })
-                    .catch(error => {
-                        if (error.statusCode === 409) {
-                            reject("This user name already exists, please chose a different name");
-                        } else {
-                            reject(this.getErrorMessage(error));
-                        }   
-                })
-            } else {
-                this.http.post(this.settings.accountdAPI + '/spalogin', { userName: userName, password: password })
-                    .then(response => {
-                        this.userName = userName;
-                        sessionStorage.setItem('userName', userName);
-                        this.start();
-                        // get a new token for the session lifecycle
-                        this.setXhrf(resolve, reject);
-                    })
-                    .catch(error => {
-                        if (error.statusCode === 409) {
-                            reject("This user name already exists, please chose a different name");
-                        } else {
-                            reject(this.getErrorMessage(error));
-                        }
-                    })
-            }
-        });
-    }
-
-    logoff() {
-        delete this.userName;
-        sessionStorage.removeItem('userName');
+    stop() {
         jQuery.connection.hub.stop();
-        this.http.post(this.settings.accountdAPI + '/spalogoff', null);
-    }
-    
-    getUsers(): Promise<User[]> {
-        return new Promise<User[]>((resolve, reject) => {
-            this.http.get(this.settings.userAPI)
-                .then(response => {
-                        var data = response.content;
-                        if (data && data.users) {
-                            resolve(<User[]>data.users);
-                        }
-                    })
-                .catch(error => reject('The service is down'));
-        });
-    }
-
-    getConversations(): Promise<Conversation[]> {
-        return new Promise<Conversation[]>((resolve, reject) => {
-            this.http.get(this.settings.chatAPI)
-                .then(response => {
-                    if (response.response) {
-                        var data = response.content;
-                        if (data) {
-                            resolve(<Conversation[]>data);
-                        }
-                    } else {
-                        resolve(null);
-                    }
-                })
-                .catch(error => reject('The service is down'));
-        });
-    }
-
-    changePassword(model: ChangePassword): Promise<any> {
-        if (this.isGuess) {
-            return new Promise<any>((resolve, reject) => {
-                this.http.post(this.settings.accountdAPI + '/setpassword', model)
-                    .then(response => {
-                        this.isGuess = false;
-                        sessionStorage.setItem('userName', this.userName)
-                        resolve();
-                    })
-                    .catch(error => reject(this.getErrorMessage(error)));
-            });
-        } else {
-            return new Promise<any>((resolve, reject) => {
-                this.http.put(this.settings.accountdAPI + '/changepassword', model)
-                    .then(response => resolve())
-                    .catch(error => reject(this.getErrorMessage(error)));
-            });
-        }
-    }
-
-    setXhrf(resolve: Function, reject: Function) {
-        this.http.get('xhrf')
-            .then(r => {
-                this.http.configure(builder => {
-                    builder.withHeader('X-XSRF-TOKEN', r.response);
-                });
-                resolve();
-            })
-            .catch(error => reject('the service is down'));
-    }
-
-    private getErrorMessage(error: any) {
-        return (<Error[]>error.content)[0].errors[0].errorMessage
-    }
-
-    private setConverationTitle(conversation: Conversation) {
-        if (conversation.title) {
-            return;
-        }
-
-        let title = '';
-        conversation.attendees.forEach(attendee => {
-            if (attendee && attendee.userId && attendee.userId !== this.userName) {
-                title += attendee.userId + ' ';
-            }
-        });
-        conversation.title = title.trim();
     }
 
     private setConnectionState(connectionState: ConnectionState) {
@@ -337,7 +161,7 @@ export class ChatService {
 
     private onUserDisconnected(id: string) {
         console.log("Chat Hub user disconnected: " + id);
-        if (id !== this.userName) {
+        if (id !== this.state.userName) {
             this.ea.publish(new UserDisconnected(id));
         }
     }   
@@ -347,7 +171,7 @@ export class ChatService {
     }
 
     private onJoinConversation(conversation: Conversation) {
-        this.setConverationTitle(conversation);
+        this.helpers.setConverationTitle(conversation);
         this.ea.publish(new ConversationJoined(conversation));
     }
 }

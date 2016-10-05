@@ -23,6 +23,7 @@ namespace ConsoleApplication
             var config = new ConfigurationBuilder()
                 .SetBasePath(currentDirectory)
                 .AddJsonFile("hosting.json", optional: true)
+                .AddCommandLine(args)                
                 .Build();
 
             var host = new WebHostBuilder()

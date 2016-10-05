@@ -30,13 +30,13 @@
     "Microsoft.AspNetCore.StaticFiles": "1.0.0",
     "Microsoft.Extensions.Configuration": "1.0.0",
     "Microsoft.Extensions.Configuration.FileExtensions": "1.0.0",
-    "Microsoft.Extensions.Configuration.Json": "1.0.0"
+    "Microsoft.Extensions.Configuration.Json": "1.0.0",
+		"Microsoft.Extensions.Configuration.CommandLine": "1.0.0"
   },
   "frameworks": {
     "netcoreapp1.0": {
       "dependencies": {
         "Microsoft.NETCore.App": {
-          "type": "platform",
           "version": "1.0.0"
         }
       },
@@ -53,6 +53,9 @@
 		"rhel.7.2-x64": {},
 		"debian.8-x64": {}
 	},
+	"scripts": {
+    "prepublish": [ "npm install -g aurelia-cli", "npm install", "au build --env prod" ]
+  },
   "publishOptions": {
     "include": [
       "wwwroot"
