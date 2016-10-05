@@ -6,4 +6,4 @@ bin
 obj
 packages
 typings
-wwwwroot/scripts/*bundle*
+/wwwwroot/scripts/*bundle*
