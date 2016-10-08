@@ -53,9 +53,6 @@
 		"rhel.7.2-x64": {},
 		"debian.8-x64": {}
 	},
-	"scripts": {
-    "prepublish": [ "npm install -g aurelia-cli", "npm install", "au build --env prod" ]
-  },
   "publishOptions": {
     "include": [
       "wwwroot"

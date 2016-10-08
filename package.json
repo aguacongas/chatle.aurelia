@@ -74,9 +74,6 @@
     "vinyl-fs": "^2.4.3"
   },
   "scripts": {
-    "start": "concurrently \"au run --watch\" \"npm run chatle\"",
-    "postinstall": "typings install",
-    "chatle": "dotnet run -p ../chatle -- ../chatle",
-    "gulp": "gulp"
+    "postinstall": "typings install"
   }
 }
