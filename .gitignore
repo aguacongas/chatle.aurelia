@@ -5,3 +5,5 @@ node_modules
 bin
 obj
 packages
+typings
+/wwwwroot/scripts/*bundle*
