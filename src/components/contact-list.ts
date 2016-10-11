@@ -55,7 +55,7 @@ export class ContactList {
                 });
 
                 this.userDisconnectedSubscription = this.ea.subscribe(UserDisconnected, e => {
-                    this.removeUser((<UserDisconnected>e).id);
+                    this.removeUser((<UserDisconnected>e).user.id);
                 });
             })
             .catch(error => this.loadingMessage = error);

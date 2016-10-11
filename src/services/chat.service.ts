@@ -32,9 +32,14 @@ interface ChatProxy {
 
 interface ChatClient {
     userConnected: (user: User) => void;
-    userDisconnected: (id: string) => void;
+    userDisconnected: (user: Disconnected) => void;
     messageReceived: (message: Message) => void;
     joinConversation: (conversation: Conversation) => void;
+}
+
+export interface Disconnected {
+    id: string;
+    isRemoved: boolean
 }
 
 export enum ConnectionState {  
@@ -74,7 +79,7 @@ export class ChatService {
           * @desc callback when a new user disconnect the chat
           * @param id, the disconnected user id
         */
-        chatHub.client.userDisconnected = id => this.onUserDisconnected(id);
+        chatHub.client.userDisconnected = user => this.onUserDisconnected(user);
         /**
           * @desc callback when a message is received
           * @param String to, the conversation id
@@ -159,10 +164,10 @@ export class ChatService {
         this.ea.publish(new UserConnected(user));
     }
 
-    private onUserDisconnected(id: string) {
-        console.log("Chat Hub user disconnected: " + id);
-        if (id !== this.state.userName) {
-            this.ea.publish(new UserDisconnected(id));
+    private onUserDisconnected(user: UserDiscconnected) {
+        console.log("Chat Hub user disconnected: " + user.id);
+        if (user.id !== this.state.userName) {
+            this.ea.publish(new UserDisconnected(user.id));
         }
     }   
 

@@ -1,7 +1,7 @@
 import { autoinject } from 'aurelia-framework';
 import { EventAggregator, Subscription } from 'aurelia-event-aggregator';
 
-import { ConnectionState } from '../services/chat.service';
+import { ConnectionState, Disconnected } from '../services/chat.service';
 import { ConversationService } from '../services/conversation.service';
 import { State } from '../services/state';
 
@@ -70,9 +70,14 @@ export class ConversationList {
             let attendees = c.attendees;
             if (attendees.length === 2) {
               attendees.forEach(a => {
-                if (a.userId === e.id) {
+                let user = (<UserDisconnected>e).user;
+                if (user.isRemoved && a.userId === user.id) {
                   let index = this.conversations.indexOf(c);
+                  let conversation = this.conversations[index];
                   this.conversations.splice(index, 1);
+                  if (this.service.currentConversation === conversation) {
+                    delete this.service.currentConversation;
+                  }
                 }
               });
             }

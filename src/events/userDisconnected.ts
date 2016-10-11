@@ -1,3 +1,4 @@
+import { Disconnected } from '../services/chat.service'
 export class UserDisconnected {
-    constructor(public id: string) { }
+    constructor(public user: Disconnected) { }
 }

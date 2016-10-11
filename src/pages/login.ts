@@ -8,6 +8,8 @@ export class Login {
     userName: '';
     password: '';
     error: Error;
+    externalLogin: string;
+    token: string;
     
     constructor(private service: LoginService, private router: Router) { }
 
