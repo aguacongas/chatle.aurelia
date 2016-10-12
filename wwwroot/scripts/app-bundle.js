@@ -191,8 +191,8 @@ define('events/userConnected',["require", "exports"], function (require, exports
 define('events/userDisconnected',["require", "exports"], function (require, exports) {
     "use strict";
     var UserDisconnected = (function () {
-        function UserDisconnected(id) {
-            this.id = id;
+        function UserDisconnected(user) {
+            this.user = user;
         }
         return UserDisconnected;
     }());
@@ -234,7 +234,7 @@ define('services/chat.service',["require", "exports", 'aurelia-event-aggregator'
             var connection = jQuery.connection;
             var chatHub = connection.chat;
             chatHub.client.userConnected = function (user) { return _this.onUserConnected(user); };
-            chatHub.client.userDisconnected = function (id) { return _this.onUserDisconnected(id); };
+            chatHub.client.userDisconnected = function (user) { return _this.onUserDisconnected(user); };
             chatHub.client.messageReceived = function (message) { return _this.onMessageReceived(message); };
             chatHub.client.joinConversation = function (conversation) { return _this.onJoinConversation(conversation); };
             if (debug) {
@@ -291,10 +291,10 @@ define('services/chat.service',["require", "exports", 'aurelia-event-aggregator'
             console.log("Chat Hub new user connected: " + user.id);
             this.ea.publish(new userConnected_1.UserConnected(user));
         };
-        ChatService.prototype.onUserDisconnected = function (id) {
-            console.log("Chat Hub user disconnected: " + id);
-            if (id !== this.state.userName) {
-                this.ea.publish(new userDisconnected_1.UserDisconnected(id));
+        ChatService.prototype.onUserDisconnected = function (user) {
+            console.log("Chat Hub user disconnected: " + user.id);
+            if (user.id !== this.state.userName) {
+                this.ea.publish(new userDisconnected_1.UserDisconnected(user));
             }
         };
         ChatService.prototype.onMessageReceived = function (message) {
@@ -332,15 +332,23 @@ define('services/login.service',["require", "exports", 'aurelia-http-client', 'a
             this.state = state;
             this.helpers = helpers;
         }
+        LoginService.prototype.getXhrf = function () {
+            var _this = this;
+            return new Promise(function (resolve, reject) {
+                if (_this.xhrf) {
+                    resolve(_this.xhrf);
+                }
+                else {
+                    _this.setXhrf(resolve, reject);
+                }
+            });
+        };
         LoginService.prototype.login = function (userName, password) {
             var _this = this;
             this.state.isGuess = !password;
             return new Promise(function (resolve, reject) {
-                _this.http.get('xhrf')
+                _this.getXhrf()
                     .then(function (r) {
-                    _this.http.configure(function (builder) {
-                        builder.withHeader('X-XSRF-TOKEN', r.response);
-                    });
                     if (_this.state.isGuess) {
                         _this.loginAsGuess(userName, resolve, reject);
                     }
@@ -353,6 +361,7 @@ define('services/login.service',["require", "exports", 'aurelia-http-client', 'a
         };
         LoginService.prototype.logoff = function () {
             delete this.state.userName;
+            delete this.xhrf;
             sessionStorage.removeItem('userName');
             this.chatService.stop();
             this.http.post(this.settings.accountdAPI + '/spalogoff', null);
@@ -361,10 +370,11 @@ define('services/login.service',["require", "exports", 'aurelia-http-client', 'a
             var _this = this;
             this.http.get('xhrf')
                 .then(function (r) {
+                _this.xhrf = r.response;
                 _this.http.configure(function (builder) {
-                    builder.withHeader('X-XSRF-TOKEN', r.response);
+                    builder.withHeader('X-XSRF-TOKEN', _this.xhrf);
                 });
-                resolve();
+                resolve(_this.xhrf);
             })
                 .catch(function (error) { return reject(new Error('the service is down')); });
         };
@@ -600,7 +610,7 @@ define('components/contact-list',["require", "exports", 'aurelia-framework', 'au
                     _this.users.unshift(e.user);
                 });
                 _this.userDisconnectedSubscription = _this.ea.subscribe(userDisconnected_1.UserDisconnected, function (e) {
-                    _this.removeUser(e.id);
+                    _this.removeUser(e.user.id);
                 });
             })
                 .catch(function (error) { return _this.loadingMessage = error; });
@@ -894,9 +904,14 @@ define('components/conversation-list',["require", "exports", 'aurelia-framework'
                         var attendees = c.attendees;
                         if (attendees.length === 2) {
                             attendees.forEach(function (a) {
-                                if (a.userId === e.id) {
+                                var user = e.user;
+                                if (user.isRemoved && a.userId === user.id) {
                                     var index = _this.conversations.indexOf(c);
+                                    var conversation = _this.conversations[index];
                                     _this.conversations.splice(index, 1);
+                                    if (_this.service.currentConversation === conversation) {
+                                        delete _this.service.currentConversation;
+                                    }
                                 }
                             });
                         }
@@ -1188,12 +1203,13 @@ var __decorate = (this && this.__decorate) || function (decorators, target, key,
 var __metadata = (this && this.__metadata) || function (k, v) {
     if (typeof Reflect === "object" && typeof Reflect.metadata === "function") return Reflect.metadata(k, v);
 };
-define('pages/login',["require", "exports", 'aurelia-framework', 'aurelia-router', '../services/login.service'], function (require, exports, aurelia_framework_1, aurelia_router_1, login_service_1) {
+define('pages/login',["require", "exports", 'aurelia-framework', 'aurelia-router', '../services/login.service', '../config/settings'], function (require, exports, aurelia_framework_1, aurelia_router_1, login_service_1, settings_1) {
     "use strict";
     var Login = (function () {
-        function Login(service, router) {
+        function Login(service, router, settings) {
             this.service = service;
             this.router = router;
+            this.externalLogin = settings.apiBaseUrl + settings.accountdAPI + '/externalLogin?returnUrl=' + encodeURIComponent(window.location.href);
         }
         Login.prototype.login = function (userName) {
             var _this = this;
@@ -1205,9 +1221,19 @@ define('pages/login',["require", "exports", 'aurelia-framework', 'aurelia-router
                 _this.error = error;
             });
         };
+        Login.prototype.activate = function () {
+            var _this = this;
+            this.service.getXhrf()
+                .then(function (t) {
+                return _this.token = t;
+            })
+                .catch(function (e) {
+                return _this.error = e;
+            });
+        };
         Login = __decorate([
             aurelia_framework_1.autoinject, 
-            __metadata('design:paramtypes', [login_service_1.LoginService, aurelia_router_1.Router])
+            __metadata('design:paramtypes', [login_service_1.LoginService, aurelia_router_1.Router, settings_1.Settings])
         ], Login);
         return Login;
     }());
@@ -2557,5 +2583,5 @@ define('text!components/conversation-list.html', ['module'], function(module) { 
 define('text!components/conversation-preview.html', ['module'], function(module) { module.exports = "<template>\n  <li class=\"list-group-item ${isSelected ? 'active' : ''}\" click.delegate=\"select()\">\n    <a>${conversation.title}</a><br/>\n    <span>${lastMessage}</span>\n  </li>\n</template>"; });
 define('text!pages/account.html', ['module'], function(module) { module.exports = "<template>\n    <h2>Manage Account.</h2>\n    <div class=\"row\">\n        <div class=\"col-md-12\">\n            <p>You're logged in as <strong>${userName}</strong>.</p>\n            <form class=\"form-horizontal\">\n                <h4 if.bind=\"!isGuess\">Change Password Form</h4>\n                <h4 if.bind=\"isGuess\">Create Password Form</h4>\n                <hr>\n                <div if.bind=\"errorMessage\" class=\"text-danger\">\n                    <ul>\n                        <li>${errorMessage}</li>\n                    </ul>\n                </div>\n                <div class=\"form-group\" if.bind=\"!isGuess\">\n                    <label class=\"col-md-2 control-label\" for=\"oldPassword\">Current password</label>\n                    <div class=\"col-md-10\">\n                        <input class=\"form-control\" type=\"password\" id=\"oldPassword\" value.bind=\"model.oldPassword\" />\t\t\t\n                    </div>\n                </div>\n                <div class=\"form-group\" validation-errors.bind=\"newPasswordErrors\" class.bind=\"newPasswordErrors.length ? 'has-error' : ''\">\n                    <label class=\"col-md-2 control-label\" for=\"newPassword\">New password</label>\t\n                    <div class=\"col-md-10\">\n                        <input class=\"form-control\" type=\"password\" name=\"newPassword\" value.bind=\"newPassword & validate\" change.delegate=\"confirmPassword = ''\"/>\n                    </div>\n                    <span class=\"help-block\" repeat.for=\"errorInfo of newPasswordErrors\">\n                        ${errorInfo.error.message}\n                    <span>\n                </div>\n                <div class=\"form-group\" validation-errors.bind=\"confirmPasswordErrors\" class.bind=\"confirmPasswordErrors.length ? 'has-error' : ''\">\n                    <label class=\"col-md-2 control-label\" for=\"confirmPassword\">Confirm new password</label>\n                    <div class=\"col-md-10\">\n                        <input class=\"form-control\" type=\"password\" name=\"confirmPassword\" value.bind=\"confirmPassword & validate\" />\n                    </div>\n                    <span class=\"help-block\" repeat.for=\"errorInfo of confirmPasswordErrors\">\n                        ${errorInfo.error.message}\n                    <span>\n                </div>\n                <div class=\"form-group\">\n                    <div class=\"col-md-offset-2 col-md-10\">\n                        <input class=\"btn btn-default\" type=\"submit\" value=\"Change password\" click.delegate=\"changePassword()\" disabled.bind=\"controller.errors.length > 0\"/>\n                    </div>\n                </div>\n            </form>\n        </div>\n    </div>\n</template>"; });
 define('text!pages/home.html', ['module'], function(module) { module.exports = "<template>\n    <require from=\"../components/contact-list\"></require>\n    <require from=\"../components/conversation-list\"></require>\n\n    <div class=\"row\">\n        <div class=\"col-xs-3\">\n            <h6>CONVERSATION</h6>\n            <conversation-list></conversation-list>\n        </div>\n        <router-view class=\"col-xs-6\"></router-view>\n        <div class=\"col-xs-3\">\n            <h6>CONNECTED</h6>\n            <contact-list></contact-list>\n        </div>\n    </div>\n</template>"; });
-define('text!pages/login.html', ['module'], function(module) { module.exports = "<template>\n    <h2>Loging</h2>\n    <hr />\n    <form class=\"form-horizontal\">\n        <div class=\"form-group\">\n            <label class=\"col-xs-3 control-label\" for=\"userName\"></label>\n            <div class=\"col-xs-9\">\n                <input class=\"form-control\" name=\"userName\" value.bind=\"userName\" change.delegate=\"delete error\" />\n                <span class=\"text-danger\" if.bind=\"error\">${error.message}</span>\n            </div>\n        </div>\n        <div class=\"form-group\">\n            <label class=\"col-xs-3 control-label\" for=\"password\"></label>\n            <div class=\"col-xs-9\">\n                <input class=\"form-control\" type=\"password\" name=\"password\" value.bind=\"password\" />\n                <div>\n                    <span>Don't enter a password il you want to login as guess user.</span>\n                </div>\n            </div>\n        </div>\n        <div class=\"form-group\">\n            <div class=\"col-xs-offset-3 col-xs-9\">\n                <input type=\"submit\" value=\"Log in\" class=\"btn btn-default\" click.delegate=\"login(userName)\" />\n            </div>\n        </div>\n    </form>\n</template>"; });
+define('text!pages/login.html', ['module'], function(module) { module.exports = "<template>\n\t<h2>Log in.</h2>\n\t<hr />\n\t<div class=\"col-xs-6\">\n\t\t<section>\n            <h4>Guess access.</h4>\n\t\t\t<hr>\n\t\t\t<form class=\"form-horizontal\">\n\t\t\t\t<div class=\"form-group\">\n\t\t\t\t\t<label class=\"col-xs-3 control-label\" for=\"userName\"></label>\n\t\t\t\t\t<div class=\"col-xs-9\">\n\t\t\t\t\t\t<input class=\"form-control\" name=\"userName\" value.bind=\"userName\" change.delegate=\"delete error\" />\n\t\t\t\t\t\t<span class=\"text-danger\" if.bind=\"error\">${error.message}</span>\n\t\t\t\t\t</div>\n\t\t\t\t</div>\n\t\t\t\t<div class=\"form-group\">\n\t\t\t\t\t<div class=\"col-xs-offset-3 col-xs-9\">\n\t\t\t\t\t\t<input type=\"submit\" value=\"Log in\" class=\"btn btn-default\" click.delegate=\"login(userName)\" />\n\t\t\t\t\t</div>\n\t\t\t\t</div>\n\t\t\t</form>\n\t\t</section>\n\t</div>\n\t<div class=\"col-xs-6\">\n\t\t<section>\n\t\t\t<h4>Use another service to log in.</h4>\n\t\t\t<hr>\n\t\t\t<form class=\"form-horizontal\" role=\"form\" method=\"post\" action.bind=\"externalLogin\" disabled.bind=\"token\">\n\t\t\t\t<div>\n\t\t\t\t\t<p>\n\t\t\t\t\t\t<button type=\"submit\" class=\"btn btn-default\" name=\"provider\" value=\"Microsoft\" title=\"Log in using your Microsoft account\">Microsoft</button>\n\t\t\t\t\t\t<button type=\"submit\" class=\"btn btn-default\" name=\"provider\" value=\"Google\" title=\"Log in using your Google account\">Google</button>\n\t\t\t\t\t\t<button type=\"submit\" class=\"btn btn-default\" name=\"provider\" value=\"Twitter\" title=\"Log in using your Twitter account\">Twitter</button>\n\t\t\t\t\t\t<button type=\"submit\" class=\"btn btn-default\" name=\"provider\" value=\"Facebook\" title=\"Log in using your Facebook account\">Facebook</button>\n\t\t\t\t\t</p>\n\t\t\t\t</div>\n\t\t\t\t<input name=\"__RequestVerificationToken\" type=\"hidden\" value.bind=\"token\"></form>\n\t\t</section>\n\t</div>\n</template>"; });
 //# sourceMappingURL=app-bundle.js.map

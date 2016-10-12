@@ -164,10 +164,10 @@ export class ChatService {
         this.ea.publish(new UserConnected(user));
     }
 
-    private onUserDisconnected(user: UserDiscconnected) {
+    private onUserDisconnected(user: Disconnected) {
         console.log("Chat Hub user disconnected: " + user.id);
         if (user.id !== this.state.userName) {
-            this.ea.publish(new UserDisconnected(user.id));
+            this.ea.publish(new UserDisconnected(user));
         }
     }   
 

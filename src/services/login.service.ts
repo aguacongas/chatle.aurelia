@@ -49,6 +49,20 @@ export class LoginService {
         this.http.post(this.settings.accountdAPI + '/spalogoff', null);
     }
 
+    exists(userName): Promise<boolean> {
+        return new Promise<boolean>((resolve, reject) => {
+            this.getXhrf()
+                .then(r => {
+                    this.http.get(this.settings.accountdAPI + "/exists")
+                        .then(response => {
+                            resolve(response.content);
+                        })
+                        .catch(error => reject(new Error('the service is down')));
+                })
+                .catch(error => reject(new Error('the service is down')));
+        });
+    }
+
     private setXhrf(resolve: Function, reject: Function) {
         this.http.get('xhrf')
             .then(r => {
@@ -56,7 +70,7 @@ export class LoginService {
                 this.http.configure(builder => {
                     builder.withHeader('X-XSRF-TOKEN', this.xhrf);
                 });
-                resolve();
+                resolve(this.xhrf);
             })
             .catch(error => reject(new Error('the service is down')));
     }
