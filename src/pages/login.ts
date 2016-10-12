@@ -22,4 +22,12 @@ export class Login {
                 this.error = error;
             });
     }
+
+    activate() {
+        this.service.getXhrf()
+            .then(t => this.token = t)
+            .catch(e => this.error = e);
+    }
+
+
 }

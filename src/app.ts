@@ -73,7 +73,7 @@ export class App {
 @autoinject
 class AuthorizeStep {
 
-    constructor(private service: LoginService, private state: State) { }
+    constructor(private state: State) { }
 
     run(navigationInstruction: NavigationInstruction, next: Next): Promise<any> {
         if (navigationInstruction.getAllInstructions().some(i => {
