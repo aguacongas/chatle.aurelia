@@ -19,7 +19,7 @@ export class Login {
     }
 
     login(userName: string) {        
-        this.service.login(userName, this.password)
+        this.service.login(userName, null)
             .then(() => {
                 this.router.navigateToRoute('home');
             })
