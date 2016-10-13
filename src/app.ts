@@ -80,14 +80,14 @@ class AuthorizeStep {
             let route = i.config as CustomRouteConfig;
             return !route.anomymous;
         })) {
-            let userName = this.helpers.getUrlParameter('u') 
-            if (userName) {
-                this.state.userName = userName;
-            }
-
             let provider = this.helpers.getUrlParameter('p') 
             if (provider) {
                 return next.cancel(new Redirect('confirm'));
+            }
+
+            let userName = this.helpers.getUrlParameter('u') 
+            if (userName) {
+                this.state.userName = userName;
             }
 
             let isLoggedIn = this.state.userName;
