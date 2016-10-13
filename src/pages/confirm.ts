@@ -5,15 +5,23 @@ import { ValidationControllerFactory, ValidationController} from 'aurelia-valida
 
 import { LoginService } from '../services/login.service';
 import { Settings } from '../config/settings';
+import { State } from '../services/state';
+import { Helpers } from '../services/helpers';
 
 @autoinject
 export class Confirm {
     userName: '';
     error: Error;
     controller: ValidationController;
+    provider: string;
     
-    constructor(public service: LoginService, private router: Router, controllerFactory: ValidationControllerFactory) { 
+    constructor(public service: LoginService, 
+        private router: Router, 
+        private state: State,
+        private helpers: Helpers, 
+        controllerFactory: ValidationControllerFactory) { 
         this.controller = controllerFactory.createForCurrentScope();
+        this.provider = this.helpers.getUrlParameter('p');
     }
 }
 

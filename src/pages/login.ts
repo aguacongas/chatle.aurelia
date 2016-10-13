@@ -11,11 +11,12 @@ export class Login {
     externalLogin: string;
     token: string;
     
-    constructor(private service: LoginService, private router: Router, settings: Settings) { 
+    constructor(private service: LoginService, private router: Router, settings: Settings) {
+        let location = window.location; 
         this.externalLogin = settings.apiBaseUrl + 
             settings.accountdAPI + 
             '/externalLogin?returnUrl=' + 
-            encodeURIComponent(window.location.href + "/externalLogin");
+            encodeURIComponent(location.protocol + '//' + location.host);
     }
 
     login(userName: string) {        

@@ -13,7 +13,7 @@
 		<div class="form-group" validation-errors.bind="userNameErrors" class.bind="userNameErrors.length ? 'has-error' : ''">
 			<label class="col-md-2 control-label" for="UserName">User name</label>
 			<div class="col-md-10">
-				<input class="form-control" name="UserName" value.bind="userName & validateOnChange" />
+				<input class="form-control" name="UserName" value.bind="userName & validate" />
 				<span class="help-block" repeat.for="errorInfo of userNameErrors">
                     ${errorInfo.error.message}
                 <span>
