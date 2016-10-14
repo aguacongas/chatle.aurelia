@@ -26,13 +26,13 @@ export class AccountService {
                         sessionStorage.setItem('userName', this.state.userName)
                         resolve();
                     })
-                    .catch(error => reject(new Error(this.helpers.getErrorMessage(error))));
+                    .catch(error => reject(this.helpers.getError(error)));
             });
         } else {
             return new Promise<any>((resolve, reject) => {
                 this.http.put(this.settings.accountdAPI + '/changepassword', model)
                     .then(response => resolve())
-                    .catch(error => reject(new Error(this.helpers.getErrorMessage(error))));
+                    .catch(error => reject(this.helpers.getError(error)));
             });
         }
     }

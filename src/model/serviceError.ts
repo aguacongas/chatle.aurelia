@@ -7,6 +7,7 @@ class ErrorMessage {
 }
 
 export class ServiceError {
+    key: string;
     subKey: Key;
     errors: Array<ErrorMessage>;
 }

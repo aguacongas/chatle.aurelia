@@ -1,10 +1,10 @@
 <template>
 	<h3>Associate your ${provider} account.</h3>
 
-	<form class="form-horizontal">
+	<form class="form-horizontal" submit.delegate="confirm()">
 		<h4>Association Form</h4>
 		<hr />
-		<div class="text-danger">${error}</div>
+		<div class="text-danger">${error.message}</div>
 
 		<p class="text-info">
 			You've successfully authenticated with <strong>${provider}</strong>. Please enter a user name for this site below and

@@ -98,8 +98,12 @@ define('services/helpers',["require", "exports", 'aurelia-framework', './state']
         function Helpers(state) {
             this.state = state;
         }
-        Helpers.prototype.getErrorMessage = function (error) {
-            return error.content[0].errors[0].errorMessage;
+        Helpers.prototype.getError = function (error) {
+            var errors = error.content;
+            var se = errors[0];
+            var e = new Error(se.errors[0].errorMessage);
+            e.name = se.key;
+            return e;
         };
         Helpers.prototype.setConverationTitle = function (conversation) {
             var _this = this;
@@ -338,10 +342,15 @@ define('services/login.service',["require", "exports", 'aurelia-http-client', 'a
             this.state = state;
             this.helpers = helpers;
         }
-        LoginService.prototype.getXhrf = function () {
+        LoginService.prototype.getXhrf = function (clearCookies) {
             var _this = this;
             return new Promise(function (resolve, reject) {
-                if (_this.xhrf) {
+                if (clearCookies) {
+                    _this.http.get('cls')
+                        .then(function () { return _this.setXhrf(resolve, reject); })
+                        .catch(function (e) { return reject(new Error('The service is down')); });
+                }
+                else if (_this.xhrf) {
                     resolve(_this.xhrf);
                 }
                 else {
@@ -386,6 +395,20 @@ define('services/login.service',["require", "exports", 'aurelia-http-client', 'a
                     .catch(function (error) { return reject(new Error('the service is down')); });
             });
         };
+        LoginService.prototype.confirm = function (userName) {
+            var _this = this;
+            return new Promise(function (resolve, reject) {
+                _this.getXhrf()
+                    .then(function (r) {
+                    _this.http.put(_this.settings.accountdAPI + "/spaExternalLoginConfirmation", { userName: userName })
+                        .then(function (response) {
+                        _this.logged(userName, resolve, reject);
+                    })
+                        .catch(function (error) { return reject(_this.helpers.getError(error)); });
+                })
+                    .catch(function (error) { return reject(new Error('the service is down')); });
+            });
+        };
         LoginService.prototype.setXhrf = function (resolve, reject) {
             var _this = this;
             this.http.get('xhrf')
@@ -402,26 +425,27 @@ define('services/login.service',["require", "exports", 'aurelia-http-client', 'a
             var _this = this;
             this.http.post(this.settings.accountdAPI + '/spaguess', { userName: userName })
                 .then(function (response) {
-                _this.state.userName = userName;
-                _this.chatService.start();
-                _this.setXhrf(resolve, reject);
+                _this.logged(userName, resolve, reject);
             })
                 .catch(function (error) {
-                reject(new Error(_this.helpers.getErrorMessage(error)));
+                reject(_this.helpers.getError(error));
             });
         };
         LoginService.prototype.loginAsRegistered = function (userName, password, resolve, reject) {
             var _this = this;
             this.http.post(this.settings.accountdAPI + '/spalogin', { userName: userName, password: password })
                 .then(function (response) {
-                _this.state.userName = userName;
+                _this.logged(userName, resolve, reject);
                 sessionStorage.setItem('userName', userName);
-                _this.chatService.start();
-                _this.setXhrf(resolve, reject);
             })
                 .catch(function (error) {
-                reject(new Error(_this.helpers.getErrorMessage(error)));
+                reject(_this.helpers.getError(error));
             });
+        };
+        LoginService.prototype.logged = function (userName, resolve, reject) {
+            this.state.userName = userName;
+            this.chatService.start();
+            this.setXhrf(resolve, reject);
         };
         LoginService = __decorate([
             aurelia_framework_1.autoinject, 
@@ -499,13 +523,13 @@ define('app',["require", "exports", 'aurelia-framework', 'aurelia-router', 'aure
                 var route = i.config;
                 return !route.anomymous;
             })) {
-                var userName = this.helpers.getUrlParameter('u');
-                if (userName) {
-                    this.state.userName = userName;
-                }
                 var provider = this.helpers.getUrlParameter('p');
                 if (provider) {
                     return next.cancel(new aurelia_router_1.Redirect('confirm'));
+                }
+                var userName = this.helpers.getUrlParameter('u');
+                if (userName) {
+                    this.state.userName = userName;
                 }
                 var isLoggedIn = this.state.userName;
                 if (!isLoggedIn) {
@@ -704,7 +728,7 @@ define('services/conversation.service',["require", "exports", 'aurelia-event-agg
                         conversation.messages.unshift(m);
                         resolve(m);
                     })
-                        .catch(function (error) { return reject(new Error(_this.helpers.getErrorMessage(error))); });
+                        .catch(function (error) { return reject(_this.helpers.getError(error)); });
                 });
             }
             else {
@@ -725,7 +749,7 @@ define('services/conversation.service',["require", "exports", 'aurelia-event-agg
                         conversation.messages.unshift(m);
                         resolve(m);
                     })
-                        .catch(function (error) { return reject(new Error(_this.helpers.getErrorMessage(error))); });
+                        .catch(function (error) { return reject(_this.helpers.getError(error)); });
                 });
             }
         };
@@ -1064,14 +1088,14 @@ define('services/account.service',["require", "exports", 'aurelia-http-client', 
                         sessionStorage.setItem('userName', _this.state.userName);
                         resolve();
                     })
-                        .catch(function (error) { return reject(new Error(_this.helpers.getErrorMessage(error))); });
+                        .catch(function (error) { return reject(_this.helpers.getError(error)); });
                 });
             }
             else {
                 return new Promise(function (resolve, reject) {
                     _this.http.put(_this.settings.accountdAPI + '/changepassword', model)
                         .then(function (response) { return resolve(); })
-                        .catch(function (error) { return reject(new Error(_this.helpers.getErrorMessage(error))); });
+                        .catch(function (error) { return reject(_this.helpers.getError(error)); });
                 });
             }
         };
@@ -1183,7 +1207,28 @@ define('pages/confirm',["require", "exports", 'aurelia-framework', 'aurelia-rout
             this.helpers = helpers;
             this.controller = controllerFactory.createForCurrentScope();
             this.provider = this.helpers.getUrlParameter('p');
+            this.userName = this.helpers.getUrlParameter('u');
+            window.history.replaceState(null, null, '/');
         }
+        Confirm.prototype.confirm = function () {
+            var _this = this;
+            this.controller.validate()
+                .then(function () {
+                _this.service.confirm(_this.userName)
+                    .then(function () {
+                    _this.router.navigateToRoute('home');
+                })
+                    .catch(function (e) {
+                    if (e.name === 'NullInfo') {
+                        _this.router.navigateToRoute('login');
+                    }
+                    else {
+                        _this.error = e;
+                    }
+                });
+            })
+                .catch(function (e) { return _this.error = e; });
+        };
         Confirm = __decorate([
             aurelia_framework_1.autoinject, 
             __metadata('design:paramtypes', [login_service_1.LoginService, aurelia_router_1.Router, state_1.State, helpers_1.Helpers, aurelia_validation_2.ValidationControllerFactory])
@@ -1287,7 +1332,7 @@ define('pages/login',["require", "exports", 'aurelia-framework', 'aurelia-router
         };
         Login.prototype.activate = function () {
             var _this = this;
-            this.service.getXhrf()
+            this.service.getXhrf(true)
                 .then(function (t) {
                 return _this.token = t;
             })
@@ -2646,7 +2691,7 @@ define('text!components/conversation-component.html', ['module'], function(modul
 define('text!components/conversation-list.html', ['module'], function(module) { module.exports = "<template>\n  <require from=\"./conversation-preview\"></require>\n  <div class=\"conversation-list\">\n    <ul class=\"list-group\">\n      <conversation-preview repeat.for=\"conversation of conversations\" conversation.bind=\"conversation\"></conversation-preview>\n    </ul>\n  </div>\n</template>"; });
 define('text!components/conversation-preview.html', ['module'], function(module) { module.exports = "<template>\n  <li class=\"list-group-item ${isSelected ? 'active' : ''}\" click.delegate=\"select()\">\n    <a>${conversation.title}</a><br/>\n    <span>${lastMessage}</span>\n  </li>\n</template>"; });
 define('text!pages/account.html', ['module'], function(module) { module.exports = "<template>\n    <h2>Manage Account.</h2>\n    <div class=\"row\">\n        <div class=\"col-md-12\">\n            <p>You're logged in as <strong>${userName}</strong>.</p>\n            <form class=\"form-horizontal\">\n                <h4 if.bind=\"!isGuess\">Change Password Form</h4>\n                <h4 if.bind=\"isGuess\">Create Password Form</h4>\n                <hr>\n                <div if.bind=\"errorMessage\" class=\"text-danger\">\n                    <ul>\n                        <li>${errorMessage}</li>\n                    </ul>\n                </div>\n                <div class=\"form-group\" if.bind=\"!isGuess\">\n                    <label class=\"col-md-2 control-label\" for=\"oldPassword\">Current password</label>\n                    <div class=\"col-md-10\">\n                        <input class=\"form-control\" type=\"password\" id=\"oldPassword\" value.bind=\"model.oldPassword\" />\t\t\t\n                    </div>\n                </div>\n                <div class=\"form-group\" validation-errors.bind=\"newPasswordErrors\" class.bind=\"newPasswordErrors.length ? 'has-error' : ''\">\n                    <label class=\"col-md-2 control-label\" for=\"newPassword\">New password</label>\t\n                    <div class=\"col-md-10\">\n                        <input class=\"form-control\" type=\"password\" name=\"newPassword\" value.bind=\"newPassword & validate\" change.delegate=\"confirmPassword = ''\"/>\n                    </div>\n                    <span class=\"help-block\" repeat.for=\"errorInfo of newPasswordErrors\">\n                        ${errorInfo.error.message}\n                    <span>\n                </div>\n                <div class=\"form-group\" validation-errors.bind=\"confirmPasswordErrors\" class.bind=\"confirmPasswordErrors.length ? 'has-error' : ''\">\n                    <label class=\"col-md-2 control-label\" for=\"confirmPassword\">Confirm new password</label>\n                    <div class=\"col-md-10\">\n                        <input class=\"form-control\" type=\"password\" name=\"confirmPassword\" value.bind=\"confirmPassword & validate\" />\n                    </div>\n                    <span class=\"help-block\" repeat.for=\"errorInfo of confirmPasswordErrors\">\n                        ${errorInfo.error.message}\n                    <span>\n                </div>\n                <div class=\"form-group\">\n                    <div class=\"col-md-offset-2 col-md-10\">\n                        <input class=\"btn btn-default\" type=\"submit\" value=\"Change password\" click.delegate=\"changePassword()\" disabled.bind=\"controller.errors.length > 0\"/>\n                    </div>\n                </div>\n            </form>\n        </div>\n    </div>\n</template>"; });
-define('text!pages/confirm.html', ['module'], function(module) { module.exports = "<template>\n\t<h3>Associate your ${provider} account.</h3>\n\n\t<form class=\"form-horizontal\">\n\t\t<h4>Association Form</h4>\n\t\t<hr />\n\t\t<div class=\"text-danger\">${error}</div>\n\n\t\t<p class=\"text-info\">\n\t\t\tYou've successfully authenticated with <strong>${provider}</strong>. Please enter a user name for this site below and\n\t\t\tclick the Register button to finish logging in.\n\t\t</p>\n\t\t<div class=\"form-group\" validation-errors.bind=\"userNameErrors\" class.bind=\"userNameErrors.length ? 'has-error' : ''\">\n\t\t\t<label class=\"col-md-2 control-label\" for=\"UserName\">User name</label>\n\t\t\t<div class=\"col-md-10\">\n\t\t\t\t<input class=\"form-control\" name=\"UserName\" value.bind=\"userName & validate\" />\n\t\t\t\t<span class=\"help-block\" repeat.for=\"errorInfo of userNameErrors\">\n                    ${errorInfo.error.message}\n                <span>\n\t\t\t</div>\n\t\t</div>\n\t\t<div class=\"form-group\">\n\t\t\t<div class=\"col-md-offset-2 col-md-10\">\n\t\t\t\t<button type=\"submit\" class=\"btn btn-default\">Register</button>\n\t\t\t</div>\n\t\t</div>\n\t</form>\n\n</template>"; });
+define('text!pages/confirm.html', ['module'], function(module) { module.exports = "<template>\n\t<h3>Associate your ${provider} account.</h3>\n\n\t<form class=\"form-horizontal\" submit.delegate=\"confirm()\">\n\t\t<h4>Association Form</h4>\n\t\t<hr />\n\t\t<div class=\"text-danger\">${error.message}</div>\n\n\t\t<p class=\"text-info\">\n\t\t\tYou've successfully authenticated with <strong>${provider}</strong>. Please enter a user name for this site below and\n\t\t\tclick the Register button to finish logging in.\n\t\t</p>\n\t\t<div class=\"form-group\" validation-errors.bind=\"userNameErrors\" class.bind=\"userNameErrors.length ? 'has-error' : ''\">\n\t\t\t<label class=\"col-md-2 control-label\" for=\"UserName\">User name</label>\n\t\t\t<div class=\"col-md-10\">\n\t\t\t\t<input class=\"form-control\" name=\"UserName\" value.bind=\"userName & validate\" />\n\t\t\t\t<span class=\"help-block\" repeat.for=\"errorInfo of userNameErrors\">\n                    ${errorInfo.error.message}\n                <span>\n\t\t\t</div>\n\t\t</div>\n\t\t<div class=\"form-group\">\n\t\t\t<div class=\"col-md-offset-2 col-md-10\">\n\t\t\t\t<button type=\"submit\" class=\"btn btn-default\">Register</button>\n\t\t\t</div>\n\t\t</div>\n\t</form>\n\n</template>"; });
 define('text!pages/home.html', ['module'], function(module) { module.exports = "<template>\n    <require from=\"../components/contact-list\"></require>\n    <require from=\"../components/conversation-list\"></require>\n\n    <div class=\"row\">\n        <div class=\"col-xs-3\">\n            <h6>CONVERSATION</h6>\n            <conversation-list></conversation-list>\n        </div>\n        <router-view class=\"col-xs-6\"></router-view>\n        <div class=\"col-xs-3\">\n            <h6>CONNECTED</h6>\n            <contact-list></contact-list>\n        </div>\n    </div>\n</template>"; });
 define('text!pages/login.html', ['module'], function(module) { module.exports = "<template>\n\t<h2>Log in.</h2>\n\t<hr />\n\t<div class=\"col-xs-6\">\n\t\t<section>\n            <h4>Guess access.</h4>\n\t\t\t<hr>\n\t\t\t<form class=\"form-horizontal\">\n\t\t\t\t<div class=\"form-group\">\n\t\t\t\t\t<label class=\"col-xs-3 control-label\" for=\"userName\"></label>\n\t\t\t\t\t<div class=\"col-xs-9\">\n\t\t\t\t\t\t<input class=\"form-control\" name=\"userName\" value.bind=\"userName\" change.delegate=\"delete error\" />\n\t\t\t\t\t\t<span class=\"text-danger\" if.bind=\"error\">${error.message}</span>\n\t\t\t\t\t</div>\n\t\t\t\t</div>\n\t\t\t\t<div class=\"form-group\">\n\t\t\t\t\t<div class=\"col-xs-offset-3 col-xs-9\">\n\t\t\t\t\t\t<input type=\"submit\" value=\"Log in\" class=\"btn btn-default\" click.delegate=\"login(userName)\" />\n\t\t\t\t\t</div>\n\t\t\t\t</div>\n\t\t\t</form>\n\t\t</section>\n\t</div>\n\t<div class=\"col-xs-6\">\n\t\t<section>\n\t\t\t<h4>Use another service to log in.</h4>\n\t\t\t<hr>\n\t\t\t<form class=\"form-horizontal\" role=\"form\" method=\"post\" action.bind=\"externalLogin\" disabled.bind=\"token\">\n\t\t\t\t<div>\n\t\t\t\t\t<p>\n\t\t\t\t\t\t<button type=\"submit\" class=\"btn btn-default\" name=\"provider\" value=\"Microsoft\" title=\"Log in using your Microsoft account\">Microsoft</button>\n\t\t\t\t\t\t<button type=\"submit\" class=\"btn btn-default\" name=\"provider\" value=\"Google\" title=\"Log in using your Google account\">Google</button>\n\t\t\t\t\t\t<button type=\"submit\" class=\"btn btn-default\" name=\"provider\" value=\"Twitter\" title=\"Log in using your Twitter account\">Twitter</button>\n\t\t\t\t\t\t<button type=\"submit\" class=\"btn btn-default\" name=\"provider\" value=\"Facebook\" title=\"Log in using your Facebook account\">Facebook</button>\n\t\t\t\t\t</p>\n\t\t\t\t</div>\n\t\t\t\t<input name=\"__RequestVerificationToken\" type=\"hidden\" value.bind=\"token\"></form>\n\t\t</section>\n\t</div>\n</template>"; });
 //# sourceMappingURL=app-bundle.js.map

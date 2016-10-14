@@ -10,8 +10,12 @@ export class Helpers {
 
     constructor(private state: State) { }
 
-    getErrorMessage(error: any) {
-        return (<ServiceError[]>error.content)[0].errors[0].errorMessage
+    getError(error: any) : Error {
+        let errors = <ServiceError[]> error.content;
+        let se = errors[0];
+        let e = new Error(se.errors[0].errorMessage);
+        e.name = se.key;
+        return e;
     }
 
      setConverationTitle(conversation: Conversation) {
@@ -28,7 +32,7 @@ export class Helpers {
         conversation.title = title.trim();
     }
 
-    getUrlParameter(name) {
+    getUrlParameter(name): string {
         name = name.replace(/[\[]/, '\\[').replace(/[\]]/, '\\]');
         var regex = new RegExp('[\\?&]' + name + '=([^&#]*)');
         var results = regex.exec(location.search);

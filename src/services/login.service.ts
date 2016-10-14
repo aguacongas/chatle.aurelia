@@ -15,9 +15,13 @@ export class LoginService {
         private state: State,
         private helpers: Helpers) { }
 
-    getXhrf(): Promise<string> {
+    getXhrf(clearCookies?: Boolean): Promise<string> {
         return new Promise<string>((resolve, reject) => {
-            if (this.xhrf) {
+            if (clearCookies) {
+                this.http.get('cls')
+                    .then(() => this.setXhrf(resolve, reject))
+                    .catch(e => reject(new Error('The service is down')));
+            } else if (this.xhrf) {
                 resolve(this.xhrf);
             } else {
                 this.setXhrf(resolve, reject);
@@ -63,6 +67,20 @@ export class LoginService {
         });
     }
 
+    confirm(userName): Promise<boolean> {
+        return new Promise<boolean>((resolve, reject) => {
+            this.getXhrf()
+                .then(r => {
+                    this.http.put(this.settings.accountdAPI + "/spaExternalLoginConfirmation", { userName: userName })
+                        .then(response => {
+                            this.logged(userName, resolve, reject);
+                        })
+                        .catch(error => reject(this.helpers.getError(error)));
+                })
+                .catch(error => reject(new Error('the service is down')));
+        });
+    }
+
     private setXhrf(resolve: Function, reject: Function) {
         this.http.get('xhrf')
             .then(r => {
@@ -78,27 +96,28 @@ export class LoginService {
     private loginAsGuess(userName, resolve: Function, reject: Function) {
         this.http.post(this.settings.accountdAPI + '/spaguess', { userName: userName })
             .then(response => {
-                this.state.userName = userName;
-                this.chatService.start();
-                // get a new token for the session lifecycle
-                this.setXhrf(resolve, reject);
+                this.logged(userName, resolve, reject);
             })
             .catch(error => {
-                reject(new Error(this.helpers.getErrorMessage(error)));
+                reject(this.helpers.getError(error));
             });
     }
 
     private loginAsRegistered(userName: string, password: string, resolve: Function, reject: Function) {
         this.http.post(this.settings.accountdAPI + '/spalogin', { userName: userName, password: password })
             .then(response => {
-                this.state.userName = userName;
+                this.logged(userName, resolve, reject);
                 sessionStorage.setItem('userName', userName);
-                this.chatService.start();
-                // get a new token for the session lifecycle
-                this.setXhrf(resolve, reject);
             })
             .catch(error => {
-                reject(new Error(this.helpers.getErrorMessage(error)));
+                reject(this.helpers.getError(error));
             })
+    }
+
+    private logged(userName: string, resolve: Function, reject: Function) {
+        this.state.userName = userName;
+        this.chatService.start();
+        // get a new token for the session lifecycle
+        this.setXhrf(resolve, reject);
     }
 }

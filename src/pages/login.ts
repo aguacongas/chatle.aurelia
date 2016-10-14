@@ -30,7 +30,7 @@ export class Login {
     }
 
     activate() {
-        this.service.getXhrf()
+        this.service.getXhrf(true)
             .then(t => 
                 this.token = t)
             .catch(e => 

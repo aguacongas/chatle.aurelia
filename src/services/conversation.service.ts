@@ -47,7 +47,7 @@ export class ConversationService {
                     conversation.messages.unshift(m);
                     resolve(m);
                 })
-                .catch(error => reject(new Error(this.helpers.getErrorMessage(error))));
+                .catch(error => reject(this.helpers.getError(error)));
             });
         } else {
             let attendee: Attendee;
@@ -69,7 +69,7 @@ export class ConversationService {
                         conversation.messages.unshift(m);
                         resolve(m);
                     })
-                    .catch(error => reject(new Error(this.helpers.getErrorMessage(error))));
+                    .catch(error => reject(this.helpers.getError(error)));
             });
         }
     }
