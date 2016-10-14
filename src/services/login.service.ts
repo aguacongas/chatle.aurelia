@@ -50,7 +50,8 @@ export class LoginService {
         delete this.xhrf;
         sessionStorage.removeItem('userName');
         this.chatService.stop();
-        this.http.post(this.settings.accountdAPI + '/spalogoff', null);
+        this.getXhrf()
+            .then(r => this.http.post(this.settings.accountdAPI + '/spalogoff', null));
     }
 
     exists(userName): Promise<boolean> {
