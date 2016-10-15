@@ -122,13 +122,13 @@ export class ChatService {
         // start the connection
         return new Promise<ConnectionState>((resolve, reject) => {
             hub.start()
-                .done(response => { 
+                .done(() => { 
                     this.setConnectionState(ConnectionState.Connected);
                     resolve(ConnectionState.Connected);
                 })
                 .fail(error => {
                     this.setConnectionState(ConnectionState.Error)
-                    reject(ConnectionState.Error);
+                    reject(new Error(error));
                 });
         });
     }

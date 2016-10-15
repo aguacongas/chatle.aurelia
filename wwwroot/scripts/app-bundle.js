@@ -267,13 +267,13 @@ define('services/chat.service',["require", "exports", 'aurelia-event-aggregator'
             hub.disconnected(function () { return _this.onDisconnected(); });
             return new Promise(function (resolve, reject) {
                 hub.start()
-                    .done(function (response) {
+                    .done(function () {
                     _this.setConnectionState(ConnectionState.Connected);
                     resolve(ConnectionState.Connected);
                 })
                     .fail(function (error) {
                     _this.setConnectionState(ConnectionState.Error);
-                    reject(ConnectionState.Error);
+                    reject(new Error(error));
                 });
             });
         };
@@ -375,11 +375,13 @@ define('services/login.service',["require", "exports", 'aurelia-http-client', 'a
             });
         };
         LoginService.prototype.logoff = function () {
+            var _this = this;
             delete this.state.userName;
             delete this.xhrf;
             sessionStorage.removeItem('userName');
             this.chatService.stop();
-            this.http.post(this.settings.accountdAPI + '/spalogoff', null);
+            this.getXhrf()
+                .then(function (r) { return _this.http.post(_this.settings.accountdAPI + '/spalogoff', null); });
         };
         LoginService.prototype.exists = function (userName) {
             var _this = this;

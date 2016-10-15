@@ -52,7 +52,8 @@ describe('the app', () => {
           expect(c).toEqual([
               { route: ['', 'home'], name: 'home', moduleId: 'pages/home', title: 'Home' },
               { route: 'account', name: 'account', moduleId: 'pages/account', title: 'Account' },
-              { route: 'login', name: 'login', moduleId: 'pages/login', title: 'Login', anomymous: true }
+              { route: 'login', name: 'login', moduleId: 'pages/login', title: 'Login', anomymous: true },
+              { route: 'confirm', name: 'confirm', moduleId: 'pages/confirm', title: 'Confirm', anomymous: true }
           ]);
 
           return new RouterConfiguration();
@@ -101,6 +102,26 @@ describe('the app', () => {
 
       // verify
       expect(called).toBe(true);
+    });
+
+    it('logof should call service logoff and navigate to login', () => {
+      // prepare
+      let logoffCalled = false;
+      let navigateTo= '';
+      service.logoff = function() {
+        logoffCalled = true;
+      }
+      app.router.navigateToRoute = function(route: string, params?: any, options?: any): boolean {
+        navigateTo = route;
+        return true;
+      }
+
+      // act
+      app.logoff();
+
+      // verify
+      expect(logoffCalled).toBe(true);
+      expect(navigateTo).toBe('login');
     });
   })
 });
