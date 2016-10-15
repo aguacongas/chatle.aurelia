@@ -8,6 +8,16 @@ import { ConnectionState } from '../../../src/services/chat.service';
 import { ConnectionStateChanged } from '../../../src/events/connectionStateChanged'
 import { State } from '../../../src/services/state';
 import { Helpers } from '../../../src/services/helpers';
+import { ConversationJoined } from '../../../src/events/conversationJoined';
+import { ConversationSelected } from '../../../src/events/conversationSelected';
+import { MessageReceived } from '../../../src/events/messageReceived';
+import { UserConnected } from '../../../src/events/userConnected';
+import { UserDisconnected } from '../../../src/events/userDisconnected';
+
+import { User } from '../../../src/model/user';
+import { Message } from '../../../src/model/message';
+import { Conversation } from '../../../src/model/conversation';
+import { Attendee } from '../../../src/model/attendee';
 
 describe('chat service test', () => {
     let state: State;
@@ -18,6 +28,10 @@ describe('chat service test', () => {
         state = new State();
         ea = new EventAggregator();
         service = new ChatService(new Settings(), ea, new HttpClient(), state, new Helpers(state));
+    });
+
+    afterEach(() => {
+        delete service.start;
     });
 
     it('chat service default state is disconnected', () => {
@@ -64,6 +78,7 @@ describe('chat service test', () => {
                                 }
                             }
                         },
+                        stop: function () { }
                     },
                     chat: {
                         client: {
@@ -75,20 +90,24 @@ describe('chat service test', () => {
                     }
                 }
             };
+        });
 
-            reconnectedCallback;
+        afterEach(() => {
+            reconnectedCallback = null;
             errorCallback = null;
             disconnectedCallback = null;
             doneCallback = null;
             failCallback = null;
             stateChangedCallback = null;
             started = false;
+
+            delete window['jQuery'];
         });
 
         it('start should initialized signalr', () => {
             // prepare
             environment.debug = true;
-            
+
             // act
             service.start();
 
@@ -105,7 +124,7 @@ describe('chat service test', () => {
         it('start should not initialized stateChanged when debug is false', () => {
             // prepare
             environment.debug = false;
-            
+
             // act
             service.start();
 
@@ -113,64 +132,16 @@ describe('chat service test', () => {
             expect(stateChangedCallback).toBe(null);
         });
 
-        it('done callback should set connection state to connected', done => {
-            // prepare
-            environment.debug = false;
-            let expected: any;
-            let result: any;
-            ea.subscribe(ConnectionStateChanged, s => {
-                expected = s;
-                done();
-            });
-            
-            // act
-            service.start()
-                .then(r => result = r);
-
-            doneCallback({});
-
-            // verify
-            expect(service.currentState).toBe(ConnectionState.Connected);
-            expect(expected).toBeDefined();
-            expect(expected.state).toBe(ConnectionState.Connected);
-            expect(result).toBe(ConnectionState.Connected);
-        });
-
-        it('fail callback should set connection state to error', done => {
-            // prepare
-            environment.debug = false;
-            let expected: any;
-            let error: Error;
-            ea.subscribe(ConnectionStateChanged, s => {
-                expected = s;
-                done();
-            });
-            
-            // act
-            service.start()
-                .catch(e => error = e)
-
-            failCallback(new Error('error'));
-
-            // verify
-            expect(service.currentState).toBe(ConnectionState.Error);
-            expect(expected).toBeDefined();
-            expect(expected.state).toBe(ConnectionState.Error);
-            expect(error).toBeDefined();
-        });
-
         it('state changed callback should log states', () => {
             // prepare
             environment.debug = true;
-            window['jQuery']['signalR'] = {
-                connectionState: [
-                    {"oldState": "old"},
-                    {"new": "new"}
-                ]
-            };
             let change = {
                 oldState: "old",
                 newState: "new"
+            };
+
+            window['jQuery']['signalR'] = {
+                connectionState: change
             };
 
             spyOn(console, 'log');
@@ -180,7 +151,156 @@ describe('chat service test', () => {
             stateChangedCallback(change);
 
             // verify
-            expect(console.log).toHaveBeenCalledWith('Chat Hub state changed from ' + change.oldState + ' to ' + change.newState);
+            expect(console.log).toHaveBeenCalledWith('Chat Hub state changed from oldState to newState');
+        });
+
+        it('stop should stop the signal connection', () => {
+            //prepare
+            let hub = window['jQuery'].connection.hub;
+            spyOn(hub, 'stop');
+
+            // act
+            service.stop();
+
+            // verify
+            expect(hub.stop).toHaveBeenCalledTimes(1);
+        });
+
+        it('stop should stop the signal connection', () => {
+            //prepare
+            let hub = window['jQuery'].connection.hub;
+            spyOn(hub, 'stop');
+
+            // act
+            service.stop();
+
+            // verify
+            expect(hub.stop).toHaveBeenCalledTimes(1);
+        });
+
+        it('chat client userConnected should raise UserConnected event', done => {
+            // prepare
+            let expected: any;
+            ea.subscribe(UserConnected, s => {
+                expected = s;
+                done();
+            });
+            service.start();
+            let client = window['jQuery'].connection.chat.client;
+            let user = new User();
+
+            // act
+            client.userConnected(user);
+
+            // verify
+            expect(expected.user).toBe(user);
+        });
+
+        it('chat client userDisconnected should raise UserDisconnected event', done => {
+            // prepare
+            let expected: any;
+            ea.subscribe(UserDisconnected, s => {
+                expected = s;
+                done();
+            });
+            service.start();
+            let client = window['jQuery'].connection.chat.client;
+            let id = 'test';
+            let user = { id: 'test' };
+
+            // act
+            client.userDisconnected(user);
+
+            // verify
+            expect(expected.user.id).toBe(user.id);
+        });
+
+        it('chat client messageReceived should raise MessageReceived event', done => {
+            // prepare
+            let expected: any;
+            ea.subscribe(MessageReceived, s => {
+                expected = s;
+                done();
+            });
+            service.start();
+            let client = window['jQuery'].connection.chat.client;
+            let message = new Message();
+
+            // act
+            client.messageReceived(message);
+
+            // verify
+            expect(expected.message).toBe(message);
+        });
+
+        it('chat client joinConversation should raise ConversationJoined event', done => {
+            // prepare
+            let expected: any;
+            ea.subscribe(ConversationJoined, s => {
+                expected = s;
+                done();
+            });
+            service.start();
+            let client = window['jQuery'].connection.chat.client;
+            let conversation = new Conversation();
+            conversation.attendees = [];
+
+            // act
+            client.joinConversation(conversation);
+
+            // verify
+            expect(expected.conversation).toBe(conversation);
+        });
+
+        it('done callback should set connection state to connected', done => {
+            // prepare
+            environment.debug = false;
+            let expected: any;
+            
+            ea.subscribe(ConnectionStateChanged, s => {
+                expected = s;
+            });
+
+            let tested = false
+            // act
+            service.start()
+                .then(result => { 
+                    if (tested) { return; }                   
+                    // verify
+                    expect(service.currentState).toBe(ConnectionState.Connected);
+                    expect(expected).toBeDefined();
+                    expect(expected.state).toBe(ConnectionState.Connected);
+                    expect(result).toBe(ConnectionState.Connected);
+
+                    tested = true;
+                    done();
+                });
+
+            doneCallback({});
+        });
+
+        it('fail callback should set connection state to error', done => {
+            // prepare
+            environment.debug = false;
+            let expected: any;            
+            ea.subscribe(ConnectionStateChanged, s => {
+                expected = s;
+            });
+
+            // act
+            service.start()
+                .then(() => {})
+                .catch(error => {
+                    // verify
+                    expect(service.currentState).toBe(ConnectionState.Error);
+                    expect(expected).toBeDefined();
+                    expect(expected.state).toBe(ConnectionState.Error);
+                    expect(error).toBeDefined();
+
+                    done();
+                });
+
+            failCallback(new Error('error'));
         });
     });
 });

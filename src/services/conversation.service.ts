@@ -26,7 +26,7 @@ export class ConversationService {
 
     showConversation(conversation: Conversation, router: Router) {
         this.currentConversation = conversation;
-        this.setConverationTitle(conversation);
+        this.helpers.setConverationTitle(conversation);
         this.ea.publish(new ConversationSelected(conversation));
         router.navigateToRoute('conversation', { id: conversation.title });
     }
@@ -89,19 +89,5 @@ export class ConversationService {
                 })
                 .catch(error => reject(new Error('The service is down')));
         });
-    }
-
-    private setConverationTitle(conversation: Conversation) {
-        if (conversation.title) {
-            return;
-        }
-
-        let title = '';
-        conversation.attendees.forEach(attendee => {
-            if (attendee && attendee.userId && attendee.userId !== this.state.userName) {
-                title += attendee.userId + ' ';
-            }
-        });
-        conversation.title = title.trim();
     }
 }
