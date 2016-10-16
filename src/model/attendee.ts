@@ -1,4 +1,3 @@
 export class Attendee {
-    userId: string;
-    name: string;
+    constructor(public userId?: string) { }
 }

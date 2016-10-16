@@ -18,7 +18,7 @@ import { ConversationJoined } from '../events/conversationJoined';
 export class ConversationService {
     currentConversation: Conversation;
 
-    constructor(private http: HttpClient, 
+    constructor(private http: HttpClient,
         private settings: Settings,
         private state: State,
         private helpers: Helpers,
@@ -27,7 +27,7 @@ export class ConversationService {
     showConversation(conversation: Conversation, router: Router) {
         this.currentConversation = conversation;
         this.helpers.setConverationTitle(conversation);
-        this.ea.publish(new ConversationSelected(conversation));
+        this.ea.publish(ConversationSelected, new ConversationSelected(conversation));
         router.navigateToRoute('conversation', { id: conversation.title });
     }
 
@@ -43,26 +43,26 @@ export class ConversationService {
                     to: conversation.id,
                     text: message
                 })
-                .then(response => {
-                    conversation.messages.unshift(m);
-                    resolve(m);
-                })
-                .catch(error => reject(this.helpers.getError(error)));
+                    .then(response => {
+                        conversation.messages.unshift(m);
+                        resolve(m);
+                    })
+                    .catch(error => reject(this.helpers.getError(error)));
             });
         } else {
             let attendee: Attendee;
-             conversation.attendees.forEach(a => {
-                 if (a.userId !== this.state.userName) {
-                     attendee = a;
-                 }
-             });
+            conversation.attendees.forEach(a => {
+                if (a.userId !== this.state.userName) {
+                    attendee = a;
+                }
+            });
 
-             return new Promise<Message>((resolve, reject) => {
+            return new Promise<Message>((resolve, reject) => {
                 this.http.post(this.settings.convAPI, {
                     to: attendee.userId,
                     text: message
                 })
-                .then(
+                    .then(
                     response => {
                         conversation.id = response.content;
                         this.ea.publish(new ConversationJoined(conversation));
@@ -73,7 +73,7 @@ export class ConversationService {
             });
         }
     }
-        
+
     getConversations(): Promise<Conversation[]> {
         return new Promise<Conversation[]>((resolve, reject) => {
             this.http.get(this.settings.chatAPI)

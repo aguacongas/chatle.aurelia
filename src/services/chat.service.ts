@@ -11,11 +11,9 @@ import { State } from './state';
 import { User } from '../model/user';
 import { Message } from '../model/message';
 import { Conversation } from '../model/conversation';
-import { Attendee } from '../model/attendee';
 
 import { ConnectionStateChanged } from '../events/connectionStateChanged';
 import { ConversationJoined } from '../events/conversationJoined';
-import { ConversationSelected } from '../events/conversationSelected';
 import { MessageReceived } from '../events/messageReceived';
 import { UserConnected } from '../events/userConnected';
 import { UserDisconnected } from '../events/userDisconnected';

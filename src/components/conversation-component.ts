@@ -3,7 +3,6 @@ import { Router, RouterConfiguration } from 'aurelia-router';
 
 import { ConversationService } from '../services/conversation.service';
 import { Conversation } from '../model/conversation';
-import { ConversationSelected } from '../events/conversationSelected';
 
 @autoinject
 export class ConversationComponent {

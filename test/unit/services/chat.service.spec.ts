@@ -9,7 +9,6 @@ import { ConnectionStateChanged } from '../../../src/events/connectionStateChang
 import { State } from '../../../src/services/state';
 import { Helpers } from '../../../src/services/helpers';
 import { ConversationJoined } from '../../../src/events/conversationJoined';
-import { ConversationSelected } from '../../../src/events/conversationSelected';
 import { MessageReceived } from '../../../src/events/messageReceived';
 import { UserConnected } from '../../../src/events/userConnected';
 import { UserDisconnected } from '../../../src/events/userDisconnected';
@@ -17,7 +16,6 @@ import { UserDisconnected } from '../../../src/events/userDisconnected';
 import { User } from '../../../src/model/user';
 import { Message } from '../../../src/model/message';
 import { Conversation } from '../../../src/model/conversation';
-import { Attendee } from '../../../src/model/attendee';
 
 describe('chat service test', () => {
     let state: State;
