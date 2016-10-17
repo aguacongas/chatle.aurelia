@@ -7,8 +7,10 @@ import { Conversation } from '../model/conversation';
 
 @autoinject
 export class Helpers {
-
-    constructor(private state: State) { }
+    location: Location;
+    constructor(private state: State) {
+        this.location = window.location;
+     }
 
     getError(error: any) : Error {
         let errors = <ServiceError[]> error.content;
@@ -35,7 +37,7 @@ export class Helpers {
     getUrlParameter(name): string {
         name = name.replace(/[\[]/, '\\[').replace(/[\]]/, '\\]');
         var regex = new RegExp('[\\?&]' + name + '=([^&#]*)');
-        var results = regex.exec(location.search);
+        var results = regex.exec(this.location.search);
         return results === null ? '' : decodeURIComponent(results[1].replace(/\+/g, ' '));
     }
 }

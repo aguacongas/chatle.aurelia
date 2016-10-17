@@ -19,6 +19,40 @@ describe('conversation service specs', () => {
     let state: State;
     let http: HttpClient;
     let ea: EventAggregator;
+    let conversation: Conversation;
+    let response: HttpResponseMessage;
+    let promise: any;
+    let error: any;
+    let responseCallback: (response: HttpResponseMessage) => void;
+    let catchCallback: (e: any) => void;
+
+    function getHttpMock() {
+        response = {
+            requestMessage: null,
+            statusCode: 200,
+            response: {},
+            isSuccess: true,
+            statusText: 'OK',
+            reviver: function (key: string, value: any) {
+            },
+            mimeType: '',
+            headers: new Headers(),
+            content: {}
+        };
+
+        promise = {
+            then: r => {
+                responseCallback = r;
+                return {
+                    catch: error => {
+                        catchCallback = error;
+                    }
+                }
+            }
+        } as Promise<HttpResponseMessage>;
+
+        return promise;
+    }
 
     beforeEach(() => {
         state = new State;
@@ -43,18 +77,12 @@ describe('conversation service specs', () => {
         service.showConversation(expected, router as Router);
 
         expect(expected).toBe(service.currentConversation);
-        expect(ea.publish).toHaveBeenCalledWith(new ConversationSelected(expected));
+        expect(ea.publish).toHaveBeenCalledWith(ConversationSelected, new ConversationSelected(expected));
         expect(router.navigateToRoute).toHaveBeenCalledWith('conversation', { id: expected.title })
     });
 
     describe('sendMessage specs', () => {
         let m = 'test';
-        let conversation: Conversation;
-        let response: HttpResponseMessage;
-        let promise: any;
-        let error: any;
-        let responseCallback: (response: HttpResponseMessage) => void;
-        let catchCallback: (e: any) => void;
 
         beforeEach(() => {
             conversation = new Conversation();
@@ -63,32 +91,11 @@ describe('conversation service specs', () => {
 
             http.post = function (to: string, data: any): Promise<HttpResponseMessage> {
 
-                response = {
-                    requestMessage: new RequestMessage('POST', 'http://test', {
+                promise = getHttpMock();
+                response.requestMessage = new RequestMessage('POST', 'http://test', {
                         to: conversation.id,
                         text: m
-                    }),
-                    statusCode: 200,
-                    response: {},
-                    isSuccess: true,
-                    statusText: 'OK',
-                    reviver: function (key: string, value: any) {
-                    },
-                    mimeType: '',
-                    headers: new Headers(),
-                    content: {}
-                };
-
-                promise = {
-                    then: r => {
-                        responseCallback = r;
-                        return {
-                            catch: error => {
-                                catchCallback = error;
-                            }
-                        }
-                    }
-                } as Promise<HttpResponseMessage>;
+                    });
 
                 return promise;
             }
@@ -112,11 +119,11 @@ describe('conversation service specs', () => {
         it('send message should set conversation id on new conversation', () => {
             // prepare
             conversation.id = null;
-            state.userName = 'test';
-            response.content = 'test';
+            state.userName = 'test';            
 
             // act
             let result = service.sendMessage(conversation, 'test');
+            response.content = 'test';
             responseCallback(response);
 
             // verify
@@ -127,12 +134,13 @@ describe('conversation service specs', () => {
 
         it('send message should raise conversationJoined on new conversation', () => {
             // prepare
-            response.content = 'test';
             state.userName = 'test';
             spyOn(ea, 'publish');
-
+            let result: any;
             // act
-            let result = service.sendMessage(conversation, 'test');
+             service.sendMessage(conversation, 'test')
+                .then(r => result = r)
+            response.content = 'test';            
             responseCallback(response);
 
             // verify
@@ -141,38 +149,11 @@ describe('conversation service specs', () => {
     });
 
     describe('getConversations specs', () => {
-        let response: HttpResponseMessage;
-        let promise: any;
-        let error: any;
-        let responseCallback: (response: HttpResponseMessage) => void;
-        let catchCallback: (e: any) => void;
-
         beforeEach(() => {
             http.get = function (to: string): Promise<HttpResponseMessage> {
 
-                response = {
-                    requestMessage: new RequestMessage('GET', 'http://test', {}),
-                    statusCode: 200,
-                    response: {},
-                    isSuccess: true,
-                    statusText: 'OK',
-                    reviver: function (key: string, value: any) {
-                    },
-                    mimeType: '',
-                    headers: new Headers(),
-                    content: {}
-                };
-
-                promise = {
-                    then: r => {
-                        responseCallback = r;
-                        return {
-                            catch: error => {
-                                catchCallback = error;
-                            }
-                        }
-                    }
-                } as Promise<HttpResponseMessage>;
+                promise = getHttpMock();
+                response.requestMessage = new RequestMessage('GET', 'http://test', {});
 
                 return promise;
             }
@@ -180,6 +161,66 @@ describe('conversation service specs', () => {
             service = new ConversationService(http, new Settings(), state, new Helpers(state), ea);
         });
 
-        
+        it('getConversations should resolve with conversations', done => {
+            // prepare
+            service.getConversations()
+                .then(r => {
+                    console.log('getConversation response received')
+                    // verify
+                    expect(r).toBe(response.content);
+                    done();
+                });
+            response.content = new Array<Conversation>();
+
+            // act            
+            responseCallback(response);            
+        });
+
+        it('getConversations should resolve with null if no content', done => {
+            // prepare
+            service.getConversations()
+                .then(r => {
+                    console.log('getConversation response received')
+                    // verify
+                    expect(r).toBe(response.content);
+                    done();
+                });            
+
+            response.response = {};
+            response.content = null;
+
+            // act            
+            responseCallback(response);            
+        });
+
+        it('getConversations should resolve with null if no response', done => {
+            // prepare
+            service.getConversations()
+                .then(r => {
+                    console.log('getConversation response received')
+                    // verify
+                    expect(r).toBe(response.content);
+                    done();
+                });            
+            
+            response.response = null;
+            response.content = null;
+            // act            
+            responseCallback(response);            
+        });
+
+        it('getConversations should reject with service down', done => {
+            // prepare
+            service.getConversations()
+                .catch((error: Error) => {
+                    console.log('getConversation response received')
+                    // verify
+                    expect(error.message).toBe(new Error('The service is down').message);
+                    done();
+                });            
+            
+            // act            
+            catchCallback({});            
+        });
     });
 });

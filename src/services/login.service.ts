@@ -4,7 +4,7 @@ import { autoinject } from 'aurelia-framework';
 import { Settings } from '../config/settings';
 import { ChatService } from './chat.service';
 import { Helpers } from './helpers';
-import { State } from './state'
+import { State } from './state';
 
 @autoinject
 export class LoginService {

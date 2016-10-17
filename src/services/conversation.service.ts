@@ -79,13 +79,14 @@ export class ConversationService {
             this.http.get(this.settings.chatAPI)
                 .then(response => {
                     if (response.response) {
-                        var data = response.content;
+                        let data = response.content;
                         if (data) {
                             resolve(<Conversation[]>data);
+                            return;
                         }
-                    } else {
-                        resolve(null);
                     }
+
+                    resolve(null);
                 })
                 .catch(error => reject(new Error('The service is down')));
         });
