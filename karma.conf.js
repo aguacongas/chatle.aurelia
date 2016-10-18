@@ -13,6 +13,7 @@ let appSrc = project.build.bundles.map(x => path.join(output, x.name));
 let entryIndex = appSrc.indexOf(path.join(output, project.build.loader.configTarget));
 let entryBundle = appSrc.splice(entryIndex, 1)[0];
 let files = [entryBundle].concat(testSrc).concat(appSrc).concat(['node_modules/jquery/dist/jquery.min.js']);
+let appBundle = "wwwroot/scripts/app-bundle.js";
 
 module.exports = function(config) {
   var configuration = {
@@ -21,16 +22,17 @@ module.exports = function(config) {
     files: files,
     exclude: [],
     preprocessors: {
-      [project.unitTestRunner.source]: [project.transpiler.id]
+      [project.unitTestRunner.source]: [project.transpiler.id],
+      [appBundle]: ['coverage']
     },
     typescriptPreprocessor: {
       typescript: require('typescript'),
       options: tsconfig.compilerOptions
     },
-    reporters: ['progress'],
+    reporters: ['progress', 'coverage', 'coveralls'],
     port: 9876,
     colors: true,
-    logLevel: config.LOG_INFO,
+    logLevel: config.LOG_DEBUG,
     autoWatch: true,
     browsers: ['Chrome'],
     customLaunchers: {
@@ -39,7 +41,10 @@ module.exports = function(config) {
         flags: ['--no-sandbox']
       }
     },
-    singleRun: false
+    singleRun: false,
+    coverageReporter: {
+      type: 'lcov',
+      dir: 'coverage/'    }
   };
 
   if(process.env.TRAVIS){

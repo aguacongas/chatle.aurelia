@@ -7,3 +7,4 @@ obj
 packages
 typings
 /wwwwroot/scripts/*bundle*
+/coverage
