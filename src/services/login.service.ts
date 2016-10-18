@@ -20,7 +20,7 @@ export class LoginService {
             if (clearCookies) {
                 this.http.get('cls')
                     .then(() => this.setXhrf(resolve, reject))
-                    .catch(e => reject(new Error('The service is down')));
+                    .catch(e => reject(new Error('the service is down')));
             } else if (this.xhrf) {
                 resolve(this.xhrf);
             } else {
@@ -41,7 +41,7 @@ export class LoginService {
                         this.loginAsRegistered(userName, password, resolve, reject);
                     }
                 })
-                .catch(error => reject(new Error('the service is down')));
+                .catch(error => reject(error));
         });
     }
 

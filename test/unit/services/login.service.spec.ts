@@ -56,9 +56,12 @@ describe('logins service specs', () => {
         settings = new Settings();
         helpers = new Helpers(state);
         chatService = new ChatService(settings, ea, http, state, helpers);
+        chatService.start = () => {
+            return new Promise<ConnectionState>((resolve, reject) => { });
+        };
     })
 
-    describe('getXhrf specs', () => {
+    describe('getXhrf', () => {
         beforeEach(() => {
             http.get = function (to: string): Promise<HttpResponseMessage> {
 
@@ -75,7 +78,7 @@ describe('logins service specs', () => {
             service = new LoginService(http, settings, chatService, state, helpers);
         });
 
-        it('when clear cookies', done => {
+        it('should set xhrf token when clear cookies', done => {
             // act
             service.getXhrf(true)
                 .then(r => {
@@ -91,7 +94,7 @@ describe('logins service specs', () => {
             responseCallback(response);
         })
 
-        it('when xhrf already setted', done => {
+        it('should return xhrf token when xhrf already setted', done => {
             // prepare
             service.getXhrf()
                 .then(r => {
@@ -114,7 +117,43 @@ describe('logins service specs', () => {
             responseCallback(response);
         });
 
-        describe('login should ', () => {
+        it('should reject with error when clear cookies', done => {
+            // act
+            service.getXhrf(true)
+                .catch((e:Error) => {
+                    console.log('getXhrf response received')
+                    // verify
+                    expect(e).toBeDefined();
+                    expect(e.message).toBe('the service is down');
+                    done();
+                });
+
+            // inject
+            response.response = "xhrf";
+            
+            catchCallback({});
+        })
+
+
+        it('should reject with error when no clear cookies', done => {
+            // act
+            service.getXhrf()
+                .catch((e:Error) => {
+                    console.log('getXhrf response received')
+                    // verify
+                    expect(e).toBeDefined();
+                    expect(e.message).toBe('the service is down');
+                    done();
+                });
+
+            catchCallback({});
+        });
+
+        describe('login should', () => {
+            let onTimerTimeout = () => {
+                responseCallback(response);
+            }
+
             beforeEach(() => {
                 http.get = function (to: string): Promise<HttpResponseMessage> {
 
@@ -123,7 +162,7 @@ describe('logins service specs', () => {
 
                     let counter = 0;
                     let timer = setTimeout(args => {
-                        responseCallback(response);
+                        onTimerTimeout();
                         counter++;
                         if (counter>1) {
                             clearTimeout(timer);
@@ -138,13 +177,10 @@ describe('logins service specs', () => {
                     return promise;
                 };
 
-                service = new LoginService(http, settings, chatService, state, helpers);
-                chatService.start = () => {
-                    return new Promise<ConnectionState>((resolve, reject) => { });
-                };
+                service = new LoginService(http, settings, chatService, state, helpers);                
             });
 
-            it('set userName when is  guess', done => {
+            it('set userName when is guess', done => {
                 // prepare
                 state.userName = undefined;
                 let userName = 'test';
@@ -181,6 +217,55 @@ describe('logins service specs', () => {
                 response.response = 'xhrf';
                 responseCallback(response);
             });
+
+            describe(',on error ,', () => {
+                let error: Error;
+                
+                beforeEach (() => {
+                    onTimerTimeout = () => {
+                        catchCallback({});
+                    };
+
+                    helpers.getError = (e:any) => {
+                        error = new Error('test');
+                        return error;
+                    };
+                });
+
+                it('reject with error when is guess', done => {
+                    // prepare
+                    state.userName = undefined;
+                    let userName = 'test';
+                    // act
+                    service.login(userName, null)
+                        .catch((e: Error) => {
+                            // verify
+                            expect(e).toBe(error)
+                            done();
+                        });
+
+                    // inject
+                    response.response = 'xhrf';
+                    responseCallback(response);
+                });
+
+                it('reject with error when is registered', done => {
+                    // prepare
+                    state.userName = undefined;
+                    let userName = 'test';
+                    // act
+                    service.login(userName, null)
+                        .catch((e: Error) => {
+                            // verify
+                            expect(e).toBe(error)
+                            done();
+                        });
+
+                    // inject
+                    response.response = 'xhrf';
+                    responseCallback(response);
+                });
+            });          
         });
     });
 });
