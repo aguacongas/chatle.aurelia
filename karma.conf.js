@@ -23,7 +23,7 @@ module.exports = function(config) {
     exclude: [],
     preprocessors: {
       [project.unitTestRunner.source]: [project.transpiler.id],
-      //[appBundle]: ['coverage']
+      [appBundle]: ['coverage']
     },
     typescriptPreprocessor: {
       typescript: require('typescript'),
