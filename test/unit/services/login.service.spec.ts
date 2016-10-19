@@ -59,9 +59,10 @@ describe('logins service specs', () => {
         chatService.start = () => {
             return new Promise<ConnectionState>((resolve, reject) => { });
         };
+        chatService.stop = () => {};
     })
 
-    describe('getXhrf', () => {
+    describe('getXhrf should', () => {
         beforeEach(() => {
             http.get = function (to: string): Promise<HttpResponseMessage> {
 
@@ -78,7 +79,7 @@ describe('logins service specs', () => {
             service = new LoginService(http, settings, chatService, state, helpers);
         });
 
-        it('should set xhrf token when clear cookies', done => {
+        it('set xhrf token when clear cookies', done => {
             // act
             service.getXhrf(true)
                 .then(r => {
@@ -94,7 +95,7 @@ describe('logins service specs', () => {
             responseCallback(response);
         })
 
-        it('should return xhrf token when xhrf already setted', done => {
+        it('return xhrf token when xhrf already setted', done => {
             // prepare
             service.getXhrf()
                 .then(r => {
@@ -117,7 +118,7 @@ describe('logins service specs', () => {
             responseCallback(response);
         });
 
-        it('should reject with error when clear cookies', done => {
+        it('reject with error when clear cookies', done => {
             // act
             service.getXhrf(true)
                 .catch((e:Error) => {
@@ -135,7 +136,7 @@ describe('logins service specs', () => {
         })
 
 
-        it('should reject with error when no clear cookies', done => {
+        it('reject with error when no clear cookies', done => {
             // act
             service.getXhrf()
                 .catch((e:Error) => {
@@ -218,7 +219,7 @@ describe('logins service specs', () => {
                 responseCallback(response);
             });
 
-            describe(',on error ,', () => {
+            describe(', on error,', () => {
                 let error: Error;
                 
                 beforeEach (() => {
@@ -240,7 +241,7 @@ describe('logins service specs', () => {
                     service.login(userName, null)
                         .catch((e: Error) => {
                             // verify
-                            expect(e).toBe(error)
+                            expect(e).toBe(error);
                             done();
                         });
 
@@ -254,10 +255,10 @@ describe('logins service specs', () => {
                     state.userName = undefined;
                     let userName = 'test';
                     // act
-                    service.login(userName, null)
+                    service.login(userName, 'null')
                         .catch((e: Error) => {
                             // verify
-                            expect(e).toBe(error)
+                            expect(e).toBe(error);
                             done();
                         });
 
@@ -265,7 +266,85 @@ describe('logins service specs', () => {
                     response.response = 'xhrf';
                     responseCallback(response);
                 });
-            });          
+
+                it('reject with error getXhrf throw', done => {
+                    // prepare
+                    state.userName = undefined;
+                    let userName = 'test';
+                    // act
+                    service.login(userName, 'null')
+                        .catch((e: Error) => {
+                            // verify
+                            expect(e.message).toBe('the service is down');
+                            done();
+                        });
+
+                    // inject
+                    response.response = 'xhrf';
+                    catchCallback({});
+                });
+            });            
+        });
+
+        describe('logoff should', () => {
+            beforeEach(() => {                
+                spyOn(chatService, 'stop');
+                // act                
+                service.logoff();
+            });
+
+            // verify
+            it('clear userName', () => {                
+                expect(state.userName).toBeUndefined();                
+            })
+
+            it('stop chatt', () => {
+                expect(chatService.stop).toHaveBeenCalled();                
+            })
+
+            it('call logoff api', () => {
+                spyOn(http, 'post')
+                responseCallback(response);
+                expect(chatService.stop).toHaveBeenCalled();                
+            })
+        });
+
+        describe('exists should', () => {
+            let onTimerTimeout = () => {
+                responseCallback(response);
+            }
+
+            beforeEach(() => {
+                http.get = function (to: string): Promise<HttpResponseMessage> {
+
+                    promise = getHttpMock();
+                    response.requestMessage = new RequestMessage('GET', 'http://test', {});
+
+                    let counter = 0;
+                    let timer = setTimeout(args => {
+                        onTimerTimeout();
+                        counter++;
+                        if (counter>1) {
+                            clearTimeout(timer);
+                        }
+                    }, 25,);
+                    return promise;
+                };
+
+                service = new LoginService(http, settings, chatService, state, helpers);                
+            });
+
+            it('resolve with response content', done => {
+                // act
+                service.exists('test')
+                    .then(r => {
+                        expect(r).toBe(response.content);
+                        done();
+                    })
+
+                response.content = 'test';
+                responseCallback(response);
+            })
         });
     });
 });
