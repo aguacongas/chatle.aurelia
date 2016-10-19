@@ -3,7 +3,6 @@ import { autoinject } from 'aurelia-framework';
 
 import { Settings } from '../config/settings';
 import { State } from './state'
-import { Helpers } from './helpers'
 
 import { User } from '../model/user';
 
@@ -12,8 +11,7 @@ export class UserService {
 
     constructor(private http: HttpClient, 
         private settings: Settings,
-        private state: State,
-        private helpers: Helpers) { }
+        private state: State) { }
 
     getUsers(): Promise<User[]> {
         return new Promise<User[]>((resolve, reject) => {
@@ -24,8 +22,7 @@ export class UserService {
                             resolve(<User[]>data.users);
                         }
                     })
-                .catch(error => reject(new Error('The service is down')));
+                .catch(error => reject(new Error('the service is down')));
         });
     }
-
 }
