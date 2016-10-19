@@ -6,7 +6,7 @@ import { Settings } from '../config/settings';
 
 @autoinject
 export class Login {
-    userName: '';
+    userName: string;
     error: Error;
     externalLogin: string;
     token: string;
