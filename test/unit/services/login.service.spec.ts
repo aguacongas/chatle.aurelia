@@ -59,10 +59,9 @@ describe('logins service specs', () => {
         chatService.start = () => {
             return new Promise<ConnectionState>((resolve, reject) => { });
         };
-        chatService.stop = () => {};
     })
 
-    describe('getXhrf should', () => {
+    describe('getXhrf', () => {
         beforeEach(() => {
             http.get = function (to: string): Promise<HttpResponseMessage> {
 
@@ -79,7 +78,7 @@ describe('logins service specs', () => {
             service = new LoginService(http, settings, chatService, state, helpers);
         });
 
-        it('set xhrf token when clear cookies', done => {
+        it('should set xhrf token when clear cookies', done => {
             // act
             service.getXhrf(true)
                 .then(r => {
@@ -95,7 +94,7 @@ describe('logins service specs', () => {
             responseCallback(response);
         })
 
-        it('return xhrf token when xhrf already setted', done => {
+        it('should return xhrf token when xhrf already setted', done => {
             // prepare
             service.getXhrf()
                 .then(r => {
@@ -118,7 +117,7 @@ describe('logins service specs', () => {
             responseCallback(response);
         });
 
-        it('reject with error when clear cookies', done => {
+        it('should reject with error when clear cookies', done => {
             // act
             service.getXhrf(true)
                 .catch((e: Error) => {
@@ -136,7 +135,7 @@ describe('logins service specs', () => {
         })
 
 
-        it('reject with error when no clear cookies', done => {
+        it('should reject with error when no clear cookies', done => {
             // act
             service.getXhrf()
                 .catch((e: Error) => {
@@ -219,7 +218,7 @@ describe('logins service specs', () => {
                 responseCallback(response);
             });
 
-            describe(', on error,', () => {
+            describe(',on error ,', () => {
                 let error: Error;
 
                 beforeEach(() => {
@@ -241,7 +240,7 @@ describe('logins service specs', () => {
                     service.login(userName, null)
                         .catch((e: Error) => {
                             // verify
-                            expect(e).toBe(error);
+                            expect(e).toBe(error)
                             done();
                         });
 
@@ -255,10 +254,10 @@ describe('logins service specs', () => {
                     state.userName = undefined;
                     let userName = 'test';
                     // act
-                    service.login(userName, 'null')
+                    service.login(userName, null)
                         .catch((e: Error) => {
                             // verify
-                            expect(e).toBe(error);
+                            expect(e).toBe(error)
                             done();
                         });
 
@@ -266,46 +265,35 @@ describe('logins service specs', () => {
                     response.response = 'xhrf';
                     responseCallback(response);
                 });
-
-                it('reject with error getXhrf throw', done => {
-                    // prepare
-                    state.userName = undefined;
-                    let userName = 'test';
-                    // act
-                    service.login(userName, 'null')
-                        .catch((e: Error) => {
-                            // verify
-                            expect(e.message).toBe('the service is down');
-                            done();
-                        });
-
-                    // inject
-                    response.response = 'xhrf';
-                    catchCallback({});
-                });
-            });            
+            });
         });
 
         describe('logoff should', () => {
-            beforeEach(() => {                
+            beforeEach(() => {
                 spyOn(chatService, 'stop');
+                http.post = function (to: string, data: any): Promise<HttpResponseMessage> {
+                    promise = getHttpMock();
+                    response.requestMessage = new RequestMessage('POST', 'http://test', {});
+                    return promise;
+                };
+                
                 // act                
                 service.logoff();
             });
 
             // verify
-            it('clear userName', () => {                
-                expect(state.userName).toBeUndefined();                
+            it('clear userName', () => {
+                expect(state.userName).toBeUndefined();
             })
 
             it('stop chatt', () => {
-                expect(chatService.stop).toHaveBeenCalled();                
+                expect(chatService.stop).toHaveBeenCalled();
             })
 
             it('call logoff api', () => {
                 spyOn(http, 'post')
                 responseCallback(response);
-                expect(chatService.stop).toHaveBeenCalled();                
+                expect(chatService.stop).toHaveBeenCalled();
             })
         });
 
@@ -373,7 +361,6 @@ describe('logins service specs', () => {
 
             beforeEach(() => {
                 http.get = function (to: string): Promise<HttpResponseMessage> {
->>>>>>> 8c6aa04a9e9ff2f200a35917c7528082503f011f
                     promise = getHttpMock();
                     response.requestMessage = new RequestMessage('GET', 'http://test', {});
 
@@ -381,29 +368,6 @@ describe('logins service specs', () => {
                     let timer = setTimeout(args => {
                         onTimerTimeout();
                         counter++;
-<<<<<<< HEAD
-                        if (counter>1) {
-                            clearTimeout(timer);
-                        }
-                    }, 25,);
-                    return promise;
-                };
-
-                service = new LoginService(http, settings, chatService, state, helpers);                
-            });
-
-            it('resolve with response content', done => {
-                // act
-                service.exists('test')
-                    .then(r => {
-                        expect(r).toBe(response.content);
-                        done();
-                    })
-
-                response.content = 'test';
-                responseCallback(response);
-            })
-=======
                         if (counter > 1) {
                             clearTimeout(timer);
                         }
@@ -462,7 +426,6 @@ describe('logins service specs', () => {
 
                 catchCallback({});
             });
->>>>>>> 8c6aa04a9e9ff2f200a35917c7528082503f011f
         });
     });
 });
