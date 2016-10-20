@@ -15,7 +15,7 @@ export class Confirm {
     controller: ValidationController;
     provider: string;
 
-    constructor(public service: LoginService,
+    constructor(private service: LoginService,
         private router: Router,
         private state: State,
         private helpers: Helpers,

@@ -16,7 +16,6 @@ export class Home {
 
     constructor(public chatService: ChatService,
         private loginService: LoginService,
-        private config: RouterConfiguration,
         private ea: EventAggregator) { }
 
     configureRouter(config: RouterConfiguration, router: Router) {
