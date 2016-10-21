@@ -1,7 +1,4 @@
-import { Aurelia } from 'aurelia-framework'
 import { Router, NavigationInstruction } from 'aurelia-router';
-import { ValidationRules } from 'aurelia-validation';
-import { ValidationControllerFactory, ValidationController } from 'aurelia-validation';
 
 import { Confirm } from '../../../src/pages/confirm';
 import { LoginService } from '../../../src/services/login.service';
@@ -14,7 +11,7 @@ describe('confirm page spec', () => {
     let router: Router;
     let state: State;
     let helpers: Helpers;
-    let controllerFactory: ValidationControllerFactory;
+    let controllerFactory;
 
     let userName;
     let promise;
@@ -46,16 +43,16 @@ describe('confirm page spec', () => {
 
         state = new State();
         helpers = new Helpers(state);
-        spyOn(helpers, 'getUrlParameter')
-        controllerFactory = new ValidationControllerFactory(null);
+        controllerFactory = {
+            createForCurrentScope: () => { }
+        };
+
         spyOn(controllerFactory, 'createForCurrentScope')
             .and.returnValue({
                 validate: () => {
                     return promise;
                 }
             });
-        let aurelia = new Aurelia();
-        aurelia.use.plugin('aurelia-validation');
     });
 
     it('constructor should get url paratemeters', () => {
@@ -63,10 +60,85 @@ describe('confirm page spec', () => {
         spyOn(helpers, 'getUrlParameter');
 
         // act
-        let page = new Confirm(service, router, state, helpers, controllerFactory);
+        let page = new Confirm(service, router, helpers, controllerFactory);
 
         // verify
         expect(helpers.getUrlParameter).toHaveBeenCalledWith('p');
         expect(helpers.getUrlParameter).toHaveBeenCalledWith('u');
-    })
+    });
+
+    describe('confirm specs', () => {
+        let page: Confirm;
+        beforeEach(() => {
+            page = new Confirm(service, router, helpers, controllerFactory);
+        });
+
+        describe('confirm should call service confirm', () => {
+            // prepare
+            let userName;
+
+            beforeEach(() => {
+                page.userName = userName;
+                spyOn(service, 'confirm')
+                    .and.returnValue(promise);
+
+                // act
+                page.confirm();
+                resolveCallback();
+
+                // verify
+                expect(service.confirm).toHaveBeenCalledWith(userName);
+            });
+
+            it('and navigate to homme on success', () => {
+                // prepare
+                spyOn(router, 'navigateToRoute');
+
+                // act
+                resolveCallback();
+
+                // verify
+                expect(router.navigateToRoute).toHaveBeenCalledWith('home');
+            });
+
+            it('and navigate on to login NullInfo', () => {
+                // prepare
+                spyOn(router, 'navigateToRoute');
+                let error = new Error('NullInfo');
+                error.name = 'NullInfo';
+
+                // act
+                rejectCallback(error);
+
+                // verify
+                expect(router.navigateToRoute).toHaveBeenCalledWith('login');
+            });
+
+            it('and set error on others errors', () => {
+                // prepare
+                spyOn(router, 'navigateToRoute');
+                let error = new Error('NullInfo');
+
+                // act
+                rejectCallback(error);
+
+                // verify
+                expect(page.error).toBe(error);
+            });
+        });
+
+        it('confirm should set error on validation error', () => {
+            page.userName = userName;
+            spyOn(service, 'confirm')
+                .and.returnValue(promise);
+            let error = new Error('test');
+
+            // act
+            page.confirm();
+            rejectCallback(error);
+
+            // verify
+            expect(page.error).toBe(error);
+        })
+    });
 });

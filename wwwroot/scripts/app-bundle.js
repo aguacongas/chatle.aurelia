@@ -381,7 +381,7 @@ define('services/login.service',["require", "exports", 'aurelia-http-client', 'a
             return new Promise(function (resolve, reject) {
                 _this.getXhrf()
                     .then(function (r) {
-                    _this.http.get(_this.settings.accountdAPI + "/exists")
+                    _this.http.get(_this.settings.accountdAPI + "/exists?userName=" + encodeURIComponent(userName))
                         .then(function (response) {
                         resolve(response.content);
                     })
@@ -1040,6 +1040,47 @@ define('components/conversation-preview',["require", "exports", 'aurelia-framewo
     exports.ConversationPreview = ConversationPreview;
 });
 
+var __decorate = (this && this.__decorate) || function (decorators, target, key, desc) {
+    var c = arguments.length, r = c < 3 ? target : desc === null ? desc = Object.getOwnPropertyDescriptor(target, key) : desc, d;
+    if (typeof Reflect === "object" && typeof Reflect.decorate === "function") r = Reflect.decorate(decorators, target, key, desc);
+    else for (var i = decorators.length - 1; i >= 0; i--) if (d = decorators[i]) r = (c < 3 ? d(r) : c > 3 ? d(target, key, r) : d(target, key)) || r;
+    return c > 3 && r && Object.defineProperty(target, key, r), r;
+};
+var __metadata = (this && this.__metadata) || function (k, v) {
+    if (typeof Reflect === "object" && typeof Reflect.metadata === "function") return Reflect.metadata(k, v);
+};
+define('components/user-name',["require", "exports", 'aurelia-framework', 'aurelia-validation', '../services/login.service'], function (require, exports, aurelia_framework_1, aurelia_validation_1, login_service_1) {
+    "use strict";
+    var UserName = (function () {
+        function UserName(service, controllerFactory) {
+            this.service = service;
+            this.controller = controllerFactory.createForCurrentScope();
+        }
+        UserName.prototype.userNameAvailable = function (value) {
+            var _this = this;
+            return new Promise(function (resolve) {
+                _this.service.exists(value)
+                    .then(function (r) { return resolve(!r); });
+            });
+        };
+        __decorate([
+            aurelia_framework_1.bindable({ defaultBindingMode: aurelia_framework_1.bindingMode.twoWay }), 
+            __metadata('design:type', String)
+        ], UserName.prototype, "userName", void 0);
+        UserName = __decorate([
+            aurelia_framework_1.autoinject, 
+            __metadata('design:paramtypes', [login_service_1.LoginService, aurelia_validation_1.ValidationControllerFactory])
+        ], UserName);
+        return UserName;
+    }());
+    exports.UserName = UserName;
+    aurelia_validation_1.ValidationRules
+        .ensure(function (c) { return c.userName; })
+        .satisfies(function (value, obj) { return obj.userNameAvailable(value); })
+        .withMessage('This user name already exists, please choose another one')
+        .on(UserName);
+});
+
 define('model/changePassword',["require", "exports"], function (require, exports) {
     "use strict";
     var ChangePassword = (function () {
@@ -1187,13 +1228,12 @@ var __decorate = (this && this.__decorate) || function (decorators, target, key,
 var __metadata = (this && this.__metadata) || function (k, v) {
     if (typeof Reflect === "object" && typeof Reflect.metadata === "function") return Reflect.metadata(k, v);
 };
-define('pages/confirm',["require", "exports", 'aurelia-framework', 'aurelia-router', 'aurelia-validation', 'aurelia-validation', '../services/login.service', '../services/state', '../services/helpers'], function (require, exports, aurelia_framework_1, aurelia_router_1, aurelia_validation_1, aurelia_validation_2, login_service_1, state_1, helpers_1) {
+define('pages/confirm',["require", "exports", 'aurelia-framework', 'aurelia-router', 'aurelia-validation', '../services/login.service', '../services/helpers'], function (require, exports, aurelia_framework_1, aurelia_router_1, aurelia_validation_1, login_service_1, helpers_1) {
     "use strict";
     var Confirm = (function () {
-        function Confirm(service, router, state, helpers, controllerFactory) {
+        function Confirm(service, router, helpers, controllerFactory) {
             this.service = service;
             this.router = router;
-            this.state = state;
             this.helpers = helpers;
             this.controller = controllerFactory.createForCurrentScope();
             this.provider = this.helpers.getUrlParameter('p');
@@ -1221,15 +1261,11 @@ define('pages/confirm',["require", "exports", 'aurelia-framework', 'aurelia-rout
         };
         Confirm = __decorate([
             aurelia_framework_1.autoinject, 
-            __metadata('design:paramtypes', [login_service_1.LoginService, aurelia_router_1.Router, state_1.State, helpers_1.Helpers, aurelia_validation_2.ValidationControllerFactory])
+            __metadata('design:paramtypes', [login_service_1.LoginService, aurelia_router_1.Router, helpers_1.Helpers, aurelia_validation_1.ValidationControllerFactory])
         ], Confirm);
         return Confirm;
     }());
     exports.Confirm = Confirm;
-    aurelia_validation_1.ValidationRules
-        .ensure(function (c) { return c.userName; })
-        .satisfies(function (value, obj) { return obj.service.exists(value); })
-        .withMessage('This user name already exists, please choose another one');
 });
 
 var __decorate = (this && this.__decorate) || function (decorators, target, key, desc) {
@@ -2679,8 +2715,9 @@ define('text!components/contact.html', ['module'], function(module) { module.exp
 define('text!components/conversation-component.html', ['module'], function(module) { module.exports = "<template>\r\n    <div if.bind=\"conversation\">\r\n        <h6>${conversation.title}</h6>\r\n        <form class=\"form-inline\">\r\n            <input class=\"form-control\" value.bind=\"message\" placeholder=\"message...\">\r\n            <button type=\"submit\" class=\"btn btn-default\" click.delegate=\"sendMessage()\" disabled.bind=\"!message\">send</button>\r\n        </form>\r\n        <ul>\r\n            <li repeat.for=\"message of conversation.messages\">\r\n                <small>${message.from}</small><br />\r\n                <span>${message.text}</span>\r\n            </li>\r\n        </ul>\r\n    </div>\r\n    <h1 if.bind=\"!conversation\">WELCOME TO THIS REALLY SIMPLE CHAT</h1>\r\n</template>"; });
 define('text!components/conversation-list.html', ['module'], function(module) { module.exports = "<template>\r\n  <require from=\"./conversation-preview\"></require>\r\n  <div class=\"conversation-list\">\r\n    <ul class=\"list-group\">\r\n      <conversation-preview repeat.for=\"conversation of conversations\" conversation.bind=\"conversation\"></conversation-preview>\r\n    </ul>\r\n  </div>\r\n</template>"; });
 define('text!components/conversation-preview.html', ['module'], function(module) { module.exports = "<template>\r\n  <li class=\"list-group-item ${isSelected ? 'active' : ''}\" click.delegate=\"select()\">\r\n    <a>${conversation.title}</a><br/>\r\n    <span>${lastMessage}</span>\r\n  </li>\r\n</template>"; });
+define('text!components/user-name.html', ['module'], function(module) { module.exports = "<template>\r\n\t<div validation-errors.bind=\"userNameErrors\" class.bind=\"userNameErrors.length ? 'has-error' : ''\">\r\n\t\t<input class=\"form-control\" name=\"UserName\" value.bind=\"userName & validate\" />\r\n\t\t<span class=\"help-block\" repeat.for=\"errorInfo of userNameErrors\">\r\n            ${errorInfo.error.message}\r\n        <span>\r\n    </div>\r\n</template>>"; });
 define('text!pages/account.html', ['module'], function(module) { module.exports = "<template>\r\n    <h2>Manage Account.</h2>\r\n    <div class=\"row\">\r\n        <div class=\"col-md-12\">\r\n            <p>You're logged in as <strong>${userName}</strong>.</p>\r\n            <form class=\"form-horizontal\">\r\n                <h4 if.bind=\"!isGuess\">Change Password Form</h4>\r\n                <h4 if.bind=\"isGuess\">Create Password Form</h4>\r\n                <hr>\r\n                <div if.bind=\"errorMessage\" class=\"text-danger\">\r\n                    <ul>\r\n                        <li>${errorMessage}</li>\r\n                    </ul>\r\n                </div>\r\n                <div class=\"form-group\" if.bind=\"!isGuess\">\r\n                    <label class=\"col-md-2 control-label\" for=\"oldPassword\">Current password</label>\r\n                    <div class=\"col-md-10\">\r\n                        <input class=\"form-control\" type=\"password\" id=\"oldPassword\" value.bind=\"model.oldPassword\" />\t\t\t\r\n                    </div>\r\n                </div>\r\n                <div class=\"form-group\" validation-errors.bind=\"newPasswordErrors\" class.bind=\"newPasswordErrors.length ? 'has-error' : ''\">\r\n                    <label class=\"col-md-2 control-label\" for=\"newPassword\">New password</label>\t\r\n                    <div class=\"col-md-10\">\r\n                        <input class=\"form-control\" type=\"password\" name=\"newPassword\" value.bind=\"newPassword & validate\" change.delegate=\"confirmPassword = ''\"/>\r\n                    </div>\r\n                    <span class=\"help-block\" repeat.for=\"errorInfo of newPasswordErrors\">\r\n                        ${errorInfo.error.message}\r\n                    <span>\r\n                </div>\r\n                <div class=\"form-group\" validation-errors.bind=\"confirmPasswordErrors\" class.bind=\"confirmPasswordErrors.length ? 'has-error' : ''\">\r\n                    <label class=\"col-md-2 control-label\" for=\"confirmPassword\">Confirm new password</label>\r\n                    <div class=\"col-md-10\">\r\n                        <input class=\"form-control\" type=\"password\" name=\"confirmPassword\" value.bind=\"confirmPassword & validate\" />\r\n                    </div>\r\n                    <span class=\"help-block\" repeat.for=\"errorInfo of confirmPasswordErrors\">\r\n                        ${errorInfo.error.message}\r\n                    <span>\r\n                </div>\r\n                <div class=\"form-group\">\r\n                    <div class=\"col-md-offset-2 col-md-10\">\r\n                        <input class=\"btn btn-default\" type=\"submit\" value=\"Change password\" click.delegate=\"changePassword()\" disabled.bind=\"controller.errors.length > 0\"/>\r\n                    </div>\r\n                </div>\r\n            </form>\r\n        </div>\r\n    </div>\r\n</template>"; });
-define('text!pages/confirm.html', ['module'], function(module) { module.exports = "<template>\r\n\t<h3>Associate your ${provider} account.</h3>\r\n\r\n\t<form class=\"form-horizontal\" submit.delegate=\"confirm()\">\r\n\t\t<h4>Association Form</h4>\r\n\t\t<hr />\r\n\t\t<div class=\"text-danger\">${error.message}</div>\r\n\r\n\t\t<p class=\"text-info\">\r\n\t\t\tYou've successfully authenticated with <strong>${provider}</strong>. Please enter a user name for this site below and\r\n\t\t\tclick the Register button to finish logging in.\r\n\t\t</p>\r\n\t\t<div class=\"form-group\" validation-errors.bind=\"userNameErrors\" class.bind=\"userNameErrors.length ? 'has-error' : ''\">\r\n\t\t\t<label class=\"col-md-2 control-label\" for=\"UserName\">User name</label>\r\n\t\t\t<div class=\"col-md-10\">\r\n\t\t\t\t<input class=\"form-control\" name=\"UserName\" value.bind=\"userName & validate\" />\r\n\t\t\t\t<span class=\"help-block\" repeat.for=\"errorInfo of userNameErrors\">\r\n                    ${errorInfo.error.message}\r\n                <span>\r\n\t\t\t</div>\r\n\t\t</div>\r\n\t\t<div class=\"form-group\">\r\n\t\t\t<div class=\"col-md-offset-2 col-md-10\">\r\n\t\t\t\t<button type=\"submit\" class=\"btn btn-default\">Register</button>\r\n\t\t\t</div>\r\n\t\t</div>\r\n\t</form>\r\n\r\n</template>"; });
+define('text!pages/confirm.html', ['module'], function(module) { module.exports = "<template>\r\n\t<require from\"../components/user-name\"></require>\r\n\t<h3>Associate your ${provider} account.</h3>\r\n\r\n\t<form class=\"form-horizontal\" submit.delegate=\"confirm()\">\r\n\t\t<h4>Association Form</h4>\r\n\t\t<hr />\r\n\t\t<div class=\"text-danger\">${error.message}</div>\r\n\r\n\t\t<p class=\"text-info\">\r\n\t\t\tYou've successfully authenticated with <strong>${provider}</strong>. Please enter a user name for this site below and\r\n\t\t\tclick the Register button to finish logging in.\r\n\t\t</p>\r\n\t\t<div class=\"form-group\">\r\n\t\t\t<label class=\"col-md-2 control-label\" for=\"UserName\">User name</label>\r\n\t\t\t<user-name class=\"col-md-10\" userName.bind\"userName\"></user-name>\r\n\t\t</div>\r\n\t\t<div class=\"form-group\">\r\n\t\t\t<div class=\"col-md-offset-2 col-md-10\">\r\n\t\t\t\t<button type=\"submit\" class=\"btn btn-default\">Register</button>\r\n\t\t\t</div>\r\n\t\t</div>\r\n\t</form>\r\n\r\n</template>"; });
 define('text!pages/home.html', ['module'], function(module) { module.exports = "<template>\r\n    <require from=\"../components/contact-list\"></require>\r\n    <require from=\"../components/conversation-list\"></require>\r\n\r\n    <div class=\"row\">\r\n        <div class=\"col-xs-3\">\r\n            <h6>CONVERSATION</h6>\r\n            <conversation-list></conversation-list>\r\n        </div>\r\n        <router-view class=\"col-xs-6\"></router-view>\r\n        <div class=\"col-xs-3\">\r\n            <h6>CONNECTED</h6>\r\n            <contact-list></contact-list>\r\n        </div>\r\n    </div>\r\n</template>"; });
-define('text!pages/login.html', ['module'], function(module) { module.exports = "<template>\r\n\t<h2>Log in.</h2>\r\n\t<hr />\r\n\t<div class=\"col-xs-6\">\r\n\t\t<section>\r\n            <h4>Guess access.</h4>\r\n\t\t\t<hr>\r\n\t\t\t<form class=\"form-horizontal\">\r\n\t\t\t\t<div class=\"form-group\">\r\n\t\t\t\t\t<label class=\"col-xs-3 control-label\" for=\"userName\"></label>\r\n\t\t\t\t\t<div class=\"col-xs-9\">\r\n\t\t\t\t\t\t<input class=\"form-control\" name=\"userName\" value.bind=\"userName\" change.delegate=\"delete error\" />\r\n\t\t\t\t\t\t<span class=\"text-danger\" if.bind=\"error\">${error.message}</span>\r\n\t\t\t\t\t</div>\r\n\t\t\t\t</div>\r\n\t\t\t\t<div class=\"form-group\">\r\n\t\t\t\t\t<div class=\"col-xs-offset-3 col-xs-9\">\r\n\t\t\t\t\t\t<input type=\"submit\" value=\"Log in\" class=\"btn btn-default\" click.delegate=\"login(userName)\" />\r\n\t\t\t\t\t</div>\r\n\t\t\t\t</div>\r\n\t\t\t</form>\r\n\t\t</section>\r\n\t</div>\r\n\t<div class=\"col-xs-6\">\r\n\t\t<section>\r\n\t\t\t<h4>Use another service to log in.</h4>\r\n\t\t\t<hr>\r\n\t\t\t<form class=\"form-horizontal\" role=\"form\" method=\"post\" action.bind=\"externalLogin\" disabled.bind=\"token\">\r\n\t\t\t\t<div>\r\n\t\t\t\t\t<p>\r\n\t\t\t\t\t\t<button type=\"submit\" class=\"btn btn-default\" name=\"provider\" value=\"Microsoft\" title=\"Log in using your Microsoft account\">Microsoft</button>\r\n\t\t\t\t\t\t<button type=\"submit\" class=\"btn btn-default\" name=\"provider\" value=\"Google\" title=\"Log in using your Google account\">Google</button>\r\n\t\t\t\t\t\t<button type=\"submit\" class=\"btn btn-default\" name=\"provider\" value=\"Twitter\" title=\"Log in using your Twitter account\">Twitter</button>\r\n\t\t\t\t\t\t<button type=\"submit\" class=\"btn btn-default\" name=\"provider\" value=\"Facebook\" title=\"Log in using your Facebook account\">Facebook</button>\r\n\t\t\t\t\t</p>\r\n\t\t\t\t</div>\r\n\t\t\t\t<input name=\"__RequestVerificationToken\" type=\"hidden\" value.bind=\"token\"></form>\r\n\t\t</section>\r\n\t</div>\r\n</template>"; });
+define('text!pages/login.html', ['module'], function(module) { module.exports = "<template>\r\n\t<require from=\"../components/user-name\"></require>\r\n\t\r\n\t<h2>Log in.</h2>\r\n\t<hr />\r\n\t<div class=\"col-xs-6\">\r\n\t\t<section>\r\n            <h4>Guess access.</h4>\r\n\t\t\t<hr>\r\n\t\t\t<form class=\"form-horizontal\">\r\n\t\t\t\t<div class=\"form-group\">\r\n\t\t\t\t\t<label class=\"col-xs-3 control-label\" for=\"userName\"></label>\r\n\t\t\t\t\t<user-name class=\"col-xs-9\" userName.bind\"userName\"></user-name>\r\n\t\t\t\t</div>\r\n\t\t\t\t<div class=\"form-group\">\r\n\t\t\t\t\t<div class=\"col-xs-offset-3 col-xs-9\">\r\n\t\t\t\t\t\t<input type=\"submit\" value=\"Log in\" class=\"btn btn-default\" click.delegate=\"login(userName)\" />\r\n\t\t\t\t\t</div>\r\n\t\t\t\t</div>\r\n\t\t\t</form>\r\n\t\t</section>\r\n\t</div>\r\n\t<div class=\"col-xs-6\">\r\n\t\t<section>\r\n\t\t\t<h4>Use another service to log in.</h4>\r\n\t\t\t<hr>\r\n\t\t\t<form class=\"form-horizontal\" role=\"form\" method=\"post\" action.bind=\"externalLogin\" disabled.bind=\"token\">\r\n\t\t\t\t<div>\r\n\t\t\t\t\t<p>\r\n\t\t\t\t\t\t<button type=\"submit\" class=\"btn btn-default\" name=\"provider\" value=\"Microsoft\" title=\"Log in using your Microsoft account\">Microsoft</button>\r\n\t\t\t\t\t\t<button type=\"submit\" class=\"btn btn-default\" name=\"provider\" value=\"Google\" title=\"Log in using your Google account\">Google</button>\r\n\t\t\t\t\t\t<button type=\"submit\" class=\"btn btn-default\" name=\"provider\" value=\"Twitter\" title=\"Log in using your Twitter account\">Twitter</button>\r\n\t\t\t\t\t\t<button type=\"submit\" class=\"btn btn-default\" name=\"provider\" value=\"Facebook\" title=\"Log in using your Facebook account\">Facebook</button>\r\n\t\t\t\t\t</p>\r\n\t\t\t\t</div>\r\n\t\t\t\t<input name=\"__RequestVerificationToken\" type=\"hidden\" value.bind=\"token\"></form>\r\n\t\t</section>\r\n\t</div>\r\n</template>"; });
 //# sourceMappingURL=app-bundle.js.map

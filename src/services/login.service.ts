@@ -61,7 +61,7 @@ export class LoginService {
         return new Promise<boolean>((resolve, reject) => {
             this.getXhrf()
                 .then(r => {
-                    this.http.get(this.settings.accountdAPI + "/exists")
+                    this.http.get(this.settings.accountdAPI + "/exists?userName=" + encodeURIComponent(userName))
                         .then(response => {
                             resolve(response.content);
                         })
