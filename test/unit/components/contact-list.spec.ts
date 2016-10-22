@@ -22,7 +22,9 @@ describe('contact-list component spec', () => {
     let resolveCallback;
     let rejectCallback;
 
-    let subscribeCallback;
+    let connectionStateCallback;
+    let userConnectedCallback;
+    let userDisconnectedCallback;
 
     let contactList: ContactList;
 
@@ -50,23 +52,25 @@ describe('contact-list component spec', () => {
 
         ea = {
             subscribe: (e, d) => {
-                subscribeCallback = d;
-
                 if (e === ConnectionStateChanged) {
+                    connectionStateCallback = d;
+
                     connectionStateChangeSubscription = {
                         dispose: () => { }
                     } as Subscription;
 
                     return connectionStateChangeSubscription;
                 }
-                if (e === UserConnected) {
+                if (e === UserDisconnected) {
+                    userDisconnectedCallback = d;
                     userDisconnectedSubscription = {
                         dispose: () => { }
                     } as Subscription;
 
                     return userConnectedSubscription;
                 }
-                if (e === UserDisconnected) {
+                if (e === UserConnected) {
+                    userConnectedCallback = d;
                     userConnectedSubscription = {
                         dispose: () => { }
                     } as Subscription;
@@ -119,7 +123,7 @@ describe('contact-list component spec', () => {
 
         // act
         contactList.attached();
-        subscribeCallback({
+        connectionStateCallback({
             state: ConnectionState.Connected
         });
 
@@ -134,7 +138,7 @@ describe('contact-list component spec', () => {
 
         // act
         contactList.attached();
-        subscribeCallback({
+        connectionStateCallback({
             state: ConnectionState.Error
         });
 
@@ -145,9 +149,7 @@ describe('contact-list component spec', () => {
     describe('on get users spec', () => {
         let users;
         beforeEach(() => {
-            users = [
-                new User()
-            ];
+            users = new Array<User>();
 
             chatService.currentState = ConnectionState.Connected;
 
@@ -157,14 +159,77 @@ describe('contact-list component spec', () => {
         afterEach(() => {
             userConnectedSubscription = undefined;
             userDisconnectedSubscription = undefined;
+            userConnectedCallback = undefined;
+            userDisconnectedCallback = undefined;
         })
 
         it('get user callback should subscribe to UserConnected event', () => {
             // act
-            resolveCallback()
+            resolveCallback();
 
             // verify
             expect(userConnectedSubscription).toBeDefined();
+        });
+
+        it('get user callback should subscribe to UserDisconnected event', () => {
+            // act
+            resolveCallback();
+
+            // verify
+            expect(userDisconnectedSubscription).toBeDefined();
+        });
+
+        it('get user callback should set error on error', () => {
+
+            // act
+            rejectCallback(new Error('error'));
+
+            // verify
+            expect(contactList.loadingMessage).toBe('error');
+        });
+
+        it('get user callback should set users', () => {
+
+            // act
+            resolveCallback(users);
+
+            // verify
+            expect(contactList.users).toBe(users);
+        });
+
+        describe('user event specs', () => {
+            beforeEach(() => {
+                resolveCallback(users);
+            });
+
+            it('user connected subscribiscription callback should add user', () => {
+                // prepare
+                let user = new User();
+                user.id = 'test';
+
+                // act
+                userConnectedCallback(new UserConnected(user));
+
+                // verify
+                expect(contactList.users[0]).toBe(user);
+            });
+
+            it('user disconnected subscribiscription callback should remove user', () => {
+                // prepare
+                let user = new User();
+                user.id = 'test';
+                contactList.users.unshift(user);
+                let disconnected = {
+                    id: user.id,
+                    isRemoved: false
+                }
+
+                // act
+                userDisconnectedCallback(new UserDisconnected(disconnected));
+
+                // verify
+                expect(contactList.users.length).toBe(0);
+            });
         });
     })
 });

@@ -651,14 +651,16 @@ define('components/contact-list',["require", "exports", 'aurelia-framework', 'au
                 .then(function (users) {
                 _this.users = users;
                 _this.userConnectedSubscription = _this.ea.subscribe(userConnected_1.UserConnected, function (e) {
-                    _this.removeUser(e.user.id);
-                    _this.users.unshift(e.user);
+                    var userConnected = e;
+                    console.log('userConnected' + userConnected.user.id);
+                    _this.removeUser(userConnected.user.id);
+                    _this.users.unshift(userConnected.user);
                 });
                 _this.userDisconnectedSubscription = _this.ea.subscribe(userDisconnected_1.UserDisconnected, function (e) {
                     _this.removeUser(e.user.id);
                 });
             })
-                .catch(function (error) { return _this.loadingMessage = error; });
+                .catch(function (error) { return _this.loadingMessage = error.message; });
         };
         ContactList.prototype.removeUser = function (id) {
             var user;
@@ -793,7 +795,7 @@ var __decorate = (this && this.__decorate) || function (decorators, target, key,
 var __metadata = (this && this.__metadata) || function (k, v) {
     if (typeof Reflect === "object" && typeof Reflect.metadata === "function") return Reflect.metadata(k, v);
 };
-define('components/contact',["require", "exports", 'aurelia-framework', 'aurelia-event-aggregator', 'aurelia-router', '../services/conversation.service', '../model/user', '../model/conversation', '../model/attendee', '../events/conversationSelected'], function (require, exports, aurelia_framework_1, aurelia_event_aggregator_1, aurelia_router_1, conversation_service_1, user_1, conversation_1, attendee_1, conversationSelected_1) {
+define('components/contact',["require", "exports", 'aurelia-framework', 'aurelia-event-aggregator', 'aurelia-router', '../services/conversation.service', '../services/state', '../model/user', '../model/conversation', '../model/attendee', '../events/conversationSelected'], function (require, exports, aurelia_framework_1, aurelia_event_aggregator_1, aurelia_router_1, conversation_service_1, state_1, user_1, conversation_1, attendee_1, conversationSelected_1) {
     "use strict";
     var Contact = (function () {
         function Contact(service, state, ea, router) {
@@ -839,7 +841,7 @@ define('components/contact',["require", "exports", 'aurelia-framework', 'aurelia
         ], Contact.prototype, "user", void 0);
         Contact = __decorate([
             aurelia_framework_1.autoinject, 
-            __metadata('design:paramtypes', [conversation_service_1.ConversationService, Object, aurelia_event_aggregator_1.EventAggregator, aurelia_router_1.Router])
+            __metadata('design:paramtypes', [conversation_service_1.ConversationService, state_1.State, aurelia_event_aggregator_1.EventAggregator, aurelia_router_1.Router])
         ], Contact);
         return Contact;
     }());

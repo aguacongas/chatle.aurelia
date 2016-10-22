@@ -50,15 +50,16 @@ export class ContactList {
                 this.users = users;
 
                 this.userConnectedSubscription = this.ea.subscribe(UserConnected, e => {
-                    this.removeUser((<UserConnected>e).user.id);
-                    this.users.unshift(e.user);
+                    let userConnected = <UserConnected>e;
+                    this.removeUser(userConnected.user.id);
+                    this.users.unshift(userConnected.user);
                 });
 
                 this.userDisconnectedSubscription = this.ea.subscribe(UserDisconnected, e => {
                     this.removeUser((<UserDisconnected>e).user.id);
                 });
             })
-            .catch(error => this.loadingMessage = error);
+            .catch((error:Error) => this.loadingMessage = error.message);
     }
 
     private removeUser(id: string) {
