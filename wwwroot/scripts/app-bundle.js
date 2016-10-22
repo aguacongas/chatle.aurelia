@@ -767,7 +767,9 @@ define('services/conversation.service',["require", "exports", 'aurelia-event-agg
                     if (response.response) {
                         var data = response.content;
                         if (data) {
-                            resolve(data);
+                            var conversations = data;
+                            conversations.forEach(function (c) { return _this.helpers.setConverationTitle(c); });
+                            resolve(conversations);
                             return;
                         }
                     }
@@ -939,7 +941,6 @@ define('components/conversation-list',["require", "exports", 'aurelia-framework'
                 if (!conversations) {
                     return;
                 }
-                conversations.forEach(function (c) { return _this.setConversationTitle(c); });
                 _this.conversations = conversations;
                 _this.userDisconnectedSubscription = _this.ea.subscribe(userDisconnected_1.UserDisconnected, function (e) {
                     _this.conversations.forEach(function (c) {
@@ -964,16 +965,6 @@ define('components/conversation-list',["require", "exports", 'aurelia-framework'
                     _this.conversations.unshift(e.conversation);
                 });
             });
-        };
-        ConversationList.prototype.setConversationTitle = function (conversation) {
-            var _this = this;
-            var title = '';
-            conversation.attendees.forEach(function (attendee) {
-                if (attendee && attendee.userId && attendee.userId !== _this.state.userName) {
-                    title += attendee.userId + ' ';
-                }
-            });
-            conversation.title = title.trim();
         };
         ConversationList = __decorate([
             aurelia_framework_1.autoinject, 

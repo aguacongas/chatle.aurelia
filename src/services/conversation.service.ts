@@ -81,7 +81,9 @@ export class ConversationService {
                     if (response.response) {
                         let data = response.content;
                         if (data) {
-                            resolve(<Conversation[]>data);
+                            let conversations = <Conversation[]>data;
+                            conversations.forEach(c => this.helpers.setConverationTitle(c)); 
+                            resolve(conversations);
                             return;
                         }
                     }

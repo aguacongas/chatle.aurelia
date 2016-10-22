@@ -61,8 +61,7 @@ export class ConversationList {
         if (!conversations) {
           return;
         }
-
-        conversations.forEach(c => this.setConversationTitle(c));
+        
         this.conversations = conversations;      
         
         this.userDisconnectedSubscription = this.ea.subscribe(UserDisconnected, e => {
@@ -89,15 +88,5 @@ export class ConversationList {
           this.conversations.unshift(e.conversation);
         });
       });
-  }
-
-  private setConversationTitle(conversation: Conversation) {
-      let title = '';
-      conversation.attendees.forEach(attendee => {
-          if (attendee && attendee.userId && attendee.userId !== this.state.userName) {
-              title += attendee.userId + ' ';
-          }                
-      });
-      conversation.title = title.trim();
   }
 }
