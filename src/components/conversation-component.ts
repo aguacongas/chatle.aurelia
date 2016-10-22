@@ -1,5 +1,5 @@
 import { autoinject } from 'aurelia-framework';
-import { Router, RouterConfiguration } from 'aurelia-router';
+import { Router } from 'aurelia-router';
 
 import { ConversationService } from '../services/conversation.service';
 import { Conversation } from '../model/conversation';
@@ -28,7 +28,6 @@ export class ConversationComponent {
 
     sendMessage() {
         this.service.sendMessage(this.conversation, this.message);
-        this.conversation.messages.unshift();
         this.message = '';
     }
 }

@@ -652,7 +652,6 @@ define('components/contact-list',["require", "exports", 'aurelia-framework', 'au
                 _this.users = users;
                 _this.userConnectedSubscription = _this.ea.subscribe(userConnected_1.UserConnected, function (e) {
                     var userConnected = e;
-                    console.log('userConnected' + userConnected.user.id);
                     _this.removeUser(userConnected.user.id);
                     _this.users.unshift(userConnected.user);
                 });
@@ -878,7 +877,6 @@ define('components/conversation-component',["require", "exports", 'aurelia-frame
         };
         ConversationComponent.prototype.sendMessage = function () {
             this.service.sendMessage(this.conversation, this.message);
-            this.conversation.messages.unshift();
             this.message = '';
         };
         ConversationComponent = __decorate([

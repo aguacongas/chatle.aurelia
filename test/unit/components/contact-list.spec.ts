@@ -61,21 +61,23 @@ describe('contact-list component spec', () => {
 
                     return connectionStateChangeSubscription;
                 }
+
                 if (e === UserDisconnected) {
                     userDisconnectedCallback = d;
                     userDisconnectedSubscription = {
                         dispose: () => { }
                     } as Subscription;
 
-                    return userConnectedSubscription;
+                    return userDisconnectedSubscription;
                 }
+
                 if (e === UserConnected) {
                     userConnectedCallback = d;
                     userConnectedSubscription = {
                         dispose: () => { }
                     } as Subscription;
 
-                    return userDisconnectedSubscription;
+                    return userConnectedSubscription;
                 }
             }
         } as EventAggregator;
@@ -230,6 +232,32 @@ describe('contact-list component spec', () => {
                 // verify
                 expect(contactList.users.length).toBe(0);
             });
+
+            it('detached shoud dispose subscriptions', () => {
+                // prepare
+                spyOn(userConnectedSubscription, 'dispose');
+                spyOn(userDisconnectedSubscription, 'dispose');
+                spyOn(connectionStateChangeSubscription, 'dispose');
+
+                // act
+                contactList.detached();
+
+                // verify
+                expect(userConnectedSubscription.dispose).toHaveBeenCalledTimes(1);
+                expect(userDisconnectedSubscription.dispose).toHaveBeenCalledTimes(1);
+                expect(connectionStateChangeSubscription.dispose).toHaveBeenCalledTimes(1);
+            });
         });
-    })
+
+        it('detached shoud dispose subscriptions', () => {
+            // prepare
+            spyOn(connectionStateChangeSubscription, 'dispose');
+
+            // act
+            contactList.detached();
+
+            // verify
+            expect(connectionStateChangeSubscription.dispose).toHaveBeenCalledTimes(1);
+        });
+    });
 });
