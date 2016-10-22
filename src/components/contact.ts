@@ -17,7 +17,7 @@ export class Contact {
     private conversationSelectedSubscription: Subscription;
 
     constructor(private service: ConversationService, 
-        private state,
+        private state: State,
         private ea: EventAggregator, 
         private router: Router) { }
 
