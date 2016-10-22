@@ -24,17 +24,22 @@ describe('contact component spec', () => {
 
     beforeEach(() => {
         service = {
-            showConversation: (c, r) => {}
+            showConversation: (c, r) => { }
         } as ConversationService;
 
         state = new State;
         router = {} as Router;
+
+        subscription = {
+            dispose: () => { }
+        } as Subscription;
+
         ea = {
             subscribe: (e, d) => {
                 evt = e;
                 subscriptionCallback = d;
                 return subscription;
-             }
+            }
         } as EventAggregator;
 
         contact = new Contact(service, state, ea, router);
@@ -71,27 +76,22 @@ describe('contact component spec', () => {
     });
 
     describe('attached specs', () => {
-        let subscription: Subscription;
         let user: User;
         beforeEach(() => {
-            subscription = {
-                dispose: () => {}
-            } as Subscription;
-
-            user = new User();            
+            user = new User();
             user.id = 'test';
             contact.user = user;
 
             // act
             contact.attached();
-            
+
             // verify
             expect(subscription).toBeDefined();
         });
 
         it('should set isSelected to true on ConversationSelected event when conversation attendees contains 2 users & userId equals user.id', () => {
             // prepare
-            let conversation = new Conversation();            
+            let conversation = new Conversation();
             conversation.attendees = [
                 new Attendee('test'),
                 new Attendee('user')
@@ -108,18 +108,28 @@ describe('contact component spec', () => {
 
         it('should set isSelected to false on ConversationSelected event when conversation attendees doent contains 2 users', () => {
             // prepare
-            let conversation = new Conversation();            
+            let conversation = new Conversation();
             conversation.attendees = [
                 new Attendee('test'),
             ];
             let event = new ConversationSelected(conversation);
             contact.isSelected = true;
-            
+
             // act
             subscriptionCallback(event);
 
             // verify
             expect(contact.isSelected).toBe(false);
+        });
+
+        it('detached should dispose subscription', () => {
+            // prepare
+            spyOn(subscription, 'dispose');
+            // act
+            contact.detached();
+
+            // verify
+            expect(subscription.dispose).toHaveBeenCalledTimes(1);
         });
     });
 });
