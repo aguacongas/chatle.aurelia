@@ -28,7 +28,7 @@ export class ConversationList {
 
     this.connectionStateSubscription = this.ea.subscribe(ConnectionStateChanged, e => {
       let state = (<ConnectionStateChanged>e).state;
-      if (state === ConnectionState.Disconnected) { 
+      if (state === ConnectionState.Disconnected) {
         // remove conversation on log off, disconnection
         this.conversations.splice(this.conversations.length);
       } else if (state === ConnectionState.Connected) {
@@ -61,9 +61,8 @@ export class ConversationList {
         if (!conversations) {
           return;
         }
-        
-        this.conversations = conversations;      
-        
+        this.conversations = conversations;
+
         this.userDisconnectedSubscription = this.ea.subscribe(UserDisconnected, e => {
           this.conversations.forEach(c => {
             let attendees = c.attendees;
@@ -80,11 +79,11 @@ export class ConversationList {
                 }
               });
             }
-          });          
+          });
         });
 
         this.conversationJoinedSubscription = this.ea.subscribe(ConversationJoined, e => {
-          let conversation = (<ConversationJoined>e).conversation;          
+          let conversation = (<ConversationJoined>e).conversation;
           this.conversations.unshift(e.conversation);
         });
       });

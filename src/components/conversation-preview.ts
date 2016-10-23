@@ -1,6 +1,6 @@
 import { bindable, autoinject } from 'aurelia-framework';
 import { EventAggregator, Subscription } from 'aurelia-event-aggregator';
-import { Router, RouterConfiguration } from 'aurelia-router';
+import { Router } from 'aurelia-router';
 
 import { ConversationService } from '../services/conversation.service';
 import { Conversation } from '../model/conversation';
