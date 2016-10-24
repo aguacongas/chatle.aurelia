@@ -1,5 +1,6 @@
-import {StageComponent} from 'aurelia-testing';
-import {bootstrap} from 'aurelia-bootstrapper';
+import { Aurelia } from 'aurelia-framework';
+import { StageComponent } from 'aurelia-testing';
+import { bootstrap } from 'aurelia-bootstrapper';
 
 describe('user-name component specs', () => {
   let component;
@@ -9,12 +10,18 @@ describe('user-name component specs', () => {
       .withResources('components/user-name')
       .inView('<user-name userName.bind="firstName"></user-namet>')
       .boundTo({ firstName: 'Test' });
+
+    component.configure = (aurelia: Aurelia) => {
+      aurelia.use
+        .standardConfiguration()
+        .plugin('aurelia-validation');
+    }
   });
 
-  it('should render first name', done => {
+  it('should render user name', done => {
     component.create(bootstrap).then(() => {
       const nameElement = document.querySelector('.form-control');
-      expect(nameElement.attributes['value']).toBe('Test');
+      expect(nameElement['value']).toBe('Test');
       done();
     });
   });
