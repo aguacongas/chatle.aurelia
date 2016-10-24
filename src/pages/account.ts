@@ -31,7 +31,7 @@ export class Account {
         this.externalLinkLogin = settings.apiBaseUrl + 
             settings.accountdAPI + 
             '/linklogin?returnUrl=' + 
-            encodeURIComponent(location.protocol + '//' + location.host + '/manage');
+            encodeURIComponent(location.protocol + '//' + location.host + '?a=manage&u=' + encodeURIComponent(this.state.userName));
     }
 
     remove(loginProvider: string, providerKey: string) {

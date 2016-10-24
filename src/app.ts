@@ -85,7 +85,7 @@ class AuthorizeStep {
                 return next.cancel(new Redirect('confirm'));
             }
 
-            let userName = this.helpers.getUrlParameter('u') 
+            let userName = this.helpers.getUrlParameter('u')
             if (userName) {
                 this.state.userName = userName;
             }
@@ -93,6 +93,11 @@ class AuthorizeStep {
             let isLoggedIn = this.state.userName;
             if (!isLoggedIn) {
                 return next.cancel(new Redirect('login'));
+            }
+
+            let action = this.helpers.getUrlParameter('a');
+            if (action) {
+                return next.cancel(new Redirect(action));
             }
         }
 

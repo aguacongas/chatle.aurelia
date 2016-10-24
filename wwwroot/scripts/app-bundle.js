@@ -530,6 +530,10 @@ define('app',["require", "exports", 'aurelia-framework', 'aurelia-router', 'aure
                 if (!isLoggedIn) {
                     return next.cancel(new aurelia_router_1.Redirect('login'));
                 }
+                var action = this.helpers.getUrlParameter('a');
+                if (action) {
+                    return next.cancel(new aurelia_router_1.Redirect(action));
+                }
             }
             return next();
         };
@@ -1082,6 +1086,26 @@ define('model/changePassword',["require", "exports"], function (require, exports
     exports.ChangePassword = ChangePassword;
 });
 
+define('model/manage-logins',["require", "exports"], function (require, exports) {
+    "use strict";
+    var UserLoginInfo = (function () {
+        function UserLoginInfo() {
+        }
+        return UserLoginInfo;
+    }());
+    var UserLogiAuthenticationDescriptionnInfo = (function () {
+        function UserLogiAuthenticationDescriptionnInfo() {
+        }
+        return UserLogiAuthenticationDescriptionnInfo;
+    }());
+    var ManageLogins = (function () {
+        function ManageLogins() {
+        }
+        return ManageLogins;
+    }());
+    exports.ManageLogins = ManageLogins;
+});
+
 var __decorate = (this && this.__decorate) || function (decorators, target, key, desc) {
     var c = arguments.length, r = c < 3 ? target : desc === null ? desc = Object.getOwnPropertyDescriptor(target, key) : desc, d;
     if (typeof Reflect === "object" && typeof Reflect.decorate === "function") r = Reflect.decorate(decorators, target, key, desc);
@@ -1121,6 +1145,26 @@ define('services/account.service',["require", "exports", 'aurelia-http-client', 
                 });
             }
         };
+        AccountService.prototype.getLogins = function () {
+            var _this = this;
+            return new Promise(function (resove, reject) {
+                _this.http.get(_this.settings.accountdAPI + '/logins')
+                    .then(function (response) {
+                    resove(response.content);
+                })
+                    .catch(function (error) { return reject(new Error('The service is down')); });
+            });
+        };
+        AccountService.prototype.removeLogin = function (loginProvider, providerKey) {
+            var _this = this;
+            return new Promise(function (resolve, reject) {
+                _this.http.delete(_this.settings.accountdAPI + '/sparemoveLogin?loginProvider=' + encodeURIComponent(loginProvider) + '&providerKey=' + encodeURIComponent(providerKey))
+                    .then(function () {
+                    resolve();
+                })
+                    .catch(function (e) { return reject(_this.helpers.getError(e)); });
+            });
+        };
         AccountService = __decorate([
             aurelia_framework_1.autoinject, 
             __metadata('design:paramtypes', [aurelia_http_client_1.HttpClient, settings_1.Settings, state_1.State, helpers_1.Helpers])
@@ -1139,75 +1183,61 @@ var __decorate = (this && this.__decorate) || function (decorators, target, key,
 var __metadata = (this && this.__metadata) || function (k, v) {
     if (typeof Reflect === "object" && typeof Reflect.metadata === "function") return Reflect.metadata(k, v);
 };
-define('pages/account',["require", "exports", 'aurelia-framework', 'aurelia-router', 'aurelia-event-aggregator', 'aurelia-validation', 'aurelia-validation', '../services/chat.service', '../services/state', '../services/account.service', '../events/connectionStateChanged'], function (require, exports, aurelia_framework_1, aurelia_router_1, aurelia_event_aggregator_1, aurelia_validation_1, aurelia_validation_2, chat_service_1, state_1, account_service_1, connectionStateChanged_1) {
+define('pages/account',["require", "exports", 'aurelia-framework', 'aurelia-router', 'aurelia-event-aggregator', '../services/chat.service', '../services/state', '../services/account.service', '../services/login.service', '../events/connectionStateChanged', '../config/settings'], function (require, exports, aurelia_framework_1, aurelia_router_1, aurelia_event_aggregator_1, chat_service_1, state_1, account_service_1, login_service_1, connectionStateChanged_1, settings_1) {
     "use strict";
     var Account = (function () {
-        function Account(service, router, ea, state, controllerFactory) {
-            this.service = service;
+        function Account(accountService, loginService, router, ea, state, settings) {
+            this.accountService = accountService;
+            this.loginService = loginService;
             this.router = router;
             this.ea = ea;
             this.state = state;
             this.userName = state.userName;
-            this.isGuess = state.isGuess;
-            this.controller = controllerFactory.createForCurrentScope();
+            this.externalLinkLogin = settings.apiBaseUrl +
+                settings.accountdAPI +
+                '/linklogin?returnUrl=' +
+                encodeURIComponent(location.protocol + '//' + location.host + '?a=manage&u=' + encodeURIComponent(this.state.userName));
         }
+        Account.prototype.remove = function (loginProvider, providerKey) {
+            var _this = this;
+            this.accountService.removeLogin(loginProvider, providerKey)
+                .then(function () {
+                var currentLogins = _this.logins.currentLogins;
+                var index = currentLogins.findIndex(function (value) { return value.loginProvider === loginProvider && value.providerKey === providerKey; });
+                currentLogins.splice(index, 1);
+            })
+                .catch(function (e) { return _this.errorMessage = e.message; });
+        };
         Account.prototype.attached = function () {
             var _this = this;
             this.connectionStateSubscription = this.ea.subscribe(connectionStateChanged_1.ConnectionStateChanged, function (e) {
                 if (e.state === chat_service_1.ConnectionState.Connected) {
-                    _this.isGuess = _this.state.isGuess;
+                    _this.getLogins();
                 }
             });
+            this.getLogins();
         };
         Account.prototype.detached = function () {
             this.connectionStateSubscription.dispose();
         };
-        Account.prototype.changePassword = function () {
+        Account.prototype.getLogins = function () {
             var _this = this;
-            this.controller.validate();
-            if (this.controller.errors.length === 0) {
-                var model = {
-                    oldPassword: this.oldPassword,
-                    newPassword: this.newPassword,
-                    confirmPassword: this.confirmPassword
-                };
-                this.service.changePassword(model)
-                    .then(function () {
-                    _this.isGuess = false;
-                    _this.router.navigateToRoute('home');
-                })
-                    .catch(function (error) { return _this.errorMessage = error; });
-            }
+            this.loginService.getXhrf()
+                .then(function (token) {
+                _this.token = token;
+                _this.accountService.getLogins()
+                    .then(function (logins) { return _this.logins = logins; })
+                    .catch(function (e) { return _this.errorMessage = e.message; });
+            })
+                .catch(function (e) { return _this.errorMessage = e.message; });
         };
         Account = __decorate([
             aurelia_framework_1.autoinject, 
-            __metadata('design:paramtypes', [account_service_1.AccountService, aurelia_router_1.Router, aurelia_event_aggregator_1.EventAggregator, state_1.State, aurelia_validation_2.ValidationControllerFactory])
+            __metadata('design:paramtypes', [account_service_1.AccountService, login_service_1.LoginService, aurelia_router_1.Router, aurelia_event_aggregator_1.EventAggregator, state_1.State, settings_1.Settings])
         ], Account);
         return Account;
     }());
     exports.Account = Account;
-    aurelia_validation_1.ValidationRules.customRule('matchesProperty', function (value, obj, otherPropertyName) {
-        return value === null
-            || value === undefined
-            || value === ''
-            || obj[otherPropertyName] === null
-            || obj[otherPropertyName] === undefined
-            || obj[otherPropertyName] === ''
-            || value === obj[otherPropertyName];
-    }, '${$displayName} must match ${$config.otherPropertyName}', function (otherPropertyName) { return ({ otherPropertyName: otherPropertyName }); });
-    aurelia_validation_1.ValidationRules
-        .ensure(function (a) { return a.confirmPassword; })
-        .displayName('Confirm new password')
-        .required()
-        .satisfiesRule('matchesProperty', 'newPassword')
-        .withMessage('Confirm new password must match New password')
-        .ensure(function (a) { return a.newPassword; })
-        .displayName("New password")
-        .required()
-        .matches(/(?=.*[A-Z])(?=.*[!@#$&\.\*\-\+\=\?£€])(?=.*[0-9])/)
-        .withMessage('${$displayName} must contains at least one uppercase letter, one digit and one special charactere.')
-        .minLength(6)
-        .on(Account);
 });
 
 var __decorate = (this && this.__decorate) || function (decorators, target, key, desc) {
@@ -2707,7 +2737,7 @@ define('text!components/conversation-component.html', ['module'], function(modul
 define('text!components/conversation-list.html', ['module'], function(module) { module.exports = "<template>\n  <require from=\"./conversation-preview\"></require>\n  <div class=\"conversation-list\">\n    <ul class=\"list-group\">\n      <conversation-preview repeat.for=\"conversation of conversations\" conversation.bind=\"conversation\"></conversation-preview>\n    </ul>\n  </div>\n</template>"; });
 define('text!components/conversation-preview.html', ['module'], function(module) { module.exports = "<template>\n  <li class=\"list-group-item ${isSelected ? 'active' : ''}\" click.delegate=\"select()\">\n    <a>${conversation.title}</a><br/>\n    <span>${lastMessage}</span>\n  </li>\n</template>"; });
 define('text!components/user-name.html', ['module'], function(module) { module.exports = "<template>\n\t<div validation-errors.bind=\"userNameErrors\" class.bind=\"userNameErrors.length ? 'has-error' : ''\">\n\t\t<input class=\"form-control\" name=\"UserName\" value.bind=\"userName & validate\" />\n\t\t<span class=\"help-block\" repeat.for=\"errorInfo of userNameErrors\">\n            ${errorInfo.error.message}\n        <span>\n    </div>\n</template>>"; });
-define('text!pages/account.html', ['module'], function(module) { module.exports = "<template>\n    <h2>Manage Account.</h2>\n    <div class=\"row\">\n        <div class=\"col-md-12\">\n            <p>You're logged in as <strong>${userName}</strong>.</p>\n            <form class=\"form-horizontal\">\n                <h4 if.bind=\"!isGuess\">Change Password Form</h4>\n                <h4 if.bind=\"isGuess\">Create Password Form</h4>\n                <hr>\n                <div if.bind=\"errorMessage\" class=\"text-danger\">\n                    <ul>\n                        <li>${errorMessage}</li>\n                    </ul>\n                </div>\n                <div class=\"form-group\" if.bind=\"!isGuess\">\n                    <label class=\"col-md-2 control-label\" for=\"oldPassword\">Current password</label>\n                    <div class=\"col-md-10\">\n                        <input class=\"form-control\" type=\"password\" id=\"oldPassword\" value.bind=\"model.oldPassword\" />\t\t\t\n                    </div>\n                </div>\n                <div class=\"form-group\" validation-errors.bind=\"newPasswordErrors\" class.bind=\"newPasswordErrors.length ? 'has-error' : ''\">\n                    <label class=\"col-md-2 control-label\" for=\"newPassword\">New password</label>\t\n                    <div class=\"col-md-10\">\n                        <input class=\"form-control\" type=\"password\" name=\"newPassword\" value.bind=\"newPassword & validate\" change.delegate=\"confirmPassword = ''\"/>\n                    </div>\n                    <span class=\"help-block\" repeat.for=\"errorInfo of newPasswordErrors\">\n                        ${errorInfo.error.message}\n                    <span>\n                </div>\n                <div class=\"form-group\" validation-errors.bind=\"confirmPasswordErrors\" class.bind=\"confirmPasswordErrors.length ? 'has-error' : ''\">\n                    <label class=\"col-md-2 control-label\" for=\"confirmPassword\">Confirm new password</label>\n                    <div class=\"col-md-10\">\n                        <input class=\"form-control\" type=\"password\" name=\"confirmPassword\" value.bind=\"confirmPassword & validate\" />\n                    </div>\n                    <span class=\"help-block\" repeat.for=\"errorInfo of confirmPasswordErrors\">\n                        ${errorInfo.error.message}\n                    <span>\n                </div>\n                <div class=\"form-group\">\n                    <div class=\"col-md-offset-2 col-md-10\">\n                        <input class=\"btn btn-default\" type=\"submit\" value=\"Change password\" click.delegate=\"changePassword()\" disabled.bind=\"controller.errors.length > 0\"/>\n                    </div>\n                </div>\n            </form>\n        </div>\n    </div>\n</template>"; });
+define('text!pages/account.html', ['module'], function(module) { module.exports = "<template>\n\t<h2>Manage Account.</h2>\n\t<div class=\"row\">\n\t\t<template if.bind=\"logins.otherLogins.length > 0\">\n\t\t\t<h4>Add another service to log in.</h4>\n\t\t\t<hr />\n\t\t\t<form method=\"post\" class=\"form-horizontal\" role=\"form\" action.bind=\"externalLinkLogin\">\n\t\t\t\t<div id=\"socialLoginList\">\n\t\t\t\t\t<p>\n\t\t\t\t\t\t<button type=\"submit\" class=\"btn btn-default\" name=\"provider\" repeat.for=\"login of logins.otherLogins\" value.bind=\"login.authenticationScheme\"\n\t\t\t\t\t\t\ttitle=\"Log in using your ${login.displayName} account\">${login.authenticationScheme}</button>\n\t\t\t\t\t</p>\n\t\t\t\t</div>\n\t\t\t\t<input name=\"__RequestVerificationToken\" type=\"hidden\" value.bind=\"token\" />\n\t\t\t</form>\n\t\t</template>\n\t\t<template if.bind=\"logins.currentLogins.length > 0\">\n\t\t\t<h4>Registered Logins</h4>\n\t\t\t<table class=\"table\">\n\t\t\t\t<tbody>\n\t\t\t\t\t<template repeat.for=\"login of logins.currentLogins\">\n\t\t\t\t\t\t<tr>\n\t\t\t\t\t\t\t<td>${login.loginProvider}</td>\n\t\t\t\t\t\t\t<td>\n\t\t\t\t\t\t\t\t<form class=\"form-horizontal\" role=\"form\" if.bind=\"logins.currentLogins.length > 1\">\n\t\t\t\t\t\t\t\t\t<div>\n\t\t\t\t\t\t\t\t\t\t<input type=\"submit\" class=\"btn btn-default\" value=\"Remove\" title=\"Remove this ${login.loginProvider} login from your account\" click.delegate=\"remove(login.loginProvider, login.providerKey)\" />\n\t\t\t\t\t\t\t\t\t</div>\n\t\t\t\t\t\t\t\t</form>\n\t\t\t\t\t\t\t</td>\n\t\t\t\t\t\t</tr>\n\t\t\t\t\t</template>\n\t\t\t\t</tbody>\n\t\t\t</table>\n\t\t</template>\n\t</div>\n</template>"; });
 define('text!pages/confirm.html', ['module'], function(module) { module.exports = "<template>\n\t<require from=\"../components/user-name\"></require>\n\t<h3>Associate your ${provider} account.</h3>\n\n\t<form class=\"form-horizontal\" submit.delegate=\"confirm()\">\n\t\t<h4>Association Form</h4>\n\t\t<hr />\n\t\t<div class=\"text-danger\">${error.message}</div>\n\n\t\t<p class=\"text-info\">\n\t\t\tYou've successfully authenticated with <strong>${provider}</strong>. Please enter a user name for this site below and\n\t\t\tclick the Register button to finish logging in.\n\t\t</p>\n\t\t<div class=\"form-group\">\n\t\t\t<label class=\"col-md-2 control-label\" for=\"UserName\">User name</label>\n\t\t\t<user-name class=\"col-md-10\" userName.bind\"userName\"></user-name>\n\t\t</div>\n\t\t<div class=\"form-group\">\n\t\t\t<div class=\"col-md-offset-2 col-md-10\">\n\t\t\t\t<button type=\"submit\" class=\"btn btn-default\">Register</button>\n\t\t\t</div>\n\t\t</div>\n\t</form>\n\n</template>"; });
 define('text!pages/home.html', ['module'], function(module) { module.exports = "<template>\n    <require from=\"../components/contact-list\"></require>\n    <require from=\"../components/conversation-list\"></require>\n\n    <div class=\"row\">\n        <div class=\"col-xs-3\">\n            <h6>CONVERSATION</h6>\n            <conversation-list></conversation-list>\n        </div>\n        <router-view class=\"col-xs-6\"></router-view>\n        <div class=\"col-xs-3\">\n            <h6>CONNECTED</h6>\n            <contact-list></contact-list>\n        </div>\n    </div>\n</template>"; });
 define('text!pages/login.html', ['module'], function(module) { module.exports = "<template>\n\t<require from=\"../components/user-name\"></require>\n\t\n\t<h2>Log in.</h2>\n\t<hr />\n\t<div class=\"col-xs-6\">\n\t\t<section>\n            <h4>Guess access.</h4>\n\t\t\t<hr>\n\t\t\t<form class=\"form-horizontal\">\n\t\t\t\t<div class=\"form-group\">\n\t\t\t\t\t<label class=\"col-xs-3 control-label\" for=\"userName\"></label>\n\t\t\t\t\t<user-name class=\"col-xs-9\" userName.bind\"userName\"></user-name>\n\t\t\t\t</div>\n\t\t\t\t<div class=\"form-group\">\n\t\t\t\t\t<div class=\"col-xs-offset-3 col-xs-9\">\n\t\t\t\t\t\t<input type=\"submit\" value=\"Log in\" class=\"btn btn-default\" click.delegate=\"login(userName)\" />\n\t\t\t\t\t</div>\n\t\t\t\t</div>\n\t\t\t</form>\n\t\t</section>\n\t</div>\n\t<div class=\"col-xs-6\">\n\t\t<section>\n\t\t\t<h4>Use another service to log in.</h4>\n\t\t\t<hr>\n\t\t\t<form class=\"form-horizontal\" role=\"form\" method=\"post\" action.bind=\"externalLogin\" disabled.bind=\"token\">\n\t\t\t\t<div>\n\t\t\t\t\t<p>\n\t\t\t\t\t\t<button type=\"submit\" class=\"btn btn-default\" name=\"provider\" value=\"Microsoft\" title=\"Log in using your Microsoft account\">Microsoft</button>\n\t\t\t\t\t\t<button type=\"submit\" class=\"btn btn-default\" name=\"provider\" value=\"Google\" title=\"Log in using your Google account\">Google</button>\n\t\t\t\t\t\t<button type=\"submit\" class=\"btn btn-default\" name=\"provider\" value=\"Twitter\" title=\"Log in using your Twitter account\">Twitter</button>\n\t\t\t\t\t\t<button type=\"submit\" class=\"btn btn-default\" name=\"provider\" value=\"Facebook\" title=\"Log in using your Facebook account\">Facebook</button>\n\t\t\t\t\t</p>\n\t\t\t\t</div>\n\t\t\t\t<input name=\"__RequestVerificationToken\" type=\"hidden\" value.bind=\"token\"></form>\n\t\t</section>\n\t</div>\n</template>"; });
