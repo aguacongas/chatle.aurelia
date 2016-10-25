@@ -14,7 +14,6 @@ import { Helpers } from '../services/helpers';
 
 @autoinject
 export class Account {
-    userName: string;
     errorMessage: string;
     logins: ManageLogins;
     externalLinkLogin: string;
@@ -28,15 +27,11 @@ export class Account {
             private ea: EventAggregator,
             private state: State,
             settings: Settings,
-            helpers: Helpers) { 
-        this.userName = state.userName || helpers.getUrlParameter('u');
+            helpers: Helpers) {          
         this.externalLinkLogin = settings.apiBaseUrl + 
             settings.accountdAPI + 
             '/linklogin?returnUrl=' + 
             encodeURIComponent(location.protocol + '//' + location.host + '?a=account&u=' + encodeURIComponent(this.state.userName));
-            if (helpers.getUrlParameter('a') !== '') {
-                window.history.replaceState(null, null, '/');
-            }        
     }
 
     remove(loginProvider: string, providerKey: string) {

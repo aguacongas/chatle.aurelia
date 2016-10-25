@@ -51,22 +51,25 @@ export class App {
         ]);
 
         let handleUnknownRoutes = (instruction: NavigationInstruction): RouteConfig => {
-            let provider = this.helpers.getUrlParameter('p') 
+            const userName = this.helpers.getUrlParameter('u');
+            const action = this.helpers.getUrlParameter('a');
+            const provider = this.helpers.getUrlParameter('p');
+
+
+            if (userName) {
+                this.state.userName = userName;
+            }
+ 
             if (provider) {
                 return confirm;
             }
 
-            let userName = this.helpers.getUrlParameter('u')
-            if (userName) {
-                this.state.userName = userName;
-            }
+            window.history.replaceState(null, null, '/');
 
-            let isLoggedIn = this.state.userName;
-            if (!isLoggedIn) {
+            if (!userName) {
                 return login;
             }
-
-            let action = this.helpers.getUrlParameter('a');
+            
             if (action) {
                 return account;
             }
@@ -92,6 +95,10 @@ export class App {
 
     manage() {
         this.router.navigateToRoute('account');
+    }
+
+    home() {
+        this.router.navigateToRoute('home');
     }
 
     private setIsConnected() {

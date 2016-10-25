@@ -4,10 +4,10 @@ import { ValidationControllerFactory, ValidationController, ValidationRules } fr
 
 import { LoginService } from '../services/login.service';
 import { Helpers } from '../services/helpers';
+import { State } from '../services/state';
 
 @autoinject
 export class Confirm {
-    userName: string;
     error: Error;
     controller: ValidationController;
     provider: string;
@@ -15,17 +15,17 @@ export class Confirm {
     constructor(private service: LoginService,
         private router: Router,
         private helpers: Helpers,
+        private state: State,
         controllerFactory: ValidationControllerFactory) {
         this.controller = controllerFactory.createForCurrentScope();
         this.provider = this.helpers.getUrlParameter('p');
-        this.userName = this.helpers.getUrlParameter('u');
         window.history.replaceState(null, null, '/');
     }
 
     confirm() {
         this.controller.validate()
             .then(() => {
-                this.service.confirm(this.userName)
+                this.service.confirm(this.state.userName)
                     .then(() => {
                         this.router.navigateToRoute('home');
                     })
