@@ -3,9 +3,9 @@ class UserLoginInfo {
     providerKey: string;
 }
 
-class UserLogiAuthenticationDescriptionnInfo {
+export class UserLogiAuthenticationDescriptionnInfo {
     authenticationScheme: string;
-    droviderKey: string;
+    displayName: string;
 }
 
 export class ManageLogins {

@@ -25,6 +25,7 @@ export class App {
     constructor(private service: LoginService,
         private ea: EventAggregator,
         private state: State,
+        private helpers: Helpers,
         settings: Settings,
         http: HttpClient) {
         settings.apiBaseUrl = environment.apiBaseUrl;
@@ -37,13 +38,43 @@ export class App {
     configureRouter(config: RouterConfiguration, router: Router) {
         config.title = 'Chatle';
         config.addPipelineStep('authorize', AuthorizeStep);
+        const confirm = { route: 'confirm', name: 'confirm', moduleId: 'pages/confirm', title: 'Confirm', anomymous: true };
+        const login = { route: 'login', name: 'login', moduleId: 'pages/login', title: 'Login', anomymous: true };
+        const account = { route: 'account', name: 'account', moduleId: 'pages/account', title: 'Account' };
+        const home = { route: 'home', name: 'home', moduleId: 'pages/home', title: 'Home' }; 
+
         config.map([
-            { route: ['', 'home'], name: 'home', moduleId: 'pages/home', title: 'Home' },
-            { route: 'account', name: 'account', moduleId: 'pages/account', title: 'Account' },
-            { route: 'login', name: 'login', moduleId: 'pages/login', title: 'Login', anomymous: true },
-            { route: 'confirm', name: 'confirm', moduleId: 'pages/confirm', title: 'Confirm', anomymous: true }
+            home,
+            account,
+            confirm,
+            login
         ]);
 
+        let handleUnknownRoutes = (instruction: NavigationInstruction): RouteConfig => {
+            let provider = this.helpers.getUrlParameter('p') 
+            if (provider) {
+                return confirm;
+            }
+
+            let userName = this.helpers.getUrlParameter('u')
+            if (userName) {
+                this.state.userName = userName;
+            }
+
+            let isLoggedIn = this.state.userName;
+            if (!isLoggedIn) {
+                return login;
+            }
+
+            let action = this.helpers.getUrlParameter('a');
+            if (action) {
+                return account;
+            }
+
+            return home;
+        }
+
+        config.mapUnknownRoutes(handleUnknownRoutes)
         this.router = router;
     }
 
@@ -79,25 +110,10 @@ class AuthorizeStep {
         if (navigationInstruction.getAllInstructions().some(i => {
             let route = i.config as CustomRouteConfig;
             return !route.anomymous;
-        })) {
-            let provider = this.helpers.getUrlParameter('p') 
-            if (provider) {
-                return next.cancel(new Redirect('confirm'));
-            }
-
-            let userName = this.helpers.getUrlParameter('u')
-            if (userName) {
-                this.state.userName = userName;
-            }
-
+        })) {            
             let isLoggedIn = this.state.userName;
             if (!isLoggedIn) {
                 return next.cancel(new Redirect('login'));
-            }
-
-            let action = this.helpers.getUrlParameter('a');
-            if (action) {
-                return next.cancel(new Redirect(action));
             }
         }
 

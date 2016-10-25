@@ -7,9 +7,10 @@ import { State } from '../services/state';
 import { AccountService } from '../services/account.service';
 import { LoginService } from '../services/login.service';
 import { ChangePassword } from '../model/changePassword';
-import { ManageLogins } from '../model/manage-logins';
+import { ManageLogins, UserLogiAuthenticationDescriptionnInfo } from '../model/manage-logins';
 import { ConnectionStateChanged } from '../events/connectionStateChanged';
 import { Settings } from '../config/settings';
+import { Helpers } from '../services/helpers';
 
 @autoinject
 export class Account {
@@ -26,12 +27,16 @@ export class Account {
             private router: Router, 
             private ea: EventAggregator,
             private state: State,
-            settings: Settings) { 
-        this.userName = state.userName;
+            settings: Settings,
+            helpers: Helpers) { 
+        this.userName = state.userName || helpers.getUrlParameter('u');
         this.externalLinkLogin = settings.apiBaseUrl + 
             settings.accountdAPI + 
             '/linklogin?returnUrl=' + 
-            encodeURIComponent(location.protocol + '//' + location.host + '?a=manage&u=' + encodeURIComponent(this.state.userName));
+            encodeURIComponent(location.protocol + '//' + location.host + '?a=account&u=' + encodeURIComponent(this.state.userName));
+            if (helpers.getUrlParameter('a') !== '') {
+                window.history.replaceState(null, null, '/');
+            }        
     }
 
     remove(loginProvider: string, providerKey: string) {
@@ -40,6 +45,10 @@ export class Account {
                 let currentLogins = this.logins.currentLogins;
                 const index = currentLogins.findIndex(value => value.loginProvider === loginProvider && value.providerKey === providerKey);
                 currentLogins.splice(index, 1);
+
+                const provider = new UserLogiAuthenticationDescriptionnInfo();
+                provider.authenticationScheme = provider.displayName = loginProvider;
+                this.logins.otherLogins.push(provider)
             })
             .catch((e: Error) => this.errorMessage = e.message);
     }
