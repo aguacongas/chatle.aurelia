@@ -11,9 +11,6 @@ addons:
     - libunwind8
     - zlib1g
 before_install:
-- if test "$TRAVIS_OS_NAME" == "osx"; then brew update; brew install icu4c; brew install
-  openssl; ln -s /usr/local/opt/openssl/lib/libcrypto.1.0.0.dylib /usr/local/lib/;
-  ln -s /usr/local/opt/openssl/lib/libssl.1.0.0.dylib /usr/local/lib/; fi
 - export CHROME_BIN=chromium-browser
 - export DISPLAY=:99.0
 - sh -e /etc/init.d/xvfb start
@@ -32,8 +29,6 @@ branches:
   - develop
 script:
 - "./build.sh"
-env:
-  matrix:
-  - KOREBUILD_TEST_SKIPMONO=1
+env:  
   global:
     secure: OXoGN29amWpeXRLhUCInMc926tNRBpdVi3zSmokL+uLKL9fFrqSX90QgeyKwAvHs+cLgOsc4rsy5qm7ml7tRryJfvPpa3CSUhFP5Jj5f153dTC5jnJ0jLdoVfupnnPpQYZSBMQmZx8FBJXBE32qG10bRkePGC6AG3q281VGoO9cJaI+iyhudUzfbGB59I5DO0FMDUdlVCTDZ7w52s85mfBQ7tGh/P2+4eSXKUeby+1xbrLaGLWSbAYzzofVuJBgcBCIi10zzh34x+gLdfCSTmMJyjLv4tD3W3ZKYEdlsMw3Fq8u2byZ6bh4c/iyML0dvAnQDD+rF4iD0gyIy/56sPOEZl2fgPWipngQjL/bTbHE5pnIAI9QVVePiK6+iqBORbJDAWUryQbDpt7n+lisGnPOGDZl4yPY+ISh/5d3hrsMj92fNyDCxJTW4TLcqIpXMaxZKbpvhD8mzaJgU0MTes3vTJ77463JcqqJh+2LCWXZO/MeePCsIpxW1wAmhkon2JxslkmLdLXo9EGNIDiU7lwfLnR/2peUBL8xPm6GFBsHQd+axPjSrMRre3oSnJr2RPiT7gQurr1MJlClv9v8fa0OPVWknC9toU6HqnefnK3UvdsE/NsEWV7+YeGq1e0XDKZ2bOcBGfHeUpMFhJADWPmALhbfh1rwdpjfWM7ROIzs=
