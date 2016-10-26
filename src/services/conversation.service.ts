@@ -27,7 +27,7 @@ export class ConversationService {
     showConversation(conversation: Conversation, router: Router) {
         this.currentConversation = conversation;
         this.helpers.setConverationTitle(conversation);
-        this.ea.publish(ConversationSelected, new ConversationSelected(conversation));
+        this.ea.publish('ConversationSelected', new ConversationSelected(conversation));
         router.navigateToRoute('conversation', { id: conversation.title });
     }
 

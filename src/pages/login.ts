@@ -3,15 +3,15 @@ import { Router } from 'aurelia-router';
 
 import { LoginService } from '../services/login.service';
 import { Settings } from '../config/settings';
+import { State } from '../services/state';
 
 @autoinject
 export class Login {
-    userName: string;
     error: Error;
     externalLogin: string;
     token: string;
     
-    constructor(private service: LoginService, private router: Router, settings: Settings) {
+    constructor(private service: LoginService, private router: Router, private state: State, settings: Settings) {
         let location = window.location; 
         this.externalLogin = settings.apiBaseUrl + 
             settings.accountdAPI + 
@@ -19,8 +19,8 @@ export class Login {
             encodeURIComponent(location.protocol + '//' + location.host);
     }
 
-    login(userName: string) {        
-        this.service.login(userName, null)
+    login() {        
+        this.service.login(this.state.userName, null)
             .then(() => {
                 this.router.navigateToRoute('home');
             })

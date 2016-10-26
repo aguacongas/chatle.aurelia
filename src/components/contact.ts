@@ -39,7 +39,7 @@ export class Contact {
     }
 
     attached() {
-        this.conversationSelectedSubscription = this.ea.subscribe(ConversationSelected, e => {
+        this.conversationSelectedSubscription = this.ea.subscribe('ConversationSelected', e => {
             let conv = e.conversation as Conversation;
             let attendees = conv.attendees;
 

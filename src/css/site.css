@@ -56,17 +56,30 @@ small {
     }
 }
 
-.list-group-item {
+.list-group-item,
+.list-group-item:first-child,
+.list-group-item:last-child {
     border: 0;
     padding: 0;
+    border-radius: 0;
 }
 
-.list-group-item.active {    
-    background-color: #ddd;
-    color: #808080
+.list-group-item:hover {
+    padding-right: 4px;
+    padding-left: 4px;
 }
 
-.list-group-item.active:hover {    
-    background-color: #eee;
-    color: #666;
+.list-group-item.active {
+    background-color: #fff;
+    border-top: 1px solid #ccc;
+    border-bottom: 1px solid #ccc;
+}
+
+.list-group-item.active:hover {
+    background-color: #fff;    
+    border-color: #333;
+}
+
+.list-group-item.active span {
+    color: #333;
 }

@@ -26,7 +26,7 @@ export class ConversationPreview {
     attached() {
         this.lastMessage = this.conversation.messages[0].text;
 
-        this.conversationSelectedSubscription = this.ea.subscribe(ConversationSelected, e => {
+        this.conversationSelectedSubscription = this.ea.subscribe('ConversationSelected', e => {
             if (e.conversation.id === this.conversation.id) {
                 this.isSelected = true;
             } else {
