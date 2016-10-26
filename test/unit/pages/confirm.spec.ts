@@ -60,7 +60,7 @@ describe('confirm page spec', () => {
         spyOn(helpers, 'getUrlParameter');
 
         // act
-        let page = new Confirm(service, router, helpers, controllerFactory);
+        let page = new Confirm(service, router, helpers, state, controllerFactory);
 
         // verify
         expect(helpers.getUrlParameter).toHaveBeenCalledWith('p');
@@ -70,7 +70,7 @@ describe('confirm page spec', () => {
     describe('confirm specs', () => {
         let page: Confirm;
         beforeEach(() => {
-            page = new Confirm(service, router, helpers, controllerFactory);
+            page = new Confirm(service, router, helpers, state, controllerFactory);
         });
 
         describe('confirm should call service confirm', () => {
@@ -78,7 +78,7 @@ describe('confirm page spec', () => {
             let userName;
 
             beforeEach(() => {
-                page.userName = userName;
+                state.userName = userName;
                 spyOn(service, 'confirm')
                     .and.returnValue(promise);
 
@@ -128,7 +128,7 @@ describe('confirm page spec', () => {
         });
 
         it('confirm should set error on validation error', () => {
-            page.userName = userName;
+            state.userName = userName;
             spyOn(service, 'confirm')
                 .and.returnValue(promise);
             let error = new Error('test');

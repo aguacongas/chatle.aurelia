@@ -51,19 +51,19 @@ export class App {
         ]);
 
         let handleUnknownRoutes = (instruction: NavigationInstruction): RouteConfig => {
-            const userName = this.helpers.getUrlParameter('u');
-            const action = this.helpers.getUrlParameter('a');
             const provider = this.helpers.getUrlParameter('p');
 
-
-            if (userName) {
-                this.state.userName = userName;
-            }
- 
             if (provider) {
                 return confirm;
             }
 
+            const userName = this.helpers.getUrlParameter('u');
+            const action = this.helpers.getUrlParameter('a');
+ 
+            if (userName) {
+                this.state.userName = userName;
+            }
+ 
             window.history.replaceState(null, null, '/');
 
             if (!userName) {
@@ -98,11 +98,18 @@ export class App {
     }
 
     home() {
-        this.router.navigateToRoute('home');
+        if (this.isConnected) {
+            this.router.navigateToRoute('home');
+        } else {
+            this.router.navigateToRoute('login');
+        }
     }
 
     private setIsConnected() {
-        this.isConnected = this.state.userName !== undefined && this.state.userName != null;
+        this.isConnected = this.state.userName !== undefined 
+            && this.state.userName != null
+            && this.router.currentInstruction.config.moduleId != 'pages/confirm';
+
         this.userName = this.state.userName;
     }
 

@@ -26,7 +26,7 @@ describe('the app', () => {
     let helpers = new Helpers(state);
     let chatService = new ChatService(settings, ea, http, state, helpers);
     service = new LoginService(http, settings, chatService, state, helpers)
-    app = new App(service, ea, state, settings, http);   
+    app = new App(service, ea, state, helpers, settings, http);   
   });
 
   describe('configure router specs', () => {
@@ -50,10 +50,10 @@ describe('the app', () => {
         config.map = c => {
           expect(c).toBeDefined();
           expect(c).toEqual([
-              { route: ['', 'home'], name: 'home', moduleId: 'pages/home', title: 'Home' },
+              { route: 'home', name: 'home', moduleId: 'pages/home', title: 'Home' },
               { route: 'account', name: 'account', moduleId: 'pages/account', title: 'Account' },
-              { route: 'login', name: 'login', moduleId: 'pages/login', title: 'Login', anomymous: true },
-              { route: 'confirm', name: 'confirm', moduleId: 'pages/confirm', title: 'Confirm', anomymous: true }
+              { route: 'confirm', name: 'confirm', moduleId: 'pages/confirm', title: 'Confirm', anomymous: true },
+              { route: 'login', name: 'login', moduleId: 'pages/login', title: 'Login', anomymous: true }
           ]);
 
           return new RouterConfiguration();

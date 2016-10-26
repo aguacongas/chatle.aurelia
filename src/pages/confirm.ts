@@ -19,6 +19,8 @@ export class Confirm {
         controllerFactory: ValidationControllerFactory) {
         this.controller = controllerFactory.createForCurrentScope();
         this.provider = this.helpers.getUrlParameter('p');
+        state.userName = this.helpers.getUrlParameter('u');
+
         window.history.replaceState(null, null, '/');
     }
 
