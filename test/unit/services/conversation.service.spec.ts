@@ -77,7 +77,7 @@ describe('conversation service specs', () => {
         service.showConversation(expected, router as Router);
 
         expect(expected).toBe(service.currentConversation);
-        expect(ea.publish).toHaveBeenCalledWith(ConversationSelected, new ConversationSelected(expected));
+        expect(ea.publish).toHaveBeenCalledWith('ConversationSelected', new ConversationSelected(expected));
         expect(router.navigateToRoute).toHaveBeenCalledWith('conversation', { id: expected.title })
     });
 

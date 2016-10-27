@@ -28,7 +28,7 @@ describe('conversation preview component specs', () => {
 
         ea = {
             subscribe: (e, d) => {
-                if (e === ConversationSelected) {
+                if (e === 'ConversationSelected') {
                     conversationSelectedSubscriptionCallback = d;
                     conversationSelectedSubscription = {
                         dispose: () => { }
