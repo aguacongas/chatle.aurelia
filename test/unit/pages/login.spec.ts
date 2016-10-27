@@ -32,9 +32,10 @@ describe('Login page specs', () => {
             getXhrf: (clearCookies?: Boolean) => { 
                 return promise;
             },
-            login: (userName: string, password: string) => {
+            login: (userName: string) => {
                 return promise;
-            }
+            },
+            logoff: () => {}
         } as LoginService;
 
         settings = {
@@ -77,7 +78,7 @@ describe('Login page specs', () => {
         resolveCallback('OK');
 
         // verify
-        expect(service.login).toHaveBeenCalledWith('test', null);
+        expect(service.login).toHaveBeenCalledWith('test');
         expect(router.navigateToRoute).toHaveBeenCalledWith('home');
     });
 

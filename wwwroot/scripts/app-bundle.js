@@ -349,17 +349,14 @@ define('services/login.service',["require", "exports", 'aurelia-http-client', 'a
                 }
             });
         };
-        LoginService.prototype.login = function (userName, password) {
+        LoginService.prototype.login = function (userName) {
             var _this = this;
-            this.state.isGuess = !password;
+            this.state.isGuess = true;
             return new Promise(function (resolve, reject) {
                 _this.getXhrf()
                     .then(function (r) {
                     if (_this.state.isGuess) {
                         _this.loginAsGuess(userName, resolve, reject);
-                    }
-                    else {
-                        _this.loginAsRegistered(userName, password, resolve, reject);
                     }
                 })
                     .catch(function (error) { return reject(error); });
@@ -367,14 +364,16 @@ define('services/login.service',["require", "exports", 'aurelia-http-client', 'a
         };
         LoginService.prototype.logoff = function () {
             var _this = this;
-            delete this.state.userName;
-            sessionStorage.removeItem('userName');
+            if (!this.state.userName) {
+                return;
+            }
             this.chatService.stop();
             this.getXhrf()
                 .then(function (r) {
                 _this.http.post(_this.settings.accountdAPI + '/spalogoff', null);
             });
-            delete this.xhrf;
+            this.xhrf = undefined;
+            this.state.userName = undefined;
         };
         LoginService.prototype.exists = function (userName) {
             var _this = this;
@@ -389,7 +388,9 @@ define('services/login.service',["require", "exports", 'aurelia-http-client', 'a
                         .then(function (response) {
                         resolve(response.content);
                     })
-                        .catch(function (error) { return reject(new Error('the service is down')); });
+                        .catch(function (error) {
+                        _this.manageError(error, reject, new Error('the service is down'));
+                    });
                 })
                     .catch(function (error) { return reject(new Error('the service is down')); });
             });
@@ -402,8 +403,9 @@ define('services/login.service',["require", "exports", 'aurelia-http-client', 'a
                     _this.http.put(_this.settings.accountdAPI + "/spaExternalLoginConfirmation", { userName: userName })
                         .then(function (response) {
                         _this.logged(userName, resolve, reject);
+                        sessionStorage.setItem('userName', userName);
                     })
-                        .catch(function (error) { return reject(_this.helpers.getError(error)); });
+                        .catch(function (error) { return _this.manageError(error, reject, _this.helpers.getError(error)); });
                 })
                     .catch(function (error) { return reject(new Error('the service is down')); });
             });
@@ -427,24 +429,16 @@ define('services/login.service',["require", "exports", 'aurelia-http-client', 'a
                 _this.logged(userName, resolve, reject);
             })
                 .catch(function (error) {
-                reject(_this.helpers.getError(error));
-            });
-        };
-        LoginService.prototype.loginAsRegistered = function (userName, password, resolve, reject) {
-            var _this = this;
-            this.http.post(this.settings.accountdAPI + '/spalogin', { userName: userName, password: password })
-                .then(function (response) {
-                _this.logged(userName, resolve, reject);
-                sessionStorage.setItem('userName', userName);
-            })
-                .catch(function (error) {
-                reject(_this.helpers.getError(error));
+                _this.manageError(error, reject, _this.helpers.getError(error));
             });
         };
         LoginService.prototype.logged = function (userName, resolve, reject) {
             this.state.userName = userName;
-            this.chatService.start();
             this.setXhrf(resolve, reject);
+        };
+        LoginService.prototype.manageError = function (error, reject, exception) {
+            this.xhrf = undefined;
+            reject(exception);
         };
         LoginService = __decorate([
             aurelia_framework_1.autoinject, 
@@ -476,6 +470,7 @@ define('app',["require", "exports", 'aurelia-framework', 'aurelia-router', 'aure
             http.configure(function (builder) { return builder
                 .withBaseUrl(environment_1.default.apiBaseUrl)
                 .withCredentials(true); });
+            state.userName = sessionStorage.getItem('userName');
         }
         App.prototype.configureRouter = function (config, router) {
             var _this = this;
@@ -500,9 +495,10 @@ define('app',["require", "exports", 'aurelia-framework', 'aurelia-router', 'aure
                 var action = _this.helpers.getUrlParameter('a');
                 if (userName) {
                     _this.state.userName = userName;
+                    sessionStorage.setItem('userName', userName);
                 }
                 window.history.replaceState(null, null, '/');
-                if (!userName) {
+                if (!_this.state.userName) {
                     return login;
                 }
                 if (action) {
@@ -745,10 +741,12 @@ define('services/conversation.service',["require", "exports", 'aurelia-event-agg
             this.ea = ea;
         }
         ConversationService.prototype.showConversation = function (conversation, router) {
-            this.currentConversation = conversation;
-            this.helpers.setConverationTitle(conversation);
-            this.ea.publish('ConversationSelected', new conversationSelected_1.ConversationSelected(conversation));
-            router.navigateToRoute('conversation', { id: conversation.title });
+            if (router.currentInstruction.fragment !== 'conversation/' + conversation.title) {
+                this.currentConversation = conversation;
+                this.helpers.setConverationTitle(conversation);
+                this.ea.publish(new conversationSelected_1.ConversationSelected(conversation));
+                router.navigateToRoute('conversation', { id: conversation.title });
+            }
         };
         ConversationService.prototype.sendMessage = function (conversation, message) {
             var _this = this;
@@ -828,7 +826,7 @@ var __decorate = (this && this.__decorate) || function (decorators, target, key,
 var __metadata = (this && this.__metadata) || function (k, v) {
     if (typeof Reflect === "object" && typeof Reflect.metadata === "function") return Reflect.metadata(k, v);
 };
-define('components/contact',["require", "exports", 'aurelia-framework', 'aurelia-event-aggregator', 'aurelia-router', '../services/conversation.service', '../services/state', '../model/user', '../model/conversation', '../model/attendee'], function (require, exports, aurelia_framework_1, aurelia_event_aggregator_1, aurelia_router_1, conversation_service_1, state_1, user_1, conversation_1, attendee_1) {
+define('components/contact',["require", "exports", 'aurelia-framework', 'aurelia-event-aggregator', 'aurelia-router', '../services/conversation.service', '../services/state', '../model/user', '../model/conversation', '../model/attendee', '../events/conversationSelected'], function (require, exports, aurelia_framework_1, aurelia_event_aggregator_1, aurelia_router_1, conversation_service_1, state_1, user_1, conversation_1, attendee_1, conversationSelected_1) {
     "use strict";
     var Contact = (function () {
         function Contact(service, state, ea, router) {
@@ -837,7 +835,17 @@ define('components/contact',["require", "exports", 'aurelia-framework', 'aurelia
             this.ea = ea;
             this.router = router;
         }
+        Object.defineProperty(Contact.prototype, "isCurrentUser", {
+            get: function () {
+                return this.state.userName === this.user.id;
+            },
+            enumerable: true,
+            configurable: true
+        });
         Contact.prototype.select = function () {
+            if (this.isCurrentUser) {
+                this.router.parent.navigateToRoute('account');
+            }
             if (!this.user.conversation) {
                 var conversation = new conversation_1.Conversation();
                 var attendees = new Array();
@@ -852,11 +860,11 @@ define('components/contact',["require", "exports", 'aurelia-framework', 'aurelia
         };
         Contact.prototype.attached = function () {
             var _this = this;
-            this.conversationSelectedSubscription = this.ea.subscribe('ConversationSelected', function (e) {
+            this.conversationSelectedSubscription = this.ea.subscribe(conversationSelected_1.ConversationSelected, function (e) {
                 var conv = e.conversation;
                 var attendees = conv.attendees;
                 _this.isSelected = false;
-                if (attendees.length == 2) {
+                if (attendees.length < 3) {
                     attendees.forEach(function (a) {
                         if (a.userId !== _this.state.userName && a.userId === _this.user.id) {
                             _this.isSelected = true;
@@ -1016,7 +1024,7 @@ var __decorate = (this && this.__decorate) || function (decorators, target, key,
 var __metadata = (this && this.__metadata) || function (k, v) {
     if (typeof Reflect === "object" && typeof Reflect.metadata === "function") return Reflect.metadata(k, v);
 };
-define('components/conversation-preview',["require", "exports", 'aurelia-framework', 'aurelia-event-aggregator', 'aurelia-router', '../services/conversation.service', '../model/conversation', '../events/messageReceived'], function (require, exports, aurelia_framework_1, aurelia_event_aggregator_1, aurelia_router_1, conversation_service_1, conversation_1, messageReceived_1) {
+define('components/conversation-preview',["require", "exports", 'aurelia-framework', 'aurelia-event-aggregator', 'aurelia-router', '../services/conversation.service', '../model/conversation', '../events/conversationSelected', '../events/messageReceived'], function (require, exports, aurelia_framework_1, aurelia_event_aggregator_1, aurelia_router_1, conversation_service_1, conversation_1, conversationSelected_1, messageReceived_1) {
     "use strict";
     var ConversationPreview = (function () {
         function ConversationPreview(service, ea, router) {
@@ -1030,7 +1038,7 @@ define('components/conversation-preview',["require", "exports", 'aurelia-framewo
         ConversationPreview.prototype.attached = function () {
             var _this = this;
             this.lastMessage = this.conversation.messages[0].text;
-            this.conversationSelectedSubscription = this.ea.subscribe('ConversationSelected', function (e) {
+            this.conversationSelectedSubscription = this.ea.subscribe(conversationSelected_1.ConversationSelected, function (e) {
                 if (e.conversation.id === _this.conversation.id) {
                     _this.isSelected = true;
                 }
@@ -1114,16 +1122,6 @@ define('components/user-name',["require", "exports", 'aurelia-framework', 'aurel
         .on(UserName);
 });
 
-define('model/changePassword',["require", "exports"], function (require, exports) {
-    "use strict";
-    var ChangePassword = (function () {
-        function ChangePassword() {
-        }
-        return ChangePassword;
-    }());
-    exports.ChangePassword = ChangePassword;
-});
-
 define('model/manage-logins',["require", "exports"], function (require, exports) {
     "use strict";
     var UserLoginInfo = (function () {
@@ -1145,6 +1143,16 @@ define('model/manage-logins',["require", "exports"], function (require, exports)
     exports.ManageLogins = ManageLogins;
 });
 
+define('model/changePassword',["require", "exports"], function (require, exports) {
+    "use strict";
+    var ChangePassword = (function () {
+        function ChangePassword() {
+        }
+        return ChangePassword;
+    }());
+    exports.ChangePassword = ChangePassword;
+});
+
 var __decorate = (this && this.__decorate) || function (decorators, target, key, desc) {
     var c = arguments.length, r = c < 3 ? target : desc === null ? desc = Object.getOwnPropertyDescriptor(target, key) : desc, d;
     if (typeof Reflect === "object" && typeof Reflect.decorate === "function") r = Reflect.decorate(decorators, target, key, desc);
@@ -1163,27 +1171,6 @@ define('services/account.service',["require", "exports", 'aurelia-http-client', 
             this.state = state;
             this.helpers = helpers;
         }
-        AccountService.prototype.changePassword = function (model) {
-            var _this = this;
-            if (this.state.isGuess) {
-                return new Promise(function (resolve, reject) {
-                    _this.http.post(_this.settings.accountdAPI + '/setpassword', model)
-                        .then(function (response) {
-                        _this.state.isGuess = false;
-                        sessionStorage.setItem('userName', _this.state.userName);
-                        resolve();
-                    })
-                        .catch(function (error) { return reject(_this.helpers.getError(error)); });
-                });
-            }
-            else {
-                return new Promise(function (resolve, reject) {
-                    _this.http.put(_this.settings.accountdAPI + '/changepassword', model)
-                        .then(function (response) { return resolve(); })
-                        .catch(function (error) { return reject(_this.helpers.getError(error)); });
-                });
-            }
-        };
         AccountService.prototype.getLogins = function () {
             var _this = this;
             return new Promise(function (resove, reject) {
@@ -1411,7 +1398,7 @@ define('pages/login',["require", "exports", 'aurelia-framework', 'aurelia-router
         }
         Login.prototype.login = function () {
             var _this = this;
-            this.service.login(this.state.userName, null)
+            this.service.login(this.state.userName)
                 .then(function () {
                 _this.router.navigateToRoute('home');
             })
@@ -1421,6 +1408,7 @@ define('pages/login',["require", "exports", 'aurelia-framework', 'aurelia-router
         };
         Login.prototype.activate = function () {
             var _this = this;
+            this.service.logoff();
             this.service.getXhrf(true)
                 .then(function (t) {
                 return _this.token = t;
@@ -2775,7 +2763,7 @@ define('text!app.html', ['module'], function(module) { module.exports = "<templa
 define('text!css/site.css', ['module'], function(module) { module.exports = "html {\r\n    font-family: cursive\r\n}\r\n/* Move down content because we have a fixed navbar that is 50px tall */\r\nbody.chatle {\r\n    padding-top: 50px;\r\n    padding-bottom: 20px;\r\n}\r\n\r\n/* Wrapping element */\r\n/* Set some basic padding to keep content from hitting the edges */\r\n.body-content {\r\n    padding-left: 15px;\r\n    padding-right: 15px;\r\n}\r\n\r\n.navbar.navbar-default {\r\n    background-color: #000;\r\n}\r\n\r\n.title.navbar-brand:focus,\r\n.title.navbar-brand:hover,\r\n.nav.navbar-nav > li > a:hover {\r\n    color: #fff;    \r\n}\r\n\r\nli:hover {\r\n    cursor: pointer;\r\n}\r\n\r\n/* Set widths on the form inputs since otherwise they're 100% wide */\r\ninput,\r\nselect,\r\ntextarea {\r\n    max-width: 280px;\r\n}\r\n\r\nul\r\n{\r\n    padding-left: 0;\r\n    list-style-type: none;\r\n}\r\n\r\nsmall {\r\n    color: #666666;\r\n}\r\n\r\n/* Responsive: Portrait tablets and up */\r\n@media screen and (min-width: 768px) {\r\n    .jumbotron {\r\n        margin-top: 20px;\r\n    }\r\n\r\n    .body-content {\r\n        padding: 0;\r\n    }\r\n}\r\n\r\n.list-group-item,\r\n.list-group-item:first-child,\r\n.list-group-item:last-child {\r\n    border: 0;\r\n    padding: 0;\r\n    border-radius: 0;\r\n}\r\n\r\n.list-group-item:hover {\r\n    padding-right: 4px;\r\n    padding-left: 4px;\r\n}\r\n\r\n.list-group-item.active {\r\n    background-color: #fff;\r\n    border-top: 1px solid #ccc;\r\n    border-bottom: 1px solid #ccc;\r\n}\r\n\r\n.list-group-item.active:hover {\r\n    background-color: #fff;    \r\n    border-color: #333;\r\n}\r\n\r\n.list-group-item.active span {\r\n    color: #333;\r\n}"; });
 define('text!components/contact-list.html', ['module'], function(module) { module.exports = "<template>\r\n  <require from=\"./contact\"></require>\r\n  <div class=\"contact-list\">\r\n    <span if.bind=\"!users\">${loadingMessage}</span>\r\n    <ul class=\"list-group\" if.bind=\"users\">\r\n      <contact repeat.for=\"user of users\" user.bind=\"user\"></contact>\r\n    </ul>\r\n  </div>\r\n</template>"; });
 define('text!css/site.min.css', ['module'], function(module) { module.exports = "html{font-family:cursive}body{padding-top:50px;padding-bottom:20px}.console{font-family:'Lucida Console',Monaco,monospace}.body-content{padding-left:15px;padding-right:15px}.navbar.navbar-default{background-color:#fff}.nav.navbar-nav>li>a:hover,.title.navbar-brand:focus,.title.navbar-brand:hover{color:#222}input,select,textarea{max-width:280px}ul{padding-left:0;list-style-type:none}small{color:#666}@media screen and (min-width:768px){.jumbotron{margin-top:20px}.body-content{padding:0}}"; });
-define('text!components/contact.html', ['module'], function(module) { module.exports = "<template>\r\n    <li class=\"list-group-item ${isSelected ? 'active' : ''}\" click.delegate=\"select()\"><a>${user.id}</a></li>\r\n</template>"; });
+define('text!components/contact.html', ['module'], function(module) { module.exports = "<template>\r\n    <li class=\"list-group-item ${isSelected ? 'active' : ''}\" click.delegate=\"select()\" desabled=\"isCurrentUser\"><a>${user.id}</a></li>\r\n</template>"; });
 define('text!components/conversation-component.html', ['module'], function(module) { module.exports = "<template>\r\n    <div if.bind=\"conversation\">\r\n        <h6>${conversation.title}</h6>\r\n        <form class=\"form-inline\">\r\n            <input class=\"form-control\" value.bind=\"message\" placeholder=\"message...\">\r\n            <button type=\"submit\" class=\"btn btn-default\" click.delegate=\"sendMessage()\" disabled.bind=\"!message\">send</button>\r\n        </form>\r\n        <ul>\r\n            <li repeat.for=\"message of conversation.messages\">\r\n                <small>${message.from}</small><br />\r\n                <span>${message.text}</span>\r\n            </li>\r\n        </ul>\r\n    </div>\r\n    <h1 if.bind=\"!conversation\">WELCOME TO THIS REALLY SIMPLE CHAT</h1>\r\n</template>"; });
 define('text!components/conversation-list.html', ['module'], function(module) { module.exports = "<template>\r\n  <require from=\"./conversation-preview\"></require>\r\n  <div class=\"conversation-list\">\r\n    <ul class=\"list-group\">\r\n      <conversation-preview repeat.for=\"conversation of conversations\" conversation.bind=\"conversation\"></conversation-preview>\r\n    </ul>\r\n  </div>\r\n</template>"; });
 define('text!components/conversation-preview.html', ['module'], function(module) { module.exports = "<template>\r\n  <li class=\"list-group-item ${isSelected ? 'active' : ''}\" click.delegate=\"select()\">\r\n    <a>${conversation.title}</a><br/>\r\n    <span>${lastMessage}</span>\r\n  </li>\r\n</template>"; });
@@ -2783,5 +2771,5 @@ define('text!components/user-name.html', ['module'], function(module) { module.e
 define('text!pages/account.html', ['module'], function(module) { module.exports = "<template>\r\n\t<h2>Manage Account.</h2>\r\n\t<div class=\"row\">\r\n\t\t<template if.bind=\"logins.otherLogins.length > 0\">\r\n\t\t\t<h4>Add another service to log in.</h4>\r\n\t\t\t<hr />\r\n\t\t\t<form method=\"post\" class=\"form-horizontal\" role=\"form\" action.bind=\"externalLinkLogin\">\r\n\t\t\t\t<div>\r\n\t\t\t\t\t<p>\r\n\t\t\t\t\t\t<button type=\"submit\" class=\"btn btn-default\" name=\"provider\" repeat.for=\"login of logins.otherLogins\" value.bind=\"login.authenticationScheme\"\r\n\t\t\t\t\t\t\ttitle=\"Log in using your ${login.displayName} account\">${login.authenticationScheme}</button>\r\n\t\t\t\t\t</p>\r\n\t\t\t\t</div>\r\n\t\t\t\t<input name=\"__RequestVerificationToken\" type=\"hidden\" value.bind=\"token\" />\r\n\t\t\t</form>\r\n\t\t</template>\r\n\t\t<template if.bind=\"logins.currentLogins.length > 0\">\r\n\t\t\t<h4>Registered Logins</h4>\r\n\t\t\t<table class=\"table\">\r\n\t\t\t\t<tbody>\r\n\t\t\t\t\t<template repeat.for=\"login of logins.currentLogins\">\r\n\t\t\t\t\t\t<tr>\r\n\t\t\t\t\t\t\t<td>${login.loginProvider}</td>\r\n\t\t\t\t\t\t\t<td>\r\n\t\t\t\t\t\t\t\t<form class=\"form-horizontal\" role=\"form\" if.bind=\"logins.currentLogins.length > 1\">\r\n\t\t\t\t\t\t\t\t\t<div>\r\n\t\t\t\t\t\t\t\t\t\t<input type=\"submit\" class=\"btn btn-default\" value=\"Remove\" title=\"Remove this ${login.loginProvider} login from your account\" click.delegate=\"remove(login.loginProvider, login.providerKey)\" />\r\n\t\t\t\t\t\t\t\t\t</div>\r\n\t\t\t\t\t\t\t\t</form>\r\n\t\t\t\t\t\t\t</td>\r\n\t\t\t\t\t\t</tr>\r\n\t\t\t\t\t</template>\r\n\t\t\t\t</tbody>\r\n\t\t\t</table>\r\n\t\t</template>\r\n\t</div>\r\n</template>"; });
 define('text!pages/confirm.html', ['module'], function(module) { module.exports = "<template>\r\n\t<require from=\"../components/user-name\"></require>\r\n\t<h3>Associate your ${provider} account.</h3>\r\n\r\n\t<form class=\"form-horizontal\" submit.delegate=\"confirm()\">\r\n\t\t<h4>Association Form</h4>\r\n\t\t<hr />\r\n\t\t<div class=\"text-danger\">${error.message}</div>\r\n\r\n\t\t<p class=\"text-info\">\r\n\t\t\tYou've successfully authenticated with <strong>${provider}</strong>. Please enter a user name for this site below and\r\n\t\t\tclick the Register button to finish logging in.\r\n\t\t</p>\r\n\t\t<div class=\"form-group\">\r\n\t\t\t<label class=\"col-md-2 control-label\" for=\"UserName\">User name</label>\r\n\t\t\t<user-name class=\"col-md-10\"></user-name>\r\n\t\t</div>\r\n\t\t<div class=\"form-group\">\r\n\t\t\t<div class=\"col-md-offset-2 col-md-10\">\r\n\t\t\t\t<button type=\"submit\" class=\"btn btn-default\">Register</button>\r\n\t\t\t</div>\r\n\t\t</div>\r\n\t</form>\r\n\r\n</template>"; });
 define('text!pages/home.html', ['module'], function(module) { module.exports = "<template>\r\n    <require from=\"../components/contact-list\"></require>\r\n    <require from=\"../components/conversation-list\"></require>\r\n\r\n    <div class=\"row\">\r\n        <div class=\"col-xs-3\">\r\n            <h6>CONVERSATION</h6>\r\n            <conversation-list></conversation-list>\r\n        </div>\r\n        <router-view class=\"col-xs-6\"></router-view>\r\n        <div class=\"col-xs-3\">\r\n            <h6>CONNECTED</h6>\r\n            <contact-list></contact-list>\r\n        </div>\r\n    </div>\r\n</template>"; });
-define('text!pages/login.html', ['module'], function(module) { module.exports = "<template>\r\n\t<require from=\"../components/user-name\"></require>\r\n\t\r\n\t<h2>Log in.</h2>\r\n\t<hr />\r\n\t<div class=\"col-xs-6\">\r\n\t\t<section>\r\n            <h4>Guess access.</h4>\r\n\t\t\t<hr>\r\n\t\t\t<form class=\"form-horizontal\">\r\n\t\t\t\t<div class=\"form-group\">\r\n\t\t\t\t\t<label class=\"col-xs-3 control-label\" for=\"userName\"></label>\r\n\t\t\t\t\t<user-name class=\"col-xs-9\"></user-name>\r\n\t\t\t\t</div>\r\n\t\t\t\t<div class=\"form-group\">\r\n\t\t\t\t\t<div class=\"col-xs-offset-3 col-xs-9\">\r\n\t\t\t\t\t\t<input type=\"submit\" value=\"Log in\" class=\"btn btn-default\" click.delegate=\"login(userName)\" />\r\n\t\t\t\t\t</div>\r\n\t\t\t\t</div>\r\n\t\t\t</form>\r\n\t\t</section>\r\n\t</div>\r\n\t<div class=\"col-xs-6\">\r\n\t\t<section>\r\n\t\t\t<h4>Use another service to log in.</h4>\r\n\t\t\t<hr>\r\n\t\t\t<form class=\"form-horizontal\" role=\"form\" method=\"post\" action.bind=\"externalLogin\" disabled.bind=\"token\">\r\n\t\t\t\t<div>\r\n\t\t\t\t\t<p>\r\n\t\t\t\t\t\t<button type=\"submit\" class=\"btn btn-default\" name=\"provider\" value=\"Google\" title=\"Log in using your Google account\">Google</button>\r\n\t\t\t\t\t\t<button type=\"submit\" class=\"btn btn-default\" name=\"provider\" value=\"Twitter\" title=\"Log in using your Twitter account\">Twitter</button>\r\n\t\t\t\t\t\t<button type=\"submit\" class=\"btn btn-default\" name=\"provider\" value=\"Facebook\" title=\"Log in using your Facebook account\">Facebook</button>\r\n\t\t\t\t\t</p>\r\n\t\t\t\t</div>\r\n\t\t\t\t<input name=\"__RequestVerificationToken\" type=\"hidden\" value.bind=\"token\"></form>\r\n\t\t</section>\r\n\t</div>\r\n</template>"; });
+define('text!pages/login.html', ['module'], function(module) { module.exports = "<template>\r\n\t<require from=\"../components/user-name\"></require>\r\n\r\n\t<h2>Log in.</h2>\r\n\t<hr />\r\n\t<div class=\"col-xs-6\">\r\n\t\t<section>\r\n\t\t\t<h4>Guess access.</h4>\r\n\t\t\t<hr>\r\n\t\t\t<form class=\"form-horizontal\">\r\n\t\t\t\t<div class=\"form-group\">\r\n\t\t\t\t\t<label class=\"col-xs-3 control-label\" for=\"userName\"></label>\r\n\t\t\t\t\t<user-name class=\"col-xs-9\"></user-name>\r\n\t\t\t\t\t<span class=\"help-block\">\r\n            \t\t\t${error.message}\r\n        \t\t\t<span>\r\n\t\t\t\t</div>\r\n\t\t\t\t<div class=\"form-group\">\r\n\t\t\t\t\t<div class=\"col-xs-offset-3 col-xs-9\">\r\n\t\t\t\t\t\t<input type=\"submit\" value=\"Log in\" class=\"btn btn-default\" click.delegate=\"login(userName)\" />\r\n\t\t\t\t\t</div>\r\n\t\t\t\t</div>\r\n\t\t\t</form>\r\n\t\t</section>\r\n\t</div>\r\n\t<div class=\"col-xs-6\">\r\n\t\t<section>\r\n\t\t\t<h4>Use another service to log in.</h4>\r\n\t\t\t<hr>\r\n\t\t\t<form class=\"form-horizontal\" role=\"form\" method=\"post\" action.bind=\"externalLogin\" disabled.bind=\"token\">\r\n\t\t\t\t<div>\r\n\t\t\t\t\t<p>\r\n\t\t\t\t\t\t<button type=\"submit\" class=\"btn btn-default\" name=\"provider\" value=\"Google\" title=\"Log in using your Google account\">Google</button>\r\n\t\t\t\t\t\t<button type=\"submit\" class=\"btn btn-default\" name=\"provider\" value=\"Twitter\" title=\"Log in using your Twitter account\">Twitter</button>\r\n\t\t\t\t\t\t<button type=\"submit\" class=\"btn btn-default\" name=\"provider\" value=\"Facebook\" title=\"Log in using your Facebook account\">Facebook</button>\r\n\t\t\t\t\t</p>\r\n\t\t\t\t</div>\r\n\t\t\t\t<input name=\"__RequestVerificationToken\" type=\"hidden\" value.bind=\"token\"></form>\r\n\t\t</section>\r\n\t</div>\r\n</template>"; });
 //# sourceMappingURL=app-bundle.js.map

@@ -20,7 +20,7 @@ export class Login {
     }
 
     login() {        
-        this.service.login(this.state.userName, null)
+        this.service.login(this.state.userName)
             .then(() => {
                 this.router.navigateToRoute('home');
             })
@@ -30,10 +30,13 @@ export class Login {
     }
 
     activate() {
+        this.service.logoff();
         this.service.getXhrf(true)
             .then(t => 
                 this.token = t)
             .catch(e => 
                 this.error = e);
     }
+
+    
 }

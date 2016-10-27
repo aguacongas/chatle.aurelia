@@ -1,16 +1,19 @@
 <template>
 	<require from="../components/user-name"></require>
-	
+
 	<h2>Log in.</h2>
 	<hr />
 	<div class="col-xs-6">
 		<section>
-            <h4>Guess access.</h4>
+			<h4>Guess access.</h4>
 			<hr>
 			<form class="form-horizontal">
 				<div class="form-group">
 					<label class="col-xs-3 control-label" for="userName"></label>
 					<user-name class="col-xs-9"></user-name>
+					<span class="help-block">
+            			${error.message}
+        			<span>
 				</div>
 				<div class="form-group">
 					<div class="col-xs-offset-3 col-xs-9">

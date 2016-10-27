@@ -67,7 +67,10 @@ describe('conversation service specs', () => {
         let expected = new Conversation();
         expected.attendees = [new Attendee('test')];
         let router = {
-            navigateToRoute: function (route: string, p: any) { }
+            navigateToRoute:(route: string, p: any) => { },
+            currentInstruction: {
+                fragment: ''
+            }
         };
 
         spyOn(ea, 'publish');
@@ -77,7 +80,7 @@ describe('conversation service specs', () => {
         service.showConversation(expected, router as Router);
 
         expect(expected).toBe(service.currentConversation);
-        expect(ea.publish).toHaveBeenCalledWith('ConversationSelected', new ConversationSelected(expected));
+        expect(ea.publish).toHaveBeenCalledWith(new ConversationSelected(expected));
         expect(router.navigateToRoute).toHaveBeenCalledWith('conversation', { id: expected.title })
     });
 

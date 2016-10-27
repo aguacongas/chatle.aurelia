@@ -186,30 +186,11 @@ describe('logins service specs', () => {
                 let userName = 'test';
 
                 // act
-                service.login(userName, null)
+                service.login(userName)
                     .then(result => {
                         // verify
                         expect(result).toBe(response.response);
                         expect(state.userName).toBe(userName);
-                        done();
-                    });
-
-                // inject
-                response.response = 'xhrf';
-                responseCallback(response);
-            });
-
-            it('set userName and persist when is registered', done => {
-                // prepare
-                state.userName = undefined;
-                let userName = 'test';
-                // act
-                service.login(userName, 'null')
-                    .then(result => {
-                        // verify
-                        expect(result).toBe(response.response);
-                        expect(state.userName).toBe(userName);
-                        expect(sessionStorage.getItem('userName')).toBe(userName);
                         done();
                     });
 
@@ -237,24 +218,7 @@ describe('logins service specs', () => {
                     state.userName = undefined;
                     let userName = 'test';
                     // act
-                    service.login(userName, null)
-                        .catch((e: Error) => {
-                            // verify
-                            expect(e).toBe(error)
-                            done();
-                        });
-
-                    // inject
-                    response.response = 'xhrf';
-                    responseCallback(response);
-                });
-
-                it('reject with error when is registered', done => {
-                    // prepare
-                    state.userName = undefined;
-                    let userName = 'test';
-                    // act
-                    service.login(userName, null)
+                    service.login(userName)
                         .catch((e: Error) => {
                             // verify
                             expect(e).toBe(error)
@@ -277,6 +241,7 @@ describe('logins service specs', () => {
                     return promise;
                 };
                 
+                state.userName = 'test';
                 // act                
                 service.logoff();
             });
@@ -291,8 +256,13 @@ describe('logins service specs', () => {
             })
 
             it('call logoff api', () => {
-                spyOn(http, 'post')
+                // prepare                
+                spyOn(http, 'post');
+
+                // act
                 responseCallback(response);
+
+                // verify
                 expect(chatService.stop).toHaveBeenCalled();
             })
         });

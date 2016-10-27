@@ -16,26 +16,6 @@ export class AccountService {
         private state: State,
         private helpers: Helpers) { }
 
-    changePassword(model: ChangePassword): Promise<void> {
-        if (this.state.isGuess) {            
-            return new Promise<void>((resolve, reject) => {
-                this.http.post(this.settings.accountdAPI + '/setpassword', model)
-                    .then(response => {
-                        this.state.isGuess = false;
-                        sessionStorage.setItem('userName', this.state.userName)
-                        resolve();
-                    })
-                    .catch(error => reject(this.helpers.getError(error)));
-            });
-        } else {
-            return new Promise<void>((resolve, reject) => {
-                this.http.put(this.settings.accountdAPI + '/changepassword', model)
-                    .then(response => resolve())
-                    .catch(error => reject(this.helpers.getError(error)));
-            });
-        }
-    }
-
     getLogins(): Promise<ManageLogins> {
         return new Promise<ManageLogins>((resove, reject) => {
             this.http.get(this.settings.accountdAPI + '/logins')

@@ -21,7 +21,15 @@ export class Contact {
         private ea: EventAggregator, 
         private router: Router) { }
 
+    get isCurrentUser() {
+        return this.state.userName === this.user.id; 
+    }
+
     select() {
+        if (this.isCurrentUser) {
+            this.router.parent.navigateToRoute('account');
+        }
+
         if (!this.user.conversation) {
             let conversation = new Conversation();
             let attendees = new Array<Attendee>();
@@ -39,12 +47,12 @@ export class Contact {
     }
 
     attached() {
-        this.conversationSelectedSubscription = this.ea.subscribe('ConversationSelected', e => {
+        this.conversationSelectedSubscription = this.ea.subscribe(ConversationSelected, e => {
             let conv = e.conversation as Conversation;
             let attendees = conv.attendees;
 
             this.isSelected = false;
-            if (attendees.length == 2) {
+            if (attendees.length < 3) {
                 attendees.forEach(a => {
                     if (a.userId !== this.state.userName && a.userId === this.user.id) {
                         this.isSelected = true;

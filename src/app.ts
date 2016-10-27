@@ -33,6 +33,8 @@ export class App {
             builder => builder
                 .withBaseUrl(environment.apiBaseUrl)
                 .withCredentials(true));
+
+        state.userName = sessionStorage.getItem('userName');
     }
 
     configureRouter(config: RouterConfiguration, router: Router) {
@@ -62,11 +64,12 @@ export class App {
  
             if (userName) {
                 this.state.userName = userName;
+                sessionStorage.setItem('userName', userName);
             }
  
             window.history.replaceState(null, null, '/');
 
-            if (!userName) {
+            if (!this.state.userName) {
                 return login;
             }
             

@@ -65,6 +65,8 @@ describe('contact component spec', () => {
     it("select should call service showConversation with the user's conversation", () => {
         // prepare
         let user = new User();
+        user.id = 'test';
+
         user.conversation = new Conversation();
         contact.user = user;
         spyOn(service, 'showConversation');
@@ -106,11 +108,13 @@ describe('contact component spec', () => {
             expect(contact.isSelected).toBe(true);
         })
 
-        it('should set isSelected to false on ConversationSelected event when conversation attendees doent contains 2 users', () => {
+        it('should set isSelected to false on ConversationSelected event when conversation attendees contains more than 2 users', () => {
             // prepare
             let conversation = new Conversation();
             conversation.attendees = [
                 new Attendee('test'),
+                new Attendee('test'),
+                new Attendee('test')
             ];
             let event = new ConversationSelected(conversation);
             contact.isSelected = true;

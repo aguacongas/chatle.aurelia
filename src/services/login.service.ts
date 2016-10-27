@@ -1,4 +1,4 @@
-import { HttpClient } from 'aurelia-http-client';
+import { HttpClient, HttpResponseMessage } from 'aurelia-http-client';
 import { autoinject } from 'aurelia-framework';
 
 import { Settings } from '../config/settings';
@@ -9,6 +9,7 @@ import { State } from './state';
 @autoinject
 export class LoginService {
     private xhrf: string;
+
     constructor(private http: HttpClient,
         private settings: Settings,
         private chatService: ChatService,
@@ -29,16 +30,14 @@ export class LoginService {
         });
     }
 
-    login(userName: string, password: string): Promise<string> {
-        this.state.isGuess = !password;
+    login(userName: string): Promise<string> {
+        this.state.isGuess = true;
 
         return new Promise<string>((resolve, reject) => {
             this.getXhrf()
                 .then(r => {
                     if (this.state.isGuess) {
                         this.loginAsGuess(userName, resolve, reject);
-                    } else {
-                        this.loginAsRegistered(userName, password, resolve, reject);
                     }
                 })
                 .catch(error => reject(error));
@@ -46,15 +45,18 @@ export class LoginService {
     }
 
     logoff() {
-        delete this.state.userName;        
-        sessionStorage.removeItem('userName');
-        this.chatService.stop();        
+        if (!this.state.userName) {
+            return;
+        }
+        
+        this.chatService.stop();
         this.getXhrf()
             .then(r => { 
                 this.http.post(this.settings.accountdAPI + '/spalogoff', null);                
             });
 
-        delete this.xhrf;
+        this.xhrf = undefined;
+        this.state.userName = undefined;
     }
 
     exists(userName): Promise<boolean> {
@@ -70,7 +72,9 @@ export class LoginService {
                         .then(response => {
                             resolve(response.content);
                         })
-                        .catch(error => reject(new Error('the service is down')));
+                        .catch(error => {
+                            this.manageError(error, reject, new Error('the service is down'));
+                        });
                 })
                 .catch(error => reject(new Error('the service is down')));
         });
@@ -83,8 +87,9 @@ export class LoginService {
                     this.http.put(this.settings.accountdAPI + "/spaExternalLoginConfirmation", { userName: userName })
                         .then(response => {
                             this.logged(userName, resolve, reject);
+                            sessionStorage.setItem('userName', userName);
                         })
-                        .catch(error => reject(this.helpers.getError(error)));
+                        .catch(error => this.manageError(error, reject, this.helpers.getError(error)));
                 })
                 .catch(error => reject(new Error('the service is down')));
         });
@@ -108,25 +113,18 @@ export class LoginService {
                 this.logged(userName, resolve, reject);
             })
             .catch(error => {
-                reject(this.helpers.getError(error));
+                this.manageError(error, reject, this.helpers.getError(error));
             });
-    }
-
-    private loginAsRegistered(userName: string, password: string, resolve: Function, reject: Function) {
-        this.http.post(this.settings.accountdAPI + '/spalogin', { userName: userName, password: password })
-            .then(response => {
-                this.logged(userName, resolve, reject);
-                sessionStorage.setItem('userName', userName);
-            })
-            .catch(error => {
-                reject(this.helpers.getError(error));
-            })
     }
 
     private logged(userName: string, resolve: Function, reject: Function) {
         this.state.userName = userName;
-        this.chatService.start();
         // get a new token for the session lifecycle
         this.setXhrf(resolve, reject);
+    }
+
+    private manageError(error: HttpResponseMessage, reject: Function, exception: Error) {
+        this.xhrf = undefined;
+        reject(exception);        
     }
 }
