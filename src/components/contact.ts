@@ -27,7 +27,7 @@ export class Contact {
 
     select() {
         if (this.isCurrentUser) {
-            this.router.parent.navigateToRoute('account');
+            return;
         }
 
         if (!this.user.conversation) {

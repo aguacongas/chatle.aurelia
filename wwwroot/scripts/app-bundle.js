@@ -844,7 +844,7 @@ define('components/contact',["require", "exports", 'aurelia-framework', 'aurelia
         });
         Contact.prototype.select = function () {
             if (this.isCurrentUser) {
-                this.router.parent.navigateToRoute('account');
+                return;
             }
             if (!this.user.conversation) {
                 var conversation = new conversation_1.Conversation();
@@ -1122,6 +1122,16 @@ define('components/user-name',["require", "exports", 'aurelia-framework', 'aurel
         .on(UserName);
 });
 
+define('model/changePassword',["require", "exports"], function (require, exports) {
+    "use strict";
+    var ChangePassword = (function () {
+        function ChangePassword() {
+        }
+        return ChangePassword;
+    }());
+    exports.ChangePassword = ChangePassword;
+});
+
 define('model/manage-logins',["require", "exports"], function (require, exports) {
     "use strict";
     var UserLoginInfo = (function () {
@@ -1143,14 +1153,11 @@ define('model/manage-logins',["require", "exports"], function (require, exports)
     exports.ManageLogins = ManageLogins;
 });
 
-define('model/changePassword',["require", "exports"], function (require, exports) {
+define('resources/index',["require", "exports"], function (require, exports) {
     "use strict";
-    var ChangePassword = (function () {
-        function ChangePassword() {
-        }
-        return ChangePassword;
-    }());
-    exports.ChangePassword = ChangePassword;
+    function configure(config) {
+    }
+    exports.configure = configure;
 });
 
 var __decorate = (this && this.__decorate) || function (decorators, target, key, desc) {
@@ -1424,13 +1431,6 @@ define('pages/login',["require", "exports", 'aurelia-framework', 'aurelia-router
         return Login;
     }());
     exports.Login = Login;
-});
-
-define('resources/index',["require", "exports"], function (require, exports) {
-    "use strict";
-    function configure(config) {
-    }
-    exports.configure = configure;
 });
 
 define('aurelia-validation/validate-binding-behavior',["require", "exports", 'aurelia-dependency-injection', 'aurelia-pal', 'aurelia-task-queue', './validation-controller', './validate-trigger'], function (require, exports, aurelia_dependency_injection_1, aurelia_pal_1, aurelia_task_queue_1, validation_controller_1, validate_trigger_1) {
