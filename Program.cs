@@ -9,10 +9,6 @@ namespace ConsoleApplication
     {
         public virtual void Configure(IApplicationBuilder app)
         {
-            var options = new DefaultFilesOptions();
-            options.DefaultFileNames.Clear();
-            options.DefaultFileNames.Add("index.html");
-
             app.UseDefaultFiles();
             app.UseStaticFiles();
         }

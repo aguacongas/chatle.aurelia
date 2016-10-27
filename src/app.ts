@@ -38,7 +38,7 @@ export class App {
     }
 
     configureRouter(config: RouterConfiguration, router: Router) {
-        config.title = 'Chatle';
+        config.title = 'Chatle';        
         config.addPipelineStep('authorize', AuthorizeStep);
         const confirm = { route: 'confirm', name: 'confirm', moduleId: 'pages/confirm', title: 'Confirm', anomymous: true };
         const login = { route: 'login', name: 'login', moduleId: 'pages/login', title: 'Login', anomymous: true };
