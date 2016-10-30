@@ -27,16 +27,12 @@ describe('home page specs', () => {
             }
         } as Promise<string>;
 
-        loginService = {
-            logoff: () => { }
-        } as LoginService;
-
         chatService = {
             start: () => { }
         } as ChatService;
 
         ea = new EventAggregator();
-        page = new Home(chatService, loginService, ea);
+        page = new Home(chatService, ea);
     });
 
     it('configureRouter should add conversation route in router configuration', () => {
@@ -64,7 +60,7 @@ describe('home page specs', () => {
             map: m => { }
         } as RouterConfiguration;
         let router = {
-            baseUrl: 'test'
+            baseUrl: 'test',
         } as Router;
 
         // act
@@ -80,6 +76,7 @@ describe('home page specs', () => {
         let subcription = {
             dispose: () => { }
         };
+        let router;
 
         beforeEach(() => {
             ea.subscribe = (e, c) => {
@@ -88,6 +85,11 @@ describe('home page specs', () => {
 
                 return subcription;
             };
+
+            router = {
+                navigateToRoute: name => {},
+            } as Router;
+            page.router = router;
         });
 
         it('attached should set isDisconnected to true when connaction state is Disconnected', () => {
@@ -115,13 +117,15 @@ describe('home page specs', () => {
         it('attached should logoff when connection state is Error', () => {
             // prepare
             chatService.currentState = ConnectionState.Error;
-            spyOn(loginService, 'logoff');
+
+            spyOn(router, 'navigateToRoute');
+
             // act
             page.attached();
 
             // verify
             expect(page.isDisconnected).toBe(false);
-            expect(loginService.logoff).toHaveBeenCalledTimes(1);
+            expect(router.navigateToRoute).toHaveBeenCalledWith('login');
         });
 
         it('attached should start chat when connection state is not Connected', () => {
@@ -136,7 +140,7 @@ describe('home page specs', () => {
             expect(chatService.start).toHaveBeenCalledTimes(1);
         });
 
-        it('ConnectionStateChanged subcription callback should set isDisconnected to true when connaction state is Disconnected', () => {
+        it('ConnectionStateChanged subcription callback should set isDisconnected to true when connection state is Disconnected', () => {
             // prepare
             chatService.currentState = ConnectionState.Connected;
 
@@ -163,14 +167,15 @@ describe('home page specs', () => {
         it('ConnectionStateChanged subcription callback should logoff when connection state is Error', () => {
             // prepare
             chatService.currentState = ConnectionState.Connected;
-            spyOn(loginService, 'logoff');
+            
+            spyOn(router, 'navigateToRoute');
             // act
             page.attached();
             callback(new ConnectionStateChanged(ConnectionState.Error));
 
             // verify
             expect(page.isDisconnected).toBe(false);
-            expect(loginService.logoff).toHaveBeenCalledTimes(1);
+            expect(router.navigateToRoute).toHaveBeenCalledWith('login');
         });
 
         it('detached should dispose subcription', () => {

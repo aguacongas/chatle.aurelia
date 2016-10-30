@@ -5,6 +5,7 @@ import { Settings } from '../config/settings';
 import { ChatService } from './chat.service';
 import { Helpers } from './helpers';
 import { State } from './state';
+import { Provider } from '../model/provider'
 
 @autoinject
 export class LoginService {
@@ -88,6 +89,20 @@ export class LoginService {
                         .then(response => {
                             this.logged(userName, resolve, reject);
                             sessionStorage.setItem('userName', userName);
+                        })
+                        .catch(error => this.manageError(error, reject, this.helpers.getError(error)));
+                })
+                .catch(error => reject(new Error('the service is down')));
+        });
+    }
+
+    getExternalLoginProviders(): Promise<Array<Provider>> {
+        return new Promise<Array<Provider>>((resolve, reject) => {
+            this.getXhrf()
+                .then(r => {
+                    this.http.get(this.settings.accountdAPI + "/getExternalProviders")
+                        .then(response => {
+                            resolve(response.content as Array<Provider>);
                         })
                         .catch(error => this.manageError(error, reject, this.helpers.getError(error)));
                 })

@@ -31,16 +31,7 @@ export class Contact {
         }
 
         if (!this.user.conversation) {
-            let conversation = new Conversation();
-            let attendees = new Array<Attendee>();
-            let attendee = new Attendee();
-
-            attendee.userId = this.user.id;
-            attendees.push(attendee);
-            conversation.attendees = attendees;
-            conversation.messages = new Array<Message>();
-
-            this.user.conversation = conversation;
+            this.user.conversation = new Conversation(this.user);
         }
 
         this.service.showConversation(this.user.conversation, this.router);        

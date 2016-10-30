@@ -14,8 +14,7 @@ export class Home {
     private connectionStateSubscription: Subscription;
     private showConversationSubscription: Subscription;
 
-    constructor(public chatService: ChatService,
-        private loginService: LoginService,
+    constructor(private chatService: ChatService,
         private ea: EventAggregator) { }
 
     configureRouter(config: RouterConfiguration, router: Router) {
@@ -44,7 +43,7 @@ export class Home {
 
     private setIsDisconnected(state: ConnectionState) {
         if (state === ConnectionState.Error) {
-            this.loginService.logoff();
+            this.router.navigateToRoute('login');
         } if (state === ConnectionState.Disconnected) {
             this.isDisconnected = true;
         } else {

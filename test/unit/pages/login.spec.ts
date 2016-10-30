@@ -34,8 +34,9 @@ describe('Login page specs', () => {
             },
             login: (userName: string) => {
                 return promise;
-            },
-            logoff: () => {}
+            },            
+            logoff: () => {},
+            getExternalLoginProviders: () => { return promise ;}
         } as LoginService;
 
         settings = {
