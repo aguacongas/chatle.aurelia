@@ -25,10 +25,12 @@ export class ConversationService {
         private ea: EventAggregator) { }
 
     showConversation(conversation: Conversation, router: Router) {
-        this.currentConversation = conversation;
-        this.helpers.setConverationTitle(conversation);
-        this.ea.publish(ConversationSelected, new ConversationSelected(conversation));
-        router.navigateToRoute('conversation', { id: conversation.title });
+        if (router.currentInstruction.fragment !== 'conversation/' + conversation.title) {
+            this.currentConversation = conversation;
+            this.helpers.setConverationTitle(conversation);
+            this.ea.publish(new ConversationSelected(conversation));
+            router.navigateToRoute('conversation', { id: conversation.title });
+        }        
     }
 
     sendMessage(conversation: Conversation, message: string): Promise<Message> {

@@ -78,6 +78,7 @@ describe('confirm page spec', () => {
             let userName;
 
             beforeEach(() => {
+                userName = 'test';
                 state.userName = userName;
                 spyOn(service, 'confirm')
                     .and.returnValue(promise);

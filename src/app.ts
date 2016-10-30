@@ -33,10 +33,12 @@ export class App {
             builder => builder
                 .withBaseUrl(environment.apiBaseUrl)
                 .withCredentials(true));
+
+        state.userName = sessionStorage.getItem('userName');
     }
 
     configureRouter(config: RouterConfiguration, router: Router) {
-        config.title = 'Chatle';
+        config.title = 'Chatle';        
         config.addPipelineStep('authorize', AuthorizeStep);
         const confirm = { route: 'confirm', name: 'confirm', moduleId: 'pages/confirm', title: 'Confirm', anomymous: true };
         const login = { route: 'login', name: 'login', moduleId: 'pages/login', title: 'Login', anomymous: true };
@@ -62,11 +64,12 @@ export class App {
  
             if (userName) {
                 this.state.userName = userName;
+                sessionStorage.setItem('userName', userName);
             }
  
             window.history.replaceState(null, null, '/');
 
-            if (!userName) {
+            if (!this.state.userName) {
                 return login;
             }
             

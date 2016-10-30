@@ -2,12 +2,15 @@ import { Router } from 'aurelia-router';
 
 import { Login } from '../../../src/pages/login';
 import { LoginService } from '../../../src/services/login.service';
+import { State } from '../../../src/services/state';
 import { Settings } from '../../../src/config/settings';
 
 describe('Login page specs', () => {
     let service: LoginService;
     let settings: Settings;
     let router: Router;
+    let state: State;
+
     let page: Login;
     let resolveCallback: (value?: string) => void;
     let rejectCallback: (error?: any) => void;
@@ -29,9 +32,11 @@ describe('Login page specs', () => {
             getXhrf: (clearCookies?: Boolean) => { 
                 return promise;
             },
-            login: (userName: string, password: string) => {
+            login: (userName: string) => {
                 return promise;
-            }
+            },            
+            logoff: () => {},
+            getExternalLoginProviders: () => { return promise ;}
         } as LoginService;
 
         settings = {
@@ -43,7 +48,9 @@ describe('Login page specs', () => {
             navigateToRoute: route => { }
         } as Router;
 
-        page = new Login(service, router, settings);
+        state = new State;
+
+        page = new Login(service, router, state, settings);
     });
 
     it('constructor should set externalLogin', () => {
@@ -52,7 +59,7 @@ describe('Login page specs', () => {
         settings.accountdAPI = 'test';
 
         // act
-        page = new Login(service, router, settings);
+        page = new Login(service, router, state, settings);
 
         // verify
         expect(page.externalLogin).toBeDefined();
@@ -65,22 +72,24 @@ describe('Login page specs', () => {
         spyOn(service, 'login')
             .and.returnValue(promise);
         spyOn(router, 'navigateToRoute');
+        state.userName = 'test';
 
         // act
-        page.login('test');
+        page.login();
         resolveCallback('OK');
 
         // verify
-        expect(service.login).toHaveBeenCalledWith('test', null);
+        expect(service.login).toHaveBeenCalledWith('test');
         expect(router.navigateToRoute).toHaveBeenCalledWith('home');
     });
 
     it('login should set error on login error', () => {
         // prepare
         let expected = new Error('test');
-
+        state.userName = 'test';
+        
         // act
-        page.login('test');
+        page.login();
         rejectCallback(expected);
 
         // verify

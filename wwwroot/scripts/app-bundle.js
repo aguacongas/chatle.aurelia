@@ -74,10 +74,28 @@ define('model/message',["require", "exports"], function (require, exports) {
     exports.Message = Message;
 });
 
-define('model/conversation',["require", "exports"], function (require, exports) {
+define('model/user',["require", "exports"], function (require, exports) {
+    "use strict";
+    var User = (function () {
+        function User() {
+        }
+        return User;
+    }());
+    exports.User = User;
+});
+
+define('model/conversation',["require", "exports", './attendee'], function (require, exports, attendee_1) {
     "use strict";
     var Conversation = (function () {
-        function Conversation() {
+        function Conversation(user) {
+            if (!user) {
+                return;
+            }
+            var attendees = new Array();
+            attendees.push(new attendee_1.Attendee(user.id));
+            this.attendees = attendees;
+            this.messages = new Array();
+            this.isInitiatedByUser = true;
         }
         return Conversation;
     }());
@@ -133,16 +151,6 @@ define('services/helpers',["require", "exports", 'aurelia-framework', './state']
         return Helpers;
     }());
     exports.Helpers = Helpers;
-});
-
-define('model/user',["require", "exports"], function (require, exports) {
-    "use strict";
-    var User = (function () {
-        function User() {
-        }
-        return User;
-    }());
-    exports.User = User;
 });
 
 define('events/connectionStateChanged',["require", "exports"], function (require, exports) {
@@ -314,6 +322,16 @@ define('services/chat.service',["require", "exports", 'aurelia-event-aggregator'
     exports.ChatService = ChatService;
 });
 
+define('model/provider',["require", "exports"], function (require, exports) {
+    "use strict";
+    var Provider = (function () {
+        function Provider() {
+        }
+        return Provider;
+    }());
+    exports.Provider = Provider;
+});
+
 var __decorate = (this && this.__decorate) || function (decorators, target, key, desc) {
     var c = arguments.length, r = c < 3 ? target : desc === null ? desc = Object.getOwnPropertyDescriptor(target, key) : desc, d;
     if (typeof Reflect === "object" && typeof Reflect.decorate === "function") r = Reflect.decorate(decorators, target, key, desc);
@@ -349,17 +367,14 @@ define('services/login.service',["require", "exports", 'aurelia-http-client', 'a
                 }
             });
         };
-        LoginService.prototype.login = function (userName, password) {
+        LoginService.prototype.login = function (userName) {
             var _this = this;
-            this.state.isGuess = !password;
+            this.state.isGuess = true;
             return new Promise(function (resolve, reject) {
                 _this.getXhrf()
                     .then(function (r) {
                     if (_this.state.isGuess) {
                         _this.loginAsGuess(userName, resolve, reject);
-                    }
-                    else {
-                        _this.loginAsRegistered(userName, password, resolve, reject);
                     }
                 })
                     .catch(function (error) { return reject(error); });
@@ -367,14 +382,16 @@ define('services/login.service',["require", "exports", 'aurelia-http-client', 'a
         };
         LoginService.prototype.logoff = function () {
             var _this = this;
-            delete this.state.userName;
-            sessionStorage.removeItem('userName');
+            if (!this.state.userName) {
+                return;
+            }
             this.chatService.stop();
             this.getXhrf()
                 .then(function (r) {
                 _this.http.post(_this.settings.accountdAPI + '/spalogoff', null);
             });
-            delete this.xhrf;
+            this.xhrf = undefined;
+            this.state.userName = undefined;
         };
         LoginService.prototype.exists = function (userName) {
             var _this = this;
@@ -389,7 +406,9 @@ define('services/login.service',["require", "exports", 'aurelia-http-client', 'a
                         .then(function (response) {
                         resolve(response.content);
                     })
-                        .catch(function (error) { return reject(new Error('the service is down')); });
+                        .catch(function (error) {
+                        _this.manageError(error, reject, new Error('the service is down'));
+                    });
                 })
                     .catch(function (error) { return reject(new Error('the service is down')); });
             });
@@ -402,8 +421,23 @@ define('services/login.service',["require", "exports", 'aurelia-http-client', 'a
                     _this.http.put(_this.settings.accountdAPI + "/spaExternalLoginConfirmation", { userName: userName })
                         .then(function (response) {
                         _this.logged(userName, resolve, reject);
+                        sessionStorage.setItem('userName', userName);
                     })
-                        .catch(function (error) { return reject(_this.helpers.getError(error)); });
+                        .catch(function (error) { return _this.manageError(error, reject, _this.helpers.getError(error)); });
+                })
+                    .catch(function (error) { return reject(new Error('the service is down')); });
+            });
+        };
+        LoginService.prototype.getExternalLoginProviders = function () {
+            var _this = this;
+            return new Promise(function (resolve, reject) {
+                _this.getXhrf()
+                    .then(function (r) {
+                    _this.http.get(_this.settings.accountdAPI + "/getExternalProviders")
+                        .then(function (response) {
+                        resolve(response.content);
+                    })
+                        .catch(function (error) { return _this.manageError(error, reject, _this.helpers.getError(error)); });
                 })
                     .catch(function (error) { return reject(new Error('the service is down')); });
             });
@@ -427,24 +461,16 @@ define('services/login.service',["require", "exports", 'aurelia-http-client', 'a
                 _this.logged(userName, resolve, reject);
             })
                 .catch(function (error) {
-                reject(_this.helpers.getError(error));
-            });
-        };
-        LoginService.prototype.loginAsRegistered = function (userName, password, resolve, reject) {
-            var _this = this;
-            this.http.post(this.settings.accountdAPI + '/spalogin', { userName: userName, password: password })
-                .then(function (response) {
-                _this.logged(userName, resolve, reject);
-                sessionStorage.setItem('userName', userName);
-            })
-                .catch(function (error) {
-                reject(_this.helpers.getError(error));
+                _this.manageError(error, reject, _this.helpers.getError(error));
             });
         };
         LoginService.prototype.logged = function (userName, resolve, reject) {
             this.state.userName = userName;
-            this.chatService.start();
             this.setXhrf(resolve, reject);
+        };
+        LoginService.prototype.manageError = function (error, reject, exception) {
+            this.xhrf = undefined;
+            reject(exception);
         };
         LoginService = __decorate([
             aurelia_framework_1.autoinject, 
@@ -476,6 +502,7 @@ define('app',["require", "exports", 'aurelia-framework', 'aurelia-router', 'aure
             http.configure(function (builder) { return builder
                 .withBaseUrl(environment_1.default.apiBaseUrl)
                 .withCredentials(true); });
+            state.userName = sessionStorage.getItem('userName');
         }
         App.prototype.configureRouter = function (config, router) {
             var _this = this;
@@ -500,9 +527,10 @@ define('app',["require", "exports", 'aurelia-framework', 'aurelia-router', 'aure
                 var action = _this.helpers.getUrlParameter('a');
                 if (userName) {
                     _this.state.userName = userName;
+                    sessionStorage.setItem('userName', userName);
                 }
                 window.history.replaceState(null, null, '/');
-                if (!userName) {
+                if (!_this.state.userName) {
                     return login;
                 }
                 if (action) {
@@ -745,10 +773,12 @@ define('services/conversation.service',["require", "exports", 'aurelia-event-agg
             this.ea = ea;
         }
         ConversationService.prototype.showConversation = function (conversation, router) {
-            this.currentConversation = conversation;
-            this.helpers.setConverationTitle(conversation);
-            this.ea.publish(conversationSelected_1.ConversationSelected, new conversationSelected_1.ConversationSelected(conversation));
-            router.navigateToRoute('conversation', { id: conversation.title });
+            if (router.currentInstruction.fragment !== 'conversation/' + conversation.title) {
+                this.currentConversation = conversation;
+                this.helpers.setConverationTitle(conversation);
+                this.ea.publish(new conversationSelected_1.ConversationSelected(conversation));
+                router.navigateToRoute('conversation', { id: conversation.title });
+            }
         };
         ConversationService.prototype.sendMessage = function (conversation, message) {
             var _this = this;
@@ -828,7 +858,7 @@ var __decorate = (this && this.__decorate) || function (decorators, target, key,
 var __metadata = (this && this.__metadata) || function (k, v) {
     if (typeof Reflect === "object" && typeof Reflect.metadata === "function") return Reflect.metadata(k, v);
 };
-define('components/contact',["require", "exports", 'aurelia-framework', 'aurelia-event-aggregator', 'aurelia-router', '../services/conversation.service', '../services/state', '../model/user', '../model/conversation', '../model/attendee', '../events/conversationSelected'], function (require, exports, aurelia_framework_1, aurelia_event_aggregator_1, aurelia_router_1, conversation_service_1, state_1, user_1, conversation_1, attendee_1, conversationSelected_1) {
+define('components/contact',["require", "exports", 'aurelia-framework', 'aurelia-event-aggregator', 'aurelia-router', '../services/conversation.service', '../services/state', '../model/user', '../model/conversation', '../events/conversationSelected'], function (require, exports, aurelia_framework_1, aurelia_event_aggregator_1, aurelia_router_1, conversation_service_1, state_1, user_1, conversation_1, conversationSelected_1) {
     "use strict";
     var Contact = (function () {
         function Contact(service, state, ea, router) {
@@ -837,16 +867,19 @@ define('components/contact',["require", "exports", 'aurelia-framework', 'aurelia
             this.ea = ea;
             this.router = router;
         }
+        Object.defineProperty(Contact.prototype, "isCurrentUser", {
+            get: function () {
+                return this.state.userName === this.user.id;
+            },
+            enumerable: true,
+            configurable: true
+        });
         Contact.prototype.select = function () {
+            if (this.isCurrentUser) {
+                return;
+            }
             if (!this.user.conversation) {
-                var conversation = new conversation_1.Conversation();
-                var attendees = new Array();
-                var attendee = new attendee_1.Attendee();
-                attendee.userId = this.user.id;
-                attendees.push(attendee);
-                conversation.attendees = attendees;
-                conversation.messages = new Array();
-                this.user.conversation = conversation;
+                this.user.conversation = new conversation_1.Conversation(this.user);
             }
             this.service.showConversation(this.user.conversation, this.router);
         };
@@ -856,7 +889,7 @@ define('components/contact',["require", "exports", 'aurelia-framework', 'aurelia
                 var conv = e.conversation;
                 var attendees = conv.attendees;
                 _this.isSelected = false;
-                if (attendees.length == 2) {
+                if (attendees.length < 3) {
                     attendees.forEach(function (a) {
                         if (a.userId !== _this.state.userName && a.userId === _this.user.id) {
                             _this.isSelected = true;
@@ -1030,6 +1063,7 @@ define('components/conversation-preview',["require", "exports", 'aurelia-framewo
         ConversationPreview.prototype.attached = function () {
             var _this = this;
             this.lastMessage = this.conversation.messages[0].text;
+            this.isSelected = this.conversation && this.conversation.isInitiatedByUser;
             this.conversationSelectedSubscription = this.ea.subscribe(conversationSelected_1.ConversationSelected, function (e) {
                 if (e.conversation.id === _this.conversation.id) {
                     _this.isSelected = true;
@@ -1145,13 +1179,6 @@ define('model/manage-logins',["require", "exports"], function (require, exports)
     exports.ManageLogins = ManageLogins;
 });
 
-define('resources/index',["require", "exports"], function (require, exports) {
-    "use strict";
-    function configure(config) {
-    }
-    exports.configure = configure;
-});
-
 var __decorate = (this && this.__decorate) || function (decorators, target, key, desc) {
     var c = arguments.length, r = c < 3 ? target : desc === null ? desc = Object.getOwnPropertyDescriptor(target, key) : desc, d;
     if (typeof Reflect === "object" && typeof Reflect.decorate === "function") r = Reflect.decorate(decorators, target, key, desc);
@@ -1170,27 +1197,6 @@ define('services/account.service',["require", "exports", 'aurelia-http-client', 
             this.state = state;
             this.helpers = helpers;
         }
-        AccountService.prototype.changePassword = function (model) {
-            var _this = this;
-            if (this.state.isGuess) {
-                return new Promise(function (resolve, reject) {
-                    _this.http.post(_this.settings.accountdAPI + '/setpassword', model)
-                        .then(function (response) {
-                        _this.state.isGuess = false;
-                        sessionStorage.setItem('userName', _this.state.userName);
-                        resolve();
-                    })
-                        .catch(function (error) { return reject(_this.helpers.getError(error)); });
-                });
-            }
-            else {
-                return new Promise(function (resolve, reject) {
-                    _this.http.put(_this.settings.accountdAPI + '/changepassword', model)
-                        .then(function (response) { return resolve(); })
-                        .catch(function (error) { return reject(_this.helpers.getError(error)); });
-                });
-            }
-        };
         AccountService.prototype.getLogins = function () {
             var _this = this;
             return new Promise(function (resove, reject) {
@@ -1347,12 +1353,11 @@ var __decorate = (this && this.__decorate) || function (decorators, target, key,
 var __metadata = (this && this.__metadata) || function (k, v) {
     if (typeof Reflect === "object" && typeof Reflect.metadata === "function") return Reflect.metadata(k, v);
 };
-define('pages/home',["require", "exports", 'aurelia-framework', 'aurelia-event-aggregator', '../services/chat.service', '../services/login.service', '../events/connectionStateChanged'], function (require, exports, aurelia_framework_1, aurelia_event_aggregator_1, chat_service_1, login_service_1, connectionStateChanged_1) {
+define('pages/home',["require", "exports", 'aurelia-framework', 'aurelia-event-aggregator', '../services/chat.service', '../events/connectionStateChanged'], function (require, exports, aurelia_framework_1, aurelia_event_aggregator_1, chat_service_1, connectionStateChanged_1) {
     "use strict";
     var Home = (function () {
-        function Home(chatService, loginService, ea) {
+        function Home(chatService, ea) {
             this.chatService = chatService;
-            this.loginService = loginService;
             this.ea = ea;
         }
         Home.prototype.configureRouter = function (config, router) {
@@ -1376,7 +1381,7 @@ define('pages/home',["require", "exports", 'aurelia-framework', 'aurelia-event-a
         };
         Home.prototype.setIsDisconnected = function (state) {
             if (state === chat_service_1.ConnectionState.Error) {
-                this.loginService.logoff();
+                this.router.navigateToRoute('login');
             }
             if (state === chat_service_1.ConnectionState.Disconnected) {
                 this.isDisconnected = true;
@@ -1387,7 +1392,7 @@ define('pages/home',["require", "exports", 'aurelia-framework', 'aurelia-event-a
         };
         Home = __decorate([
             aurelia_framework_1.autoinject, 
-            __metadata('design:paramtypes', [chat_service_1.ChatService, login_service_1.LoginService, aurelia_event_aggregator_1.EventAggregator])
+            __metadata('design:paramtypes', [chat_service_1.ChatService, aurelia_event_aggregator_1.EventAggregator])
         ], Home);
         return Home;
     }());
@@ -1403,21 +1408,22 @@ var __decorate = (this && this.__decorate) || function (decorators, target, key,
 var __metadata = (this && this.__metadata) || function (k, v) {
     if (typeof Reflect === "object" && typeof Reflect.metadata === "function") return Reflect.metadata(k, v);
 };
-define('pages/login',["require", "exports", 'aurelia-framework', 'aurelia-router', '../services/login.service', '../config/settings'], function (require, exports, aurelia_framework_1, aurelia_router_1, login_service_1, settings_1) {
+define('pages/login',["require", "exports", 'aurelia-framework', 'aurelia-router', '../services/login.service', '../config/settings', '../services/state'], function (require, exports, aurelia_framework_1, aurelia_router_1, login_service_1, settings_1, state_1) {
     "use strict";
     var Login = (function () {
-        function Login(service, router, settings) {
+        function Login(service, router, state, settings) {
             this.service = service;
             this.router = router;
+            this.state = state;
             var location = window.location;
             this.externalLogin = settings.apiBaseUrl +
                 settings.accountdAPI +
                 '/externalLogin?returnUrl=' +
                 encodeURIComponent(location.protocol + '//' + location.host);
         }
-        Login.prototype.login = function (userName) {
+        Login.prototype.login = function () {
             var _this = this;
-            this.service.login(userName, null)
+            this.service.login(this.state.userName)
                 .then(function () {
                 _this.router.navigateToRoute('home');
             })
@@ -1427,9 +1433,13 @@ define('pages/login',["require", "exports", 'aurelia-framework', 'aurelia-router
         };
         Login.prototype.activate = function () {
             var _this = this;
+            this.service.logoff();
             this.service.getXhrf(true)
                 .then(function (t) {
-                return _this.token = t;
+                _this.token = t;
+                _this.service.getExternalLoginProviders()
+                    .then(function (providers) { return _this.providers = providers; })
+                    .catch(function (e) { return _this.error = e; });
             })
                 .catch(function (e) {
                 return _this.error = e;
@@ -1437,11 +1447,18 @@ define('pages/login',["require", "exports", 'aurelia-framework', 'aurelia-router
         };
         Login = __decorate([
             aurelia_framework_1.autoinject, 
-            __metadata('design:paramtypes', [login_service_1.LoginService, aurelia_router_1.Router, settings_1.Settings])
+            __metadata('design:paramtypes', [login_service_1.LoginService, aurelia_router_1.Router, state_1.State, settings_1.Settings])
         ], Login);
         return Login;
     }());
     exports.Login = Login;
+});
+
+define('resources/index',["require", "exports"], function (require, exports) {
+    "use strict";
+    function configure(config) {
+    }
+    exports.configure = configure;
 });
 
 define('aurelia-validation/validate-binding-behavior',["require", "exports", 'aurelia-dependency-injection', 'aurelia-pal', 'aurelia-task-queue', './validation-controller', './validate-trigger'], function (require, exports, aurelia_dependency_injection_1, aurelia_pal_1, aurelia_task_queue_1, validation_controller_1, validate_trigger_1) {
@@ -2770,17 +2787,17 @@ define('aurelia-validation/implementation/validation-rules',["require", "exports
     exports.ValidationRules = ValidationRules;
 });
 
-define('text!app.html', ['module'], function(module) { module.exports = "<template>\r\n    <require from=\"./css/site.css\"></require>\r\n    <div class=\"navbar navbar-default navbar-fixed-top\">\r\n        <div class=\"container\">\r\n            <div class=\"navbar-header\">\r\n                <button type=\"button\" class=\"navbar-toggle\" data-toggle=\"collapse\" data-target=\".navbar-collapse\">\r\n                    <span class=\"icon-bar menu\"></span>\r\n                    <span class=\"icon-bar menu\"></span>\r\n                    <span class=\"icon-bar menu\"></span>\r\n                </button>\r\n                <a class=\"navbar-brand title\" click.delegate=\"home()\">chatle</a>\r\n            </div>\r\n            <div class=\"navbar-collapse collapse\">\r\n                <ul class=\"nav navbar-nav\" if.bind=\"isConnected\">\r\n                    <li click.delegate=\"manage()\"><a>Welcom ${userName}!</a></li>\r\n                    <li click.delegate=\"logoff()\"><a>Log off</a></li>\r\n                </ul>\r\n            </div>\r\n        </div>\r\n    </div>\r\n    <div class=\"container body-content\">\r\n        <div if.bind=\"errorMessage\" class=\"text-danger\">\r\n            <ul>\r\n                <li>${errorMessage}</li>\r\n            </ul>\r\n        </div>\r\n        <router-view></router-view>\r\n    </div>\r\n    <footer>\r\n        <p>&copy; 2016 - chatle</p>\r\n    </footer>\r\n</template>\r\n"; });
-define('text!css/site.css', ['module'], function(module) { module.exports = "html {\r\n    font-family: cursive\r\n}\r\n/* Move down content because we have a fixed navbar that is 50px tall */\r\nbody.chatle {\r\n    padding-top: 50px;\r\n    padding-bottom: 20px;\r\n}\r\n\r\n/* Wrapping element */\r\n/* Set some basic padding to keep content from hitting the edges */\r\n.body-content {\r\n    padding-left: 15px;\r\n    padding-right: 15px;\r\n}\r\n\r\n.navbar.navbar-default {\r\n    background-color: #000;\r\n}\r\n\r\n.title.navbar-brand:focus,\r\n.title.navbar-brand:hover,\r\n.nav.navbar-nav > li > a:hover {\r\n    color: #fff;    \r\n}\r\n\r\nli:hover {\r\n    cursor: pointer;\r\n}\r\n\r\n/* Set widths on the form inputs since otherwise they're 100% wide */\r\ninput,\r\nselect,\r\ntextarea {\r\n    max-width: 280px;\r\n}\r\n\r\nul\r\n{\r\n    padding-left: 0;\r\n    list-style-type: none;\r\n}\r\n\r\nsmall {\r\n    color: #666666;\r\n}\r\n\r\n/* Responsive: Portrait tablets and up */\r\n@media screen and (min-width: 768px) {\r\n    .jumbotron {\r\n        margin-top: 20px;\r\n    }\r\n\r\n    .body-content {\r\n        padding: 0;\r\n    }\r\n}\r\n\r\n.list-group-item {\r\n    border: 0;\r\n    padding: 0;\r\n}\r\n\r\n.list-group-item.active {    \r\n    background-color: #ddd;\r\n    color: #808080\r\n}\r\n\r\n.list-group-item.active:hover {    \r\n    background-color: #eee;\r\n    color: #666;\r\n}"; });
-define('text!components/contact-list.html', ['module'], function(module) { module.exports = "<template>\r\n  <require from=\"./contact\"></require>\r\n  <div class=\"contact-list\">\r\n    <span if.bind=\"!users\">${loadingMessage}</span>\r\n    <ul class=\"list-group\" if.bind=\"users\">\r\n      <contact repeat.for=\"user of users\" user.bind=\"user\"></contact>\r\n    </ul>\r\n  </div>\r\n</template>"; });
+define('text!app.html', ['module'], function(module) { module.exports = "<template>\n    <require from=\"./css/site.css\"></require>\n    <div class=\"navbar navbar-default navbar-fixed-top\">\n        <div class=\"container\">\n            <div class=\"navbar-header\">\n                <button type=\"button\" class=\"navbar-toggle\" data-toggle=\"collapse\" data-target=\".navbar-collapse\">\n                    <span class=\"icon-bar menu\"></span>\n                    <span class=\"icon-bar menu\"></span>\n                    <span class=\"icon-bar menu\"></span>\n                </button>\n                <a class=\"navbar-brand title\" click.delegate=\"home()\">chatle</a>\n            </div>\n            <div class=\"navbar-collapse collapse\">\n                <ul class=\"nav navbar-nav\" if.bind=\"isConnected\">\n                    <li click.delegate=\"manage()\"><a>Welcom ${userName}!</a></li>\n                    <li click.delegate=\"logoff()\"><a>Log off</a></li>\n                </ul>\n            </div>\n        </div>\n    </div>\n    <div class=\"container body-content\">\n        <div if.bind=\"errorMessage\" class=\"text-danger\">\n            <ul>\n                <li>${errorMessage}</li>\n            </ul>\n        </div>\n        <router-view></router-view>\n    </div>\n    <footer>\n        <p>&copy; 2016 - chatle</p>\n    </footer>\n</template>\n"; });
+define('text!css/site.css', ['module'], function(module) { module.exports = "html {\n    font-family: cursive\n}\n/* Move down content because we have a fixed navbar that is 50px tall */\nbody.chatle {\n    padding-top: 50px;\n    padding-bottom: 20px;\n}\n\n/* Wrapping element */\n/* Set some basic padding to keep content from hitting the edges */\n.body-content {\n    padding-left: 15px;\n    padding-right: 15px;\n}\n\n.navbar.navbar-default {\n    background-color: #000;\n}\n\n.title.navbar-brand:focus,\n.title.navbar-brand:hover,\n.nav.navbar-nav > li > a:hover {\n    color: #fff;    \n}\n\nli:hover {\n    cursor: pointer;\n}\n\n/* Set widths on the form inputs since otherwise they're 100% wide */\ninput,\nselect,\ntextarea {\n    max-width: 280px;\n}\n\nul\n{\n    padding-left: 0;\n    list-style-type: none;\n}\n\nsmall {\n    color: #666666;\n}\n\n/* Responsive: Portrait tablets and up */\n@media screen and (min-width: 768px) {\n    .jumbotron {\n        margin-top: 20px;\n    }\n\n    .body-content {\n        padding: 0;\n    }\n}\n\n.list-group-item,\n.list-group-item:first-child,\n.list-group-item:last-child {\n    border: 0;\n    padding: 0;\n    border-radius: 0;\n}\n\n.list-group-item:hover {\n    padding-right: 4px;\n    padding-left: 4px;\n}\n\n.list-group-item.active {\n    background-color: #fff;\n    border-top: 1px solid #ccc;\n    border-bottom: 1px solid #ccc;\n}\n\n.list-group-item.active:hover {\n    background-color: #fff;    \n    border-color: #333;\n}\n\n.list-group-item.active span {\n    color: #333;\n}"; });
+define('text!components/contact-list.html', ['module'], function(module) { module.exports = "<template>\n  <require from=\"./contact\"></require>\n  <div class=\"contact-list\">\n    <span if.bind=\"!users\">${loadingMessage}</span>\n    <ul class=\"list-group\" if.bind=\"users\">\n      <contact repeat.for=\"user of users\" user.bind=\"user\"></contact>\n    </ul>\n  </div>\n</template>"; });
 define('text!css/site.min.css', ['module'], function(module) { module.exports = "html{font-family:cursive}body{padding-top:50px;padding-bottom:20px}.console{font-family:'Lucida Console',Monaco,monospace}.body-content{padding-left:15px;padding-right:15px}.navbar.navbar-default{background-color:#fff}.nav.navbar-nav>li>a:hover,.title.navbar-brand:focus,.title.navbar-brand:hover{color:#222}input,select,textarea{max-width:280px}ul{padding-left:0;list-style-type:none}small{color:#666}@media screen and (min-width:768px){.jumbotron{margin-top:20px}.body-content{padding:0}}"; });
-define('text!components/contact.html', ['module'], function(module) { module.exports = "<template>\r\n    <li class=\"list-group-item ${isSelected ? 'active' : ''}\" click.delegate=\"select()\"><a>${user.id}</a></li>\r\n</template>"; });
-define('text!components/conversation-component.html', ['module'], function(module) { module.exports = "<template>\r\n    <div if.bind=\"conversation\">\r\n        <h6>${conversation.title}</h6>\r\n        <form class=\"form-inline\">\r\n            <input class=\"form-control\" value.bind=\"message\" placeholder=\"message...\">\r\n            <button type=\"submit\" class=\"btn btn-default\" click.delegate=\"sendMessage()\" disabled.bind=\"!message\">send</button>\r\n        </form>\r\n        <ul>\r\n            <li repeat.for=\"message of conversation.messages\">\r\n                <small>${message.from}</small><br />\r\n                <span>${message.text}</span>\r\n            </li>\r\n        </ul>\r\n    </div>\r\n    <h1 if.bind=\"!conversation\">WELCOME TO THIS REALLY SIMPLE CHAT</h1>\r\n</template>"; });
-define('text!components/conversation-list.html', ['module'], function(module) { module.exports = "<template>\r\n  <require from=\"./conversation-preview\"></require>\r\n  <div class=\"conversation-list\">\r\n    <ul class=\"list-group\">\r\n      <conversation-preview repeat.for=\"conversation of conversations\" conversation.bind=\"conversation\"></conversation-preview>\r\n    </ul>\r\n  </div>\r\n</template>"; });
-define('text!components/conversation-preview.html', ['module'], function(module) { module.exports = "<template>\r\n  <li class=\"list-group-item ${isSelected ? 'active' : ''}\" click.delegate=\"select()\">\r\n    <a>${conversation.title}</a><br/>\r\n    <span>${lastMessage}</span>\r\n  </li>\r\n</template>"; });
-define('text!components/user-name.html', ['module'], function(module) { module.exports = "<template>\r\n\t<div validation-errors.bind=\"userNameErrors\" class.bind=\"userNameErrors.length ? 'has-error' : ''\">\r\n\t\t<input class=\"form-control\" name=\"UserName\" value.bind=\"userName & validate\" />\r\n\t\t<span class=\"help-block\" repeat.for=\"errorInfo of userNameErrors\">\r\n            ${errorInfo.error.message}\r\n        <span>\r\n    </div>\r\n</template>>"; });
-define('text!pages/account.html', ['module'], function(module) { module.exports = "<template>\r\n\t<h2>Manage Account.</h2>\r\n\t<div class=\"row\">\r\n\t\t<template if.bind=\"logins.otherLogins.length > 0\">\r\n\t\t\t<h4>Add another service to log in.</h4>\r\n\t\t\t<hr />\r\n\t\t\t<form method=\"post\" class=\"form-horizontal\" role=\"form\" action.bind=\"externalLinkLogin\">\r\n\t\t\t\t<div>\r\n\t\t\t\t\t<p>\r\n\t\t\t\t\t\t<button type=\"submit\" class=\"btn btn-default\" name=\"provider\" repeat.for=\"login of logins.otherLogins\" value.bind=\"login.authenticationScheme\"\r\n\t\t\t\t\t\t\ttitle=\"Log in using your ${login.displayName} account\">${login.authenticationScheme}</button>\r\n\t\t\t\t\t</p>\r\n\t\t\t\t</div>\r\n\t\t\t\t<input name=\"__RequestVerificationToken\" type=\"hidden\" value.bind=\"token\" />\r\n\t\t\t</form>\r\n\t\t</template>\r\n\t\t<template if.bind=\"logins.currentLogins.length > 0\">\r\n\t\t\t<h4>Registered Logins</h4>\r\n\t\t\t<table class=\"table\">\r\n\t\t\t\t<tbody>\r\n\t\t\t\t\t<template repeat.for=\"login of logins.currentLogins\">\r\n\t\t\t\t\t\t<tr>\r\n\t\t\t\t\t\t\t<td>${login.loginProvider}</td>\r\n\t\t\t\t\t\t\t<td>\r\n\t\t\t\t\t\t\t\t<form class=\"form-horizontal\" role=\"form\" if.bind=\"logins.currentLogins.length > 1\">\r\n\t\t\t\t\t\t\t\t\t<div>\r\n\t\t\t\t\t\t\t\t\t\t<input type=\"submit\" class=\"btn btn-default\" value=\"Remove\" title=\"Remove this ${login.loginProvider} login from your account\" click.delegate=\"remove(login.loginProvider, login.providerKey)\" />\r\n\t\t\t\t\t\t\t\t\t</div>\r\n\t\t\t\t\t\t\t\t</form>\r\n\t\t\t\t\t\t\t</td>\r\n\t\t\t\t\t\t</tr>\r\n\t\t\t\t\t</template>\r\n\t\t\t\t</tbody>\r\n\t\t\t</table>\r\n\t\t</template>\r\n\t</div>\r\n</template>"; });
-define('text!pages/confirm.html', ['module'], function(module) { module.exports = "<template>\r\n\t<require from=\"../components/user-name\"></require>\r\n\t<h3>Associate your ${provider} account.</h3>\r\n\r\n\t<form class=\"form-horizontal\" submit.delegate=\"confirm()\">\r\n\t\t<h4>Association Form</h4>\r\n\t\t<hr />\r\n\t\t<div class=\"text-danger\">${error.message}</div>\r\n\r\n\t\t<p class=\"text-info\">\r\n\t\t\tYou've successfully authenticated with <strong>${provider}</strong>. Please enter a user name for this site below and\r\n\t\t\tclick the Register button to finish logging in.\r\n\t\t</p>\r\n\t\t<div class=\"form-group\">\r\n\t\t\t<label class=\"col-md-2 control-label\" for=\"UserName\">User name</label>\r\n\t\t\t<user-name class=\"col-md-10\"></user-name>\r\n\t\t</div>\r\n\t\t<div class=\"form-group\">\r\n\t\t\t<div class=\"col-md-offset-2 col-md-10\">\r\n\t\t\t\t<button type=\"submit\" class=\"btn btn-default\">Register</button>\r\n\t\t\t</div>\r\n\t\t</div>\r\n\t</form>\r\n\r\n</template>"; });
-define('text!pages/home.html', ['module'], function(module) { module.exports = "<template>\r\n    <require from=\"../components/contact-list\"></require>\r\n    <require from=\"../components/conversation-list\"></require>\r\n\r\n    <div class=\"row\">\r\n        <div class=\"col-xs-3\">\r\n            <h6>CONVERSATION</h6>\r\n            <conversation-list></conversation-list>\r\n        </div>\r\n        <router-view class=\"col-xs-6\"></router-view>\r\n        <div class=\"col-xs-3\">\r\n            <h6>CONNECTED</h6>\r\n            <contact-list></contact-list>\r\n        </div>\r\n    </div>\r\n</template>"; });
-define('text!pages/login.html', ['module'], function(module) { module.exports = "<template>\r\n\t<require from=\"../components/user-name\"></require>\r\n\t\r\n\t<h2>Log in.</h2>\r\n\t<hr />\r\n\t<div class=\"col-xs-6\">\r\n\t\t<section>\r\n            <h4>Guess access.</h4>\r\n\t\t\t<hr>\r\n\t\t\t<form class=\"form-horizontal\">\r\n\t\t\t\t<div class=\"form-group\">\r\n\t\t\t\t\t<label class=\"col-xs-3 control-label\" for=\"userName\"></label>\r\n\t\t\t\t\t<user-name class=\"col-xs-9\"></user-name>\r\n\t\t\t\t</div>\r\n\t\t\t\t<div class=\"form-group\">\r\n\t\t\t\t\t<div class=\"col-xs-offset-3 col-xs-9\">\r\n\t\t\t\t\t\t<input type=\"submit\" value=\"Log in\" class=\"btn btn-default\" click.delegate=\"login(userName)\" />\r\n\t\t\t\t\t</div>\r\n\t\t\t\t</div>\r\n\t\t\t</form>\r\n\t\t</section>\r\n\t</div>\r\n\t<div class=\"col-xs-6\">\r\n\t\t<section>\r\n\t\t\t<h4>Use another service to log in.</h4>\r\n\t\t\t<hr>\r\n\t\t\t<form class=\"form-horizontal\" role=\"form\" method=\"post\" action.bind=\"externalLogin\" disabled.bind=\"token\">\r\n\t\t\t\t<div>\r\n\t\t\t\t\t<p>\r\n\t\t\t\t\t\t<button type=\"submit\" class=\"btn btn-default\" name=\"provider\" value=\"Microsoft\" title=\"Log in using your Microsoft account\">Microsoft</button>\r\n\t\t\t\t\t\t<button type=\"submit\" class=\"btn btn-default\" name=\"provider\" value=\"Google\" title=\"Log in using your Google account\">Google</button>\r\n\t\t\t\t\t\t<button type=\"submit\" class=\"btn btn-default\" name=\"provider\" value=\"Twitter\" title=\"Log in using your Twitter account\">Twitter</button>\r\n\t\t\t\t\t\t<button type=\"submit\" class=\"btn btn-default\" name=\"provider\" value=\"Facebook\" title=\"Log in using your Facebook account\">Facebook</button>\r\n\t\t\t\t\t</p>\r\n\t\t\t\t</div>\r\n\t\t\t\t<input name=\"__RequestVerificationToken\" type=\"hidden\" value.bind=\"token\"></form>\r\n\t\t</section>\r\n\t</div>\r\n</template>"; });
+define('text!components/contact.html', ['module'], function(module) { module.exports = "<template>\n    <li class=\"list-group-item ${isSelected ? 'active' : ''}\" click.delegate=\"select()\" desabled=\"isCurrentUser\"><a>${user.id}</a></li>\n</template>"; });
+define('text!components/conversation-component.html', ['module'], function(module) { module.exports = "<template>\n    <div if.bind=\"conversation\">\n        <h6>${conversation.title}</h6>\n        <form class=\"form-inline\">\n            <input class=\"form-control\" value.bind=\"message\" placeholder=\"message...\">\n            <button type=\"submit\" class=\"btn btn-default\" click.delegate=\"sendMessage()\" disabled.bind=\"!message\">send</button>\n        </form>\n        <ul>\n            <li repeat.for=\"message of conversation.messages\">\n                <small>${message.from}</small><br />\n                <span>${message.text}</span>\n            </li>\n        </ul>\n    </div>\n    <h1 if.bind=\"!conversation\">WELCOME TO THIS REALLY SIMPLE CHAT</h1>\n</template>"; });
+define('text!components/conversation-list.html', ['module'], function(module) { module.exports = "<template>\n  <require from=\"./conversation-preview\"></require>\n  <div class=\"conversation-list\">\n    <ul class=\"list-group\">\n      <conversation-preview repeat.for=\"conversation of conversations\" conversation.bind=\"conversation\"></conversation-preview>\n    </ul>\n  </div>\n</template>"; });
+define('text!components/conversation-preview.html', ['module'], function(module) { module.exports = "<template>\n  <li class=\"list-group-item ${isSelected ? 'active' : ''}\" click.delegate=\"select()\">\n    <a>${conversation.title}</a><br/>\n    <span>${lastMessage}</span>\n  </li>\n</template>"; });
+define('text!components/user-name.html', ['module'], function(module) { module.exports = "<template>\n\t<div validation-errors.bind=\"userNameErrors\" class.bind=\"userNameErrors.length ? 'has-error' : ''\">\n\t\t<input class=\"form-control\" name=\"UserName\" value.bind=\"userName & validate\" />\n\t\t<span class=\"help-block\" repeat.for=\"errorInfo of userNameErrors\">\n            ${errorInfo.error.message}\n        <span>\n    </div>\n</template>>"; });
+define('text!pages/account.html', ['module'], function(module) { module.exports = "<template>\n\t<h2>Manage Account.</h2>\n\t<div class=\"row\">\n\t\t<template if.bind=\"logins.otherLogins.length > 0\">\n\t\t\t<h4>Add another service to log in.</h4>\n\t\t\t<hr />\n\t\t\t<form method=\"post\" class=\"form-horizontal\" role=\"form\" action.bind=\"externalLinkLogin\">\n\t\t\t\t<div>\n\t\t\t\t\t<p>\n\t\t\t\t\t\t<button type=\"submit\" class=\"btn btn-default\" name=\"provider\" repeat.for=\"login of logins.otherLogins\" value.bind=\"login.authenticationScheme\"\n\t\t\t\t\t\t\ttitle=\"Log in using your ${login.displayName} account\">${login.authenticationScheme}</button>\n\t\t\t\t\t</p>\n\t\t\t\t</div>\n\t\t\t\t<input name=\"__RequestVerificationToken\" type=\"hidden\" value.bind=\"token\" />\n\t\t\t</form>\n\t\t</template>\n\t\t<template if.bind=\"logins.currentLogins.length > 0\">\n\t\t\t<h4>Registered Logins</h4>\n\t\t\t<table class=\"table\">\n\t\t\t\t<tbody>\n\t\t\t\t\t<template repeat.for=\"login of logins.currentLogins\">\n\t\t\t\t\t\t<tr>\n\t\t\t\t\t\t\t<td>${login.loginProvider}</td>\n\t\t\t\t\t\t\t<td>\n\t\t\t\t\t\t\t\t<form class=\"form-horizontal\" role=\"form\" if.bind=\"logins.currentLogins.length > 1\">\n\t\t\t\t\t\t\t\t\t<div>\n\t\t\t\t\t\t\t\t\t\t<input type=\"submit\" class=\"btn btn-default\" value=\"Remove\" title=\"Remove this ${login.loginProvider} login from your account\" click.delegate=\"remove(login.loginProvider, login.providerKey)\" />\n\t\t\t\t\t\t\t\t\t</div>\n\t\t\t\t\t\t\t\t</form>\n\t\t\t\t\t\t\t</td>\n\t\t\t\t\t\t</tr>\n\t\t\t\t\t</template>\n\t\t\t\t</tbody>\n\t\t\t</table>\n\t\t</template>\n\t</div>\n</template>"; });
+define('text!pages/confirm.html', ['module'], function(module) { module.exports = "<template>\n\t<require from=\"../components/user-name\"></require>\n\t<h3>Associate your ${provider} account.</h3>\n\n\t<form class=\"form-horizontal\" submit.delegate=\"confirm()\">\n\t\t<h4>Association Form</h4>\n\t\t<hr />\n\t\t<div class=\"text-danger\">${error.message}</div>\n\n\t\t<p class=\"text-info\">\n\t\t\tYou've successfully authenticated with <strong>${provider}</strong>. Please enter a user name for this site below and\n\t\t\tclick the Register button to finish logging in.\n\t\t</p>\n\t\t<div class=\"form-group\">\n\t\t\t<label class=\"col-md-2 control-label\" for=\"UserName\">User name</label>\n\t\t\t<user-name class=\"col-md-10\"></user-name>\n\t\t</div>\n\t\t<div class=\"form-group\">\n\t\t\t<div class=\"col-md-offset-2 col-md-10\">\n\t\t\t\t<button type=\"submit\" class=\"btn btn-default\">Register</button>\n\t\t\t</div>\n\t\t</div>\n\t</form>\n\n</template>"; });
+define('text!pages/home.html', ['module'], function(module) { module.exports = "<template>\n    <require from=\"../components/contact-list\"></require>\n    <require from=\"../components/conversation-list\"></require>\n\n    <div class=\"row\">\n        <div class=\"col-xs-3\">\n            <h6>CONVERSATION</h6>\n            <conversation-list></conversation-list>\n        </div>\n        <router-view class=\"col-xs-6\"></router-view>\n        <div class=\"col-xs-3\">\n            <h6>CONNECTED</h6>\n            <contact-list></contact-list>\n        </div>\n    </div>\n</template>"; });
+define('text!pages/login.html', ['module'], function(module) { module.exports = "<template>\n\t<require from=\"../components/user-name\"></require>\n\n\t<h2>Log in.</h2>\n\t<hr />\n\t<div class=\"col-xs-6\">\n\t\t<section>\n\t\t\t<h4>Guess access.</h4>\n\t\t\t<hr>\n\t\t\t<form class=\"form-horizontal\">\n\t\t\t\t<div class=\"form-group\">\n\t\t\t\t\t<label class=\"col-xs-3 control-label\" for=\"userName\"></label>\n\t\t\t\t\t<user-name class=\"col-xs-9\"></user-name>\n\t\t\t\t\t<span class=\"help-block\">\n            \t\t\t${error.message}\n        \t\t\t<span>\n\t\t\t\t</div>\n\t\t\t\t<div class=\"form-group\">\n\t\t\t\t\t<div class=\"col-xs-offset-3 col-xs-9\">\n\t\t\t\t\t\t<input type=\"submit\" value=\"Log in\" class=\"btn btn-default\" click.delegate=\"login(userName)\" />\n\t\t\t\t\t</div>\n\t\t\t\t</div>\n\t\t\t</form>\n\t\t</section>\n\t</div>\n\t<div class=\"col-xs-6\">\n\t\t<section>\n\t\t\t<h4>Use another service to log in.</h4>\n\t\t\t<hr>\n\t\t\t<form class=\"form-horizontal\" role=\"form\" method=\"post\" action.bind=\"externalLogin\">\n\t\t\t\t<div>\n\t\t\t\t\t<p>\n\t\t\t\t\t\t<button type=\"submit\" class=\"btn btn-default\" name=\"provider\" repeat.for=\"provider of providers\" value.bind=\"provider.authenticationScheme\" title=\"Log in using your ${provider.displayName} account\">${provider.displayName}</button>\n\t\t\t\t\t</p>\n\t\t\t\t</div>\n\t\t\t\t<input name=\"__RequestVerificationToken\" type=\"hidden\" value.bind=\"token\"></form>\n\t\t</section>\n\t</div>\n</template>"; });
 //# sourceMappingURL=app-bundle.js.map

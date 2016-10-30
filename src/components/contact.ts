@@ -21,18 +21,17 @@ export class Contact {
         private ea: EventAggregator, 
         private router: Router) { }
 
+    get isCurrentUser() {
+        return this.state.userName === this.user.id; 
+    }
+
     select() {
+        if (this.isCurrentUser) {
+            return;
+        }
+
         if (!this.user.conversation) {
-            let conversation = new Conversation();
-            let attendees = new Array<Attendee>();
-            let attendee = new Attendee();
-
-            attendee.userId = this.user.id;
-            attendees.push(attendee);
-            conversation.attendees = attendees;
-            conversation.messages = new Array<Message>();
-
-            this.user.conversation = conversation;
+            this.user.conversation = new Conversation(this.user);
         }
 
         this.service.showConversation(this.user.conversation, this.router);        
@@ -44,7 +43,7 @@ export class Contact {
             let attendees = conv.attendees;
 
             this.isSelected = false;
-            if (attendees.length == 2) {
+            if (attendees.length < 3) {
                 attendees.forEach(a => {
                     if (a.userId !== this.state.userName && a.userId === this.user.id) {
                         this.isSelected = true;

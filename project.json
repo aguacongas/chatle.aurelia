@@ -57,5 +57,8 @@
     "include": [
       "wwwroot"
     ]  
-  }
+  },
+	"scripts": {
+		"prepublish": "prepublish.sh"
+	}
 }
