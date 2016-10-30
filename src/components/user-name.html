@@ -1,8 +1,0 @@
-<template>
-	<div validation-errors.bind="userNameErrors" class.bind="userNameErrors.length ? 'has-error' : ''">
-		<input class="form-control" name="UserName" value.bind="userName & validate" />
-		<span class="help-block" repeat.for="errorInfo of userNameErrors">
-            ${errorInfo.error.message}
-        <span>
-    </div>
-</template>>
