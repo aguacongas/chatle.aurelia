@@ -7,16 +7,3 @@ obj
 packages
 typings
 /coverage
-/src
-/test
-/packages
-/Properties
-/typings
-.editorconfig
-*.yml
-*.sh
-*.json
-*.cs
-*.config
-*.csproj
-*.ts
