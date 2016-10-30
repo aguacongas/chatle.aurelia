@@ -1,8 +1,8 @@
 import { bindable, autoinject } from 'aurelia-framework';
 import { EventAggregator, Subscription } from 'aurelia-event-aggregator';
-import { Router, RouterConfiguration } from 'aurelia-router';
+import { Router } from 'aurelia-router';
 
-import { ChatService } from '../services/chat.service';
+import { ConversationService } from '../services/conversation.service';
 import { Conversation } from '../model/conversation';
 import { Message } from '../model/message';
 import { ConversationSelected } from '../events/conversationSelected';
@@ -17,7 +17,7 @@ export class ConversationPreview {
     private conversationSelectedSubscription: Subscription;
     private messageReceivedSubscription: Subscription;
 
-    constructor(private service: ChatService, private ea: EventAggregator, private router: Router) { }
+    constructor(private service: ConversationService, private ea: EventAggregator, private router: Router) { }
 
     select() {
         this.service.showConversation(this.conversation, this.router);
@@ -25,6 +25,7 @@ export class ConversationPreview {
 
     attached() {
         this.lastMessage = this.conversation.messages[0].text;
+        this.isSelected = this.conversation && this.conversation.isInitiatedByUser;
 
         this.conversationSelectedSubscription = this.ea.subscribe(ConversationSelected, e => {
             if (e.conversation.id === this.conversation.id) {

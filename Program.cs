@@ -9,10 +9,6 @@ namespace ConsoleApplication
     {
         public virtual void Configure(IApplicationBuilder app)
         {
-            var options = new DefaultFilesOptions();
-            options.DefaultFileNames.Clear();
-            options.DefaultFileNames.Add("index.html");
-
             app.UseDefaultFiles();
             app.UseStaticFiles();
         }
@@ -23,6 +19,7 @@ namespace ConsoleApplication
             var config = new ConfigurationBuilder()
                 .SetBasePath(currentDirectory)
                 .AddJsonFile("hosting.json", optional: true)
+                .AddCommandLine(args)                
                 .Build();
 
             var host = new WebHostBuilder()

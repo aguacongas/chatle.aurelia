@@ -5,12 +5,15 @@ import { Container } from 'aurelia-dependency-injection';
 import { History } from 'aurelia-history';
 
 import { App } from '../../src/app';
+import { LoginService } from '../../src/services/login.service';
 import { ChatService } from '../../src/services/chat.service';
+import { State } from '../../src/services/state';
+import { Helpers } from '../../src/services/helpers';
 import { Settings } from '../../src/config/settings';
 
 describe('the app', () => {
   let app: App;
-  let service: ChatService;
+  let service: LoginService;
   let settings: Settings;
   let ea: EventAggregator;
   let http: HttpClient;
@@ -19,8 +22,11 @@ describe('the app', () => {
     http = new HttpClient();
     ea = new EventAggregator();
     settings = new Settings();
-    service = new ChatService(settings, ea, http);
-    app = new App(service, ea);    
+    let state = new State();
+    let helpers = new Helpers(state);
+    let chatService = new ChatService(settings, ea, http, state, helpers);
+    service = new LoginService(http, settings, chatService, state, helpers)
+    app = new App(service, ea, state, helpers, settings, http);   
   });
 
   describe('configure router specs', () => {
@@ -44,8 +50,9 @@ describe('the app', () => {
         config.map = c => {
           expect(c).toBeDefined();
           expect(c).toEqual([
-              { route: ['', 'home'], name: 'home', moduleId: 'pages/home', title: 'Home' },
+              { route: 'home', name: 'home', moduleId: 'pages/home', title: 'Home' },
               { route: 'account', name: 'account', moduleId: 'pages/account', title: 'Account' },
+              { route: 'confirm', name: 'confirm', moduleId: 'pages/confirm', title: 'Confirm', anomymous: true },
               { route: 'login', name: 'login', moduleId: 'pages/login', title: 'Login', anomymous: true }
           ]);
 
@@ -72,8 +79,6 @@ describe('the app', () => {
       router.navigateToRoute = route => {
         return true;
       }; 
-      // mock ChatService.setXsrf
-      service.setXhrf = (resolve, reject) => { };
       // mock EventAggregator.subscribe
       ea.subscribe = (event, callback) => { 
         return {
@@ -97,6 +102,26 @@ describe('the app', () => {
 
       // verify
       expect(called).toBe(true);
+    });
+
+    it('logof should call service logoff and navigate to login', () => {
+      // prepare
+      let logoffCalled = false;
+      let navigateTo= '';
+      service.logoff = function() {
+        logoffCalled = true;
+      }
+      app.router.navigateToRoute = function(route: string, params?: any, options?: any): boolean {
+        navigateTo = route;
+        return true;
+      }
+
+      // act
+      app.logoff();
+
+      // verify
+      expect(logoffCalled).toBe(true);
+      expect(navigateTo).toBe('login');
     });
   })
 });

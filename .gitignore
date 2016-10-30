@@ -1,5 +1,10 @@
 node_modules
 .idea
 .DS_STORE
+.build
 bin
 obj
+packages
+typings
+/wwwwroot/scripts/*bundle*
+/coverage

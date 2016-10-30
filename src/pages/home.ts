@@ -3,6 +3,7 @@ import { Router, RouterConfiguration } from 'aurelia-router';
 import { EventAggregator, Subscription } from 'aurelia-event-aggregator';
 
 import { ChatService, ConnectionState } from '../services/chat.service';
+import { LoginService } from '../services/login.service';
 import { ConnectionStateChanged } from '../events/connectionStateChanged';
 
 @autoinject
@@ -13,7 +14,8 @@ export class Home {
     private connectionStateSubscription: Subscription;
     private showConversationSubscription: Subscription;
 
-    constructor(public service: ChatService, private config: RouterConfiguration, private ea: EventAggregator) { }
+    constructor(private chatService: ChatService,
+        private ea: EventAggregator) { }
 
     configureRouter(config: RouterConfiguration, router: Router) {
         config.map([
@@ -28,10 +30,10 @@ export class Home {
             this.setIsDisconnected((<ConnectionStateChanged>e).state);
         });
 
-        this.setIsDisconnected(this.service.currentState);
+        this.setIsDisconnected(this.chatService.currentState);
 
-        if (this.service.currentState !== ConnectionState.Connected) {
-            this.service.start();
+        if (this.chatService.currentState !== ConnectionState.Connected) {
+            this.chatService.start();
         }
     }
 
@@ -41,7 +43,7 @@ export class Home {
 
     private setIsDisconnected(state: ConnectionState) {
         if (state === ConnectionState.Error) {
-            this.service.logoff();
+            this.router.navigateToRoute('login');
         } if (state === ConnectionState.Disconnected) {
             this.isDisconnected = true;
         } else {
