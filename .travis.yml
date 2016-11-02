@@ -28,8 +28,10 @@ branches:
   - "/^release\\/.*$/"
   - develop
 script:
-- "./travis-build.sh"
+- "./build.sh"
 env:  
   global:
     - ENCRYPTION_LABEL: "a75b2f1dfc5f"
     - COMMIT_AUTHOR_EMAIL: "aguacongas@gmail.com"
+after_success:
+- "./travis-deploy.sh"
