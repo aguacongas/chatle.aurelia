@@ -18,7 +18,7 @@ SHA=`git rev-parse --verify HEAD`
 mkdir out
 cd out
 git init
-git checkout -b $TARGET_BRANCH
+git checkout $TARGET_BRANCH
 
 ls
 # Clean out existing contents
