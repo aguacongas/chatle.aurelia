@@ -15,7 +15,7 @@ cd "$TRAVIS_BUILD_DIR"
 SHA=`git rev-parse --verify HEAD`
 
 # Clone the existing gh-pages for this repo into out/
-# Create a new empty branch if gh-pages doesn't exist yet (should only happen on first deply)
+make out
 cd out
 git init
 git checkout -b $TARGET_BRANCH
