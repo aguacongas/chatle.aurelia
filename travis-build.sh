@@ -1,7 +1,7 @@
 #!/bin/bash
 set -e # Exit with nonzero exit code if anything fails
 
-SOURCE_BRANCH="master"
+SOURCE_BRANCH="develop"
 TARGET_BRANCH="gh-pages"
 
 function doCompile {
@@ -32,6 +32,9 @@ rm -rf out/**/* || exit 0
 
 # Run our compile script
 doCompile
+
+cp /wwwroot/index.html /out
+cp /wwwroot/scripts/*.js /out/scripts
 
 # Now let's go have some fun with the cloned repo
 cd out
