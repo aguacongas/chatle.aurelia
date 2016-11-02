@@ -33,8 +33,8 @@ rm -rf out/**/* || exit 0
 # Run our compile script
 doCompile
 
-cp /wwwroot/index.html /out
-cp /wwwroot/scripts/*.js /out/scripts
+cp wwwroot/index.html out
+cp wwwroot/scripts/*.js out/scripts
 
 # Now let's go have some fun with the cloned repo
 cd out
