@@ -17,10 +17,8 @@ SHA=`git rev-parse --verify HEAD`
 # Clone the existing gh-pages for this repo into out/
 mkdir out
 cd out
-git init
 git checkout $TARGET_BRANCH
 
-ls
 # Clean out existing contents
 cp ../wwwroot/index.html .
 cp ../wwwroot/scripts/*.js scripts
