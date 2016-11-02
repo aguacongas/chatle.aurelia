@@ -22,7 +22,7 @@ git checkout -b $TARGET_BRANCH
 
 # Clean out existing contents
 cp ../wwwroot/index.html .
-cp ../wwwroot/scripts/*.js ./scripts
+cp ../wwwroot/scripts/*.js scripts
 
 # Now let's go have some fun with the cloned repo
 git config user.name "Travis CI"
