@@ -10,25 +10,23 @@ if [ "$TRAVIS_PULL_REQUEST" != "false" -o "$TRAVIS_BRANCH" != "$SOURCE_BRANCH" ]
     exit 0
 fi
 
+cd "$TRAVIS_BUILD_DIR"
 # Save some useful information
-REPO=`https://aguacongas:$GH_TOKEN@github.com/aguacongas/chatle.aurelia.git`
 SHA=`git rev-parse --verify HEAD`
 
 # Clone the existing gh-pages for this repo into out/
 # Create a new empty branch if gh-pages doesn't exist yet (should only happen on first deply)
-git clone $REPO out
 cd out
-git checkout $TARGET_BRANCH || git checkout --orphan $TARGET_BRANCH
-cd ..
+git init
+git checkout -b $TARGET_BRANCH
 
 # Clean out existing contents
-rm -rf out/**/* || exit 0
+rm -rf **/* || exit 0
 
-cp wwwroot/index.html out
-cp wwwroot/scripts/*.js out/scripts
+cp ../wwwroot/index.html .
+cp ../wwwroot/scripts/*.js ./scripts
 
 # Now let's go have some fun with the cloned repo
-cd out
 git config user.name "Travis CI"
 git config user.email "travis"
 
@@ -44,4 +42,4 @@ git add .
 git commit -m "Deploy to GitHub Pages: ${SHA}"
 
 # Now that we're all set up, we can push.
-git push $TARGET_BRANCH
+git push -f -q https://aguacongas:$GH_TOKEN@github.com/aguacongas/chatle.aurelia.git-$TARGET_BRANCH $TARGET_BRANCH &2>/dev/null 
