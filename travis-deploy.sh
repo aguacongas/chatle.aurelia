@@ -20,6 +20,7 @@ cd out
 git init
 git checkout -b $TARGET_BRANCH
 
+ls
 # Clean out existing contents
 cp ../wwwroot/index.html .
 cp ../wwwroot/scripts/*.js scripts
