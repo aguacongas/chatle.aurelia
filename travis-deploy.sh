@@ -21,8 +21,6 @@ git init
 git checkout -b $TARGET_BRANCH
 
 # Clean out existing contents
-rm -rf **/* || exit 0
-
 cp ../wwwroot/index.html .
 cp ../wwwroot/scripts/*.js ./scripts
 
