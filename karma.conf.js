@@ -22,14 +22,13 @@ module.exports = function(config) {
     files: files,
     exclude: [],
     preprocessors: {
-      [project.unitTestRunner.source]: [project.transpiler.id],
-      [appBundle]: ['coverage']
+      [project.unitTestRunner.source]: [project.transpiler.id]
     },
     typescriptPreprocessor: {
       typescript: require('typescript'),
       options: tsconfig.compilerOptions
     },
-    reporters: ['progress', 'coverage', 'coveralls'],
+    reporters: ['progress'],
     port: 9876,
     colors: true,
     logLevel: config.LOG_INFO,
@@ -42,9 +41,6 @@ module.exports = function(config) {
       }
     },
     singleRun: false,
-    coverageReporter: {
-      type: 'lcov',
-      dir: 'coverage/'    }
   };
 
   if(process.env.TRAVIS){
