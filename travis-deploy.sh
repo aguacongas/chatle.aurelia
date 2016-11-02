@@ -15,7 +15,7 @@ cd "$TRAVIS_BUILD_DIR"
 SHA=`git rev-parse --verify HEAD`
 
 # Clone the existing gh-pages for this repo into out/
-make out
+mkdir out
 cd out
 git init
 git checkout -b $TARGET_BRANCH
