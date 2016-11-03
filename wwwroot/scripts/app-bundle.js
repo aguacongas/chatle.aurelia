@@ -4,7 +4,8 @@ define('environment',["require", "exports"], function (require, exports) {
     exports.default = {
         debug: true,
         testing: true,
-        apiBaseUrl: 'http://localhost:5000'
+        apiBaseUrl: 'http://localhost:5000',
+        redirectPath: ''
     };
 });
 
@@ -1411,7 +1412,7 @@ var __metadata = (this && this.__metadata) || function (k, v) {
 define('pages/login',["require", "exports", 'aurelia-framework', 'aurelia-router', '../services/login.service', '../config/settings', '../services/state'], function (require, exports, aurelia_framework_1, aurelia_router_1, login_service_1, settings_1, state_1) {
     "use strict";
     var Login = (function () {
-        function Login(service, router, state, settings) {
+        function Login(service, router, state, settings, environment) {
             this.service = service;
             this.router = router;
             this.state = state;
@@ -1419,7 +1420,7 @@ define('pages/login',["require", "exports", 'aurelia-framework', 'aurelia-router
             this.externalLogin = settings.apiBaseUrl +
                 settings.accountdAPI +
                 '/externalLogin?returnUrl=' +
-                encodeURIComponent(location.protocol + '//' + location.host);
+                encodeURIComponent(location.protocol + '//' + location.host + environment.redirectPath);
         }
         Login.prototype.login = function () {
             var _this = this;
@@ -1447,7 +1448,7 @@ define('pages/login',["require", "exports", 'aurelia-framework', 'aurelia-router
         };
         Login = __decorate([
             aurelia_framework_1.autoinject, 
-            __metadata('design:paramtypes', [login_service_1.LoginService, aurelia_router_1.Router, state_1.State, settings_1.Settings])
+            __metadata('design:paramtypes', [login_service_1.LoginService, aurelia_router_1.Router, state_1.State, settings_1.Settings, Object])
         ], Login);
         return Login;
     }());
@@ -2799,5 +2800,5 @@ define('text!components/user-name.html', ['module'], function(module) { module.e
 define('text!pages/account.html', ['module'], function(module) { module.exports = "<template>\n\t<h2>Manage Account.</h2>\n\t<div class=\"row\">\n\t\t<template if.bind=\"logins.otherLogins.length > 0\">\n\t\t\t<h4>Add another service to log in.</h4>\n\t\t\t<hr />\n\t\t\t<form method=\"post\" class=\"form-horizontal\" role=\"form\" action.bind=\"externalLinkLogin\">\n\t\t\t\t<div>\n\t\t\t\t\t<p>\n\t\t\t\t\t\t<button type=\"submit\" class=\"btn btn-default\" name=\"provider\" repeat.for=\"login of logins.otherLogins\" value.bind=\"login.authenticationScheme\"\n\t\t\t\t\t\t\ttitle=\"Log in using your ${login.displayName} account\">${login.authenticationScheme}</button>\n\t\t\t\t\t</p>\n\t\t\t\t</div>\n\t\t\t\t<input name=\"__RequestVerificationToken\" type=\"hidden\" value.bind=\"token\" />\n\t\t\t</form>\n\t\t</template>\n\t\t<template if.bind=\"logins.currentLogins.length > 0\">\n\t\t\t<h4>Registered Logins</h4>\n\t\t\t<table class=\"table\">\n\t\t\t\t<tbody>\n\t\t\t\t\t<template repeat.for=\"login of logins.currentLogins\">\n\t\t\t\t\t\t<tr>\n\t\t\t\t\t\t\t<td>${login.loginProvider}</td>\n\t\t\t\t\t\t\t<td>\n\t\t\t\t\t\t\t\t<form class=\"form-horizontal\" role=\"form\" if.bind=\"logins.currentLogins.length > 1\">\n\t\t\t\t\t\t\t\t\t<div>\n\t\t\t\t\t\t\t\t\t\t<input type=\"submit\" class=\"btn btn-default\" value=\"Remove\" title=\"Remove this ${login.loginProvider} login from your account\" click.delegate=\"remove(login.loginProvider, login.providerKey)\" />\n\t\t\t\t\t\t\t\t\t</div>\n\t\t\t\t\t\t\t\t</form>\n\t\t\t\t\t\t\t</td>\n\t\t\t\t\t\t</tr>\n\t\t\t\t\t</template>\n\t\t\t\t</tbody>\n\t\t\t</table>\n\t\t</template>\n\t</div>\n</template>"; });
 define('text!pages/confirm.html', ['module'], function(module) { module.exports = "<template>\n\t<require from=\"../components/user-name\"></require>\n\t<h3>Associate your ${provider} account.</h3>\n\n\t<form class=\"form-horizontal\" submit.delegate=\"confirm()\">\n\t\t<h4>Association Form</h4>\n\t\t<hr />\n\t\t<div class=\"text-danger\">${error.message}</div>\n\n\t\t<p class=\"text-info\">\n\t\t\tYou've successfully authenticated with <strong>${provider}</strong>. Please enter a user name for this site below and\n\t\t\tclick the Register button to finish logging in.\n\t\t</p>\n\t\t<div class=\"form-group\">\n\t\t\t<label class=\"col-md-2 control-label\" for=\"UserName\">User name</label>\n\t\t\t<user-name class=\"col-md-10\"></user-name>\n\t\t</div>\n\t\t<div class=\"form-group\">\n\t\t\t<div class=\"col-md-offset-2 col-md-10\">\n\t\t\t\t<button type=\"submit\" class=\"btn btn-default\">Register</button>\n\t\t\t</div>\n\t\t</div>\n\t</form>\n\n</template>"; });
 define('text!pages/home.html', ['module'], function(module) { module.exports = "<template>\n    <require from=\"../components/contact-list\"></require>\n    <require from=\"../components/conversation-list\"></require>\n\n    <div class=\"row\">\n        <div class=\"col-xs-3\">\n            <h6>CONVERSATION</h6>\n            <conversation-list></conversation-list>\n        </div>\n        <router-view class=\"col-xs-6\"></router-view>\n        <div class=\"col-xs-3\">\n            <h6>CONNECTED</h6>\n            <contact-list></contact-list>\n        </div>\n    </div>\n</template>"; });
-define('text!pages/login.html', ['module'], function(module) { module.exports = "<template>\n\t<require from=\"../components/user-name\"></require>\n\n\t<h2>Log in.</h2>\n\t<hr />\n\t<div class=\"col-xs-6\">\n\t\t<section>\n\t\t\t<h4>Guess access.</h4>\n\t\t\t<hr>\n\t\t\t<form class=\"form-horizontal\">\n\t\t\t\t<div class=\"form-group\">\n\t\t\t\t\t<label class=\"col-xs-3 control-label\" for=\"userName\"></label>\n\t\t\t\t\t<user-name class=\"col-xs-9\"></user-name>\n\t\t\t\t\t<span class=\"help-block\">\n            \t\t\t${error.message}\n        \t\t\t<span>\n\t\t\t\t</div>\n\t\t\t\t<div class=\"form-group\">\n\t\t\t\t\t<div class=\"col-xs-offset-3 col-xs-9\">\n\t\t\t\t\t\t<input type=\"submit\" value=\"Log in\" class=\"btn btn-default\" click.delegate=\"login(userName)\" />\n\t\t\t\t\t</div>\n\t\t\t\t</div>\n\t\t\t</form>\n\t\t</section>\n\t</div>\n\t<div class=\"col-xs-6\">\n\t\t<section>\n\t\t\t<h4>Use another service to log in.</h4>\n\t\t\t<hr>\n\t\t\t<form class=\"form-horizontal\" role=\"form\" method=\"post\" action.bind=\"externalLogin\">\n\t\t\t\t<div>\n\t\t\t\t\t<p>\n\t\t\t\t\t\t<button type=\"submit\" class=\"btn btn-default\" name=\"provider\" repeat.for=\"provider of providers\" value.bind=\"provider.authenticationScheme\" title=\"Log in using your ${provider.displayName} account\">${provider.displayName}</button>\n\t\t\t\t\t</p>\n\t\t\t\t</div>\n\t\t\t\t<input name=\"__RequestVerificationToken\" type=\"hidden\" value.bind=\"token\"></form>\n\t\t</section>\n\t</div>\n</template>"; });
+define('text!pages/login.html', ['module'], function(module) { module.exports = "<template>\n\t<require from=\"../components/user-name\"></require>\n\n\t<h2>Log in.</h2>\n\t<hr />\n\t<div class=\"col-xs-6\">\n\t\t<section>\n\t\t\t<h4>Guess access.</h4>\n\t\t\t<hr>\n\t\t\t<span if.bind=\"!providers\">loading...</span>\n\t\t\t<form class=\"form-horizontal\" if.bind=\"providers\">\n\t\t\t\t<div class=\"form-group\">\n\t\t\t\t\t<label class=\"col-xs-3 control-label\" for=\"userName\"></label>\n\t\t\t\t\t<user-name class=\"col-xs-9\"></user-name>\n\t\t\t\t\t<span class=\"help-block\">\n            \t\t\t${error.message}\n        \t\t\t<span>\n\t\t\t\t</div>\n\t\t\t\t<div class=\"form-group\">\n\t\t\t\t\t<div class=\"col-xs-offset-3 col-xs-9\">\n\t\t\t\t\t\t<input type=\"submit\" value=\"Log in\" class=\"btn btn-default\" click.delegate=\"login(userName)\" />\n\t\t\t\t\t</div>\n\t\t\t\t</div>\n\t\t\t</form>\n\t\t</section>\n\t</div>\n\t<div class=\"col-xs-6\">\n\t\t<section>\n\t\t\t<h4>Use another service to log in.</h4>\n\t\t\t<hr>\n\t\t\t<form class=\"form-horizontal\" role=\"form\" method=\"post\" action.bind=\"externalLogin\">\n\t\t\t\t<div>\n\t\t\t\t\t<p>\n\t\t\t\t\t\t<button type=\"submit\" class=\"btn btn-default\" name=\"provider\" repeat.for=\"provider of providers\" value.bind=\"provider.authenticationScheme\" title=\"Log in using your ${provider.displayName} account\">${provider.displayName}</button>\n\t\t\t\t\t</p>\n\t\t\t\t</div>\n\t\t\t\t<input name=\"__RequestVerificationToken\" type=\"hidden\" value.bind=\"token\"></form>\n\t\t</section>\n\t</div>\n</template>"; });
 //# sourceMappingURL=app-bundle.js.map

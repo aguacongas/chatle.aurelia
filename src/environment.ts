@@ -1,5 +1,6 @@
 export default {
   debug: true,
   testing: true,
-  apiBaseUrl: 'http://localhost:5000'
+  apiBaseUrl: 'http://localhost:5000',
+  redirectPath: ''
 };
