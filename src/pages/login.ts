@@ -5,6 +5,7 @@ import { LoginService } from '../services/login.service';
 import { Settings } from '../config/settings';
 import { State } from '../services/state';
 import { Provider } from '../model/provider';
+import environment from '../environment';
 
 @autoinject
 export class Login {
@@ -13,12 +14,12 @@ export class Login {
     token: string;
     providers: Array<Provider>;
     
-    constructor(private service: LoginService, private router: Router, private state: State, settings: Settings) {
+    constructor(private service: LoginService, private router: Router, private state: State, settings: Settings, environment) {
         let location = window.location; 
         this.externalLogin = settings.apiBaseUrl + 
             settings.accountdAPI + 
             '/externalLogin?returnUrl=' + 
-            encodeURIComponent(location.protocol + '//' + location.host);
+            encodeURIComponent(location.protocol + '//' + location.host + environment.redirectPath);
     }
 
     login() {        

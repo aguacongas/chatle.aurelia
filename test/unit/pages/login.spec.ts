@@ -50,16 +50,16 @@ describe('Login page specs', () => {
 
         state = new State;
 
-        page = new Login(service, router, state, settings);
+        page = new Login(service, router, state, settings, { redirectPath: '/test' });
     });
 
     it('constructor should set externalLogin', () => {
         // prepare
-        settings.apiBaseUrl = 'http://base/';
+        settings.apiBaseUrl = 'http://base/test';
         settings.accountdAPI = 'test';
 
         // act
-        page = new Login(service, router, state, settings);
+        page = new Login(service, router, state, settings, { redirectPath: '/test' });
 
         // verify
         expect(page.externalLogin).toBeDefined();
