@@ -7,17 +7,12 @@ environment:
 install:
 - cmd: >-
     npm install npm -g
-
     npm install aurelia-cli -g
-
     npm install
-
     nuget install GitVersion.CommandLine -ExcludeVersion -Source https://www.nuget.org/api/v2/ -Out packages
 build_script:
 - cmd: >-
     packages\GitVersion.CommandLine\tools\GitVersion.exe /l console /output buildServer /updateassemblyinfo
-
-
     au build
 test_script:
 - cmd: au test
