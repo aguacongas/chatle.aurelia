@@ -17,7 +17,7 @@ build_script:
 - cmd: >-
     packages\GitVersion.CommandLine\tools\GitVersion.exe /l console /output buildServer /updateassemblyinfo
     
-    au build
+    au build --env prod
 test_script:
 - cmd: au test
 artifacts:
@@ -28,8 +28,8 @@ deploy:
   description: $(appveyor_build_version)
   auth_token:
     secure: 3d2qqSejMw7dKAPRA3pFqQ==
-  draft: true
-  prerelease: false
+  draft: false
+  prerelease: true
   on:
     branch: master
 after_deploy:
