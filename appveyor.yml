@@ -17,7 +17,7 @@ build_script:
 - cmd: >-
     packages\GitVersion.CommandLine\tools\GitVersion.exe /l console /output buildServer /updateassemblyinfo
     
-    au build
+    au build --env prod
 test_script:
 - cmd: au test
 artifacts:
@@ -31,7 +31,7 @@ deploy:
   draft: true
   prerelease: false
   on:
-    branch: master
+    branch: develop
 after_deploy:
 - git config --global credential.helper store
 - ps: Add-Content "$env:USERPROFILE\.git-credentials" "https://$($env:deploy_token):x-oauth-basic@github.com`n"
