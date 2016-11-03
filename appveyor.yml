@@ -54,4 +54,4 @@ after_deploy:
     
     git commit --amend --reset-author -m "deploy %APPVEYOR_BUILD_VERSION%"
     
-    git push --no-verify --force-with-lease 1<&2 > null
+    git push --no-verify --force-with-lease
