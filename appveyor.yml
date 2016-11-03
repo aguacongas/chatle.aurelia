@@ -31,7 +31,7 @@ deploy:
   draft: true
   prerelease: false
   on:
-    branch: develop
+    branch: master
 after_deploy:
 - git config --global credential.helper store
 - ps: Add-Content "$env:USERPROFILE\.git-credentials" "https://$($env:deploy_token):x-oauth-basic@github.com`n"
