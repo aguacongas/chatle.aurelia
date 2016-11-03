@@ -7,12 +7,16 @@ environment:
 install:
 - cmd: >-
     npm install npm -g
+
     npm install aurelia-cli -g
+    
     npm install
+    
     nuget install GitVersion.CommandLine -ExcludeVersion -Source https://www.nuget.org/api/v2/ -Out packages
 build_script:
 - cmd: >-
     packages\GitVersion.CommandLine\tools\GitVersion.exe /l console /output buildServer /updateassemblyinfo
+    
     au build
 test_script:
 - cmd: au test
@@ -31,12 +35,21 @@ deploy:
 after_deploy:
 - cmd: >-
     git config --global user.email "aguacongas@gmail.com"
+    
     git config --global user.name "AppVeyor"
+    
     git clone -q --branch=gh-pages https://aguacongas:%githubpwd%@github.com/aguacongas/chatle.aurelia.git deploy
+    
     cd deploy
+    
     copy /Y ..\wwwroot\index.html .
+    
     copy /Y ..\wwwroot\scripts\app-bundle.js scripts
+    
     copy /Y ..\wwwroot\scripts\vendor-bundle.js scripts
+    
     git add .
+    
     git commit --amend --reset-author -m "deploy %APPVEYOR_BUILD_VERSION%"
+    
     git push --no-verify --force-with-lease 1<&2 > null
