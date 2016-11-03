@@ -28,10 +28,10 @@ deploy:
   description: $(appveyor_build_version)
   auth_token:
     secure: 3d2qqSejMw7dKAPRA3pFqQ==
-  draft: true
-  prerelease: false
+  draft: false
+  prerelease: true
   on:
-    branch: develop
+    branch: master
 after_deploy:
 - git config --global credential.helper store
 - ps: Add-Content "$env:USERPROFILE\.git-credentials" "https://$($env:deploy_token):x-oauth-basic@github.com`n"
