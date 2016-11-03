@@ -28,17 +28,19 @@ deploy:
   description: $(appveyor_build_version)
   auth_token:
     secure: 3d2qqSejMw7dKAPRA3pFqQ==
-  draft: false
-  prerelease: true
+  draft: true
+  prerelease: false
   on:
     branch: master
 after_deploy:
+- git config --global credential.helper store
+- ps: Add-Content "$env:USERPROFILE\.git-credentials" "https://$($env:deploy_token):x-oauth-basic@github.com`n"
 - cmd: >-
     git config --global user.email "aguacongas@gmail.com"
     
     git config --global user.name "AppVeyor"
     
-    git clone -q --branch=gh-pages https://aguacongas:%githubpwd%@github.com/aguacongas/chatle.aurelia.git deploy
+    git clone -q --branch=gh-pages https://github.com/aguacongas/chatle.aurelia.git deploy
     
     cd deploy
     
@@ -52,4 +54,4 @@ after_deploy:
     
     git commit --amend --reset-author -m "deploy %APPVEYOR_BUILD_VERSION%"
     
-    git push --no-verify --force-with-lease 1<&2 > null
+    git push --no-verify --force-with-lease
