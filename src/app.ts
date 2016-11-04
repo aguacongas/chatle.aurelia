@@ -94,6 +94,7 @@ export class App {
     logoff() {
         this.service.logoff();
         this.router.navigateToRoute('login');
+        this.isConnected = false;
     }
 
     manage() {

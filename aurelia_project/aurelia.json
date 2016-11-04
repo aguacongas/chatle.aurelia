@@ -1,11 +1,10 @@
 {
   "name": "chatle.aurelia",
   "type": "project:application",
-  "platform": {
-    "id": "aspnetcore",
-    "displayName": "ASP.NET Core",
-    "output": "wwwroot/scripts",
-    "baseUrl": "scripts"
+ "platform": {
+    "id": "web",
+    "displayName": "Web",
+    "output": "scripts"
   },
   "transpiler": {
     "id": "typescript",
@@ -53,10 +52,9 @@
   "build": {
     "targets": [
       {
-        "id": "aspnetcore",
-        "displayName": "ASP.NET Core",
-        "output": "wwwroot/scripts",
-        "baseUrl": "scripts"
+        "id": "web",
+        "displayName": "Web",
+        "output": "scripts"
       }
     ],
     "loader": {
@@ -90,7 +88,7 @@
         "name": "vendor-bundle.js",
         "prepend": [
           "node_modules/bluebird/js/browser/bluebird.core.js",
-          "wwwroot/scripts/require.js"
+          "scripts/require.js"
         ],
         "dependencies": [
           "aurelia-binding",
@@ -118,7 +116,7 @@
           "aurelia-fetch-client",
           {
             "name": "text",
-            "path": "../wwwroot/scripts/text"
+            "path": "../scripts/text"
           },
           {
             "name": "aurelia-templating-resources",
