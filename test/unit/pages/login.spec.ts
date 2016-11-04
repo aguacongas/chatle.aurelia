@@ -4,6 +4,7 @@ import { Login } from '../../../src/pages/login';
 import { LoginService } from '../../../src/services/login.service';
 import { State } from '../../../src/services/state';
 import { Settings } from '../../../src/config/settings';
+import environment from '../../../src/environment';
 
 describe('Login page specs', () => {
     let service: LoginService;
@@ -50,7 +51,7 @@ describe('Login page specs', () => {
 
         state = new State;
 
-        page = new Login(service, router, state, settings, { redirectPath: '/test' });
+        page = new Login(service, router, state, settings);
     });
 
     it('constructor should set externalLogin', () => {
@@ -59,7 +60,7 @@ describe('Login page specs', () => {
         settings.accountdAPI = 'test';
 
         // act
-        page = new Login(service, router, state, settings, { redirectPath: '/test' });
+        page = new Login(service, router, state, settings);
 
         // verify
         expect(page.externalLogin).toBeDefined();

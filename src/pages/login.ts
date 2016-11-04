@@ -14,7 +14,7 @@ export class Login {
     token: string;
     providers: Array<Provider>;
     
-    constructor(private service: LoginService, private router: Router, private state: State, settings: Settings, environment) {
+    constructor(private service: LoginService, private router: Router, private state: State, settings: Settings) {
         let location = window.location; 
         this.externalLogin = settings.apiBaseUrl + 
             settings.accountdAPI + 
