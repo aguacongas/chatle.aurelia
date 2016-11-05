@@ -20,6 +20,7 @@ export class App {
     isConnected: boolean;
     userName: string;
     errorMessage: string;
+    sourcePath: string;
 
     constructor(private ea: EventAggregator,
         private state: State,
@@ -33,6 +34,7 @@ export class App {
                 .withCredentials(true));
 
         state.userName = sessionStorage.getItem('userName');
+        this.sourcePath = environment.redirectPath;
     }
 
     configureRouter(config: RouterConfiguration, router: Router) {
