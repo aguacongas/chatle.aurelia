@@ -8,13 +8,16 @@ import { Conversation } from '../model/conversation';
 export class ConversationComponent {
     conversation: Conversation;
     message: string;
+    error: string;
 
     constructor(private service: ConversationService, private router: Router) {
     }
 
     activate(params, routeConfig) {
+        this.error = '';
+
         if (!params) {
-            delete this.service.currentConversation;
+            this.service.currentConversation = undefined;
         }
 
         this.conversation = this.service.currentConversation;
@@ -27,7 +30,12 @@ export class ConversationComponent {
     }
 
     sendMessage() {
-        this.service.sendMessage(this.conversation, this.message);
+        if (this.service.currentConversation === this.conversation) {
+            this.service.sendMessage(this.conversation, this.message);            
+        } else {
+            this.error = 'this user is disconnected';
+        }
+
         this.message = '';
     }
 }

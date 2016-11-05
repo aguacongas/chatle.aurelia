@@ -3,6 +3,7 @@ import { autoinject } from 'aurelia-framework';
 
 import { Settings } from '../config/settings';
 import { ChatService } from './chat.service';
+import { ConversationService } from './conversation.service';
 import { Helpers } from './helpers';
 import { State } from './state';
 import { Provider } from '../model/provider'
@@ -14,6 +15,7 @@ export class LoginService {
     constructor(private http: HttpClient,
         private settings: Settings,
         private chatService: ChatService,
+        private conversationService: ConversationService,
         private state: State,
         private helpers: Helpers) { }
 
@@ -50,14 +52,17 @@ export class LoginService {
             return;
         }
         
+        this.state.userName = undefined;
+        this.conversationService.currentConversation = undefined;
+
         this.chatService.stop();
+
         this.getXhrf()
             .then(r => { 
                 this.http.post(this.settings.accountdAPI + '/spalogoff', null);                
             });
 
         this.xhrf = undefined;
-        this.state.userName = undefined;
     }
 
     exists(userName): Promise<boolean> {

@@ -25,7 +25,7 @@ artifacts:
   name: scripts
 deploy:
 - provider: GitHub
-  description: $(appveyor_build_version)
+  description: $(GitVersion_SemVer)
   auth_token:
     secure: 3d2qqSejMw7dKAPRA3pFqQ==
   draft: false

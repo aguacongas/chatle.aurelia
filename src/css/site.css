@@ -18,6 +18,17 @@ body.chatle {
     background-color: #000;
 }
 
+button.navbar-brand {
+    background-color: transparent;
+    border: 0;
+}
+
+button.navbar-brand > img {
+    display: inline-block;
+    height: 20px;
+    border-radius: 7px;
+}
+
 .title.navbar-brand:focus,
 .title.navbar-brand:hover,
 .nav.navbar-nav > li > a:hover {

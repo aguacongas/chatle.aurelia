@@ -1,4 +1,5 @@
 import { autoinject } from 'aurelia-framework';
+import { Router } from 'aurelia-router';
 import { EventAggregator, Subscription } from 'aurelia-event-aggregator';
 
 import { ConnectionState, Disconnected } from '../services/chat.service';
@@ -9,6 +10,7 @@ import { Conversation } from '../model/conversation';
 import { ConversationJoined } from '../events/conversationJoined';
 import { UserDisconnected } from '../events/userDisconnected';
 import { ConnectionStateChanged } from '../events/connectionStateChanged';
+import { NotificationClicked } from '../events/notificationClicked';
 
 @autoinject
 export class ConversationList {
@@ -16,10 +18,12 @@ export class ConversationList {
   private conversationJoinedSubscription: Subscription;
   private userDisconnectedSubscription: Subscription;
   private connectionStateSubscription: Subscription;
+  private notificationClickedSubscription: Subscription;
 
   constructor(private service: ConversationService,
     private state: State,
-    private ea: EventAggregator) { }
+    private ea: EventAggregator,
+    private router: Router) { }
 
   attached() {
     this.conversations = new Array<Conversation>();
@@ -34,6 +38,14 @@ export class ConversationList {
       } else if (state === ConnectionState.Connected) {
         // get conversation for reconnect
         this.getConversations();
+      }
+    });
+
+    this.notificationClickedSubscription = this.ea.subscribe(NotificationClicked, e => {
+      const message = (<NotificationClicked>e).message;
+      const conversation = this.conversations.find(c => c.id === message.conversationId);
+      if (conversation) {
+        this.service.showConversation(conversation, this.router);
       }
     });
   }
@@ -66,24 +78,34 @@ export class ConversationList {
         this.userDisconnectedSubscription = this.ea.subscribe(UserDisconnected, e => {
           this.conversations.forEach(c => {
             let attendees = c.attendees;
-            if (attendees.length === 2) {
-              attendees.forEach(a => {
-                let user = (<UserDisconnected>e).user;
-                if (user.isRemoved && a.userId === user.id) {
-                  let index = this.conversations.indexOf(c);
-                  let conversation = this.conversations[index];
+
+            attendees.forEach(a => {
+              let user = (<UserDisconnected>e).user;
+              if (user.isRemoved && a.userId === user.id) {
+
+                if (c.attendees.length < 3) {
+                  const index = this.conversations.indexOf(c);
                   this.conversations.splice(index, 1);
-                  if (this.service.currentConversation === conversation) {
-                    delete this.service.currentConversation;
+
+                  if (this.service.currentConversation === c) {
+                    this.service.currentConversation = undefined;
                   }
+                } else {
+                  const index = attendees.indexOf(a);
+                  attendees.splice(index, 1);
+
+                  if (this.service.currentConversation === c) {
+                    c.title = undefined;
+                    this.service.showConversation(c, this.router);
+                  }                   
                 }
-              });
-            }
+              }
+            });
           });
         });
 
         this.conversationJoinedSubscription = this.ea.subscribe(ConversationJoined, e => {
-          let conversation = (<ConversationJoined>e).conversation;
+          const conversation = (<ConversationJoined>e).conversation;
           this.conversations.unshift(e.conversation);
         });
       });

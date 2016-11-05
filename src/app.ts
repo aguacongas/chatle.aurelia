@@ -5,7 +5,6 @@ import { HttpClient } from 'aurelia-http-client';
 import environment from './environment';
 
 import { ConnectionState } from './services/chat.service';
-import { LoginService } from './services/login.service';
 import { State } from './services/state';
 import { ConnectionStateChanged } from './events/connectionStateChanged';
 import { Settings } from './config/settings';
@@ -22,8 +21,7 @@ export class App {
     userName: string;
     errorMessage: string;
 
-    constructor(private service: LoginService,
-        private ea: EventAggregator,
+    constructor(private ea: EventAggregator,
         private state: State,
         private helpers: Helpers,
         settings: Settings,
@@ -92,7 +90,6 @@ export class App {
     }
 
     logoff() {
-        this.service.logoff();
         this.router.navigateToRoute('login');
     }
 

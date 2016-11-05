@@ -1,4 +1,2902 @@
-define("environment",["require","exports"],function(e,t){"use strict";Object.defineProperty(t,"__esModule",{value:!0}),t.default={debug:!0,testing:!1,apiBaseUrl:"https://chatle-server.herokuapp.com",redirectPath:"/chatle.aurelia"}}),define("config/settings",["require","exports"],function(e,t){"use strict";var n=function(){function e(){this.apiBaseUrl="http://localhost:5000",this.userAPI="/api/users",this.convAPI="/api/chat/conv",this.chatAPI="/api/chat",this.accountdAPI="/account"}return e}();t.Settings=n}),define("services/state",["require","exports"],function(e,t){"use strict";var n=function(){function e(){}return e}();t.State=n}),define("model/serviceError",["require","exports"],function(e,t){"use strict";var n=(function(){function e(){}return e}(),function(){function e(){}return e}(),function(){function e(){}return e}());t.ServiceError=n}),define("model/attendee",["require","exports"],function(e,t){"use strict";var n=function(){function e(e){this.userId=e}return e}();t.Attendee=n}),define("model/message",["require","exports"],function(e,t){"use strict";var n=function(){function e(){}return e}();t.Message=n}),define("model/user",["require","exports"],function(e,t){"use strict";var n=function(){function e(){}return e}();t.User=n}),define("model/conversation",["require","exports","./attendee"],function(e,t,n){"use strict";var r=function(){function e(e){if(e){var t=new Array;t.push(new n.Attendee(e.id)),this.attendees=t,this.messages=new Array,this.isInitiatedByUser=!0}}return e}();t.Conversation=r});var __decorate=this&&this.__decorate||function(e,t,n,r){var i,o=arguments.length,s=o<3?t:null===r?r=Object.getOwnPropertyDescriptor(t,n):r;if("object"==typeof Reflect&&"function"==typeof Reflect.decorate)s=Reflect.decorate(e,t,n,r);else for(var a=e.length-1;a>=0;a--)(i=e[a])&&(s=(o<3?i(s):o>3?i(t,n,s):i(t,n))||s);return o>3&&s&&Object.defineProperty(t,n,s),s},__metadata=this&&this.__metadata||function(e,t){if("object"==typeof Reflect&&"function"==typeof Reflect.metadata)return Reflect.metadata(e,t)};define("services/helpers",["require","exports","aurelia-framework","./state"],function(e,t,n,r){"use strict";var i=function(){function e(e){this.state=e,this.location=window.location}return e.prototype.getError=function(e){var t=e.content,n=t[0],r=new Error(n.errors[0].errorMessage);return r.name=n.key,r},e.prototype.setConverationTitle=function(e){var t=this;if(!e.title){var n="";e.attendees.forEach(function(e){e&&e.userId&&e.userId!==t.state.userName&&(n+=e.userId+" ")}),e.title=n.trim()}},e.prototype.getUrlParameter=function(e){e=e.replace(/[\[]/,"\\[").replace(/[\]]/,"\\]");var t=new RegExp("[\\?&]"+e+"=([^&#]*)"),n=t.exec(this.location.search);return null===n?void 0:decodeURIComponent(n[1].replace(/\+/g," "))},e=__decorate([n.autoinject,__metadata("design:paramtypes",[r.State])],e)}();t.Helpers=i}),define("events/connectionStateChanged",["require","exports"],function(e,t){"use strict";var n=function(){function e(e){this.state=e}return e}();t.ConnectionStateChanged=n}),define("events/conversationJoined",["require","exports"],function(e,t){"use strict";var n=function(){function e(e){this.conversation=e}return e}();t.ConversationJoined=n}),define("events/messageReceived",["require","exports"],function(e,t){"use strict";var n=function(){function e(e){this.message=e}return e}();t.MessageReceived=n}),define("events/userConnected",["require","exports"],function(e,t){"use strict";var n=function(){function e(e){this.user=e}return e}();t.UserConnected=n}),define("events/userDisconnected",["require","exports"],function(e,t){"use strict";var n=function(){function e(e){this.user=e}return e}();t.UserDisconnected=n});var __decorate=this&&this.__decorate||function(e,t,n,r){var i,o=arguments.length,s=o<3?t:null===r?r=Object.getOwnPropertyDescriptor(t,n):r;if("object"==typeof Reflect&&"function"==typeof Reflect.decorate)s=Reflect.decorate(e,t,n,r);else for(var a=e.length-1;a>=0;a--)(i=e[a])&&(s=(o<3?i(s):o>3?i(t,n,s):i(t,n))||s);return o>3&&s&&Object.defineProperty(t,n,s),s},__metadata=this&&this.__metadata||function(e,t){if("object"==typeof Reflect&&"function"==typeof Reflect.metadata)return Reflect.metadata(e,t)};define("services/chat.service",["require","exports","aurelia-event-aggregator","aurelia-http-client","aurelia-framework","../environment","../config/settings","./helpers","./state","../events/connectionStateChanged","../events/conversationJoined","../events/messageReceived","../events/userConnected","../events/userDisconnected"],function(e,t,n,r,i,o,s,a,c,u,l,d,f,p){"use strict";!function(e){e[e.Connected=1]="Connected",e[e.Disconnected=2]="Disconnected",e[e.Error=3]="Error"}(t.ConnectionState||(t.ConnectionState={}));var h=t.ConnectionState,v=function(){function e(e,t,n,r,i){this.settings=e,this.ea=t,this.http=n,this.state=r,this.helpers=i,this.currentState=h.Disconnected}return e.prototype.start=function(){var e=this,t=o.default.debug,n=jQuery.connection.hub;n.logging=t,n.url=this.settings.apiBaseUrl+"/signalr";var r=jQuery.connection,i=r.chat;return i.client.userConnected=function(t){return e.onUserConnected(t)},i.client.userDisconnected=function(t){return e.onUserDisconnected(t)},i.client.messageReceived=function(t){return e.onMessageReceived(t)},i.client.joinConversation=function(t){return e.onJoinConversation(t)},t&&n.stateChanged(function(e){var t,n,r=jQuery.signalR;for(var i in r.connectionState)r.connectionState[i]===e.oldState&&(t=i),r.connectionState[i]===e.newState&&(n=i);console.log("Chat Hub state changed from "+t+" to "+n)}),n.reconnected(function(){return e.onReconnected()}),n.error(function(t){return e.onError(t)}),n.disconnected(function(){return e.onDisconnected()}),new Promise(function(t,r){n.start().done(function(){e.setConnectionState(h.Connected),t(h.Connected)}).fail(function(t){e.setConnectionState(h.Error),r(new Error(t))})})},e.prototype.stop=function(){jQuery.connection.hub.stop()},e.prototype.setConnectionState=function(e){this.currentState!==e&&(console.log("connection state changed to: "+e),this.currentState=e,this.ea.publish(new u.ConnectionStateChanged(e)))},e.prototype.onReconnected=function(){this.setConnectionState(h.Connected)},e.prototype.onDisconnected=function(){this.setConnectionState(h.Disconnected)},e.prototype.onError=function(e){this.setConnectionState(h.Error)},e.prototype.onUserConnected=function(e){console.log("Chat Hub new user connected: "+e.id),this.ea.publish(new f.UserConnected(e))},e.prototype.onUserDisconnected=function(e){console.log("Chat Hub user disconnected: "+e.id),e.id!==this.state.userName&&this.ea.publish(new p.UserDisconnected(e))},e.prototype.onMessageReceived=function(e){this.ea.publish(new d.MessageReceived(e))},e.prototype.onJoinConversation=function(e){this.helpers.setConverationTitle(e),this.ea.publish(new l.ConversationJoined(e))},e=__decorate([i.autoinject,__metadata("design:paramtypes",[s.Settings,n.EventAggregator,r.HttpClient,c.State,a.Helpers])],e)}();t.ChatService=v}),define("model/provider",["require","exports"],function(e,t){"use strict";var n=function(){function e(){}return e}();t.Provider=n});var __decorate=this&&this.__decorate||function(e,t,n,r){var i,o=arguments.length,s=o<3?t:null===r?r=Object.getOwnPropertyDescriptor(t,n):r;if("object"==typeof Reflect&&"function"==typeof Reflect.decorate)s=Reflect.decorate(e,t,n,r);else for(var a=e.length-1;a>=0;a--)(i=e[a])&&(s=(o<3?i(s):o>3?i(t,n,s):i(t,n))||s);return o>3&&s&&Object.defineProperty(t,n,s),s},__metadata=this&&this.__metadata||function(e,t){if("object"==typeof Reflect&&"function"==typeof Reflect.metadata)return Reflect.metadata(e,t)};define("services/login.service",["require","exports","aurelia-http-client","aurelia-framework","../config/settings","./chat.service","./helpers","./state"],function(e,t,n,r,i,o,s,a){"use strict";var c=function(){function e(e,t,n,r,i){this.http=e,this.settings=t,this.chatService=n,this.state=r,this.helpers=i}return e.prototype.getXhrf=function(e){var t=this;return new Promise(function(n,r){e?t.http.get("cls").then(function(){return t.setXhrf(n,r)}).catch(function(e){return r(new Error("the service is down"))}):t.xhrf?n(t.xhrf):t.setXhrf(n,r)})},e.prototype.login=function(e){var t=this;return this.state.isGuess=!0,new Promise(function(n,r){t.getXhrf().then(function(i){t.state.isGuess&&t.loginAsGuess(e,n,r)}).catch(function(e){return r(e)})})},e.prototype.logoff=function(){var e=this;this.state.userName&&(this.chatService.stop(),this.getXhrf().then(function(t){e.http.post(e.settings.accountdAPI+"/spalogoff",null)}),this.xhrf=void 0,this.state.userName=void 0)},e.prototype.exists=function(e){var t=this;return new Promise(function(n,r){return e?void t.getXhrf().then(function(i){t.http.get(t.settings.accountdAPI+"/exists?userName="+encodeURIComponent(e)).then(function(e){n(e.content)}).catch(function(e){t.manageError(e,r,new Error("the service is down"))})}).catch(function(e){return r(new Error("the service is down"))}):void n(!1)})},e.prototype.confirm=function(e){var t=this;return new Promise(function(n,r){t.getXhrf().then(function(i){t.http.put(t.settings.accountdAPI+"/spaExternalLoginConfirmation",{userName:e}).then(function(i){t.logged(e,n,r),sessionStorage.setItem("userName",e)}).catch(function(e){return t.manageError(e,r,t.helpers.getError(e))})}).catch(function(e){return r(new Error("the service is down"))})})},e.prototype.getExternalLoginProviders=function(){var e=this;return new Promise(function(t,n){e.getXhrf().then(function(r){e.http.get(e.settings.accountdAPI+"/getExternalProviders").then(function(e){t(e.content)}).catch(function(t){return e.manageError(t,n,e.helpers.getError(t))})}).catch(function(e){return n(new Error("the service is down"))})})},e.prototype.setXhrf=function(e,t){var n=this;this.http.get("xhrf").then(function(t){n.xhrf=t.response,n.http.configure(function(e){e.withHeader("X-XSRF-TOKEN",n.xhrf)}),e(n.xhrf)}).catch(function(e){return t(new Error("the service is down"))})},e.prototype.loginAsGuess=function(e,t,n){var r=this;this.http.post(this.settings.accountdAPI+"/spaguess",{userName:e}).then(function(i){r.logged(e,t,n)}).catch(function(e){r.manageError(e,n,r.helpers.getError(e))})},e.prototype.logged=function(e,t,n){this.state.userName=e,this.setXhrf(t,n)},e.prototype.manageError=function(e,t,n){this.xhrf=void 0,t(n)},e=__decorate([r.autoinject,__metadata("design:paramtypes",[n.HttpClient,i.Settings,o.ChatService,a.State,s.Helpers])],e)}();t.LoginService=c});var __decorate=this&&this.__decorate||function(e,t,n,r){var i,o=arguments.length,s=o<3?t:null===r?r=Object.getOwnPropertyDescriptor(t,n):r;if("object"==typeof Reflect&&"function"==typeof Reflect.decorate)s=Reflect.decorate(e,t,n,r);else for(var a=e.length-1;a>=0;a--)(i=e[a])&&(s=(o<3?i(s):o>3?i(t,n,s):i(t,n))||s);return o>3&&s&&Object.defineProperty(t,n,s),s},__metadata=this&&this.__metadata||function(e,t){if("object"==typeof Reflect&&"function"==typeof Reflect.metadata)return Reflect.metadata(e,t)};define("app",["require","exports","aurelia-framework","aurelia-router","aurelia-event-aggregator","aurelia-http-client","./environment","./services/login.service","./services/state","./events/connectionStateChanged","./config/settings","./services/helpers"],function(e,t,n,r,i,o,s,a,c,u,l,d){"use strict";var f=function(){function e(e,t,n,r,i,o){this.service=e,this.ea=t,this.state=n,this.helpers=r,i.apiBaseUrl=s.default.apiBaseUrl,o.configure(function(e){return e.withBaseUrl(s.default.apiBaseUrl).withCredentials(!0)}),n.userName=sessionStorage.getItem("userName")}return e.prototype.configureRouter=function(e,t){var n=this;e.title="Chatle",e.addPipelineStep("authorize",p);var r={route:"confirm",name:"confirm",moduleId:"pages/confirm",title:"Confirm",anomymous:!0},i={route:"login",name:"login",moduleId:"pages/login",title:"Login",anomymous:!0},o={route:"account",name:"account",moduleId:"pages/account",title:"Account"},s={route:"home",name:"home",moduleId:"pages/home",title:"Home"};e.map([s,o,r,i]);var a=function(e){var t=n.helpers.getUrlParameter("p");if(t)return r;var a=n.helpers.getUrlParameter("u"),c=n.helpers.getUrlParameter("a");return a&&(n.state.userName=a,sessionStorage.setItem("userName",a)),window.history.replaceState(null,null,"/"),n.state.userName?c?o:s:i};e.mapUnknownRoutes(a),this.router=t},e.prototype.attached=function(){var e=this;this.ea.subscribe(u.ConnectionStateChanged,function(t){e.setIsConnected()}),this.setIsConnected()},e.prototype.logoff=function(){this.service.logoff(),this.router.navigateToRoute("login")},e.prototype.manage=function(){this.router.navigateToRoute("account")},e.prototype.home=function(){this.isConnected?this.router.navigateToRoute("home"):this.router.navigateToRoute("login")},e.prototype.setIsConnected=function(){this.isConnected=void 0!==this.state.userName&&null!=this.state.userName&&"pages/confirm"!=this.router.currentInstruction.config.moduleId,this.userName=this.state.userName},e=__decorate([n.autoinject,__metadata("design:paramtypes",[a.LoginService,i.EventAggregator,c.State,d.Helpers,l.Settings,o.HttpClient])],e)}();t.App=f;var p=function(){function e(e,t){this.state=e,this.helpers=t}return e.prototype.run=function(e,t){if(e.getAllInstructions().some(function(e){var t=e.config;return!t.anomymous})){var n=this.state.userName;if(!n)return t.cancel(new r.Redirect("login"))}return t()},e=__decorate([n.autoinject,__metadata("design:paramtypes",[c.State,d.Helpers])],e)}()}),define("main",["require","exports","aurelia-framework","aurelia-logging-console","./environment"],function(e,t,n,r,i){"use strict";function o(e){e.use.standardConfiguration().feature("resources").plugin("aurelia-validation"),i.default.debug&&e.use.developmentLogging(),i.default.testing&&e.use.plugin("aurelia-testing"),e.start().then(function(){return e.setRoot()})}i.default.debug&&(n.LogManager.addAppender(new r.ConsoleAppender),n.LogManager.setLevel(n.LogManager.logLevel.debug)),Promise.config({warnings:{wForgottenReturn:!1}}),t.configure=o});var __decorate=this&&this.__decorate||function(e,t,n,r){var i,o=arguments.length,s=o<3?t:null===r?r=Object.getOwnPropertyDescriptor(t,n):r;if("object"==typeof Reflect&&"function"==typeof Reflect.decorate)s=Reflect.decorate(e,t,n,r);else for(var a=e.length-1;a>=0;a--)(i=e[a])&&(s=(o<3?i(s):o>3?i(t,n,s):i(t,n))||s);return o>3&&s&&Object.defineProperty(t,n,s),s},__metadata=this&&this.__metadata||function(e,t){if("object"==typeof Reflect&&"function"==typeof Reflect.metadata)return Reflect.metadata(e,t)};define("services/user.service",["require","exports","aurelia-http-client","aurelia-framework","../config/settings","./state"],function(e,t,n,r,i,o){"use strict";var s=function(){function e(e,t,n){this.http=e,this.settings=t,this.state=n}return e.prototype.getUsers=function(){var e=this;return new Promise(function(t,n){e.http.get(e.settings.userAPI).then(function(e){var n=e.content;n&&n.users&&t(n.users)}).catch(function(e){return n(new Error("the service is down"))})})},e=__decorate([r.autoinject,__metadata("design:paramtypes",[n.HttpClient,i.Settings,o.State])],e)}();t.UserService=s});var __decorate=this&&this.__decorate||function(e,t,n,r){var i,o=arguments.length,s=o<3?t:null===r?r=Object.getOwnPropertyDescriptor(t,n):r;if("object"==typeof Reflect&&"function"==typeof Reflect.decorate)s=Reflect.decorate(e,t,n,r);else for(var a=e.length-1;a>=0;a--)(i=e[a])&&(s=(o<3?i(s):o>3?i(t,n,s):i(t,n))||s);return o>3&&s&&Object.defineProperty(t,n,s),s},__metadata=this&&this.__metadata||function(e,t){if("object"==typeof Reflect&&"function"==typeof Reflect.metadata)return Reflect.metadata(e,t)};define("components/contact-list",["require","exports","aurelia-framework","aurelia-event-aggregator","../services/chat.service","../services/user.service","../services/chat.service","../events/userConnected","../events/userDisconnected","../events/connectionStateChanged"],function(e,t,n,r,i,o,s,a,c,u){"use strict";var l=function(){function e(e,t,n){this.userService=e,this.chatService=t,this.ea=n,this.loadingMessage="loading..."}return e.prototype.attached=function(){var e=this;this.connectionStateChangeSubscription=this.ea.subscribe(u.ConnectionStateChanged,function(t){t.state===i.ConnectionState.Connected&&e.getUser()}),this.chatService.currentState===i.ConnectionState.Connected&&this.getUser()},e.prototype.detached=function(){this.connectionStateChangeSubscription.dispose(),this.userConnectedSubscription&&this.userConnectedSubscription.dispose(),this.userDisconnectedSubscription&&this.userDisconnectedSubscription.dispose()},e.prototype.getUser=function(){var e=this;this.userService.getUsers().then(function(t){e.users=t,e.userConnectedSubscription=e.ea.subscribe(a.UserConnected,function(t){var n=t;e.removeUser(n.user.id),e.users.unshift(n.user)}),e.userDisconnectedSubscription=e.ea.subscribe(c.UserDisconnected,function(t){e.removeUser(t.user.id)})}).catch(function(t){return e.loadingMessage=t.message})},e.prototype.removeUser=function(e){var t;if(this.users.forEach(function(n){n.id===e&&(t=n)}),t){var n=this.users.indexOf(t);this.users.splice(n,1)}},e=__decorate([n.autoinject,__metadata("design:paramtypes",[o.UserService,s.ChatService,r.EventAggregator])],e)}();t.ContactList=l}),define("events/conversationSelected",["require","exports"],function(e,t){"use strict";var n=function(){function e(e){this.conversation=e}return e}();t.ConversationSelected=n});var __decorate=this&&this.__decorate||function(e,t,n,r){var i,o=arguments.length,s=o<3?t:null===r?r=Object.getOwnPropertyDescriptor(t,n):r;if("object"==typeof Reflect&&"function"==typeof Reflect.decorate)s=Reflect.decorate(e,t,n,r);else for(var a=e.length-1;a>=0;a--)(i=e[a])&&(s=(o<3?i(s):o>3?i(t,n,s):i(t,n))||s);return o>3&&s&&Object.defineProperty(t,n,s),s},__metadata=this&&this.__metadata||function(e,t){if("object"==typeof Reflect&&"function"==typeof Reflect.metadata)return Reflect.metadata(e,t)};define("services/conversation.service",["require","exports","aurelia-event-aggregator","aurelia-http-client","aurelia-framework","../config/settings","./state","./helpers","../model/message","../events/conversationSelected","../events/conversationJoined"],function(e,t,n,r,i,o,s,a,c,u,l){"use strict";var d=function(){function e(e,t,n,r,i){this.http=e,this.settings=t,this.state=n,this.helpers=r,this.ea=i}return e.prototype.showConversation=function(e,t){t.currentInstruction.fragment!=="conversation/"+e.title&&(this.currentConversation=e,this.helpers.setConverationTitle(e),this.ea.publish(new u.ConversationSelected(e)),t.navigateToRoute("conversation",{id:e.title}))},e.prototype.sendMessage=function(e,t){var n=this,r=new c.Message;if(r.conversationId=e.id,r.from=this.state.userName,r.text=t,e.id)return new Promise(function(i,o){n.http.post(n.settings.chatAPI,{to:e.id,text:t}).then(function(t){e.messages.unshift(r),i(r)}).catch(function(e){return o(n.helpers.getError(e))})});var i;return e.attendees.forEach(function(e){e.userId!==n.state.userName&&(i=e)}),new Promise(function(o,s){n.http.post(n.settings.convAPI,{to:i.userId,text:t}).then(function(t){e.id=t.content,n.ea.publish(new l.ConversationJoined(e)),e.messages.unshift(r),o(r)}).catch(function(e){return s(n.helpers.getError(e))})})},e.prototype.getConversations=function(){var e=this;return new Promise(function(t,n){e.http.get(e.settings.chatAPI).then(function(n){if(n.response){var r=n.content;if(r){var i=r;return i.forEach(function(t){return e.helpers.setConverationTitle(t)}),void t(i)}}t(null)}).catch(function(e){return n(new Error("The service is down"))})})},e=__decorate([i.autoinject,__metadata("design:paramtypes",[r.HttpClient,o.Settings,s.State,a.Helpers,n.EventAggregator])],e)}();t.ConversationService=d});var __decorate=this&&this.__decorate||function(e,t,n,r){var i,o=arguments.length,s=o<3?t:null===r?r=Object.getOwnPropertyDescriptor(t,n):r;if("object"==typeof Reflect&&"function"==typeof Reflect.decorate)s=Reflect.decorate(e,t,n,r);else for(var a=e.length-1;a>=0;a--)(i=e[a])&&(s=(o<3?i(s):o>3?i(t,n,s):i(t,n))||s);return o>3&&s&&Object.defineProperty(t,n,s),s},__metadata=this&&this.__metadata||function(e,t){if("object"==typeof Reflect&&"function"==typeof Reflect.metadata)return Reflect.metadata(e,t)};define("components/contact",["require","exports","aurelia-framework","aurelia-event-aggregator","aurelia-router","../services/conversation.service","../services/state","../model/user","../model/conversation","../events/conversationSelected"],function(e,t,n,r,i,o,s,a,c,u){"use strict";var l=function(){function e(e,t,n,r){this.service=e,this.state=t,this.ea=n,this.router=r}return Object.defineProperty(e.prototype,"isCurrentUser",{get:function(){return this.state.userName===this.user.id},enumerable:!0,configurable:!0}),e.prototype.select=function(){this.isCurrentUser||(this.user.conversation||(this.user.conversation=new c.Conversation(this.user)),this.service.showConversation(this.user.conversation,this.router))},e.prototype.attached=function(){var e=this;this.conversationSelectedSubscription=this.ea.subscribe(u.ConversationSelected,function(t){var n=t.conversation,r=n.attendees;e.isSelected=!1,r.length<3&&r.forEach(function(t){t.userId!==e.state.userName&&t.userId===e.user.id&&(e.isSelected=!0)})})},e.prototype.detached=function(){this.conversationSelectedSubscription.dispose()},__decorate([n.bindable,__metadata("design:type",a.User)],e.prototype,"user",void 0),e=__decorate([n.autoinject,__metadata("design:paramtypes",[o.ConversationService,s.State,r.EventAggregator,i.Router])],e)}();t.Contact=l});var __decorate=this&&this.__decorate||function(e,t,n,r){var i,o=arguments.length,s=o<3?t:null===r?r=Object.getOwnPropertyDescriptor(t,n):r;if("object"==typeof Reflect&&"function"==typeof Reflect.decorate)s=Reflect.decorate(e,t,n,r);else for(var a=e.length-1;a>=0;a--)(i=e[a])&&(s=(o<3?i(s):o>3?i(t,n,s):i(t,n))||s);return o>3&&s&&Object.defineProperty(t,n,s),s},__metadata=this&&this.__metadata||function(e,t){if("object"==typeof Reflect&&"function"==typeof Reflect.metadata)return Reflect.metadata(e,t)};define("components/conversation-component",["require","exports","aurelia-framework","aurelia-router","../services/conversation.service"],function(e,t,n,r,i){"use strict";var o=function(){function e(e,t){this.service=e,this.router=t}return e.prototype.activate=function(e,t){e||delete this.service.currentConversation,this.conversation=this.service.currentConversation,this.conversation?t.navModel.setTitle(this.conversation.title):this.router.navigateToRoute("home")},e.prototype.sendMessage=function(){this.service.sendMessage(this.conversation,this.message),this.message=""},e=__decorate([n.autoinject,__metadata("design:paramtypes",[i.ConversationService,r.Router])],e)}();t.ConversationComponent=o});var __decorate=this&&this.__decorate||function(e,t,n,r){var i,o=arguments.length,s=o<3?t:null===r?r=Object.getOwnPropertyDescriptor(t,n):r;if("object"==typeof Reflect&&"function"==typeof Reflect.decorate)s=Reflect.decorate(e,t,n,r);else for(var a=e.length-1;a>=0;a--)(i=e[a])&&(s=(o<3?i(s):o>3?i(t,n,s):i(t,n))||s);return o>3&&s&&Object.defineProperty(t,n,s),s},__metadata=this&&this.__metadata||function(e,t){if("object"==typeof Reflect&&"function"==typeof Reflect.metadata)return Reflect.metadata(e,t)};define("components/conversation-list",["require","exports","aurelia-framework","aurelia-event-aggregator","../services/chat.service","../services/conversation.service","../services/state","../events/conversationJoined","../events/userDisconnected","../events/connectionStateChanged"],function(e,t,n,r,i,o,s,a,c,u){"use strict";var l=function(){function e(e,t,n){this.service=e,this.state=t,this.ea=n}return e.prototype.attached=function(){var e=this;this.conversations=new Array,this.getConversations(),this.connectionStateSubscription=this.ea.subscribe(u.ConnectionStateChanged,function(t){var n=t.state;n===i.ConnectionState.Disconnected?e.conversations.splice(e.conversations.length):n===i.ConnectionState.Connected&&e.getConversations()})},e.prototype.detached=function(){this.Unsubscribe(),this.connectionStateSubscription.dispose()},e.prototype.Unsubscribe=function(){this.conversationJoinedSubscription&&this.conversationJoinedSubscription.dispose(),this.userDisconnectedSubscription&&this.userDisconnectedSubscription.dispose()},e.prototype.getConversations=function(){var e=this;this.service.getConversations().then(function(t){e.Unsubscribe(),t&&(e.conversations=t,e.userDisconnectedSubscription=e.ea.subscribe(c.UserDisconnected,function(t){e.conversations.forEach(function(n){var r=n.attendees;2===r.length&&r.forEach(function(r){var i=t.user;if(i.isRemoved&&r.userId===i.id){var o=e.conversations.indexOf(n),s=e.conversations[o];e.conversations.splice(o,1),e.service.currentConversation===s&&delete e.service.currentConversation}})})}),e.conversationJoinedSubscription=e.ea.subscribe(a.ConversationJoined,function(t){t.conversation;e.conversations.unshift(t.conversation)}))})},e=__decorate([n.autoinject,__metadata("design:paramtypes",[o.ConversationService,s.State,r.EventAggregator])],e)}();t.ConversationList=l});var __decorate=this&&this.__decorate||function(e,t,n,r){var i,o=arguments.length,s=o<3?t:null===r?r=Object.getOwnPropertyDescriptor(t,n):r;if("object"==typeof Reflect&&"function"==typeof Reflect.decorate)s=Reflect.decorate(e,t,n,r);else for(var a=e.length-1;a>=0;a--)(i=e[a])&&(s=(o<3?i(s):o>3?i(t,n,s):i(t,n))||s);return o>3&&s&&Object.defineProperty(t,n,s),s},__metadata=this&&this.__metadata||function(e,t){if("object"==typeof Reflect&&"function"==typeof Reflect.metadata)return Reflect.metadata(e,t)};define("components/conversation-preview",["require","exports","aurelia-framework","aurelia-event-aggregator","aurelia-router","../services/conversation.service","../model/conversation","../events/conversationSelected","../events/messageReceived"],function(e,t,n,r,i,o,s,a,c){"use strict";var u=function(){function e(e,t,n){this.service=e,this.ea=t,this.router=n}return e.prototype.select=function(){this.service.showConversation(this.conversation,this.router)},e.prototype.attached=function(){var e=this;this.lastMessage=this.conversation.messages[0].text,this.isSelected=this.conversation&&this.conversation.isInitiatedByUser,this.conversationSelectedSubscription=this.ea.subscribe(a.ConversationSelected,function(t){t.conversation.id===e.conversation.id?e.isSelected=!0:e.isSelected=!1}),this.messageReceivedSubscription=this.ea.subscribe(c.MessageReceived,function(t){var n=t.message;n.conversationId===e.conversation.id&&(e.conversation.messages.unshift(n),e.lastMessage=n.text)})},e.prototype.detached=function(){this.conversationSelectedSubscription.dispose(),this.messageReceivedSubscription.dispose()},__decorate([n.bindable,__metadata("design:type",s.Conversation)],e.prototype,"conversation",void 0),e=__decorate([n.autoinject,__metadata("design:paramtypes",[o.ConversationService,r.EventAggregator,i.Router])],e)}();t.ConversationPreview=u});var __decorate=this&&this.__decorate||function(e,t,n,r){var i,o=arguments.length,s=o<3?t:null===r?r=Object.getOwnPropertyDescriptor(t,n):r;if("object"==typeof Reflect&&"function"==typeof Reflect.decorate)s=Reflect.decorate(e,t,n,r);else for(var a=e.length-1;a>=0;a--)(i=e[a])&&(s=(o<3?i(s):o>3?i(t,n,s):i(t,n))||s);return o>3&&s&&Object.defineProperty(t,n,s),s},__metadata=this&&this.__metadata||function(e,t){if("object"==typeof Reflect&&"function"==typeof Reflect.metadata)return Reflect.metadata(e,t)};define("components/user-name",["require","exports","aurelia-framework","aurelia-validation","../services/login.service","../services/state"],function(e,t,n,r,i,o){"use strict";var s=function(){function e(e,t,n){this.service=e,this.state=t,this.controller=n.createForCurrentScope(),this.controller.validateTrigger="change"}return e.prototype.attached=function(){this.userName=this.state.userName},e.prototype.userNameAvailable=function(e){var t=this;return new Promise(function(n){t.service.exists(e).then(function(r){n(!r),t.state.userName=e})})},__decorate([n.bindable({defaultBindingMode:n.bindingMode.twoWay}),__metadata("design:type",String)],e.prototype,"userName",void 0),e=__decorate([n.autoinject,n.customElement("user-name"),__metadata("design:paramtypes",[i.LoginService,o.State,r.ValidationControllerFactory])],e)}();t.UserName=s,r.ValidationRules.ensure(function(e){return e.userName}).satisfies(function(e,t){return t.userNameAvailable(e)}).withMessage("This user name already exists, please choose another one").satisfiesRule("required").on(s)}),define("model/changePassword",["require","exports"],function(e,t){"use strict";var n=function(){function e(){}return e}();t.ChangePassword=n}),define("model/manage-logins",["require","exports"],function(e,t){"use strict";var n=(function(){function e(){}return e}(),function(){function e(){}return e}());t.UserLogiAuthenticationDescriptionnInfo=n;var r=function(){function e(){}return e}();t.ManageLogins=r});var __decorate=this&&this.__decorate||function(e,t,n,r){var i,o=arguments.length,s=o<3?t:null===r?r=Object.getOwnPropertyDescriptor(t,n):r;if("object"==typeof Reflect&&"function"==typeof Reflect.decorate)s=Reflect.decorate(e,t,n,r);else for(var a=e.length-1;a>=0;a--)(i=e[a])&&(s=(o<3?i(s):o>3?i(t,n,s):i(t,n))||s);return o>3&&s&&Object.defineProperty(t,n,s),s},__metadata=this&&this.__metadata||function(e,t){if("object"==typeof Reflect&&"function"==typeof Reflect.metadata)return Reflect.metadata(e,t)};define("services/account.service",["require","exports","aurelia-http-client","aurelia-framework","../config/settings","./state","./helpers"],function(e,t,n,r,i,o,s){"use strict";var a=function(){function e(e,t,n,r){this.http=e,this.settings=t,this.state=n,this.helpers=r}return e.prototype.getLogins=function(){var e=this;return new Promise(function(t,n){e.http.get(e.settings.accountdAPI+"/logins").then(function(e){t(e.content)}).catch(function(e){return n(new Error("The service is down"))})})},e.prototype.removeLogin=function(e,t){var n=this;return new Promise(function(r,i){n.http.delete(n.settings.accountdAPI+"/sparemoveLogin?loginProvider="+encodeURIComponent(e)+"&providerKey="+encodeURIComponent(t)).then(function(){r()}).catch(function(e){return i(n.helpers.getError(e))})})},e=__decorate([r.autoinject,__metadata("design:paramtypes",[n.HttpClient,i.Settings,o.State,s.Helpers])],e)}();t.AccountService=a});var __decorate=this&&this.__decorate||function(e,t,n,r){var i,o=arguments.length,s=o<3?t:null===r?r=Object.getOwnPropertyDescriptor(t,n):r;if("object"==typeof Reflect&&"function"==typeof Reflect.decorate)s=Reflect.decorate(e,t,n,r);else for(var a=e.length-1;a>=0;a--)(i=e[a])&&(s=(o<3?i(s):o>3?i(t,n,s):i(t,n))||s);return o>3&&s&&Object.defineProperty(t,n,s),s},__metadata=this&&this.__metadata||function(e,t){if("object"==typeof Reflect&&"function"==typeof Reflect.metadata)return Reflect.metadata(e,t)};define("pages/account",["require","exports","aurelia-framework","aurelia-router","aurelia-event-aggregator","../services/chat.service","../services/state","../services/account.service","../services/login.service","../model/manage-logins","../events/connectionStateChanged","../config/settings","../services/helpers"],function(e,t,n,r,i,o,s,a,c,u,l,d,f){"use strict";var p=function(){function e(e,t,n,r,i,o,s){this.accountService=e,this.loginService=t,this.router=n,this.ea=r,this.state=i,this.externalLinkLogin=o.apiBaseUrl+o.accountdAPI+"/linklogin?returnUrl="+encodeURIComponent(location.protocol+"//"+location.host+"?a=account&u="+encodeURIComponent(this.state.userName))}return e.prototype.remove=function(e,t){var n=this;this.accountService.removeLogin(e,t).then(function(){var r=n.logins.currentLogins,i=r.findIndex(function(n){return n.loginProvider===e&&n.providerKey===t});r.splice(i,1);var o=new u.UserLogiAuthenticationDescriptionnInfo;o.authenticationScheme=o.displayName=e,n.logins.otherLogins.push(o)}).catch(function(e){return n.errorMessage=e.message})},e.prototype.attached=function(){var e=this;this.connectionStateSubscription=this.ea.subscribe(l.ConnectionStateChanged,function(t){t.state===o.ConnectionState.Connected&&e.getLogins();
-}),this.getLogins()},e.prototype.detached=function(){this.connectionStateSubscription.dispose()},e.prototype.getLogins=function(){var e=this;this.loginService.getXhrf().then(function(t){e.token=t,e.accountService.getLogins().then(function(t){return e.logins=t}).catch(function(t){return e.errorMessage=t.message})}).catch(function(t){return e.errorMessage=t.message})},e=__decorate([n.autoinject,__metadata("design:paramtypes",[a.AccountService,c.LoginService,r.Router,i.EventAggregator,s.State,d.Settings,f.Helpers])],e)}();t.Account=p});var __decorate=this&&this.__decorate||function(e,t,n,r){var i,o=arguments.length,s=o<3?t:null===r?r=Object.getOwnPropertyDescriptor(t,n):r;if("object"==typeof Reflect&&"function"==typeof Reflect.decorate)s=Reflect.decorate(e,t,n,r);else for(var a=e.length-1;a>=0;a--)(i=e[a])&&(s=(o<3?i(s):o>3?i(t,n,s):i(t,n))||s);return o>3&&s&&Object.defineProperty(t,n,s),s},__metadata=this&&this.__metadata||function(e,t){if("object"==typeof Reflect&&"function"==typeof Reflect.metadata)return Reflect.metadata(e,t)};define("pages/confirm",["require","exports","aurelia-framework","aurelia-router","aurelia-validation","../services/login.service","../services/helpers","../services/state"],function(e,t,n,r,i,o,s,a){"use strict";var c=function(){function e(e,t,n,r,i){this.service=e,this.router=t,this.helpers=n,this.state=r,this.controller=i.createForCurrentScope(),this.provider=this.helpers.getUrlParameter("p"),r.userName=this.helpers.getUrlParameter("u"),window.history.replaceState(null,null,"/")}return e.prototype.confirm=function(){var e=this;this.controller.validate().then(function(){e.service.confirm(e.state.userName).then(function(){e.router.navigateToRoute("home")}).catch(function(t){"NullInfo"===t.name?e.router.navigateToRoute("login"):e.error=t})}).catch(function(t){return e.error=t})},e=__decorate([n.autoinject,__metadata("design:paramtypes",[o.LoginService,r.Router,s.Helpers,a.State,i.ValidationControllerFactory])],e)}();t.Confirm=c});var __decorate=this&&this.__decorate||function(e,t,n,r){var i,o=arguments.length,s=o<3?t:null===r?r=Object.getOwnPropertyDescriptor(t,n):r;if("object"==typeof Reflect&&"function"==typeof Reflect.decorate)s=Reflect.decorate(e,t,n,r);else for(var a=e.length-1;a>=0;a--)(i=e[a])&&(s=(o<3?i(s):o>3?i(t,n,s):i(t,n))||s);return o>3&&s&&Object.defineProperty(t,n,s),s},__metadata=this&&this.__metadata||function(e,t){if("object"==typeof Reflect&&"function"==typeof Reflect.metadata)return Reflect.metadata(e,t)};define("pages/home",["require","exports","aurelia-framework","aurelia-event-aggregator","../services/chat.service","../events/connectionStateChanged"],function(e,t,n,r,i,o){"use strict";var s=function(){function e(e,t){this.chatService=e,this.ea=t}return e.prototype.configureRouter=function(e,t){e.map([{route:["","conversation/:id"],name:"conversation",moduleId:"../components/conversation-component"}]),this.router=t},e.prototype.attached=function(){var e=this;this.connectionStateSubscription=this.ea.subscribe(o.ConnectionStateChanged,function(t){e.setIsDisconnected(t.state)}),this.setIsDisconnected(this.chatService.currentState),this.chatService.currentState!==i.ConnectionState.Connected&&this.chatService.start()},e.prototype.detached=function(){this.connectionStateSubscription.dispose()},e.prototype.setIsDisconnected=function(e){e===i.ConnectionState.Error&&this.router.navigateToRoute("login"),e===i.ConnectionState.Disconnected?this.isDisconnected=!0:this.isDisconnected=!1},e=__decorate([n.autoinject,__metadata("design:paramtypes",[i.ChatService,r.EventAggregator])],e)}();t.Home=s});var __decorate=this&&this.__decorate||function(e,t,n,r){var i,o=arguments.length,s=o<3?t:null===r?r=Object.getOwnPropertyDescriptor(t,n):r;if("object"==typeof Reflect&&"function"==typeof Reflect.decorate)s=Reflect.decorate(e,t,n,r);else for(var a=e.length-1;a>=0;a--)(i=e[a])&&(s=(o<3?i(s):o>3?i(t,n,s):i(t,n))||s);return o>3&&s&&Object.defineProperty(t,n,s),s},__metadata=this&&this.__metadata||function(e,t){if("object"==typeof Reflect&&"function"==typeof Reflect.metadata)return Reflect.metadata(e,t)};define("pages/login",["require","exports","aurelia-framework","aurelia-router","../services/login.service","../config/settings","../services/state","../environment"],function(e,t,n,r,i,o,s,a){"use strict";var c=function(){function e(e,t,n,r){this.service=e,this.router=t,this.state=n;var i=window.location;this.externalLogin=r.apiBaseUrl+r.accountdAPI+"/externalLogin?returnUrl="+encodeURIComponent(i.protocol+"//"+i.host+a.default.redirectPath)}return e.prototype.login=function(){var e=this;this.service.login(this.state.userName).then(function(){e.router.navigateToRoute("home")}).catch(function(t){e.error=t})},e.prototype.activate=function(){var e=this;this.service.logoff(),this.service.getXhrf(!0).then(function(t){e.token=t,e.service.getExternalLoginProviders().then(function(t){return e.providers=t}).catch(function(t){return e.error=t})}).catch(function(t){return e.error=t})},e=__decorate([n.autoinject,__metadata("design:paramtypes",[i.LoginService,r.Router,s.State,o.Settings])],e)}();t.Login=c}),define("resources/index",["require","exports"],function(e,t){"use strict";function n(e){}t.configure=n}),define("aurelia-validation/validate-binding-behavior",["require","exports","aurelia-dependency-injection","aurelia-pal","aurelia-task-queue","./validation-controller","./validate-trigger"],function(e,t,n,r,i,o,s){"use strict";var a=function(){function e(e){this.taskQueue=e}return e.prototype.getTarget=function(e,t){var n=e.target;if(n instanceof Element)return n;for(var i=0,o=t.controllers.length;i<o;i++){var s=t.controllers[i];if(s.viewModel===n){var a=s.container.get(r.DOM.Element);if(a)return a;throw new Error('Unable to locate target element for "'+e.sourceExpression+'".')}}throw new Error('Unable to locate target element for "'+e.sourceExpression+'".')},e.prototype.bind=function(e,t,r,i){var a,c=this,u=this.getTarget(e,t);if(r instanceof o.ValidationController?a=r:(a=t.container.get(n.Optional.of(o.ValidationController)),i=r),null===a)throw new Error("A ValidationController has not been registered.");a.registerBinding(e,u,i),e.validationController=a,a.validateTrigger===s.validateTrigger.change?(e.standardUpdateSource=e.updateSource,e.updateSource=function(e){this.standardUpdateSource(e),this.validationController.validateBinding(this)}):a.validateTrigger===s.validateTrigger.blur&&(e.validateBlurHandler=function(){c.taskQueue.queueMicroTask(function(){return a.validateBinding(e)})},e.validateTarget=u,u.addEventListener("blur",e.validateBlurHandler)),a.validateTrigger!==s.validateTrigger.manual&&(e.standardUpdateTarget=e.updateTarget,e.updateTarget=function(e){this.standardUpdateTarget(e),this.validationController.resetBinding(this)})},e.prototype.unbind=function(e){e.standardUpdateSource&&(e.updateSource=e.standardUpdateSource,e.standardUpdateSource=null),e.standardUpdateTarget&&(e.updateTarget=e.standardUpdateTarget,e.standardUpdateTarget=null),e.validateBlurHandler&&(e.validateTarget.removeEventListener("blur",e.validateBlurHandler),e.validateBlurHandler=null,e.validateTarget=null),e.validationController.unregisterBinding(e),e.validationController=null},e.inject=[i.TaskQueue],e}();t.ValidateBindingBehavior=a}),define("aurelia-validation/validation-controller",["require","exports","./validator","./validate-trigger","./property-info","./validation-error"],function(e,t,n,r,i,o){"use strict";var s=function(){function e(e){this.validator=e,this.bindings=new Map,this.renderers=[],this.errors=[],this.validating=!1,this.elements=new Map,this.objects=new Map,this.validateTrigger=r.validateTrigger.blur,this.finishValidating=Promise.resolve()}return e.prototype.addObject=function(e,t){this.objects.set(e,t)},e.prototype.removeObject=function(e){this.objects.delete(e),this.processErrorDelta("reset",this.errors.filter(function(t){return t.object===e}),[])},e.prototype.addError=function(e,t,n){var r=new o.ValidationError({},e,t,n);return this.processErrorDelta("validate",[],[r]),r},e.prototype.removeError=function(e){this.errors.indexOf(e)!==-1&&this.processErrorDelta("reset",[e],[])},e.prototype.addRenderer=function(e){var t=this;this.renderers.push(e),e.render({kind:"validate",render:this.errors.map(function(e){return{error:e,elements:t.elements.get(e)}}),unrender:[]})},e.prototype.removeRenderer=function(e){var t=this;this.renderers.splice(this.renderers.indexOf(e),1),e.render({kind:"reset",render:[],unrender:this.errors.map(function(e){return{error:e,elements:t.elements.get(e)}})})},e.prototype.registerBinding=function(e,t,n){this.bindings.set(e,{target:t,rules:n})},e.prototype.unregisterBinding=function(e){this.resetBinding(e),this.bindings.delete(e)},e.prototype.getInstructionPredicate=function(e){if(e){var t,n=e.object,r=e.propertyName,i=e.rules;return t=e.propertyName?function(e){return e.object===n&&e.propertyName===r}:function(e){return e.object===n},i&&i.indexOf?function(e){return t(e)&&i.indexOf(e.rule)!==-1}:t}return function(){return!0}},e.prototype.validate=function(e){var t,n=this;if(e){var r=e.object,o=e.propertyName,s=e.rules;s=s||this.objects.get(r),t=void 0===e.propertyName?function(){return n.validator.validateObject(r,s)}:function(){return n.validator.validateProperty(r,o,s)}}else t=function(){for(var e=[],t=0,r=Array.from(n.objects);t<r.length;t++){var o=r[t],s=o[0],a=o[1];e.push(n.validator.validateObject(s,a))}for(var c=0,u=Array.from(n.bindings);c<u.length;c++){var l=u[c],d=l[0],a=l[1].rules,f=i.getPropertyInfo(d.sourceExpression,d.source),s=f.object,p=f.propertyName;n.objects.has(s)||e.push(n.validator.validateProperty(s,p,a))}return Promise.all(e).then(function(e){return e.reduce(function(e,t){return e.concat(t)},[])})};this.validating=!0;var a=this.finishValidating.then(t).then(function(t){var r=n.getInstructionPredicate(e),i=n.errors.filter(r);return n.processErrorDelta("validate",i,t),a===n.finishValidating&&(n.validating=!1),t}).catch(function(e){return n.validating=!1,n.finishValidating=Promise.resolve(),Promise.reject(e)});return this.finishValidating=a,a},e.prototype.reset=function(e){var t=this.getInstructionPredicate(e),n=this.errors.filter(t);this.processErrorDelta("reset",n,[])},e.prototype.getAssociatedElements=function(e){for(var t=e.object,n=e.propertyName,r=[],o=0,s=Array.from(this.bindings);o<s.length;o++){var a=s[o],c=a[0],u=a[1].target,l=i.getPropertyInfo(c.sourceExpression,c.source),d=l.object,f=l.propertyName;d===t&&f===n&&r.push(u)}return r},e.prototype.processErrorDelta=function(e,t,n){var r={kind:e,render:[],unrender:[]};n=n.slice(0);for(var i=function(e){var t=o.elements.get(e);o.elements.delete(e),r.unrender.push({error:e,elements:t});var i=n.findIndex(function(t){return t.rule===e.rule&&t.object===e.object&&t.propertyName===e.propertyName});if(i===-1)o.errors.splice(o.errors.indexOf(e),1);else{var s=n.splice(i,1)[0],a=o.getAssociatedElements(s);o.elements.set(s,a),r.render.push({error:s,elements:a}),o.errors.splice(o.errors.indexOf(e),1,s)}},o=this,s=0,a=t;s<a.length;s++){var c=a[s];i(c)}for(var u=0,l=n;u<l.length;u++){var d=l[u],f=this.getAssociatedElements(d);r.render.push({error:d,elements:f}),this.elements.set(d,f),this.errors.push(d)}for(var p=0,h=this.renderers;p<h.length;p++){var v=h[p];v.render(r)}},e.prototype.validateBinding=function(e){if(e.isBound){var t=i.getPropertyInfo(e.sourceExpression,e.source),n=t.object,r=t.propertyName,o=this.bindings.get(e),s=o?o.rules:void 0;this.validate({object:n,propertyName:r,rules:s})}},e.prototype.resetBinding=function(e){var t=i.getPropertyInfo(e.sourceExpression,e.source),n=t.object,r=t.propertyName;this.reset({object:n,propertyName:r})},e.inject=[n.Validator],e}();t.ValidationController=s}),define("aurelia-validation/validator",["require","exports"],function(e,t){"use strict";var n=function(){function e(){}return e}();t.Validator=n}),define("aurelia-validation/validate-trigger",["require","exports"],function(e,t){"use strict";t.validateTrigger={blur:"blur",change:"change",manual:"manual"}}),define("aurelia-validation/property-info",["require","exports","aurelia-binding"],function(e,t,n){"use strict";function r(e,t,n){var r=t.evaluate(n,null);if(null!==r&&("object"==typeof r||"function"==typeof r))return r;throw null===r?r="null":void 0===r&&(r="undefined"),new Error("The '"+t+"' part of '"+e+"' evaluates to "+r+" instead of an object.")}function i(e,t){for(var i=e;e instanceof n.BindingBehavior||e instanceof n.ValueConverter;)e=e.expression;var o,s;if(e instanceof n.AccessScope)o=t.bindingContext,s=e.name;else if(e instanceof n.AccessMember)o=r(i,e.object,t),s=e.name;else{if(!(e instanceof n.AccessKeyed))throw new Error("Expression '"+i+"' is not compatible with the validate binding-behavior.");o=r(i,e.object,t),s=e.key.evaluate(t)}return{object:o,propertyName:s}}t.getPropertyInfo=i}),define("aurelia-validation/validation-error",["require","exports"],function(e,t){"use strict";var n=function(){function e(t,n,r,i){void 0===i&&(i=null),this.rule=t,this.message=n,this.object=r,this.propertyName=i,this.id=e.nextId++}return e.prototype.toString=function(){return this.message},e.nextId=0,e}();t.ValidationError=n}),define("aurelia-validation/validation-controller-factory",["require","exports","./validation-controller"],function(e,t,n){"use strict";var r=function(){function e(e){this.container=e}return e.get=function(t){return new e(t)},e.prototype.create=function(){return this.container.invoke(n.ValidationController)},e.prototype.createForCurrentScope=function(){var e=this.create();return this.container.registerInstance(n.ValidationController,e),e},e}();t.ValidationControllerFactory=r,r["protocol:aurelia:resolver"]=!0});var __decorate=this&&this.__decorate||function(e,t,n,r){var i,o=arguments.length,s=o<3?t:null===r?r=Object.getOwnPropertyDescriptor(t,n):r;if("object"==typeof Reflect&&"function"==typeof Reflect.decorate)s=Reflect.decorate(e,t,n,r);else for(var a=e.length-1;a>=0;a--)(i=e[a])&&(s=(o<3?i(s):o>3?i(t,n,s):i(t,n))||s);return o>3&&s&&Object.defineProperty(t,n,s),s};define("aurelia-validation/validation-errors-custom-attribute",["require","exports","aurelia-binding","aurelia-dependency-injection","aurelia-templating","./validation-controller"],function(e,t,n,r,i,o){"use strict";var s=function(){function e(e,t){this.boundaryElement=e,this.controllerAccessor=t,this.errors=[]}return e.prototype.sort=function(){this.errors.sort(function(e,t){return e.targets[0]===t.targets[0]?0:2&e.targets[0].compareDocumentPosition(t.targets[0])?1:-1})},e.prototype.interestingElements=function(e){var t=this;return e.filter(function(e){return t.boundaryElement.contains(e)})},e.prototype.render=function(e){for(var t=function(e){var t=n.errors.findIndex(function(t){return t.error===e});t!==-1&&n.errors.splice(t,1)},n=this,r=0,i=e.unrender;r<i.length;r++){var o=i[r].error;t(o)}for(var s=0,a=e.render;s<a.length;s++){var c=a[s],o=c.error,u=c.elements,l=this.interestingElements(u);l.length&&this.errors.push({error:o,targets:l})}this.sort(),this.value=this.errors},e.prototype.bind=function(){this.controllerAccessor().addRenderer(this),this.value=this.errors},e.prototype.unbind=function(){this.controllerAccessor().removeRenderer(this)},e.inject=[Element,r.Lazy.of(o.ValidationController)],e=__decorate([i.customAttribute("validation-errors",n.bindingMode.twoWay)],e)}();t.ValidationErrorsCustomAttribute=s}),define("aurelia-validation/validation-renderer-custom-attribute",["require","exports","./validation-controller"],function(e,t,n){"use strict";var r=function(){function e(){}return e.prototype.created=function(e){this.container=e.container},e.prototype.bind=function(){this.controller=this.container.get(n.ValidationController),this.renderer=this.container.get(this.value),this.controller.addRenderer(this.renderer)},e.prototype.unbind=function(){this.controller.removeRenderer(this.renderer),this.controller=null,this.renderer=null},e}();t.ValidationRendererCustomAttribute=r}),define("aurelia-validation/implementation/rules",["require","exports"],function(e,t){"use strict";var n=function(){function e(){}return e.set=function(t,n){t instanceof Function&&(t=t.prototype),Object.defineProperty(t,e.key,{enumerable:!1,configurable:!1,writable:!0,value:n})},e.unset=function(t){t instanceof Function&&(t=t.prototype),t[e.key]=null},e.get=function(t){return t[e.key]||null},e.key="__rules__",e}();t.Rules=n});var __extends=this&&this.__extends||function(e,t){function n(){this.constructor=e}for(var r in t)t.hasOwnProperty(r)&&(e[r]=t[r]);e.prototype=null===t?Object.create(t):(n.prototype=t.prototype,new n)};define("aurelia-validation/implementation/standard-validator",["require","exports","aurelia-templating","../validator","../validation-error","./rules","./validation-messages"],function(e,t,n,r,i,o,s){"use strict";var a=function(e){function t(t,n){e.call(this),this.messageProvider=t,this.lookupFunctions=n.lookupFunctions,this.getDisplayName=t.getDisplayName.bind(t)}return __extends(t,e),t.prototype.getMessage=function(e,t,n){var r=e.message||this.messageProvider.getMessage(e.messageKey),i=e.property,o=i.name,s=i.displayName;null===s&&null!==o&&(s=this.messageProvider.getDisplayName(o));var a={$displayName:s,$propertyName:o,$value:n,$object:t,$config:e.config,$getDisplayName:this.getDisplayName};return r.evaluate({bindingContext:t,overrideContext:a},this.lookupFunctions)},t.prototype.validate=function(e,t,n){var r=this,s=[];if(n||(n=o.Rules.get(e)),!n)return Promise.resolve(s);for(var a=null===t||void 0===t,c=function(t,n){var o=r.getMessage(t,e,n);s.push(new i.ValidationError(t,o,e,t.property.name))},u=[],l=function(r){var i=n[r];if(!a&&i.property.name!==t)return"continue";if(i.when&&!i.when(e))return"continue";var o=null===i.property.name?e:e[i.property.name],s=i.condition(o,e);return s instanceof Promise?(u.push(s.then(function(e){e||c(i,o)})),"continue"):void(s||c(i,o))},d=0;d<n.length;d++)l(d);return 0===u.length?Promise.resolve(s):Promise.all(u).then(function(){return s})},t.prototype.validateProperty=function(e,t,n){return this.validate(e,t,n||null)},t.prototype.validateObject=function(e,t){return this.validate(e,null,t||null)},t.inject=[s.ValidationMessageProvider,n.ViewResources],t}(r.Validator);t.StandardValidator=a}),define("aurelia-validation/implementation/validation-messages",["require","exports","./validation-parser"],function(e,t,n){"use strict";t.validationMessages={default:"${$displayName} is invalid.",required:"${$displayName} is required.",matches:"${$displayName} is not correctly formatted.",email:"${$displayName} is not a valid email.",minLength:"${$displayName} must be at least ${$config.length} character${$config.length === 1 ? '' : 's'}.",maxLength:"${$displayName} cannot be longer than ${$config.length} character${$config.length === 1 ? '' : 's'}.",minItems:"${$displayName} must contain at least ${$config.count} item${$config.count === 1 ? '' : 's'}.",maxItems:"${$displayName} cannot contain more than ${$config.count} item${$config.count === 1 ? '' : 's'}.",equals:"${$displayName} must be ${$config.expectedValue}."};var r=function(){function e(e){this.parser=e}return e.prototype.getMessage=function(e){var n;return n=e in t.validationMessages?t.validationMessages[e]:t.validationMessages.default,this.parser.parseMessage(n)},e.prototype.getDisplayName=function(e){var t=e.split(/(?=[A-Z])/).join(" ");return t.charAt(0).toUpperCase()+t.slice(1)},e.inject=[n.ValidationParser],e}();t.ValidationMessageProvider=r});var __extends=this&&this.__extends||function(e,t){function n(){this.constructor=e}for(var r in t)t.hasOwnProperty(r)&&(e[r]=t[r]);e.prototype=null===t?Object.create(t):(n.prototype=t.prototype,new n)};define("aurelia-validation/implementation/validation-parser",["require","exports","aurelia-binding","aurelia-templating","./util","aurelia-logging"],function(e,t,n,r,i,o){"use strict";var s=function(){function e(e,t){this.parser=e,this.bindinqLanguage=t,this.emptyStringExpression=new n.LiteralString(""),this.nullExpression=new n.LiteralPrimitive(null),this.undefinedExpression=new n.LiteralPrimitive(void 0),this.cache={}}return e.prototype.coalesce=function(e){return new n.Conditional(new n.Binary("||",new n.Binary("===",e,this.nullExpression),new n.Binary("===",e,this.undefinedExpression)),this.emptyStringExpression,new n.CallMember(e,"toString",[]))},e.prototype.parseMessage=function(e){if(void 0!==this.cache[e])return this.cache[e];var t=this.bindinqLanguage.parseInterpolation(null,e);if(null===t)return new n.LiteralString(e);for(var r=new n.LiteralString(t[0]),i=1;i<t.length;i+=2)r=new n.Binary("+",r,new n.Binary("+",this.coalesce(t[i]),new n.LiteralString(t[i+1])));return a.validate(r,e),this.cache[e]=r,r},e.prototype.getAccessorExpression=function(e){var t=/^function\s*\([$_\w\d]+\)\s*\{\s*(?:"use strict";)?\s*return\s+[$_\w\d]+\.([$_\w\d]+)\s*;?\s*\}$/,n=/^[$_\w\d]+\s*=>\s*[$_\w\d]+\.([$_\w\d]+)$/,r=t.exec(e)||n.exec(e);if(null===r)throw new Error("Unable to parse accessor function:\n"+e);return this.parser.parse(r[1])},e.prototype.parseProperty=function(e){var t;if(t=i.isString(e)?this.parser.parse(e):this.getAccessorExpression(e.toString()),t instanceof n.AccessScope||t instanceof n.AccessMember&&t.object instanceof n.AccessScope)return{name:t.name,displayName:null};throw new Error('Invalid subject: "'+t+'"')},e.inject=[n.Parser,r.BindingLanguage],e}();t.ValidationParser=s;var a=function(e){function t(t){e.call(this,[]),this.originalMessage=t}return __extends(t,e),t.validate=function(e,n){var r=new t(n);e.accept(r)},t.prototype.visitAccessScope=function(e){if(0!==e.ancestor)throw new Error("$parent is not permitted in validation message expressions.");["displayName","propertyName","value","object","config","getDisplayName"].indexOf(e.name)!==-1&&o.getLogger("aurelia-validation").warn('Did you mean to use "$'+e.name+'" instead of "'+e.name+'" in this validation message template: "'+this.originalMessage+'"?')},t}(n.Unparser);t.MessageExpressionValidator=a}),define("aurelia-validation/implementation/util",["require","exports"],function(e,t){"use strict";function n(e){return"[object String]"===Object.prototype.toString.call(e)}t.isString=n}),define("aurelia-validation/implementation/validation-rules",["require","exports","./util","./rules","./validation-messages"],function(e,t,n,r,i){"use strict";var o=function(){function e(e,t,n,r,i,o){void 0===n&&(n={}),this.fluentEnsure=r,this.fluentRules=i,this.parser=o,this.rule={property:e,condition:t,config:n,when:null,messageKey:"default",message:null},this.fluentEnsure.rules.push(this.rule)}return e.prototype.withMessageKey=function(e){return this.rule.messageKey=e,this.rule.message=null,this},e.prototype.withMessage=function(e){return this.rule.messageKey="custom",this.rule.message=this.parser.parseMessage(e),this},e.prototype.when=function(e){return this.rule.when=e,this},e.prototype.tag=function(e){return this.rule.tag=e,this},e.prototype.ensure=function(e){return this.fluentEnsure.ensure(e)},e.prototype.ensureObject=function(){return this.fluentEnsure.ensureObject()},Object.defineProperty(e.prototype,"rules",{get:function(){return this.fluentEnsure.rules},enumerable:!0,configurable:!0}),e.prototype.on=function(e){return this.fluentEnsure.on(e)},e.prototype.satisfies=function(e,t){return this.fluentRules.satisfies(e,t)},e.prototype.satisfiesRule=function(e){for(var t=[],n=1;n<arguments.length;n++)t[n-1]=arguments[n];return(r=this.fluentRules).satisfiesRule.apply(r,[e].concat(t));var r},e.prototype.required=function(){return this.fluentRules.required()},e.prototype.matches=function(e){return this.fluentRules.matches(e)},e.prototype.email=function(){return this.fluentRules.email()},e.prototype.minLength=function(e){return this.fluentRules.minLength(e)},e.prototype.maxLength=function(e){return this.fluentRules.maxLength(e)},e.prototype.minItems=function(e){return this.fluentRules.minItems(e)},e.prototype.maxItems=function(e){return this.fluentRules.maxItems(e)},e.prototype.equals=function(e){return this.fluentRules.equals(e)},e}();t.FluentRuleCustomizer=o;var s=function(){function e(e,t,n){this.fluentEnsure=e,this.parser=t,this.property=n}return e.prototype.displayName=function(e){return this.property.displayName=e,this},e.prototype.satisfies=function(e,t){return new o(this.property,e,t,this.fluentEnsure,this,this.parser)},e.prototype.satisfiesRule=function(t){for(var n=this,r=[],i=1;i<arguments.length;i++)r[i-1]=arguments[i];var o=e.customRules[t];if(!o){if(o=this[t],o instanceof Function)return o.call.apply(o,[this].concat(r));throw new Error('Rule with name "'+t+'" does not exist.')}var s=o.argsToConfig?o.argsToConfig.apply(o,r):void 0;return this.satisfies(function(e,t){return(i=o.condition).call.apply(i,[n,e,t].concat(r));var i},s).withMessageKey(t)},e.prototype.required=function(){return this.satisfies(function(e){return null!==e&&void 0!==e&&!(n.isString(e)&&!/\S/.test(e))}).withMessageKey("required")},e.prototype.matches=function(e){return this.satisfies(function(t){return null===t||void 0===t||0===t.length||e.test(t)}).withMessageKey("matches")},e.prototype.email=function(){return this.matches(/^((([a-z]|\d|[!#\$%&'\*\+\-\/=\?\^_`{\|}~]|[\u00A0-\uD7FF\uF900-\uFDCF\uFDF0-\uFFEF])+(\.([a-z]|\d|[!#\$%&'\*\+\-\/=\?\^_`{\|}~]|[\u00A0-\uD7FF\uF900-\uFDCF\uFDF0-\uFFEF])+)*)|((\x22)((((\x20|\x09)*(\x0d\x0a))?(\x20|\x09)+)?(([\x01-\x08\x0b\x0c\x0e-\x1f\x7f]|\x21|[\x23-\x5b]|[\x5d-\x7e]|[\u00A0-\uD7FF\uF900-\uFDCF\uFDF0-\uFFEF])|(\\([\x01-\x09\x0b\x0c\x0d-\x7f]|[\u00A0-\uD7FF\uF900-\uFDCF\uFDF0-\uFFEF]))))*(((\x20|\x09)*(\x0d\x0a))?(\x20|\x09)+)?(\x22)))@((([a-z]|\d|[\u00A0-\uD7FF\uF900-\uFDCF\uFDF0-\uFFEF])|(([a-z]|\d|[\u00A0-\uD7FF\uF900-\uFDCF\uFDF0-\uFFEF])([a-z]|\d|-|\.|_|~|[\u00A0-\uD7FF\uF900-\uFDCF\uFDF0-\uFFEF])*([a-z]|\d|[\u00A0-\uD7FF\uF900-\uFDCF\uFDF0-\uFFEF])))\.)+(([a-z]|[\u00A0-\uD7FF\uF900-\uFDCF\uFDF0-\uFFEF])|(([a-z]|[\u00A0-\uD7FF\uF900-\uFDCF\uFDF0-\uFFEF])([a-z]|\d|-|\.|_|~|[\u00A0-\uD7FF\uF900-\uFDCF\uFDF0-\uFFEF])*([a-z]|[\u00A0-\uD7FF\uF900-\uFDCF\uFDF0-\uFFEF])))$/).withMessageKey("email")},e.prototype.minLength=function(e){return this.satisfies(function(t){return null===t||void 0===t||0===t.length||t.length>=e},{length:e}).withMessageKey("minLength")},e.prototype.maxLength=function(e){return this.satisfies(function(t){return null===t||void 0===t||0===t.length||t.length<=e},{length:e}).withMessageKey("maxLength")},e.prototype.minItems=function(e){return this.satisfies(function(t){return null===t||void 0===t||t.length>=e},{count:e}).withMessageKey("minItems")},e.prototype.maxItems=function(e){return this.satisfies(function(t){return null===t||void 0===t||t.length<=e},{count:e}).withMessageKey("maxItems")},e.prototype.equals=function(e){return this.satisfies(function(t){return null===t||void 0===t||""===t||t===e},{expectedValue:e}).withMessageKey("equals")},e.customRules={},e}();t.FluentRules=s;var a=function(){function e(e){this.parser=e,this.rules=[]}return e.prototype.ensure=function(e){return this.assertInitialized(),new s(this,this.parser,this.parser.parseProperty(e))},e.prototype.ensureObject=function(){return this.assertInitialized(),new s(this,this.parser,{name:null,displayName:null})},e.prototype.on=function(e){return r.Rules.set(e,this.rules),this},e.prototype.assertInitialized=function(){if(!this.parser)throw new Error('Did you forget to add ".plugin(\'aurelia-validation)" to your main.js?')},e}();t.FluentEnsure=a;var c=function(){function e(){}return e.initialize=function(t){e.parser=t},e.ensure=function(t){return new a(e.parser).ensure(t)},e.ensureObject=function(){return new a(e.parser).ensureObject()},e.customRule=function(e,t,n,r){i.validationMessages[e]=n,s.customRules[e]={condition:t,argsToConfig:r}},e.taggedRules=function(e,t){return e.filter(function(e){return e.tag===t})},e.off=function(e){r.Rules.unset(e)},e}();t.ValidationRules=c}),define("text!app.html",["module"],function(e){e.exports='<template>\r\n    <require from="./css/site.css"></require>\r\n    <div class="navbar navbar-default navbar-fixed-top">\r\n        <div class="container">\r\n            <div class="navbar-header">\r\n                <button type="button" class="navbar-toggle" data-toggle="collapse" data-target=".navbar-collapse">\r\n                    <span class="icon-bar menu"></span>\r\n                    <span class="icon-bar menu"></span>\r\n                    <span class="icon-bar menu"></span>\r\n                </button>\r\n                <a class="navbar-brand title" click.delegate="home()">chatle</a>\r\n            </div>\r\n            <div class="navbar-collapse collapse">\r\n                <ul class="nav navbar-nav" if.bind="isConnected">\r\n                    <li click.delegate="manage()"><a>Welcom ${userName}!</a></li>\r\n                    <li click.delegate="logoff()"><a>Log off</a></li>\r\n                </ul>\r\n            </div>\r\n        </div>\r\n    </div>\r\n    <div class="container body-content">\r\n        <div if.bind="errorMessage" class="text-danger">\r\n            <ul>\r\n                <li>${errorMessage}</li>\r\n            </ul>\r\n        </div>\r\n        <router-view></router-view>\r\n    </div>\r\n    <footer>\r\n        <p>&copy; 2016 - chatle</p>\r\n    </footer>\r\n</template>\r\n'}),define("text!css/site.css",["module"],function(e){e.exports="html {\r\n    font-family: cursive\r\n}\r\n/* Move down content because we have a fixed navbar that is 50px tall */\r\nbody.chatle {\r\n    padding-top: 50px;\r\n    padding-bottom: 20px;\r\n}\r\n\r\n/* Wrapping element */\r\n/* Set some basic padding to keep content from hitting the edges */\r\n.body-content {\r\n    padding-left: 15px;\r\n    padding-right: 15px;\r\n}\r\n\r\n.navbar.navbar-default {\r\n    background-color: #000;\r\n}\r\n\r\n.title.navbar-brand:focus,\r\n.title.navbar-brand:hover,\r\n.nav.navbar-nav > li > a:hover {\r\n    color: #fff;    \r\n}\r\n\r\nli:hover {\r\n    cursor: pointer;\r\n}\r\n\r\n/* Set widths on the form inputs since otherwise they're 100% wide */\r\ninput,\r\nselect,\r\ntextarea {\r\n    max-width: 280px;\r\n}\r\n\r\nul\r\n{\r\n    padding-left: 0;\r\n    list-style-type: none;\r\n}\r\n\r\nsmall {\r\n    color: #666666;\r\n}\r\n\r\n/* Responsive: Portrait tablets and up */\r\n@media screen and (min-width: 768px) {\r\n    .jumbotron {\r\n        margin-top: 20px;\r\n    }\r\n\r\n    .body-content {\r\n        padding: 0;\r\n    }\r\n}\r\n\r\n.list-group-item,\r\n.list-group-item:first-child,\r\n.list-group-item:last-child {\r\n    border: 0;\r\n    padding: 0;\r\n    border-radius: 0;\r\n}\r\n\r\n.list-group-item:hover {\r\n    padding-right: 4px;\r\n    padding-left: 4px;\r\n}\r\n\r\n.list-group-item.active {\r\n    background-color: #fff;\r\n    border-top: 1px solid #ccc;\r\n    border-bottom: 1px solid #ccc;\r\n}\r\n\r\n.list-group-item.active:hover {\r\n    background-color: #fff;    \r\n    border-color: #333;\r\n}\r\n\r\n.list-group-item.active span {\r\n    color: #333;\r\n}"}),define("text!components/contact-list.html",["module"],function(e){e.exports='<template>\r\n  <require from="./contact"></require>\r\n  <div class="contact-list">\r\n    <span if.bind="!users">${loadingMessage}</span>\r\n    <ul class="list-group" if.bind="users">\r\n      <contact repeat.for="user of users" user.bind="user"></contact>\r\n    </ul>\r\n  </div>\r\n</template>'}),define("text!css/site.min.css",["module"],function(e){e.exports="html{font-family:cursive}body{padding-top:50px;padding-bottom:20px}.console{font-family:'Lucida Console',Monaco,monospace}.body-content{padding-left:15px;padding-right:15px}.navbar.navbar-default{background-color:#fff}.nav.navbar-nav>li>a:hover,.title.navbar-brand:focus,.title.navbar-brand:hover{color:#222}input,select,textarea{max-width:280px}ul{padding-left:0;list-style-type:none}small{color:#666}@media screen and (min-width:768px){.jumbotron{margin-top:20px}.body-content{padding:0}}"}),define("text!components/contact.html",["module"],function(e){e.exports='<template>\r\n    <li class="list-group-item ${isSelected ? \'active\' : \'\'}" click.delegate="select()" desabled="isCurrentUser"><a>${user.id}</a></li>\r\n</template>';
-}),define("text!components/conversation-component.html",["module"],function(e){e.exports='<template>\r\n    <div if.bind="conversation">\r\n        <h6>${conversation.title}</h6>\r\n        <form class="form-inline">\r\n            <input class="form-control" value.bind="message" placeholder="message...">\r\n            <button type="submit" class="btn btn-default" click.delegate="sendMessage()" disabled.bind="!message">send</button>\r\n        </form>\r\n        <ul>\r\n            <li repeat.for="message of conversation.messages">\r\n                <small>${message.from}</small><br />\r\n                <span>${message.text}</span>\r\n            </li>\r\n        </ul>\r\n    </div>\r\n    <h1 if.bind="!conversation">WELCOME TO THIS REALLY SIMPLE CHAT</h1>\r\n</template>'}),define("text!components/conversation-list.html",["module"],function(e){e.exports='<template>\r\n  <require from="./conversation-preview"></require>\r\n  <div class="conversation-list">\r\n    <ul class="list-group">\r\n      <conversation-preview repeat.for="conversation of conversations" conversation.bind="conversation"></conversation-preview>\r\n    </ul>\r\n  </div>\r\n</template>'}),define("text!components/conversation-preview.html",["module"],function(e){e.exports="<template>\r\n  <li class=\"list-group-item ${isSelected ? 'active' : ''}\" click.delegate=\"select()\">\r\n    <a>${conversation.title}</a><br/>\r\n    <span>${lastMessage}</span>\r\n  </li>\r\n</template>"}),define("text!components/user-name.html",["module"],function(e){e.exports='<template>\r\n\t<div validation-errors.bind="userNameErrors" class.bind="userNameErrors.length ? \'has-error\' : \'\'">\r\n\t\t<input class="form-control" name="UserName" value.bind="userName & validate" />\r\n\t\t<span class="help-block" repeat.for="errorInfo of userNameErrors">\r\n            ${errorInfo.error.message}\r\n        <span>\r\n    </div>\r\n</template>>'}),define("text!pages/account.html",["module"],function(e){e.exports='<template>\r\n\t<h2>Manage Account.</h2>\r\n\t<div class="row">\r\n\t\t<template if.bind="logins.otherLogins.length > 0">\r\n\t\t\t<h4>Add another service to log in.</h4>\r\n\t\t\t<hr />\r\n\t\t\t<form method="post" class="form-horizontal" role="form" action.bind="externalLinkLogin">\r\n\t\t\t\t<div>\r\n\t\t\t\t\t<p>\r\n\t\t\t\t\t\t<button type="submit" class="btn btn-default" name="provider" repeat.for="login of logins.otherLogins" value.bind="login.authenticationScheme"\r\n\t\t\t\t\t\t\ttitle="Log in using your ${login.displayName} account">${login.authenticationScheme}</button>\r\n\t\t\t\t\t</p>\r\n\t\t\t\t</div>\r\n\t\t\t\t<input name="__RequestVerificationToken" type="hidden" value.bind="token" />\r\n\t\t\t</form>\r\n\t\t</template>\r\n\t\t<template if.bind="logins.currentLogins.length > 0">\r\n\t\t\t<h4>Registered Logins</h4>\r\n\t\t\t<table class="table">\r\n\t\t\t\t<tbody>\r\n\t\t\t\t\t<template repeat.for="login of logins.currentLogins">\r\n\t\t\t\t\t\t<tr>\r\n\t\t\t\t\t\t\t<td>${login.loginProvider}</td>\r\n\t\t\t\t\t\t\t<td>\r\n\t\t\t\t\t\t\t\t<form class="form-horizontal" role="form" if.bind="logins.currentLogins.length > 1">\r\n\t\t\t\t\t\t\t\t\t<div>\r\n\t\t\t\t\t\t\t\t\t\t<input type="submit" class="btn btn-default" value="Remove" title="Remove this ${login.loginProvider} login from your account" click.delegate="remove(login.loginProvider, login.providerKey)" />\r\n\t\t\t\t\t\t\t\t\t</div>\r\n\t\t\t\t\t\t\t\t</form>\r\n\t\t\t\t\t\t\t</td>\r\n\t\t\t\t\t\t</tr>\r\n\t\t\t\t\t</template>\r\n\t\t\t\t</tbody>\r\n\t\t\t</table>\r\n\t\t</template>\r\n\t</div>\r\n</template>'}),define("text!pages/confirm.html",["module"],function(e){e.exports='<template>\r\n\t<require from="../components/user-name"></require>\r\n\t<h3>Associate your ${provider} account.</h3>\r\n\r\n\t<form class="form-horizontal" submit.delegate="confirm()">\r\n\t\t<h4>Association Form</h4>\r\n\t\t<hr />\r\n\t\t<div class="text-danger">${error.message}</div>\r\n\r\n\t\t<p class="text-info">\r\n\t\t\tYou\'ve successfully authenticated with <strong>${provider}</strong>. Please enter a user name for this site below and\r\n\t\t\tclick the Register button to finish logging in.\r\n\t\t</p>\r\n\t\t<div class="form-group">\r\n\t\t\t<label class="col-md-2 control-label" for="UserName">User name</label>\r\n\t\t\t<user-name class="col-md-10"></user-name>\r\n\t\t</div>\r\n\t\t<div class="form-group">\r\n\t\t\t<div class="col-md-offset-2 col-md-10">\r\n\t\t\t\t<button type="submit" class="btn btn-default">Register</button>\r\n\t\t\t</div>\r\n\t\t</div>\r\n\t</form>\r\n\r\n</template>'}),define("text!pages/home.html",["module"],function(e){e.exports='<template>\r\n    <require from="../components/contact-list"></require>\r\n    <require from="../components/conversation-list"></require>\r\n\r\n    <div class="row">\r\n        <div class="col-xs-3">\r\n            <h6>CONVERSATION</h6>\r\n            <conversation-list></conversation-list>\r\n        </div>\r\n        <router-view class="col-xs-6"></router-view>\r\n        <div class="col-xs-3">\r\n            <h6>CONNECTED</h6>\r\n            <contact-list></contact-list>\r\n        </div>\r\n    </div>\r\n</template>'}),define("text!pages/login.html",["module"],function(e){e.exports='<template>\r\n\t<require from="../components/user-name"></require>\r\n\r\n\t<h2>Log in.</h2>\r\n\t<hr />\r\n\t<div class="col-xs-6">\r\n\t\t<section>\r\n\t\t\t<h4>Guess access.</h4>\r\n\t\t\t<hr>\r\n\t\t\t<span if.bind="!providers">loading...</span>\r\n\t\t\t<form class="form-horizontal" if.bind="providers">\r\n\t\t\t\t<div class="form-group">\r\n\t\t\t\t\t<label class="col-xs-3 control-label" for="userName"></label>\r\n\t\t\t\t\t<user-name class="col-xs-9"></user-name>\r\n\t\t\t\t\t<span class="help-block">\r\n            \t\t\t${error.message}\r\n        \t\t\t<span>\r\n\t\t\t\t</div>\r\n\t\t\t\t<div class="form-group">\r\n\t\t\t\t\t<div class="col-xs-offset-3 col-xs-9">\r\n\t\t\t\t\t\t<input type="submit" value="Log in" class="btn btn-default" click.delegate="login(userName)" />\r\n\t\t\t\t\t</div>\r\n\t\t\t\t</div>\r\n\t\t\t</form>\r\n\t\t</section>\r\n\t</div>\r\n\t<div class="col-xs-6">\r\n\t\t<section>\r\n\t\t\t<h4>Use another service to log in.</h4>\r\n\t\t\t<hr>\r\n\t\t\t<form class="form-horizontal" role="form" method="post" action.bind="externalLogin">\r\n\t\t\t\t<div>\r\n\t\t\t\t\t<p>\r\n\t\t\t\t\t\t<button type="submit" class="btn btn-default" name="provider" repeat.for="provider of providers" value.bind="provider.authenticationScheme" title="Log in using your ${provider.displayName} account">${provider.displayName}</button>\r\n\t\t\t\t\t</p>\r\n\t\t\t\t</div>\r\n\t\t\t\t<input name="__RequestVerificationToken" type="hidden" value.bind="token"></form>\r\n\t\t</section>\r\n\t</div>\r\n</template>'});
+define('environment',["require", "exports"], function (require, exports) {
+    "use strict";
+    Object.defineProperty(exports, "__esModule", { value: true });
+    exports.default = {
+        debug: true,
+        testing: true,
+        apiBaseUrl: 'http://localhost:5000',
+        redirectPath: ''
+    };
+});
+
+define('config/settings',["require", "exports"], function (require, exports) {
+    "use strict";
+    var Settings = (function () {
+        function Settings() {
+            this.apiBaseUrl = 'http://localhost:5000';
+            this.userAPI = '/api/users';
+            this.convAPI = '/api/chat/conv';
+            this.chatAPI = '/api/chat';
+            this.accountdAPI = "/account";
+        }
+        return Settings;
+    }());
+    exports.Settings = Settings;
+});
+
+define('services/state',["require", "exports"], function (require, exports) {
+    "use strict";
+    var State = (function () {
+        function State() {
+        }
+        return State;
+    }());
+    exports.State = State;
+});
+
+define('model/serviceError',["require", "exports"], function (require, exports) {
+    "use strict";
+    var Key = (function () {
+        function Key() {
+        }
+        return Key;
+    }());
+    var ErrorMessage = (function () {
+        function ErrorMessage() {
+        }
+        return ErrorMessage;
+    }());
+    var ServiceError = (function () {
+        function ServiceError() {
+        }
+        return ServiceError;
+    }());
+    exports.ServiceError = ServiceError;
+});
+
+define('model/attendee',["require", "exports"], function (require, exports) {
+    "use strict";
+    var Attendee = (function () {
+        function Attendee(userId) {
+            this.userId = userId;
+        }
+        return Attendee;
+    }());
+    exports.Attendee = Attendee;
+});
+
+define('model/message',["require", "exports"], function (require, exports) {
+    "use strict";
+    var Message = (function () {
+        function Message() {
+        }
+        return Message;
+    }());
+    exports.Message = Message;
+});
+
+define('model/user',["require", "exports"], function (require, exports) {
+    "use strict";
+    var User = (function () {
+        function User() {
+        }
+        return User;
+    }());
+    exports.User = User;
+});
+
+define('model/conversation',["require", "exports", './attendee'], function (require, exports, attendee_1) {
+    "use strict";
+    var Conversation = (function () {
+        function Conversation(user) {
+            if (!user) {
+                return;
+            }
+            var attendees = new Array();
+            attendees.push(new attendee_1.Attendee(user.id));
+            this.attendees = attendees;
+            this.messages = new Array();
+            this.isInitiatedByUser = true;
+        }
+        return Conversation;
+    }());
+    exports.Conversation = Conversation;
+});
+
+var __decorate = (this && this.__decorate) || function (decorators, target, key, desc) {
+    var c = arguments.length, r = c < 3 ? target : desc === null ? desc = Object.getOwnPropertyDescriptor(target, key) : desc, d;
+    if (typeof Reflect === "object" && typeof Reflect.decorate === "function") r = Reflect.decorate(decorators, target, key, desc);
+    else for (var i = decorators.length - 1; i >= 0; i--) if (d = decorators[i]) r = (c < 3 ? d(r) : c > 3 ? d(target, key, r) : d(target, key)) || r;
+    return c > 3 && r && Object.defineProperty(target, key, r), r;
+};
+var __metadata = (this && this.__metadata) || function (k, v) {
+    if (typeof Reflect === "object" && typeof Reflect.metadata === "function") return Reflect.metadata(k, v);
+};
+define('services/helpers',["require", "exports", 'aurelia-framework', './state'], function (require, exports, aurelia_framework_1, state_1) {
+    "use strict";
+    var Helpers = (function () {
+        function Helpers(state) {
+            this.state = state;
+            this.location = window.location;
+        }
+        Helpers.prototype.getError = function (error) {
+            var errors = error.content;
+            var se = errors[0];
+            var e = new Error(se.errors[0].errorMessage);
+            e.name = se.key;
+            return e;
+        };
+        Helpers.prototype.setConverationTitle = function (conversation) {
+            var _this = this;
+            if (conversation.title) {
+                return;
+            }
+            var title = '';
+            conversation.attendees.forEach(function (attendee) {
+                if (attendee && attendee.userId && attendee.userId !== _this.state.userName) {
+                    title += attendee.userId + ' ';
+                }
+            });
+            conversation.title = title.trim();
+        };
+        Helpers.prototype.getUrlParameter = function (name) {
+            name = name.replace(/[\[]/, '\\[').replace(/[\]]/, '\\]');
+            var regex = new RegExp('[\\?&]' + name + '=([^&#]*)');
+            var results = regex.exec(this.location.search);
+            return results === null ? undefined : decodeURIComponent(results[1].replace(/\+/g, ' '));
+        };
+        Helpers = __decorate([
+            aurelia_framework_1.autoinject, 
+            __metadata('design:paramtypes', [state_1.State])
+        ], Helpers);
+        return Helpers;
+    }());
+    exports.Helpers = Helpers;
+});
+
+define('events/connectionStateChanged',["require", "exports"], function (require, exports) {
+    "use strict";
+    var ConnectionStateChanged = (function () {
+        function ConnectionStateChanged(state) {
+            this.state = state;
+        }
+        return ConnectionStateChanged;
+    }());
+    exports.ConnectionStateChanged = ConnectionStateChanged;
+});
+
+define('events/conversationJoined',["require", "exports"], function (require, exports) {
+    "use strict";
+    var ConversationJoined = (function () {
+        function ConversationJoined(conversation) {
+            this.conversation = conversation;
+        }
+        return ConversationJoined;
+    }());
+    exports.ConversationJoined = ConversationJoined;
+});
+
+define('events/messageReceived',["require", "exports"], function (require, exports) {
+    "use strict";
+    var MessageReceived = (function () {
+        function MessageReceived(message) {
+            this.message = message;
+        }
+        return MessageReceived;
+    }());
+    exports.MessageReceived = MessageReceived;
+});
+
+define('events/userConnected',["require", "exports"], function (require, exports) {
+    "use strict";
+    var UserConnected = (function () {
+        function UserConnected(user) {
+            this.user = user;
+        }
+        return UserConnected;
+    }());
+    exports.UserConnected = UserConnected;
+});
+
+define('events/userDisconnected',["require", "exports"], function (require, exports) {
+    "use strict";
+    var UserDisconnected = (function () {
+        function UserDisconnected(user) {
+            this.user = user;
+        }
+        return UserDisconnected;
+    }());
+    exports.UserDisconnected = UserDisconnected;
+});
+
+var __decorate = (this && this.__decorate) || function (decorators, target, key, desc) {
+    var c = arguments.length, r = c < 3 ? target : desc === null ? desc = Object.getOwnPropertyDescriptor(target, key) : desc, d;
+    if (typeof Reflect === "object" && typeof Reflect.decorate === "function") r = Reflect.decorate(decorators, target, key, desc);
+    else for (var i = decorators.length - 1; i >= 0; i--) if (d = decorators[i]) r = (c < 3 ? d(r) : c > 3 ? d(target, key, r) : d(target, key)) || r;
+    return c > 3 && r && Object.defineProperty(target, key, r), r;
+};
+var __metadata = (this && this.__metadata) || function (k, v) {
+    if (typeof Reflect === "object" && typeof Reflect.metadata === "function") return Reflect.metadata(k, v);
+};
+define('services/chat.service',["require", "exports", 'aurelia-event-aggregator', 'aurelia-http-client', 'aurelia-framework', '../environment', '../config/settings', './helpers', './state', '../events/connectionStateChanged', '../events/conversationJoined', '../events/messageReceived', '../events/userConnected', '../events/userDisconnected'], function (require, exports, aurelia_event_aggregator_1, aurelia_http_client_1, aurelia_framework_1, environment_1, settings_1, helpers_1, state_1, connectionStateChanged_1, conversationJoined_1, messageReceived_1, userConnected_1, userDisconnected_1) {
+    "use strict";
+    (function (ConnectionState) {
+        ConnectionState[ConnectionState["Connected"] = 1] = "Connected";
+        ConnectionState[ConnectionState["Disconnected"] = 2] = "Disconnected";
+        ConnectionState[ConnectionState["Error"] = 3] = "Error";
+    })(exports.ConnectionState || (exports.ConnectionState = {}));
+    var ConnectionState = exports.ConnectionState;
+    var ChatService = (function () {
+        function ChatService(settings, ea, http, state, helpers) {
+            this.settings = settings;
+            this.ea = ea;
+            this.http = http;
+            this.state = state;
+            this.helpers = helpers;
+            this.currentState = ConnectionState.Disconnected;
+        }
+        ChatService.prototype.start = function () {
+            var _this = this;
+            var debug = environment_1.default.debug;
+            var hub = jQuery.connection.hub;
+            hub.logging = debug;
+            hub.url = this.settings.apiBaseUrl + '/signalr';
+            var connection = jQuery.connection;
+            var chatHub = connection.chat;
+            chatHub.client.userConnected = function (user) { return _this.onUserConnected(user); };
+            chatHub.client.userDisconnected = function (user) { return _this.onUserDisconnected(user); };
+            chatHub.client.messageReceived = function (message) { return _this.onMessageReceived(message); };
+            chatHub.client.joinConversation = function (conversation) { return _this.onJoinConversation(conversation); };
+            if (debug) {
+                hub.stateChanged(function (change) {
+                    var oldState, newState;
+                    var signalR = jQuery.signalR;
+                    for (var state in signalR.connectionState) {
+                        if (signalR.connectionState[state] === change.oldState) {
+                            oldState = state;
+                        }
+                        if (signalR.connectionState[state] === change.newState) {
+                            newState = state;
+                        }
+                    }
+                    console.log("Chat Hub state changed from " + oldState + " to " + newState);
+                });
+            }
+            hub.reconnected(function () { return _this.onReconnected(); });
+            hub.error(function (error) { return _this.onError(error); });
+            hub.disconnected(function () { return _this.onDisconnected(); });
+            return new Promise(function (resolve, reject) {
+                hub.start()
+                    .done(function () {
+                    _this.setConnectionState(ConnectionState.Connected);
+                    resolve(ConnectionState.Connected);
+                })
+                    .fail(function (error) {
+                    _this.setConnectionState(ConnectionState.Error);
+                    reject(new Error(error));
+                });
+            });
+        };
+        ChatService.prototype.stop = function () {
+            jQuery.connection.hub.stop();
+        };
+        ChatService.prototype.setConnectionState = function (connectionState) {
+            if (this.currentState === connectionState) {
+                return;
+            }
+            console.log('connection state changed to: ' + connectionState);
+            this.currentState = connectionState;
+            this.ea.publish(new connectionStateChanged_1.ConnectionStateChanged(connectionState));
+        };
+        ChatService.prototype.onReconnected = function () {
+            this.setConnectionState(ConnectionState.Connected);
+        };
+        ChatService.prototype.onDisconnected = function () {
+            this.setConnectionState(ConnectionState.Disconnected);
+        };
+        ChatService.prototype.onError = function (error) {
+            this.setConnectionState(ConnectionState.Error);
+        };
+        ChatService.prototype.onUserConnected = function (user) {
+            console.log("Chat Hub new user connected: " + user.id);
+            this.ea.publish(new userConnected_1.UserConnected(user));
+        };
+        ChatService.prototype.onUserDisconnected = function (user) {
+            console.log("Chat Hub user disconnected: " + user.id);
+            if (user.id !== this.state.userName) {
+                this.ea.publish(new userDisconnected_1.UserDisconnected(user));
+            }
+        };
+        ChatService.prototype.onMessageReceived = function (message) {
+            this.ea.publish(new messageReceived_1.MessageReceived(message));
+        };
+        ChatService.prototype.onJoinConversation = function (conversation) {
+            this.helpers.setConverationTitle(conversation);
+            this.ea.publish(new conversationJoined_1.ConversationJoined(conversation));
+        };
+        ChatService = __decorate([
+            aurelia_framework_1.autoinject, 
+            __metadata('design:paramtypes', [settings_1.Settings, aurelia_event_aggregator_1.EventAggregator, aurelia_http_client_1.HttpClient, state_1.State, helpers_1.Helpers])
+        ], ChatService);
+        return ChatService;
+    }());
+    exports.ChatService = ChatService;
+});
+
+var __decorate = (this && this.__decorate) || function (decorators, target, key, desc) {
+    var c = arguments.length, r = c < 3 ? target : desc === null ? desc = Object.getOwnPropertyDescriptor(target, key) : desc, d;
+    if (typeof Reflect === "object" && typeof Reflect.decorate === "function") r = Reflect.decorate(decorators, target, key, desc);
+    else for (var i = decorators.length - 1; i >= 0; i--) if (d = decorators[i]) r = (c < 3 ? d(r) : c > 3 ? d(target, key, r) : d(target, key)) || r;
+    return c > 3 && r && Object.defineProperty(target, key, r), r;
+};
+var __metadata = (this && this.__metadata) || function (k, v) {
+    if (typeof Reflect === "object" && typeof Reflect.metadata === "function") return Reflect.metadata(k, v);
+};
+define('app',["require", "exports", 'aurelia-framework', 'aurelia-router', 'aurelia-event-aggregator', 'aurelia-http-client', './environment', './services/state', './events/connectionStateChanged', './config/settings', './services/helpers'], function (require, exports, aurelia_framework_1, aurelia_router_1, aurelia_event_aggregator_1, aurelia_http_client_1, environment_1, state_1, connectionStateChanged_1, settings_1, helpers_1) {
+    "use strict";
+    var App = (function () {
+        function App(ea, state, helpers, settings, http) {
+            this.ea = ea;
+            this.state = state;
+            this.helpers = helpers;
+            settings.apiBaseUrl = environment_1.default.apiBaseUrl;
+            http.configure(function (builder) { return builder
+                .withBaseUrl(environment_1.default.apiBaseUrl)
+                .withCredentials(true); });
+            state.userName = sessionStorage.getItem('userName');
+        }
+        App.prototype.configureRouter = function (config, router) {
+            var _this = this;
+            config.title = 'Chatle';
+            config.addPipelineStep('authorize', AuthorizeStep);
+            var confirm = { route: 'confirm', name: 'confirm', moduleId: 'pages/confirm', title: 'Confirm', anomymous: true };
+            var login = { route: 'login', name: 'login', moduleId: 'pages/login', title: 'Login', anomymous: true };
+            var account = { route: 'account', name: 'account', moduleId: 'pages/account', title: 'Account' };
+            var home = { route: 'home', name: 'home', moduleId: 'pages/home', title: 'Home' };
+            config.map([
+                home,
+                account,
+                confirm,
+                login
+            ]);
+            var handleUnknownRoutes = function (instruction) {
+                var provider = _this.helpers.getUrlParameter('p');
+                if (provider) {
+                    return confirm;
+                }
+                var userName = _this.helpers.getUrlParameter('u');
+                var action = _this.helpers.getUrlParameter('a');
+                if (userName) {
+                    _this.state.userName = userName;
+                    sessionStorage.setItem('userName', userName);
+                }
+                window.history.replaceState(null, null, '/');
+                if (!_this.state.userName) {
+                    return login;
+                }
+                if (action) {
+                    return account;
+                }
+                return home;
+            };
+            config.mapUnknownRoutes(handleUnknownRoutes);
+            this.router = router;
+        };
+        App.prototype.attached = function () {
+            var _this = this;
+            this.ea.subscribe(connectionStateChanged_1.ConnectionStateChanged, function (e) {
+                _this.setIsConnected();
+            });
+            this.setIsConnected();
+        };
+        App.prototype.logoff = function () {
+            this.router.navigateToRoute('login');
+        };
+        App.prototype.manage = function () {
+            this.router.navigateToRoute('account');
+        };
+        App.prototype.home = function () {
+            if (this.isConnected) {
+                this.router.navigateToRoute('home');
+            }
+            else {
+                this.router.navigateToRoute('login');
+            }
+        };
+        App.prototype.setIsConnected = function () {
+            this.isConnected = this.state.userName !== undefined
+                && this.state.userName != null
+                && this.router.currentInstruction.config.moduleId != 'pages/confirm';
+            this.userName = this.state.userName;
+        };
+        App = __decorate([
+            aurelia_framework_1.autoinject, 
+            __metadata('design:paramtypes', [aurelia_event_aggregator_1.EventAggregator, state_1.State, helpers_1.Helpers, settings_1.Settings, aurelia_http_client_1.HttpClient])
+        ], App);
+        return App;
+    }());
+    exports.App = App;
+    var AuthorizeStep = (function () {
+        function AuthorizeStep(state, helpers) {
+            this.state = state;
+            this.helpers = helpers;
+        }
+        AuthorizeStep.prototype.run = function (navigationInstruction, next) {
+            if (navigationInstruction.getAllInstructions().some(function (i) {
+                var route = i.config;
+                return !route.anomymous;
+            })) {
+                var isLoggedIn = this.state.userName;
+                if (!isLoggedIn) {
+                    return next.cancel(new aurelia_router_1.Redirect('login'));
+                }
+            }
+            return next();
+        };
+        AuthorizeStep = __decorate([
+            aurelia_framework_1.autoinject, 
+            __metadata('design:paramtypes', [state_1.State, helpers_1.Helpers])
+        ], AuthorizeStep);
+        return AuthorizeStep;
+    }());
+});
+
+define('main',["require", "exports", 'aurelia-framework', 'aurelia-logging-console', './environment'], function (require, exports, aurelia_framework_1, aurelia_logging_console_1, environment_1) {
+    "use strict";
+    if (environment_1.default.debug) {
+        aurelia_framework_1.LogManager.addAppender(new aurelia_logging_console_1.ConsoleAppender());
+        aurelia_framework_1.LogManager.setLevel(aurelia_framework_1.LogManager.logLevel.debug);
+    }
+    Promise.config({
+        warnings: {
+            wForgottenReturn: false
+        }
+    });
+    function configure(aurelia) {
+        aurelia.use
+            .standardConfiguration()
+            .feature('resources')
+            .plugin('aurelia-validation');
+        if (environment_1.default.debug) {
+            aurelia.use.developmentLogging();
+        }
+        if (environment_1.default.testing) {
+            aurelia.use.plugin('aurelia-testing');
+        }
+        aurelia.start().then(function () { return aurelia.setRoot(); });
+    }
+    exports.configure = configure;
+});
+
+var __decorate = (this && this.__decorate) || function (decorators, target, key, desc) {
+    var c = arguments.length, r = c < 3 ? target : desc === null ? desc = Object.getOwnPropertyDescriptor(target, key) : desc, d;
+    if (typeof Reflect === "object" && typeof Reflect.decorate === "function") r = Reflect.decorate(decorators, target, key, desc);
+    else for (var i = decorators.length - 1; i >= 0; i--) if (d = decorators[i]) r = (c < 3 ? d(r) : c > 3 ? d(target, key, r) : d(target, key)) || r;
+    return c > 3 && r && Object.defineProperty(target, key, r), r;
+};
+var __metadata = (this && this.__metadata) || function (k, v) {
+    if (typeof Reflect === "object" && typeof Reflect.metadata === "function") return Reflect.metadata(k, v);
+};
+define('services/user.service',["require", "exports", 'aurelia-http-client', 'aurelia-framework', '../config/settings', './state'], function (require, exports, aurelia_http_client_1, aurelia_framework_1, settings_1, state_1) {
+    "use strict";
+    var UserService = (function () {
+        function UserService(http, settings, state) {
+            this.http = http;
+            this.settings = settings;
+            this.state = state;
+        }
+        UserService.prototype.getUsers = function () {
+            var _this = this;
+            return new Promise(function (resolve, reject) {
+                _this.http.get(_this.settings.userAPI)
+                    .then(function (response) {
+                    var data = response.content;
+                    if (data && data.users) {
+                        resolve(data.users);
+                    }
+                })
+                    .catch(function (error) { return reject(new Error('the service is down')); });
+            });
+        };
+        UserService = __decorate([
+            aurelia_framework_1.autoinject, 
+            __metadata('design:paramtypes', [aurelia_http_client_1.HttpClient, settings_1.Settings, state_1.State])
+        ], UserService);
+        return UserService;
+    }());
+    exports.UserService = UserService;
+});
+
+var __decorate = (this && this.__decorate) || function (decorators, target, key, desc) {
+    var c = arguments.length, r = c < 3 ? target : desc === null ? desc = Object.getOwnPropertyDescriptor(target, key) : desc, d;
+    if (typeof Reflect === "object" && typeof Reflect.decorate === "function") r = Reflect.decorate(decorators, target, key, desc);
+    else for (var i = decorators.length - 1; i >= 0; i--) if (d = decorators[i]) r = (c < 3 ? d(r) : c > 3 ? d(target, key, r) : d(target, key)) || r;
+    return c > 3 && r && Object.defineProperty(target, key, r), r;
+};
+var __metadata = (this && this.__metadata) || function (k, v) {
+    if (typeof Reflect === "object" && typeof Reflect.metadata === "function") return Reflect.metadata(k, v);
+};
+define('components/contact-list',["require", "exports", 'aurelia-framework', 'aurelia-event-aggregator', '../services/chat.service', '../services/user.service', '../services/chat.service', '../events/userConnected', '../events/userDisconnected', '../events/connectionStateChanged'], function (require, exports, aurelia_framework_1, aurelia_event_aggregator_1, chat_service_1, user_service_1, chat_service_2, userConnected_1, userDisconnected_1, connectionStateChanged_1) {
+    "use strict";
+    var ContactList = (function () {
+        function ContactList(userService, chatService, ea) {
+            this.userService = userService;
+            this.chatService = chatService;
+            this.ea = ea;
+            this.loadingMessage = "loading...";
+        }
+        ContactList.prototype.attached = function () {
+            var _this = this;
+            this.connectionStateChangeSubscription = this.ea.subscribe(connectionStateChanged_1.ConnectionStateChanged, function (e) {
+                if (e.state === chat_service_1.ConnectionState.Connected) {
+                    _this.getUser();
+                }
+            });
+            if (this.chatService.currentState === chat_service_1.ConnectionState.Connected) {
+                this.getUser();
+            }
+        };
+        ContactList.prototype.detached = function () {
+            this.connectionStateChangeSubscription.dispose();
+            if (this.userConnectedSubscription) {
+                this.userConnectedSubscription.dispose();
+            }
+            if (this.userDisconnectedSubscription) {
+                this.userDisconnectedSubscription.dispose();
+            }
+        };
+        ContactList.prototype.getUser = function () {
+            var _this = this;
+            this.userService.getUsers()
+                .then(function (users) {
+                _this.users = users;
+                _this.userConnectedSubscription = _this.ea.subscribe(userConnected_1.UserConnected, function (e) {
+                    var userConnected = e;
+                    _this.removeUser(userConnected.user.id);
+                    _this.users.unshift(userConnected.user);
+                });
+                _this.userDisconnectedSubscription = _this.ea.subscribe(userDisconnected_1.UserDisconnected, function (e) {
+                    _this.removeUser(e.user.id);
+                });
+            })
+                .catch(function (error) { return _this.loadingMessage = error.message; });
+        };
+        ContactList.prototype.removeUser = function (id) {
+            var user;
+            this.users.forEach(function (u) {
+                if (u.id === id) {
+                    user = u;
+                }
+            });
+            if (user) {
+                var index = this.users.indexOf(user);
+                this.users.splice(index, 1);
+            }
+        };
+        ContactList = __decorate([
+            aurelia_framework_1.autoinject, 
+            __metadata('design:paramtypes', [user_service_1.UserService, chat_service_2.ChatService, aurelia_event_aggregator_1.EventAggregator])
+        ], ContactList);
+        return ContactList;
+    }());
+    exports.ContactList = ContactList;
+});
+
+define('events/conversationSelected',["require", "exports"], function (require, exports) {
+    "use strict";
+    var ConversationSelected = (function () {
+        function ConversationSelected(conversation) {
+            this.conversation = conversation;
+        }
+        return ConversationSelected;
+    }());
+    exports.ConversationSelected = ConversationSelected;
+});
+
+var __decorate = (this && this.__decorate) || function (decorators, target, key, desc) {
+    var c = arguments.length, r = c < 3 ? target : desc === null ? desc = Object.getOwnPropertyDescriptor(target, key) : desc, d;
+    if (typeof Reflect === "object" && typeof Reflect.decorate === "function") r = Reflect.decorate(decorators, target, key, desc);
+    else for (var i = decorators.length - 1; i >= 0; i--) if (d = decorators[i]) r = (c < 3 ? d(r) : c > 3 ? d(target, key, r) : d(target, key)) || r;
+    return c > 3 && r && Object.defineProperty(target, key, r), r;
+};
+var __metadata = (this && this.__metadata) || function (k, v) {
+    if (typeof Reflect === "object" && typeof Reflect.metadata === "function") return Reflect.metadata(k, v);
+};
+define('services/conversation.service',["require", "exports", 'aurelia-event-aggregator', 'aurelia-http-client', 'aurelia-framework', '../config/settings', './state', './helpers', '../model/message', '../events/conversationSelected', '../events/conversationJoined'], function (require, exports, aurelia_event_aggregator_1, aurelia_http_client_1, aurelia_framework_1, settings_1, state_1, helpers_1, message_1, conversationSelected_1, conversationJoined_1) {
+    "use strict";
+    var ConversationService = (function () {
+        function ConversationService(http, settings, state, helpers, ea) {
+            this.http = http;
+            this.settings = settings;
+            this.state = state;
+            this.helpers = helpers;
+            this.ea = ea;
+        }
+        ConversationService.prototype.showConversation = function (conversation, router) {
+            if (router.currentInstruction.fragment !== 'conversation/' + conversation.title) {
+                this.currentConversation = conversation;
+                this.helpers.setConverationTitle(conversation);
+                this.ea.publish(new conversationSelected_1.ConversationSelected(conversation));
+                router.navigateToRoute('conversation', { id: conversation.title });
+            }
+        };
+        ConversationService.prototype.sendMessage = function (conversation, message) {
+            var _this = this;
+            var m = new message_1.Message();
+            m.conversationId = conversation.id;
+            m.from = this.state.userName;
+            m.text = message;
+            if (conversation.id) {
+                return new Promise(function (resolve, reject) {
+                    _this.http.post(_this.settings.chatAPI, {
+                        to: conversation.id,
+                        text: message
+                    })
+                        .then(function (response) {
+                        conversation.messages.unshift(m);
+                        resolve(m);
+                    })
+                        .catch(function (error) { return reject(_this.helpers.getError(error)); });
+                });
+            }
+            else {
+                var attendee_1;
+                conversation.attendees.forEach(function (a) {
+                    if (a.userId !== _this.state.userName) {
+                        attendee_1 = a;
+                    }
+                });
+                return new Promise(function (resolve, reject) {
+                    _this.http.post(_this.settings.convAPI, {
+                        to: attendee_1.userId,
+                        text: message
+                    })
+                        .then(function (response) {
+                        conversation.id = response.content;
+                        _this.ea.publish(new conversationJoined_1.ConversationJoined(conversation));
+                        conversation.messages.unshift(m);
+                        resolve(m);
+                    })
+                        .catch(function (error) { return reject(_this.helpers.getError(error)); });
+                });
+            }
+        };
+        ConversationService.prototype.getConversations = function () {
+            var _this = this;
+            return new Promise(function (resolve, reject) {
+                _this.http.get(_this.settings.chatAPI)
+                    .then(function (response) {
+                    if (response.response) {
+                        var data = response.content;
+                        if (data) {
+                            var conversations = data;
+                            conversations.forEach(function (c) { return _this.helpers.setConverationTitle(c); });
+                            resolve(conversations);
+                            return;
+                        }
+                    }
+                    resolve(null);
+                })
+                    .catch(function (error) { return reject(new Error('The service is down')); });
+            });
+        };
+        ConversationService = __decorate([
+            aurelia_framework_1.autoinject, 
+            __metadata('design:paramtypes', [aurelia_http_client_1.HttpClient, settings_1.Settings, state_1.State, helpers_1.Helpers, aurelia_event_aggregator_1.EventAggregator])
+        ], ConversationService);
+        return ConversationService;
+    }());
+    exports.ConversationService = ConversationService;
+});
+
+var __decorate = (this && this.__decorate) || function (decorators, target, key, desc) {
+    var c = arguments.length, r = c < 3 ? target : desc === null ? desc = Object.getOwnPropertyDescriptor(target, key) : desc, d;
+    if (typeof Reflect === "object" && typeof Reflect.decorate === "function") r = Reflect.decorate(decorators, target, key, desc);
+    else for (var i = decorators.length - 1; i >= 0; i--) if (d = decorators[i]) r = (c < 3 ? d(r) : c > 3 ? d(target, key, r) : d(target, key)) || r;
+    return c > 3 && r && Object.defineProperty(target, key, r), r;
+};
+var __metadata = (this && this.__metadata) || function (k, v) {
+    if (typeof Reflect === "object" && typeof Reflect.metadata === "function") return Reflect.metadata(k, v);
+};
+define('components/contact',["require", "exports", 'aurelia-framework', 'aurelia-event-aggregator', 'aurelia-router', '../services/conversation.service', '../services/state', '../model/user', '../model/conversation', '../events/conversationSelected'], function (require, exports, aurelia_framework_1, aurelia_event_aggregator_1, aurelia_router_1, conversation_service_1, state_1, user_1, conversation_1, conversationSelected_1) {
+    "use strict";
+    var Contact = (function () {
+        function Contact(service, state, ea, router) {
+            this.service = service;
+            this.state = state;
+            this.ea = ea;
+            this.router = router;
+        }
+        Object.defineProperty(Contact.prototype, "isCurrentUser", {
+            get: function () {
+                return this.state.userName === this.user.id;
+            },
+            enumerable: true,
+            configurable: true
+        });
+        Contact.prototype.select = function () {
+            if (this.isCurrentUser) {
+                return;
+            }
+            if (!this.user.conversation) {
+                this.user.conversation = new conversation_1.Conversation(this.user);
+            }
+            this.service.showConversation(this.user.conversation, this.router);
+        };
+        Contact.prototype.attached = function () {
+            var _this = this;
+            this.conversationSelectedSubscription = this.ea.subscribe(conversationSelected_1.ConversationSelected, function (e) {
+                var conv = e.conversation;
+                var attendees = conv.attendees;
+                _this.isSelected = false;
+                if (attendees.length < 3) {
+                    attendees.forEach(function (a) {
+                        if (a.userId !== _this.state.userName && a.userId === _this.user.id) {
+                            _this.isSelected = true;
+                        }
+                    });
+                }
+            });
+        };
+        Contact.prototype.detached = function () {
+            this.conversationSelectedSubscription.dispose();
+        };
+        __decorate([
+            aurelia_framework_1.bindable, 
+            __metadata('design:type', user_1.User)
+        ], Contact.prototype, "user", void 0);
+        Contact = __decorate([
+            aurelia_framework_1.autoinject, 
+            __metadata('design:paramtypes', [conversation_service_1.ConversationService, state_1.State, aurelia_event_aggregator_1.EventAggregator, aurelia_router_1.Router])
+        ], Contact);
+        return Contact;
+    }());
+    exports.Contact = Contact;
+});
+
+var __decorate = (this && this.__decorate) || function (decorators, target, key, desc) {
+    var c = arguments.length, r = c < 3 ? target : desc === null ? desc = Object.getOwnPropertyDescriptor(target, key) : desc, d;
+    if (typeof Reflect === "object" && typeof Reflect.decorate === "function") r = Reflect.decorate(decorators, target, key, desc);
+    else for (var i = decorators.length - 1; i >= 0; i--) if (d = decorators[i]) r = (c < 3 ? d(r) : c > 3 ? d(target, key, r) : d(target, key)) || r;
+    return c > 3 && r && Object.defineProperty(target, key, r), r;
+};
+var __metadata = (this && this.__metadata) || function (k, v) {
+    if (typeof Reflect === "object" && typeof Reflect.metadata === "function") return Reflect.metadata(k, v);
+};
+define('components/conversation-component',["require", "exports", 'aurelia-framework', 'aurelia-router', '../services/conversation.service'], function (require, exports, aurelia_framework_1, aurelia_router_1, conversation_service_1) {
+    "use strict";
+    var ConversationComponent = (function () {
+        function ConversationComponent(service, router) {
+            this.service = service;
+            this.router = router;
+        }
+        ConversationComponent.prototype.activate = function (params, routeConfig) {
+            this.error = '';
+            if (!params) {
+                this.service.currentConversation = undefined;
+            }
+            this.conversation = this.service.currentConversation;
+            if (!this.conversation) {
+                this.router.navigateToRoute('home');
+            }
+            else {
+                routeConfig.navModel.setTitle(this.conversation.title);
+            }
+        };
+        ConversationComponent.prototype.sendMessage = function () {
+            if (this.service.currentConversation === this.conversation) {
+                this.service.sendMessage(this.conversation, this.message);
+            }
+            else {
+                this.error = 'this user is disconnected';
+            }
+            this.message = '';
+        };
+        ConversationComponent = __decorate([
+            aurelia_framework_1.autoinject, 
+            __metadata('design:paramtypes', [conversation_service_1.ConversationService, aurelia_router_1.Router])
+        ], ConversationComponent);
+        return ConversationComponent;
+    }());
+    exports.ConversationComponent = ConversationComponent;
+});
+
+define('events/notificationClicked',["require", "exports"], function (require, exports) {
+    "use strict";
+    var NotificationClicked = (function () {
+        function NotificationClicked(message) {
+            this.message = message;
+        }
+        return NotificationClicked;
+    }());
+    exports.NotificationClicked = NotificationClicked;
+});
+
+var __decorate = (this && this.__decorate) || function (decorators, target, key, desc) {
+    var c = arguments.length, r = c < 3 ? target : desc === null ? desc = Object.getOwnPropertyDescriptor(target, key) : desc, d;
+    if (typeof Reflect === "object" && typeof Reflect.decorate === "function") r = Reflect.decorate(decorators, target, key, desc);
+    else for (var i = decorators.length - 1; i >= 0; i--) if (d = decorators[i]) r = (c < 3 ? d(r) : c > 3 ? d(target, key, r) : d(target, key)) || r;
+    return c > 3 && r && Object.defineProperty(target, key, r), r;
+};
+var __metadata = (this && this.__metadata) || function (k, v) {
+    if (typeof Reflect === "object" && typeof Reflect.metadata === "function") return Reflect.metadata(k, v);
+};
+define('components/conversation-list',["require", "exports", 'aurelia-framework', 'aurelia-router', 'aurelia-event-aggregator', '../services/chat.service', '../services/conversation.service', '../services/state', '../events/conversationJoined', '../events/userDisconnected', '../events/connectionStateChanged', '../events/notificationClicked'], function (require, exports, aurelia_framework_1, aurelia_router_1, aurelia_event_aggregator_1, chat_service_1, conversation_service_1, state_1, conversationJoined_1, userDisconnected_1, connectionStateChanged_1, notificationClicked_1) {
+    "use strict";
+    var ConversationList = (function () {
+        function ConversationList(service, state, ea, router) {
+            this.service = service;
+            this.state = state;
+            this.ea = ea;
+            this.router = router;
+        }
+        ConversationList.prototype.attached = function () {
+            var _this = this;
+            this.conversations = new Array();
+            this.getConversations();
+            this.connectionStateSubscription = this.ea.subscribe(connectionStateChanged_1.ConnectionStateChanged, function (e) {
+                var state = e.state;
+                if (state === chat_service_1.ConnectionState.Disconnected) {
+                    _this.conversations.splice(_this.conversations.length);
+                }
+                else if (state === chat_service_1.ConnectionState.Connected) {
+                    _this.getConversations();
+                }
+            });
+            this.notificationClickedSubscription = this.ea.subscribe(notificationClicked_1.NotificationClicked, function (e) {
+                var message = e.message;
+                var conversation = _this.conversations.find(function (c) { return c.id === message.conversationId; });
+                if (conversation) {
+                    _this.service.showConversation(conversation, _this.router);
+                }
+            });
+        };
+        ConversationList.prototype.detached = function () {
+            this.Unsubscribe();
+            this.connectionStateSubscription.dispose();
+        };
+        ConversationList.prototype.Unsubscribe = function () {
+            if (this.conversationJoinedSubscription) {
+                this.conversationJoinedSubscription.dispose();
+            }
+            if (this.userDisconnectedSubscription) {
+                this.userDisconnectedSubscription.dispose();
+            }
+        };
+        ConversationList.prototype.getConversations = function () {
+            var _this = this;
+            this.service.getConversations()
+                .then(function (conversations) {
+                _this.Unsubscribe();
+                if (!conversations) {
+                    return;
+                }
+                _this.conversations = conversations;
+                _this.userDisconnectedSubscription = _this.ea.subscribe(userDisconnected_1.UserDisconnected, function (e) {
+                    _this.conversations.forEach(function (c) {
+                        var attendees = c.attendees;
+                        attendees.forEach(function (a) {
+                            var user = e.user;
+                            if (user.isRemoved && a.userId === user.id) {
+                                if (c.attendees.length < 3) {
+                                    var index = _this.conversations.indexOf(c);
+                                    _this.conversations.splice(index, 1);
+                                    if (_this.service.currentConversation === c) {
+                                        _this.service.currentConversation = undefined;
+                                    }
+                                }
+                                else {
+                                    var index = attendees.indexOf(a);
+                                    attendees.splice(index, 1);
+                                    if (_this.service.currentConversation === c) {
+                                        c.title = undefined;
+                                        _this.service.showConversation(c, _this.router);
+                                    }
+                                }
+                            }
+                        });
+                    });
+                });
+                _this.conversationJoinedSubscription = _this.ea.subscribe(conversationJoined_1.ConversationJoined, function (e) {
+                    var conversation = e.conversation;
+                    _this.conversations.unshift(e.conversation);
+                });
+            });
+        };
+        ConversationList = __decorate([
+            aurelia_framework_1.autoinject, 
+            __metadata('design:paramtypes', [conversation_service_1.ConversationService, state_1.State, aurelia_event_aggregator_1.EventAggregator, aurelia_router_1.Router])
+        ], ConversationList);
+        return ConversationList;
+    }());
+    exports.ConversationList = ConversationList;
+});
+
+var __decorate = (this && this.__decorate) || function (decorators, target, key, desc) {
+    var c = arguments.length, r = c < 3 ? target : desc === null ? desc = Object.getOwnPropertyDescriptor(target, key) : desc, d;
+    if (typeof Reflect === "object" && typeof Reflect.decorate === "function") r = Reflect.decorate(decorators, target, key, desc);
+    else for (var i = decorators.length - 1; i >= 0; i--) if (d = decorators[i]) r = (c < 3 ? d(r) : c > 3 ? d(target, key, r) : d(target, key)) || r;
+    return c > 3 && r && Object.defineProperty(target, key, r), r;
+};
+var __metadata = (this && this.__metadata) || function (k, v) {
+    if (typeof Reflect === "object" && typeof Reflect.metadata === "function") return Reflect.metadata(k, v);
+};
+define('components/conversation-preview',["require", "exports", 'aurelia-framework', 'aurelia-event-aggregator', 'aurelia-router', '../services/conversation.service', '../model/conversation', '../events/conversationSelected', '../events/messageReceived'], function (require, exports, aurelia_framework_1, aurelia_event_aggregator_1, aurelia_router_1, conversation_service_1, conversation_1, conversationSelected_1, messageReceived_1) {
+    "use strict";
+    var ConversationPreview = (function () {
+        function ConversationPreview(service, ea, router) {
+            this.service = service;
+            this.ea = ea;
+            this.router = router;
+        }
+        ConversationPreview.prototype.select = function () {
+            this.service.showConversation(this.conversation, this.router);
+        };
+        ConversationPreview.prototype.attached = function () {
+            var _this = this;
+            this.lastMessage = this.conversation.messages[0].text;
+            this.isSelected = this.conversation && this.conversation.isInitiatedByUser;
+            this.conversationSelectedSubscription = this.ea.subscribe(conversationSelected_1.ConversationSelected, function (e) {
+                if (e.conversation.id === _this.conversation.id) {
+                    _this.isSelected = true;
+                }
+                else {
+                    _this.isSelected = false;
+                }
+            });
+            this.messageReceivedSubscription = this.ea.subscribe(messageReceived_1.MessageReceived, function (e) {
+                var message = e.message;
+                if (message.conversationId === _this.conversation.id) {
+                    _this.conversation.messages.unshift(message);
+                    _this.lastMessage = message.text;
+                }
+            });
+        };
+        ConversationPreview.prototype.detached = function () {
+            this.conversationSelectedSubscription.dispose();
+            this.messageReceivedSubscription.dispose();
+        };
+        __decorate([
+            aurelia_framework_1.bindable, 
+            __metadata('design:type', conversation_1.Conversation)
+        ], ConversationPreview.prototype, "conversation", void 0);
+        ConversationPreview = __decorate([
+            aurelia_framework_1.autoinject, 
+            __metadata('design:paramtypes', [conversation_service_1.ConversationService, aurelia_event_aggregator_1.EventAggregator, aurelia_router_1.Router])
+        ], ConversationPreview);
+        return ConversationPreview;
+    }());
+    exports.ConversationPreview = ConversationPreview;
+});
+
+define('model/provider',["require", "exports"], function (require, exports) {
+    "use strict";
+    var Provider = (function () {
+        function Provider() {
+        }
+        return Provider;
+    }());
+    exports.Provider = Provider;
+});
+
+var __decorate = (this && this.__decorate) || function (decorators, target, key, desc) {
+    var c = arguments.length, r = c < 3 ? target : desc === null ? desc = Object.getOwnPropertyDescriptor(target, key) : desc, d;
+    if (typeof Reflect === "object" && typeof Reflect.decorate === "function") r = Reflect.decorate(decorators, target, key, desc);
+    else for (var i = decorators.length - 1; i >= 0; i--) if (d = decorators[i]) r = (c < 3 ? d(r) : c > 3 ? d(target, key, r) : d(target, key)) || r;
+    return c > 3 && r && Object.defineProperty(target, key, r), r;
+};
+var __metadata = (this && this.__metadata) || function (k, v) {
+    if (typeof Reflect === "object" && typeof Reflect.metadata === "function") return Reflect.metadata(k, v);
+};
+define('services/login.service',["require", "exports", 'aurelia-http-client', 'aurelia-framework', '../config/settings', './chat.service', './conversation.service', './helpers', './state'], function (require, exports, aurelia_http_client_1, aurelia_framework_1, settings_1, chat_service_1, conversation_service_1, helpers_1, state_1) {
+    "use strict";
+    var LoginService = (function () {
+        function LoginService(http, settings, chatService, conversationService, state, helpers) {
+            this.http = http;
+            this.settings = settings;
+            this.chatService = chatService;
+            this.conversationService = conversationService;
+            this.state = state;
+            this.helpers = helpers;
+        }
+        LoginService.prototype.getXhrf = function (clearCookies) {
+            var _this = this;
+            return new Promise(function (resolve, reject) {
+                if (clearCookies) {
+                    _this.http.get('cls')
+                        .then(function () { return _this.setXhrf(resolve, reject); })
+                        .catch(function (e) { return reject(new Error('the service is down')); });
+                }
+                else if (_this.xhrf) {
+                    resolve(_this.xhrf);
+                }
+                else {
+                    _this.setXhrf(resolve, reject);
+                }
+            });
+        };
+        LoginService.prototype.login = function (userName) {
+            var _this = this;
+            this.state.isGuess = true;
+            return new Promise(function (resolve, reject) {
+                _this.getXhrf()
+                    .then(function (r) {
+                    if (_this.state.isGuess) {
+                        _this.loginAsGuess(userName, resolve, reject);
+                    }
+                })
+                    .catch(function (error) { return reject(error); });
+            });
+        };
+        LoginService.prototype.logoff = function () {
+            var _this = this;
+            if (!this.state.userName) {
+                return;
+            }
+            this.state.userName = undefined;
+            this.conversationService.currentConversation = undefined;
+            this.chatService.stop();
+            this.getXhrf()
+                .then(function (r) {
+                _this.http.post(_this.settings.accountdAPI + '/spalogoff', null);
+            });
+            this.xhrf = undefined;
+        };
+        LoginService.prototype.exists = function (userName) {
+            var _this = this;
+            return new Promise(function (resolve, reject) {
+                if (!userName) {
+                    resolve(false);
+                    return;
+                }
+                _this.getXhrf()
+                    .then(function (r) {
+                    _this.http.get(_this.settings.accountdAPI + "/exists?userName=" + encodeURIComponent(userName))
+                        .then(function (response) {
+                        resolve(response.content);
+                    })
+                        .catch(function (error) {
+                        _this.manageError(error, reject, new Error('the service is down'));
+                    });
+                })
+                    .catch(function (error) { return reject(new Error('the service is down')); });
+            });
+        };
+        LoginService.prototype.confirm = function (userName) {
+            var _this = this;
+            return new Promise(function (resolve, reject) {
+                _this.getXhrf()
+                    .then(function (r) {
+                    _this.http.put(_this.settings.accountdAPI + "/spaExternalLoginConfirmation", { userName: userName })
+                        .then(function (response) {
+                        _this.logged(userName, resolve, reject);
+                        sessionStorage.setItem('userName', userName);
+                    })
+                        .catch(function (error) { return _this.manageError(error, reject, _this.helpers.getError(error)); });
+                })
+                    .catch(function (error) { return reject(new Error('the service is down')); });
+            });
+        };
+        LoginService.prototype.getExternalLoginProviders = function () {
+            var _this = this;
+            return new Promise(function (resolve, reject) {
+                _this.getXhrf()
+                    .then(function (r) {
+                    _this.http.get(_this.settings.accountdAPI + "/getExternalProviders")
+                        .then(function (response) {
+                        resolve(response.content);
+                    })
+                        .catch(function (error) { return _this.manageError(error, reject, _this.helpers.getError(error)); });
+                })
+                    .catch(function (error) { return reject(new Error('the service is down')); });
+            });
+        };
+        LoginService.prototype.setXhrf = function (resolve, reject) {
+            var _this = this;
+            this.http.get('xhrf')
+                .then(function (r) {
+                _this.xhrf = r.response;
+                _this.http.configure(function (builder) {
+                    builder.withHeader('X-XSRF-TOKEN', _this.xhrf);
+                });
+                resolve(_this.xhrf);
+            })
+                .catch(function (error) { return reject(new Error('the service is down')); });
+        };
+        LoginService.prototype.loginAsGuess = function (userName, resolve, reject) {
+            var _this = this;
+            this.http.post(this.settings.accountdAPI + '/spaguess', { userName: userName })
+                .then(function (response) {
+                _this.logged(userName, resolve, reject);
+            })
+                .catch(function (error) {
+                _this.manageError(error, reject, _this.helpers.getError(error));
+            });
+        };
+        LoginService.prototype.logged = function (userName, resolve, reject) {
+            this.state.userName = userName;
+            this.setXhrf(resolve, reject);
+        };
+        LoginService.prototype.manageError = function (error, reject, exception) {
+            this.xhrf = undefined;
+            reject(exception);
+        };
+        LoginService = __decorate([
+            aurelia_framework_1.autoinject, 
+            __metadata('design:paramtypes', [aurelia_http_client_1.HttpClient, settings_1.Settings, chat_service_1.ChatService, conversation_service_1.ConversationService, state_1.State, helpers_1.Helpers])
+        ], LoginService);
+        return LoginService;
+    }());
+    exports.LoginService = LoginService;
+});
+
+var __decorate = (this && this.__decorate) || function (decorators, target, key, desc) {
+    var c = arguments.length, r = c < 3 ? target : desc === null ? desc = Object.getOwnPropertyDescriptor(target, key) : desc, d;
+    if (typeof Reflect === "object" && typeof Reflect.decorate === "function") r = Reflect.decorate(decorators, target, key, desc);
+    else for (var i = decorators.length - 1; i >= 0; i--) if (d = decorators[i]) r = (c < 3 ? d(r) : c > 3 ? d(target, key, r) : d(target, key)) || r;
+    return c > 3 && r && Object.defineProperty(target, key, r), r;
+};
+var __metadata = (this && this.__metadata) || function (k, v) {
+    if (typeof Reflect === "object" && typeof Reflect.metadata === "function") return Reflect.metadata(k, v);
+};
+define('components/user-name',["require", "exports", 'aurelia-framework', 'aurelia-validation', '../services/login.service', '../services/state'], function (require, exports, aurelia_framework_1, aurelia_validation_1, login_service_1, state_1) {
+    "use strict";
+    var UserName = (function () {
+        function UserName(service, state, controllerFactory) {
+            this.service = service;
+            this.state = state;
+            this.controller = controllerFactory.createForCurrentScope();
+            this.controller.validateTrigger = 'change';
+        }
+        UserName.prototype.attached = function () {
+            this.userName = this.state.userName;
+        };
+        UserName.prototype.userNameAvailable = function (value) {
+            var _this = this;
+            return new Promise(function (resolve) {
+                _this.service.exists(value)
+                    .then(function (r) {
+                    resolve(!r);
+                    _this.state.userName = value;
+                });
+            });
+        };
+        __decorate([
+            aurelia_framework_1.bindable({ defaultBindingMode: aurelia_framework_1.bindingMode.twoWay }), 
+            __metadata('design:type', String)
+        ], UserName.prototype, "userName", void 0);
+        UserName = __decorate([
+            aurelia_framework_1.autoinject,
+            aurelia_framework_1.customElement('user-name'), 
+            __metadata('design:paramtypes', [login_service_1.LoginService, state_1.State, aurelia_validation_1.ValidationControllerFactory])
+        ], UserName);
+        return UserName;
+    }());
+    exports.UserName = UserName;
+    aurelia_validation_1.ValidationRules
+        .ensure(function (c) { return c.userName; })
+        .satisfies(function (value, obj) { return obj.userNameAvailable(value); })
+        .withMessage('This user name already exists, please choose another one')
+        .satisfiesRule('required')
+        .on(UserName);
+});
+
+define('model/changePassword',["require", "exports"], function (require, exports) {
+    "use strict";
+    var ChangePassword = (function () {
+        function ChangePassword() {
+        }
+        return ChangePassword;
+    }());
+    exports.ChangePassword = ChangePassword;
+});
+
+define('model/manage-logins',["require", "exports"], function (require, exports) {
+    "use strict";
+    var UserLoginInfo = (function () {
+        function UserLoginInfo() {
+        }
+        return UserLoginInfo;
+    }());
+    var UserLogiAuthenticationDescriptionnInfo = (function () {
+        function UserLogiAuthenticationDescriptionnInfo() {
+        }
+        return UserLogiAuthenticationDescriptionnInfo;
+    }());
+    exports.UserLogiAuthenticationDescriptionnInfo = UserLogiAuthenticationDescriptionnInfo;
+    var ManageLogins = (function () {
+        function ManageLogins() {
+        }
+        return ManageLogins;
+    }());
+    exports.ManageLogins = ManageLogins;
+});
+
+var __decorate = (this && this.__decorate) || function (decorators, target, key, desc) {
+    var c = arguments.length, r = c < 3 ? target : desc === null ? desc = Object.getOwnPropertyDescriptor(target, key) : desc, d;
+    if (typeof Reflect === "object" && typeof Reflect.decorate === "function") r = Reflect.decorate(decorators, target, key, desc);
+    else for (var i = decorators.length - 1; i >= 0; i--) if (d = decorators[i]) r = (c < 3 ? d(r) : c > 3 ? d(target, key, r) : d(target, key)) || r;
+    return c > 3 && r && Object.defineProperty(target, key, r), r;
+};
+var __metadata = (this && this.__metadata) || function (k, v) {
+    if (typeof Reflect === "object" && typeof Reflect.metadata === "function") return Reflect.metadata(k, v);
+};
+define('services/account.service',["require", "exports", 'aurelia-http-client', 'aurelia-framework', '../config/settings', './state', './helpers'], function (require, exports, aurelia_http_client_1, aurelia_framework_1, settings_1, state_1, helpers_1) {
+    "use strict";
+    var AccountService = (function () {
+        function AccountService(http, settings, state, helpers) {
+            this.http = http;
+            this.settings = settings;
+            this.state = state;
+            this.helpers = helpers;
+        }
+        AccountService.prototype.getLogins = function () {
+            var _this = this;
+            return new Promise(function (resove, reject) {
+                _this.http.get(_this.settings.accountdAPI + '/logins')
+                    .then(function (response) {
+                    resove(response.content);
+                })
+                    .catch(function (error) { return reject(new Error('The service is down')); });
+            });
+        };
+        AccountService.prototype.removeLogin = function (loginProvider, providerKey) {
+            var _this = this;
+            return new Promise(function (resolve, reject) {
+                _this.http.delete(_this.settings.accountdAPI + '/sparemoveLogin?loginProvider=' + encodeURIComponent(loginProvider) + '&providerKey=' + encodeURIComponent(providerKey))
+                    .then(function () {
+                    resolve();
+                })
+                    .catch(function (e) { return reject(_this.helpers.getError(e)); });
+            });
+        };
+        AccountService = __decorate([
+            aurelia_framework_1.autoinject, 
+            __metadata('design:paramtypes', [aurelia_http_client_1.HttpClient, settings_1.Settings, state_1.State, helpers_1.Helpers])
+        ], AccountService);
+        return AccountService;
+    }());
+    exports.AccountService = AccountService;
+});
+
+var __decorate = (this && this.__decorate) || function (decorators, target, key, desc) {
+    var c = arguments.length, r = c < 3 ? target : desc === null ? desc = Object.getOwnPropertyDescriptor(target, key) : desc, d;
+    if (typeof Reflect === "object" && typeof Reflect.decorate === "function") r = Reflect.decorate(decorators, target, key, desc);
+    else for (var i = decorators.length - 1; i >= 0; i--) if (d = decorators[i]) r = (c < 3 ? d(r) : c > 3 ? d(target, key, r) : d(target, key)) || r;
+    return c > 3 && r && Object.defineProperty(target, key, r), r;
+};
+var __metadata = (this && this.__metadata) || function (k, v) {
+    if (typeof Reflect === "object" && typeof Reflect.metadata === "function") return Reflect.metadata(k, v);
+};
+define('pages/account',["require", "exports", 'aurelia-framework', 'aurelia-router', 'aurelia-event-aggregator', '../services/chat.service', '../services/state', '../services/account.service', '../services/login.service', '../model/manage-logins', '../events/connectionStateChanged', '../config/settings', '../services/helpers'], function (require, exports, aurelia_framework_1, aurelia_router_1, aurelia_event_aggregator_1, chat_service_1, state_1, account_service_1, login_service_1, manage_logins_1, connectionStateChanged_1, settings_1, helpers_1) {
+    "use strict";
+    var Account = (function () {
+        function Account(accountService, loginService, router, ea, state, settings, helpers) {
+            this.accountService = accountService;
+            this.loginService = loginService;
+            this.router = router;
+            this.ea = ea;
+            this.state = state;
+            this.externalLinkLogin = settings.apiBaseUrl +
+                settings.accountdAPI +
+                '/linklogin?returnUrl=' +
+                encodeURIComponent(location.protocol + '//' + location.host + '?a=account&u=' + encodeURIComponent(this.state.userName));
+        }
+        Account.prototype.remove = function (loginProvider, providerKey) {
+            var _this = this;
+            this.accountService.removeLogin(loginProvider, providerKey)
+                .then(function () {
+                var currentLogins = _this.logins.currentLogins;
+                var index = currentLogins.findIndex(function (value) { return value.loginProvider === loginProvider && value.providerKey === providerKey; });
+                currentLogins.splice(index, 1);
+                var provider = new manage_logins_1.UserLogiAuthenticationDescriptionnInfo();
+                provider.authenticationScheme = provider.displayName = loginProvider;
+                _this.logins.otherLogins.push(provider);
+            })
+                .catch(function (e) { return _this.errorMessage = e.message; });
+        };
+        Account.prototype.attached = function () {
+            var _this = this;
+            this.connectionStateSubscription = this.ea.subscribe(connectionStateChanged_1.ConnectionStateChanged, function (e) {
+                if (e.state === chat_service_1.ConnectionState.Connected) {
+                    _this.getLogins();
+                }
+            });
+            this.getLogins();
+        };
+        Account.prototype.detached = function () {
+            this.connectionStateSubscription.dispose();
+        };
+        Account.prototype.getLogins = function () {
+            var _this = this;
+            this.loginService.getXhrf()
+                .then(function (token) {
+                _this.token = token;
+                _this.accountService.getLogins()
+                    .then(function (logins) { return _this.logins = logins; })
+                    .catch(function (e) { return _this.errorMessage = e.message; });
+            })
+                .catch(function (e) { return _this.errorMessage = e.message; });
+        };
+        Account = __decorate([
+            aurelia_framework_1.autoinject, 
+            __metadata('design:paramtypes', [account_service_1.AccountService, login_service_1.LoginService, aurelia_router_1.Router, aurelia_event_aggregator_1.EventAggregator, state_1.State, settings_1.Settings, helpers_1.Helpers])
+        ], Account);
+        return Account;
+    }());
+    exports.Account = Account;
+});
+
+var __decorate = (this && this.__decorate) || function (decorators, target, key, desc) {
+    var c = arguments.length, r = c < 3 ? target : desc === null ? desc = Object.getOwnPropertyDescriptor(target, key) : desc, d;
+    if (typeof Reflect === "object" && typeof Reflect.decorate === "function") r = Reflect.decorate(decorators, target, key, desc);
+    else for (var i = decorators.length - 1; i >= 0; i--) if (d = decorators[i]) r = (c < 3 ? d(r) : c > 3 ? d(target, key, r) : d(target, key)) || r;
+    return c > 3 && r && Object.defineProperty(target, key, r), r;
+};
+var __metadata = (this && this.__metadata) || function (k, v) {
+    if (typeof Reflect === "object" && typeof Reflect.metadata === "function") return Reflect.metadata(k, v);
+};
+define('pages/confirm',["require", "exports", 'aurelia-framework', 'aurelia-router', 'aurelia-validation', '../services/login.service', '../services/helpers', '../services/state'], function (require, exports, aurelia_framework_1, aurelia_router_1, aurelia_validation_1, login_service_1, helpers_1, state_1) {
+    "use strict";
+    var Confirm = (function () {
+        function Confirm(service, router, helpers, state, controllerFactory) {
+            this.service = service;
+            this.router = router;
+            this.helpers = helpers;
+            this.state = state;
+            this.controller = controllerFactory.createForCurrentScope();
+            this.provider = this.helpers.getUrlParameter('p');
+            state.userName = this.helpers.getUrlParameter('u');
+            window.history.replaceState(null, null, '/');
+        }
+        Confirm.prototype.confirm = function () {
+            var _this = this;
+            this.controller.validate()
+                .then(function () {
+                _this.service.confirm(_this.state.userName)
+                    .then(function () {
+                    _this.router.navigateToRoute('home');
+                })
+                    .catch(function (e) {
+                    if (e.name === 'NullInfo') {
+                        _this.router.navigateToRoute('login');
+                    }
+                    else {
+                        _this.error = e;
+                    }
+                });
+            })
+                .catch(function (e) { return _this.error = e; });
+        };
+        Confirm = __decorate([
+            aurelia_framework_1.autoinject, 
+            __metadata('design:paramtypes', [login_service_1.LoginService, aurelia_router_1.Router, helpers_1.Helpers, state_1.State, aurelia_validation_1.ValidationControllerFactory])
+        ], Confirm);
+        return Confirm;
+    }());
+    exports.Confirm = Confirm;
+});
+
+define('services/notification.service',["require", "exports", '../events/messageReceived', '../events/conversationJoined', '../events/notificationClicked'], function (require, exports, messageReceived_1, conversationJoined_1, notificationClicked_1) {
+    "use strict";
+    var NotificationService = (function () {
+        function NotificationService(ea) {
+            this.ea = ea;
+        }
+        NotificationService.prototype.start = function () {
+            var _this = this;
+            if (window['Notification']) {
+                if (Notification.permission === 'granted') {
+                    this.listen();
+                }
+                else if (Notification.permission !== 'denied') {
+                    Notification
+                        .requestPermission()
+                        .then(function (permission) {
+                        if (permission === 'granted') {
+                            _this.listen();
+                        }
+                    });
+                }
+            }
+        };
+        NotificationService.prototype.stop = function () {
+            if (this.messageSubscription) {
+                this.messageSubscription.dispose();
+            }
+            if (this.conversationSubscription) {
+                this.conversationSubscription.dispose();
+            }
+        };
+        NotificationService.prototype.listen = function () {
+            var _this = this;
+            this.messageSubscription = this.ea.subscribe(messageReceived_1.MessageReceived, function (e) {
+                _this.notify(e.message);
+            });
+            this.conversationSubscription = this.ea.subscribe(conversationJoined_1.ConversationJoined, function (e) {
+                var conversation = e.conversation;
+                var message = conversation.messages[0];
+                if (message) {
+                    _this.notify(message);
+                }
+            });
+        };
+        NotificationService.prototype.notify = function (message) {
+            var _this = this;
+            var option = {
+                body: message.text,
+                icon: "favicon.ico"
+            };
+            var n = new Notification(message.from, option);
+            n.onclick = function () {
+                _this.ea.publish(new notificationClicked_1.NotificationClicked(message));
+                n.close.bind(n);
+            };
+            setTimeout(n.close.bind(n), 5000);
+        };
+        return NotificationService;
+    }());
+    exports.NotificationService = NotificationService;
+});
+
+var __decorate = (this && this.__decorate) || function (decorators, target, key, desc) {
+    var c = arguments.length, r = c < 3 ? target : desc === null ? desc = Object.getOwnPropertyDescriptor(target, key) : desc, d;
+    if (typeof Reflect === "object" && typeof Reflect.decorate === "function") r = Reflect.decorate(decorators, target, key, desc);
+    else for (var i = decorators.length - 1; i >= 0; i--) if (d = decorators[i]) r = (c < 3 ? d(r) : c > 3 ? d(target, key, r) : d(target, key)) || r;
+    return c > 3 && r && Object.defineProperty(target, key, r), r;
+};
+var __metadata = (this && this.__metadata) || function (k, v) {
+    if (typeof Reflect === "object" && typeof Reflect.metadata === "function") return Reflect.metadata(k, v);
+};
+define('pages/home',["require", "exports", 'aurelia-framework', 'aurelia-event-aggregator', '../services/chat.service', '../services/notification.service', '../events/connectionStateChanged'], function (require, exports, aurelia_framework_1, aurelia_event_aggregator_1, chat_service_1, notification_service_1, connectionStateChanged_1) {
+    "use strict";
+    var Home = (function () {
+        function Home(chatService, ea) {
+            this.chatService = chatService;
+            this.ea = ea;
+            this.notification = new notification_service_1.NotificationService(ea);
+        }
+        Home.prototype.configureRouter = function (config, router) {
+            config.map([
+                { route: ['', 'conversation/:id'], name: 'conversation', moduleId: '../components/conversation-component' }
+            ]);
+            this.router = router;
+        };
+        Home.prototype.attached = function () {
+            var _this = this;
+            this.connectionStateSubscription = this.ea.subscribe(connectionStateChanged_1.ConnectionStateChanged, function (e) {
+                _this.setIsDisconnected(e.state);
+            });
+            this.setIsDisconnected(this.chatService.currentState);
+            if (this.chatService.currentState !== chat_service_1.ConnectionState.Connected) {
+                this.chatService.start();
+            }
+        };
+        Home.prototype.detached = function () {
+            this.connectionStateSubscription.dispose();
+        };
+        Home.prototype.setIsDisconnected = function (state) {
+            if (state === chat_service_1.ConnectionState.Error) {
+                this.router.navigateToRoute('login');
+                this.notification.stop();
+            }
+            if (state === chat_service_1.ConnectionState.Disconnected) {
+                this.isDisconnected = true;
+                this.notification.stop();
+            }
+            else {
+                this.isDisconnected = false;
+                this.notification.start();
+            }
+        };
+        Home = __decorate([
+            aurelia_framework_1.autoinject, 
+            __metadata('design:paramtypes', [chat_service_1.ChatService, aurelia_event_aggregator_1.EventAggregator])
+        ], Home);
+        return Home;
+    }());
+    exports.Home = Home;
+});
+
+var __decorate = (this && this.__decorate) || function (decorators, target, key, desc) {
+    var c = arguments.length, r = c < 3 ? target : desc === null ? desc = Object.getOwnPropertyDescriptor(target, key) : desc, d;
+    if (typeof Reflect === "object" && typeof Reflect.decorate === "function") r = Reflect.decorate(decorators, target, key, desc);
+    else for (var i = decorators.length - 1; i >= 0; i--) if (d = decorators[i]) r = (c < 3 ? d(r) : c > 3 ? d(target, key, r) : d(target, key)) || r;
+    return c > 3 && r && Object.defineProperty(target, key, r), r;
+};
+var __metadata = (this && this.__metadata) || function (k, v) {
+    if (typeof Reflect === "object" && typeof Reflect.metadata === "function") return Reflect.metadata(k, v);
+};
+define('pages/login',["require", "exports", 'aurelia-framework', 'aurelia-router', '../services/login.service', '../config/settings', '../services/state', '../environment'], function (require, exports, aurelia_framework_1, aurelia_router_1, login_service_1, settings_1, state_1, environment_1) {
+    "use strict";
+    var Login = (function () {
+        function Login(service, router, state, settings) {
+            this.service = service;
+            this.router = router;
+            this.state = state;
+            var location = window.location;
+            this.externalLogin = settings.apiBaseUrl +
+                settings.accountdAPI +
+                '/externalLogin?returnUrl=' +
+                encodeURIComponent(location.protocol + '//' + location.host + environment_1.default.redirectPath);
+        }
+        Login.prototype.login = function () {
+            var _this = this;
+            this.service.login(this.state.userName)
+                .then(function () {
+                _this.router.navigateToRoute('home');
+            })
+                .catch(function (error) {
+                _this.error = error;
+            });
+        };
+        Login.prototype.activate = function () {
+            var _this = this;
+            this.service.logoff();
+            this.service.getXhrf(true)
+                .then(function (t) {
+                _this.token = t;
+                _this.service.getExternalLoginProviders()
+                    .then(function (providers) { return _this.providers = providers; })
+                    .catch(function (e) { return _this.error = e; });
+            })
+                .catch(function (e) {
+                return _this.error = e;
+            });
+        };
+        Login = __decorate([
+            aurelia_framework_1.autoinject, 
+            __metadata('design:paramtypes', [login_service_1.LoginService, aurelia_router_1.Router, state_1.State, settings_1.Settings])
+        ], Login);
+        return Login;
+    }());
+    exports.Login = Login;
+});
+
+define('resources/index',["require", "exports"], function (require, exports) {
+    "use strict";
+    function configure(config) {
+    }
+    exports.configure = configure;
+});
+
+define('aurelia-validation/validate-binding-behavior',["require", "exports", 'aurelia-dependency-injection', 'aurelia-pal', 'aurelia-task-queue', './validation-controller', './validate-trigger'], function (require, exports, aurelia_dependency_injection_1, aurelia_pal_1, aurelia_task_queue_1, validation_controller_1, validate_trigger_1) {
+    "use strict";
+    /**
+     * Binding behavior. Indicates the bound property should be validated.
+     */
+    var ValidateBindingBehavior = (function () {
+        function ValidateBindingBehavior(taskQueue) {
+            this.taskQueue = taskQueue;
+        }
+        /**
+        * Gets the DOM element associated with the data-binding. Most of the time it's
+        * the binding.target but sometimes binding.target is an aurelia custom element,
+        * or custom attribute which is a javascript "class" instance, so we need to use
+        * the controller's container to retrieve the actual DOM element.
+        */
+        ValidateBindingBehavior.prototype.getTarget = function (binding, view) {
+            var target = binding.target;
+            // DOM element
+            if (target instanceof Element) {
+                return target;
+            }
+            // custom element or custom attribute
+            for (var i = 0, ii = view.controllers.length; i < ii; i++) {
+                var controller = view.controllers[i];
+                if (controller.viewModel === target) {
+                    var element = controller.container.get(aurelia_pal_1.DOM.Element);
+                    if (element) {
+                        return element;
+                    }
+                    throw new Error("Unable to locate target element for \"" + binding.sourceExpression + "\".");
+                }
+            }
+            throw new Error("Unable to locate target element for \"" + binding.sourceExpression + "\".");
+        };
+        ValidateBindingBehavior.prototype.bind = function (binding, source, rulesOrController, rules) {
+            var _this = this;
+            // identify the target element.
+            var target = this.getTarget(binding, source);
+            // locate the controller.
+            var controller;
+            if (rulesOrController instanceof validation_controller_1.ValidationController) {
+                controller = rulesOrController;
+            }
+            else {
+                controller = source.container.get(aurelia_dependency_injection_1.Optional.of(validation_controller_1.ValidationController));
+                rules = rulesOrController;
+            }
+            if (controller === null) {
+                throw new Error("A ValidationController has not been registered.");
+            }
+            controller.registerBinding(binding, target, rules);
+            binding.validationController = controller;
+            if (controller.validateTrigger === validate_trigger_1.validateTrigger.change) {
+                binding.standardUpdateSource = binding.updateSource;
+                binding.updateSource = function (value) {
+                    this.standardUpdateSource(value);
+                    this.validationController.validateBinding(this);
+                };
+            }
+            else if (controller.validateTrigger === validate_trigger_1.validateTrigger.blur) {
+                binding.validateBlurHandler = function () {
+                    _this.taskQueue.queueMicroTask(function () { return controller.validateBinding(binding); });
+                };
+                binding.validateTarget = target;
+                target.addEventListener('blur', binding.validateBlurHandler);
+            }
+            if (controller.validateTrigger !== validate_trigger_1.validateTrigger.manual) {
+                binding.standardUpdateTarget = binding.updateTarget;
+                binding.updateTarget = function (value) {
+                    this.standardUpdateTarget(value);
+                    this.validationController.resetBinding(this);
+                };
+            }
+        };
+        ValidateBindingBehavior.prototype.unbind = function (binding) {
+            // reset the binding to it's original state.
+            if (binding.standardUpdateSource) {
+                binding.updateSource = binding.standardUpdateSource;
+                binding.standardUpdateSource = null;
+            }
+            if (binding.standardUpdateTarget) {
+                binding.updateTarget = binding.standardUpdateTarget;
+                binding.standardUpdateTarget = null;
+            }
+            if (binding.validateBlurHandler) {
+                binding.validateTarget.removeEventListener('blur', binding.validateBlurHandler);
+                binding.validateBlurHandler = null;
+                binding.validateTarget = null;
+            }
+            binding.validationController.unregisterBinding(binding);
+            binding.validationController = null;
+        };
+        ValidateBindingBehavior.inject = [aurelia_task_queue_1.TaskQueue];
+        return ValidateBindingBehavior;
+    }());
+    exports.ValidateBindingBehavior = ValidateBindingBehavior;
+});
+
+define('aurelia-validation/validation-controller',["require", "exports", './validator', './validate-trigger', './property-info', './validation-error'], function (require, exports, validator_1, validate_trigger_1, property_info_1, validation_error_1) {
+    "use strict";
+    /**
+     * Orchestrates validation.
+     * Manages a set of bindings, renderers and objects.
+     * Exposes the current list of validation errors for binding purposes.
+     */
+    var ValidationController = (function () {
+        function ValidationController(validator) {
+            this.validator = validator;
+            // Registered bindings (via the validate binding behavior)
+            this.bindings = new Map();
+            // Renderers that have been added to the controller instance.
+            this.renderers = [];
+            /**
+             * Errors that have been rendered by the controller.
+             */
+            this.errors = [];
+            /**
+             *  Whether the controller is currently validating.
+             */
+            this.validating = false;
+            // Elements related to errors that have been rendered.
+            this.elements = new Map();
+            // Objects that have been added to the controller instance (entity-style validation).
+            this.objects = new Map();
+            /**
+             * The trigger that will invoke automatic validation of a property used in a binding.
+             */
+            this.validateTrigger = validate_trigger_1.validateTrigger.blur;
+            // Promise that resolves when validation has completed.
+            this.finishValidating = Promise.resolve();
+        }
+        /**
+         * Adds an object to the set of objects that should be validated when validate is called.
+         * @param object The object.
+         * @param rules Optional. The rules. If rules aren't supplied the Validator implementation will lookup the rules.
+         */
+        ValidationController.prototype.addObject = function (object, rules) {
+            this.objects.set(object, rules);
+        };
+        /**
+         * Removes an object from the set of objects that should be validated when validate is called.
+         * @param object The object.
+         */
+        ValidationController.prototype.removeObject = function (object) {
+            this.objects.delete(object);
+            this.processErrorDelta('reset', this.errors.filter(function (error) { return error.object === object; }), []);
+        };
+        /**
+         * Adds and renders a ValidationError.
+         */
+        ValidationController.prototype.addError = function (message, object, propertyName) {
+            var error = new validation_error_1.ValidationError({}, message, object, propertyName);
+            this.processErrorDelta('validate', [], [error]);
+            return error;
+        };
+        /**
+         * Removes and unrenders a ValidationError.
+         */
+        ValidationController.prototype.removeError = function (error) {
+            if (this.errors.indexOf(error) !== -1) {
+                this.processErrorDelta('reset', [error], []);
+            }
+        };
+        /**
+         * Adds a renderer.
+         * @param renderer The renderer.
+         */
+        ValidationController.prototype.addRenderer = function (renderer) {
+            var _this = this;
+            this.renderers.push(renderer);
+            renderer.render({
+                kind: 'validate',
+                render: this.errors.map(function (error) { return ({ error: error, elements: _this.elements.get(error) }); }),
+                unrender: []
+            });
+        };
+        /**
+         * Removes a renderer.
+         * @param renderer The renderer.
+         */
+        ValidationController.prototype.removeRenderer = function (renderer) {
+            var _this = this;
+            this.renderers.splice(this.renderers.indexOf(renderer), 1);
+            renderer.render({
+                kind: 'reset',
+                render: [],
+                unrender: this.errors.map(function (error) { return ({ error: error, elements: _this.elements.get(error) }); })
+            });
+        };
+        /**
+         * Registers a binding with the controller.
+         * @param binding The binding instance.
+         * @param target The DOM element.
+         * @param rules (optional) rules associated with the binding. Validator implementation specific.
+         */
+        ValidationController.prototype.registerBinding = function (binding, target, rules) {
+            this.bindings.set(binding, { target: target, rules: rules });
+        };
+        /**
+         * Unregisters a binding with the controller.
+         * @param binding The binding instance.
+         */
+        ValidationController.prototype.unregisterBinding = function (binding) {
+            this.resetBinding(binding);
+            this.bindings.delete(binding);
+        };
+        /**
+         * Interprets the instruction and returns a predicate that will identify
+         * relevant errors in the list of rendered errors.
+         */
+        ValidationController.prototype.getInstructionPredicate = function (instruction) {
+            if (instruction) {
+                var object_1 = instruction.object, propertyName_1 = instruction.propertyName, rules_1 = instruction.rules;
+                var predicate_1;
+                if (instruction.propertyName) {
+                    predicate_1 = function (x) { return x.object === object_1 && x.propertyName === propertyName_1; };
+                }
+                else {
+                    predicate_1 = function (x) { return x.object === object_1; };
+                }
+                // todo: move to Validator interface:
+                if (rules_1 && rules_1.indexOf) {
+                    return function (x) { return predicate_1(x) && rules_1.indexOf(x.rule) !== -1; };
+                }
+                return predicate_1;
+            }
+            else {
+                return function () { return true; };
+            }
+        };
+        /**
+         * Validates and renders errors.
+         * @param instruction Optional. Instructions on what to validate. If undefined, all objects and bindings will be validated.
+         */
+        ValidationController.prototype.validate = function (instruction) {
+            var _this = this;
+            // Get a function that will process the validation instruction.
+            var execute;
+            if (instruction) {
+                var object_2 = instruction.object, propertyName_2 = instruction.propertyName, rules_2 = instruction.rules;
+                // if rules were not specified, check the object map.
+                rules_2 = rules_2 || this.objects.get(object_2);
+                // property specified?
+                if (instruction.propertyName === undefined) {
+                    // validate the specified object.
+                    execute = function () { return _this.validator.validateObject(object_2, rules_2); };
+                }
+                else {
+                    // validate the specified property.
+                    execute = function () { return _this.validator.validateProperty(object_2, propertyName_2, rules_2); };
+                }
+            }
+            else {
+                // validate all objects and bindings.
+                execute = function () {
+                    var promises = [];
+                    for (var _i = 0, _a = Array.from(_this.objects); _i < _a.length; _i++) {
+                        var _b = _a[_i], object = _b[0], rules = _b[1];
+                        promises.push(_this.validator.validateObject(object, rules));
+                    }
+                    for (var _c = 0, _d = Array.from(_this.bindings); _c < _d.length; _c++) {
+                        var _e = _d[_c], binding = _e[0], rules = _e[1].rules;
+                        var _f = property_info_1.getPropertyInfo(binding.sourceExpression, binding.source), object = _f.object, propertyName = _f.propertyName;
+                        if (_this.objects.has(object)) {
+                            continue;
+                        }
+                        promises.push(_this.validator.validateProperty(object, propertyName, rules));
+                    }
+                    return Promise.all(promises).then(function (errorSets) { return errorSets.reduce(function (a, b) { return a.concat(b); }, []); });
+                };
+            }
+            // Wait for any existing validation to finish, execute the instruction, render the errors.
+            this.validating = true;
+            var result = this.finishValidating
+                .then(execute)
+                .then(function (newErrors) {
+                var predicate = _this.getInstructionPredicate(instruction);
+                var oldErrors = _this.errors.filter(predicate);
+                _this.processErrorDelta('validate', oldErrors, newErrors);
+                if (result === _this.finishValidating) {
+                    _this.validating = false;
+                }
+                return newErrors;
+            })
+                .catch(function (error) {
+                // recover, to enable subsequent calls to validate()
+                _this.validating = false;
+                _this.finishValidating = Promise.resolve();
+                return Promise.reject(error);
+            });
+            this.finishValidating = result;
+            return result;
+        };
+        /**
+         * Resets any rendered errors (unrenders).
+         * @param instruction Optional. Instructions on what to reset. If unspecified all rendered errors will be unrendered.
+         */
+        ValidationController.prototype.reset = function (instruction) {
+            var predicate = this.getInstructionPredicate(instruction);
+            var oldErrors = this.errors.filter(predicate);
+            this.processErrorDelta('reset', oldErrors, []);
+        };
+        /**
+         * Gets the elements associated with an object and propertyName (if any).
+         */
+        ValidationController.prototype.getAssociatedElements = function (_a) {
+            var object = _a.object, propertyName = _a.propertyName;
+            var elements = [];
+            for (var _i = 0, _b = Array.from(this.bindings); _i < _b.length; _i++) {
+                var _c = _b[_i], binding = _c[0], target = _c[1].target;
+                var _d = property_info_1.getPropertyInfo(binding.sourceExpression, binding.source), o = _d.object, p = _d.propertyName;
+                if (o === object && p === propertyName) {
+                    elements.push(target);
+                }
+            }
+            return elements;
+        };
+        ValidationController.prototype.processErrorDelta = function (kind, oldErrors, newErrors) {
+            // prepare the instruction.
+            var instruction = {
+                kind: kind,
+                render: [],
+                unrender: []
+            };
+            // create a shallow copy of newErrors so we can mutate it without causing side-effects.
+            newErrors = newErrors.slice(0);
+            // create unrender instructions from the old errors.
+            var _loop_1 = function(oldError) {
+                // get the elements associated with the old error.
+                var elements = this_1.elements.get(oldError);
+                // remove the old error from the element map.
+                this_1.elements.delete(oldError);
+                // create the unrender instruction.
+                instruction.unrender.push({ error: oldError, elements: elements });
+                // determine if there's a corresponding new error for the old error we are unrendering.
+                var newErrorIndex = newErrors.findIndex(function (x) { return x.rule === oldError.rule && x.object === oldError.object && x.propertyName === oldError.propertyName; });
+                if (newErrorIndex === -1) {
+                    // no corresponding new error... simple remove.
+                    this_1.errors.splice(this_1.errors.indexOf(oldError), 1);
+                }
+                else {
+                    // there is a corresponding new error...        
+                    var newError = newErrors.splice(newErrorIndex, 1)[0];
+                    // get the elements that are associated with the new error.
+                    var elements_1 = this_1.getAssociatedElements(newError);
+                    this_1.elements.set(newError, elements_1);
+                    // create a render instruction for the new error.
+                    instruction.render.push({ error: newError, elements: elements_1 });
+                    // do an in-place replacement of the old error with the new error.
+                    // this ensures any repeats bound to this.errors will not thrash.
+                    this_1.errors.splice(this_1.errors.indexOf(oldError), 1, newError);
+                }
+            };
+            var this_1 = this;
+            for (var _i = 0, oldErrors_1 = oldErrors; _i < oldErrors_1.length; _i++) {
+                var oldError = oldErrors_1[_i];
+                _loop_1(oldError);
+            }
+            // create render instructions from the remaining new errors.
+            for (var _a = 0, newErrors_1 = newErrors; _a < newErrors_1.length; _a++) {
+                var error = newErrors_1[_a];
+                var elements = this.getAssociatedElements(error);
+                instruction.render.push({ error: error, elements: elements });
+                this.elements.set(error, elements);
+                this.errors.push(error);
+            }
+            // render.
+            for (var _b = 0, _c = this.renderers; _b < _c.length; _b++) {
+                var renderer = _c[_b];
+                renderer.render(instruction);
+            }
+        };
+        /**
+        * Validates the property associated with a binding.
+        */
+        ValidationController.prototype.validateBinding = function (binding) {
+            if (!binding.isBound) {
+                return;
+            }
+            var _a = property_info_1.getPropertyInfo(binding.sourceExpression, binding.source), object = _a.object, propertyName = _a.propertyName;
+            var registeredBinding = this.bindings.get(binding);
+            var rules = registeredBinding ? registeredBinding.rules : undefined;
+            this.validate({ object: object, propertyName: propertyName, rules: rules });
+        };
+        /**
+        * Resets the errors for a property associated with a binding.
+        */
+        ValidationController.prototype.resetBinding = function (binding) {
+            var _a = property_info_1.getPropertyInfo(binding.sourceExpression, binding.source), object = _a.object, propertyName = _a.propertyName;
+            this.reset({ object: object, propertyName: propertyName });
+        };
+        ValidationController.inject = [validator_1.Validator];
+        return ValidationController;
+    }());
+    exports.ValidationController = ValidationController;
+});
+
+define('aurelia-validation/validator',["require", "exports"], function (require, exports) {
+    "use strict";
+    /**
+     * Validates.
+     * Responsible for validating objects and properties.
+     */
+    var Validator = (function () {
+        function Validator() {
+        }
+        return Validator;
+    }());
+    exports.Validator = Validator;
+});
+
+define('aurelia-validation/validate-trigger',["require", "exports"], function (require, exports) {
+    "use strict";
+    /**
+    * Validation triggers.
+    */
+    exports.validateTrigger = {
+        /**
+        * Validate the binding when the binding's target element fires a DOM "blur" event.
+        */
+        blur: 'blur',
+        /**
+        * Validate the binding when it updates the model due to a change in the view.
+        * Not specific to DOM "change" events.
+        */
+        change: 'change',
+        /**
+        * Manual validation.  Use the controller's `validate()` and  `reset()` methods
+        * to validate all bindings.
+        */
+        manual: 'manual'
+    };
+});
+
+define('aurelia-validation/property-info',["require", "exports", 'aurelia-binding'], function (require, exports, aurelia_binding_1) {
+    "use strict";
+    function getObject(expression, objectExpression, source) {
+        var value = objectExpression.evaluate(source, null);
+        if (value !== null && (typeof value === 'object' || typeof value === 'function')) {
+            return value;
+        }
+        if (value === null) {
+            value = 'null';
+        }
+        else if (value === undefined) {
+            value = 'undefined';
+        }
+        throw new Error("The '" + objectExpression + "' part of '" + expression + "' evaluates to " + value + " instead of an object.");
+    }
+    /**
+     * Retrieves the object and property name for the specified expression.
+     * @param expression The expression
+     * @param source The scope
+     */
+    function getPropertyInfo(expression, source) {
+        var originalExpression = expression;
+        while (expression instanceof aurelia_binding_1.BindingBehavior || expression instanceof aurelia_binding_1.ValueConverter) {
+            expression = expression.expression;
+        }
+        var object;
+        var propertyName;
+        if (expression instanceof aurelia_binding_1.AccessScope) {
+            object = source.bindingContext;
+            propertyName = expression.name;
+        }
+        else if (expression instanceof aurelia_binding_1.AccessMember) {
+            object = getObject(originalExpression, expression.object, source);
+            propertyName = expression.name;
+        }
+        else if (expression instanceof aurelia_binding_1.AccessKeyed) {
+            object = getObject(originalExpression, expression.object, source);
+            propertyName = expression.key.evaluate(source);
+        }
+        else {
+            throw new Error("Expression '" + originalExpression + "' is not compatible with the validate binding-behavior.");
+        }
+        return { object: object, propertyName: propertyName };
+    }
+    exports.getPropertyInfo = getPropertyInfo;
+});
+
+define('aurelia-validation/validation-error',["require", "exports"], function (require, exports) {
+    "use strict";
+    /**
+     * A validation error.
+     */
+    var ValidationError = (function () {
+        /**
+         * @param rule The rule associated with the error. Validator implementation specific.
+         * @param message The error message.
+         * @param object The invalid object
+         * @param propertyName The name of the invalid property. Optional.
+         */
+        function ValidationError(rule, message, object, propertyName) {
+            if (propertyName === void 0) { propertyName = null; }
+            this.rule = rule;
+            this.message = message;
+            this.object = object;
+            this.propertyName = propertyName;
+            this.id = ValidationError.nextId++;
+        }
+        ValidationError.prototype.toString = function () {
+            return this.message;
+        };
+        ValidationError.nextId = 0;
+        return ValidationError;
+    }());
+    exports.ValidationError = ValidationError;
+});
+
+define('aurelia-validation/validation-controller-factory',["require", "exports", './validation-controller'], function (require, exports, validation_controller_1) {
+    "use strict";
+    /**
+     * Creates ValidationController instances.
+     */
+    var ValidationControllerFactory = (function () {
+        function ValidationControllerFactory(container) {
+            this.container = container;
+        }
+        ValidationControllerFactory.get = function (container) {
+            return new ValidationControllerFactory(container);
+        };
+        /**
+         * Creates a new controller and registers it in the current element's container so that it's
+         * available to the validate binding behavior and renderers.
+         */
+        ValidationControllerFactory.prototype.create = function () {
+            return this.container.invoke(validation_controller_1.ValidationController);
+        };
+        /**
+         * Creates a new controller and registers it in the current element's container so that it's
+         * available to the validate binding behavior and renderers.
+         */
+        ValidationControllerFactory.prototype.createForCurrentScope = function () {
+            var controller = this.create();
+            this.container.registerInstance(validation_controller_1.ValidationController, controller);
+            return controller;
+        };
+        return ValidationControllerFactory;
+    }());
+    exports.ValidationControllerFactory = ValidationControllerFactory;
+    ValidationControllerFactory['protocol:aurelia:resolver'] = true;
+});
+
+var __decorate = (this && this.__decorate) || function (decorators, target, key, desc) {
+    var c = arguments.length, r = c < 3 ? target : desc === null ? desc = Object.getOwnPropertyDescriptor(target, key) : desc, d;
+    if (typeof Reflect === "object" && typeof Reflect.decorate === "function") r = Reflect.decorate(decorators, target, key, desc);
+    else for (var i = decorators.length - 1; i >= 0; i--) if (d = decorators[i]) r = (c < 3 ? d(r) : c > 3 ? d(target, key, r) : d(target, key)) || r;
+    return c > 3 && r && Object.defineProperty(target, key, r), r;
+};
+define('aurelia-validation/validation-errors-custom-attribute',["require", "exports", 'aurelia-binding', 'aurelia-dependency-injection', 'aurelia-templating', './validation-controller'], function (require, exports, aurelia_binding_1, aurelia_dependency_injection_1, aurelia_templating_1, validation_controller_1) {
+    "use strict";
+    var ValidationErrorsCustomAttribute = (function () {
+        function ValidationErrorsCustomAttribute(boundaryElement, controllerAccessor) {
+            this.boundaryElement = boundaryElement;
+            this.controllerAccessor = controllerAccessor;
+            this.errors = [];
+        }
+        ValidationErrorsCustomAttribute.prototype.sort = function () {
+            this.errors.sort(function (a, b) {
+                if (a.targets[0] === b.targets[0]) {
+                    return 0;
+                }
+                return a.targets[0].compareDocumentPosition(b.targets[0]) & 2 ? 1 : -1;
+            });
+        };
+        ValidationErrorsCustomAttribute.prototype.interestingElements = function (elements) {
+            var _this = this;
+            return elements.filter(function (e) { return _this.boundaryElement.contains(e); });
+        };
+        ValidationErrorsCustomAttribute.prototype.render = function (instruction) {
+            var _loop_1 = function(error) {
+                var index = this_1.errors.findIndex(function (x) { return x.error === error; });
+                if (index !== -1) {
+                    this_1.errors.splice(index, 1);
+                }
+            };
+            var this_1 = this;
+            for (var _i = 0, _a = instruction.unrender; _i < _a.length; _i++) {
+                var error = _a[_i].error;
+                _loop_1(error);
+            }
+            for (var _b = 0, _c = instruction.render; _b < _c.length; _b++) {
+                var _d = _c[_b], error = _d.error, elements = _d.elements;
+                var targets = this.interestingElements(elements);
+                if (targets.length) {
+                    this.errors.push({ error: error, targets: targets });
+                }
+            }
+            this.sort();
+            this.value = this.errors;
+        };
+        ValidationErrorsCustomAttribute.prototype.bind = function () {
+            this.controllerAccessor().addRenderer(this);
+            this.value = this.errors;
+        };
+        ValidationErrorsCustomAttribute.prototype.unbind = function () {
+            this.controllerAccessor().removeRenderer(this);
+        };
+        ValidationErrorsCustomAttribute.inject = [Element, aurelia_dependency_injection_1.Lazy.of(validation_controller_1.ValidationController)];
+        ValidationErrorsCustomAttribute = __decorate([
+            aurelia_templating_1.customAttribute('validation-errors', aurelia_binding_1.bindingMode.twoWay)
+        ], ValidationErrorsCustomAttribute);
+        return ValidationErrorsCustomAttribute;
+    }());
+    exports.ValidationErrorsCustomAttribute = ValidationErrorsCustomAttribute;
+});
+
+define('aurelia-validation/validation-renderer-custom-attribute',["require", "exports", './validation-controller'], function (require, exports, validation_controller_1) {
+    "use strict";
+    var ValidationRendererCustomAttribute = (function () {
+        function ValidationRendererCustomAttribute() {
+        }
+        ValidationRendererCustomAttribute.prototype.created = function (view) {
+            this.container = view.container;
+        };
+        ValidationRendererCustomAttribute.prototype.bind = function () {
+            this.controller = this.container.get(validation_controller_1.ValidationController);
+            this.renderer = this.container.get(this.value);
+            this.controller.addRenderer(this.renderer);
+        };
+        ValidationRendererCustomAttribute.prototype.unbind = function () {
+            this.controller.removeRenderer(this.renderer);
+            this.controller = null;
+            this.renderer = null;
+        };
+        return ValidationRendererCustomAttribute;
+    }());
+    exports.ValidationRendererCustomAttribute = ValidationRendererCustomAttribute;
+});
+
+define('aurelia-validation/implementation/rules',["require", "exports"], function (require, exports) {
+    "use strict";
+    /**
+     * Sets, unsets and retrieves rules on an object or constructor function.
+     */
+    var Rules = (function () {
+        function Rules() {
+        }
+        /**
+         * Applies the rules to a target.
+         */
+        Rules.set = function (target, rules) {
+            if (target instanceof Function) {
+                target = target.prototype;
+            }
+            Object.defineProperty(target, Rules.key, { enumerable: false, configurable: false, writable: true, value: rules });
+        };
+        /**
+         * Removes rules from a target.
+         */
+        Rules.unset = function (target) {
+            if (target instanceof Function) {
+                target = target.prototype;
+            }
+            target[Rules.key] = null;
+        };
+        /**
+         * Retrieves the target's rules.
+         */
+        Rules.get = function (target) {
+            return target[Rules.key] || null;
+        };
+        /**
+         * The name of the property that stores the rules.
+         */
+        Rules.key = '__rules__';
+        return Rules;
+    }());
+    exports.Rules = Rules;
+});
+
+var __extends = (this && this.__extends) || function (d, b) {
+    for (var p in b) if (b.hasOwnProperty(p)) d[p] = b[p];
+    function __() { this.constructor = d; }
+    d.prototype = b === null ? Object.create(b) : (__.prototype = b.prototype, new __());
+};
+define('aurelia-validation/implementation/standard-validator',["require", "exports", 'aurelia-templating', '../validator', '../validation-error', './rules', './validation-messages'], function (require, exports, aurelia_templating_1, validator_1, validation_error_1, rules_1, validation_messages_1) {
+    "use strict";
+    /**
+     * Validates.
+     * Responsible for validating objects and properties.
+     */
+    var StandardValidator = (function (_super) {
+        __extends(StandardValidator, _super);
+        function StandardValidator(messageProvider, resources) {
+            _super.call(this);
+            this.messageProvider = messageProvider;
+            this.lookupFunctions = resources.lookupFunctions;
+            this.getDisplayName = messageProvider.getDisplayName.bind(messageProvider);
+        }
+        StandardValidator.prototype.getMessage = function (rule, object, value) {
+            var expression = rule.message || this.messageProvider.getMessage(rule.messageKey);
+            var _a = rule.property, propertyName = _a.name, displayName = _a.displayName;
+            if (displayName === null && propertyName !== null) {
+                displayName = this.messageProvider.getDisplayName(propertyName);
+            }
+            var overrideContext = {
+                $displayName: displayName,
+                $propertyName: propertyName,
+                $value: value,
+                $object: object,
+                $config: rule.config,
+                $getDisplayName: this.getDisplayName
+            };
+            return expression.evaluate({ bindingContext: object, overrideContext: overrideContext }, this.lookupFunctions);
+        };
+        StandardValidator.prototype.validate = function (object, propertyName, rules) {
+            var _this = this;
+            var errors = [];
+            // rules specified?
+            if (!rules) {
+                // no. locate the rules via metadata.
+                rules = rules_1.Rules.get(object);
+            }
+            // any rules?
+            if (!rules) {
+                return Promise.resolve(errors);
+            }
+            // are we validating all properties or a single property?
+            var validateAllProperties = propertyName === null || propertyName === undefined;
+            var addError = function (rule, value) {
+                var message = _this.getMessage(rule, object, value);
+                errors.push(new validation_error_1.ValidationError(rule, message, object, rule.property.name));
+            };
+            // validate each rule.
+            var promises = [];
+            var _loop_1 = function(i) {
+                var rule = rules[i];
+                // is the rule related to the property we're validating.
+                if (!validateAllProperties && rule.property.name !== propertyName) {
+                    return "continue";
+                }
+                // is this a conditional rule? is the condition met?
+                if (rule.when && !rule.when(object)) {
+                    return "continue";
+                }
+                // validate.
+                var value = rule.property.name === null ? object : object[rule.property.name];
+                var promiseOrBoolean = rule.condition(value, object);
+                if (promiseOrBoolean instanceof Promise) {
+                    promises.push(promiseOrBoolean.then(function (isValid) {
+                        if (!isValid) {
+                            addError(rule, value);
+                        }
+                    }));
+                    return "continue";
+                }
+                if (!promiseOrBoolean) {
+                    addError(rule, value);
+                }
+            };
+            for (var i = 0; i < rules.length; i++) {
+                _loop_1(i);
+            }
+            if (promises.length === 0) {
+                return Promise.resolve(errors);
+            }
+            return Promise.all(promises).then(function () { return errors; });
+        };
+        /**
+         * Validates the specified property.
+         * @param object The object to validate.
+         * @param propertyName The name of the property to validate.
+         * @param rules Optional. If unspecified, the rules will be looked up using the metadata
+         * for the object created by ValidationRules....on(class/object)
+         */
+        StandardValidator.prototype.validateProperty = function (object, propertyName, rules) {
+            return this.validate(object, propertyName, rules || null);
+        };
+        /**
+         * Validates all rules for specified object and it's properties.
+         * @param object The object to validate.
+         * @param rules Optional. If unspecified, the rules will be looked up using the metadata
+         * for the object created by ValidationRules....on(class/object)
+         */
+        StandardValidator.prototype.validateObject = function (object, rules) {
+            return this.validate(object, null, rules || null);
+        };
+        StandardValidator.inject = [validation_messages_1.ValidationMessageProvider, aurelia_templating_1.ViewResources];
+        return StandardValidator;
+    }(validator_1.Validator));
+    exports.StandardValidator = StandardValidator;
+});
+
+define('aurelia-validation/implementation/validation-messages',["require", "exports", './validation-parser'], function (require, exports, validation_parser_1) {
+    "use strict";
+    /**
+     * Dictionary of validation messages. [messageKey]: messageExpression
+     */
+    exports.validationMessages = {
+        /**
+         * The default validation message. Used with rules that have no standard message.
+         */
+        default: "${$displayName} is invalid.",
+        required: "${$displayName} is required.",
+        matches: "${$displayName} is not correctly formatted.",
+        email: "${$displayName} is not a valid email.",
+        minLength: "${$displayName} must be at least ${$config.length} character${$config.length === 1 ? '' : 's'}.",
+        maxLength: "${$displayName} cannot be longer than ${$config.length} character${$config.length === 1 ? '' : 's'}.",
+        minItems: "${$displayName} must contain at least ${$config.count} item${$config.count === 1 ? '' : 's'}.",
+        maxItems: "${$displayName} cannot contain more than ${$config.count} item${$config.count === 1 ? '' : 's'}.",
+        equals: "${$displayName} must be ${$config.expectedValue}.",
+    };
+    /**
+     * Retrieves validation messages and property display names.
+     */
+    var ValidationMessageProvider = (function () {
+        function ValidationMessageProvider(parser) {
+            this.parser = parser;
+        }
+        /**
+         * Returns a message binding expression that corresponds to the key.
+         * @param key The message key.
+         */
+        ValidationMessageProvider.prototype.getMessage = function (key) {
+            var message;
+            if (key in exports.validationMessages) {
+                message = exports.validationMessages[key];
+            }
+            else {
+                message = exports.validationMessages['default'];
+            }
+            return this.parser.parseMessage(message);
+        };
+        /**
+         * When a display name is not provided, this method is used to formulate
+         * a display name using the property name.
+         * Override this with your own custom logic.
+         * @param propertyName The property name.
+         */
+        ValidationMessageProvider.prototype.getDisplayName = function (propertyName) {
+            // split on upper-case letters.
+            var words = propertyName.split(/(?=[A-Z])/).join(' ');
+            // capitalize first letter.
+            return words.charAt(0).toUpperCase() + words.slice(1);
+        };
+        ValidationMessageProvider.inject = [validation_parser_1.ValidationParser];
+        return ValidationMessageProvider;
+    }());
+    exports.ValidationMessageProvider = ValidationMessageProvider;
+});
+
+var __extends = (this && this.__extends) || function (d, b) {
+    for (var p in b) if (b.hasOwnProperty(p)) d[p] = b[p];
+    function __() { this.constructor = d; }
+    d.prototype = b === null ? Object.create(b) : (__.prototype = b.prototype, new __());
+};
+define('aurelia-validation/implementation/validation-parser',["require", "exports", 'aurelia-binding', 'aurelia-templating', './util', 'aurelia-logging'], function (require, exports, aurelia_binding_1, aurelia_templating_1, util_1, LogManager) {
+    "use strict";
+    var ValidationParser = (function () {
+        function ValidationParser(parser, bindinqLanguage) {
+            this.parser = parser;
+            this.bindinqLanguage = bindinqLanguage;
+            this.emptyStringExpression = new aurelia_binding_1.LiteralString('');
+            this.nullExpression = new aurelia_binding_1.LiteralPrimitive(null);
+            this.undefinedExpression = new aurelia_binding_1.LiteralPrimitive(undefined);
+            this.cache = {};
+        }
+        ValidationParser.prototype.coalesce = function (part) {
+            // part === null || part === undefined ? '' : part
+            return new aurelia_binding_1.Conditional(new aurelia_binding_1.Binary('||', new aurelia_binding_1.Binary('===', part, this.nullExpression), new aurelia_binding_1.Binary('===', part, this.undefinedExpression)), this.emptyStringExpression, new aurelia_binding_1.CallMember(part, 'toString', []));
+        };
+        ValidationParser.prototype.parseMessage = function (message) {
+            if (this.cache[message] !== undefined) {
+                return this.cache[message];
+            }
+            var parts = this.bindinqLanguage.parseInterpolation(null, message);
+            if (parts === null) {
+                return new aurelia_binding_1.LiteralString(message);
+            }
+            var expression = new aurelia_binding_1.LiteralString(parts[0]);
+            for (var i = 1; i < parts.length; i += 2) {
+                expression = new aurelia_binding_1.Binary('+', expression, new aurelia_binding_1.Binary('+', this.coalesce(parts[i]), new aurelia_binding_1.LiteralString(parts[i + 1])));
+            }
+            MessageExpressionValidator.validate(expression, message);
+            this.cache[message] = expression;
+            return expression;
+        };
+        ValidationParser.prototype.getAccessorExpression = function (fn) {
+            var classic = /^function\s*\([$_\w\d]+\)\s*\{\s*(?:"use strict";)?\s*return\s+[$_\w\d]+\.([$_\w\d]+)\s*;?\s*\}$/;
+            var arrow = /^[$_\w\d]+\s*=>\s*[$_\w\d]+\.([$_\w\d]+)$/;
+            var match = classic.exec(fn) || arrow.exec(fn);
+            if (match === null) {
+                throw new Error("Unable to parse accessor function:\n" + fn);
+            }
+            return this.parser.parse(match[1]);
+        };
+        ValidationParser.prototype.parseProperty = function (property) {
+            var accessor;
+            if (util_1.isString(property)) {
+                accessor = this.parser.parse(property);
+            }
+            else {
+                accessor = this.getAccessorExpression(property.toString());
+            }
+            if (accessor instanceof aurelia_binding_1.AccessScope
+                || accessor instanceof aurelia_binding_1.AccessMember && accessor.object instanceof aurelia_binding_1.AccessScope) {
+                return {
+                    name: accessor.name,
+                    displayName: null
+                };
+            }
+            throw new Error("Invalid subject: \"" + accessor + "\"");
+        };
+        ValidationParser.inject = [aurelia_binding_1.Parser, aurelia_templating_1.BindingLanguage];
+        return ValidationParser;
+    }());
+    exports.ValidationParser = ValidationParser;
+    var MessageExpressionValidator = (function (_super) {
+        __extends(MessageExpressionValidator, _super);
+        function MessageExpressionValidator(originalMessage) {
+            _super.call(this, []);
+            this.originalMessage = originalMessage;
+        }
+        MessageExpressionValidator.validate = function (expression, originalMessage) {
+            var visitor = new MessageExpressionValidator(originalMessage);
+            expression.accept(visitor);
+        };
+        MessageExpressionValidator.prototype.visitAccessScope = function (access) {
+            if (access.ancestor !== 0) {
+                throw new Error('$parent is not permitted in validation message expressions.');
+            }
+            if (['displayName', 'propertyName', 'value', 'object', 'config', 'getDisplayName'].indexOf(access.name) !== -1) {
+                LogManager.getLogger('aurelia-validation')
+                    .warn("Did you mean to use \"$" + access.name + "\" instead of \"" + access.name + "\" in this validation message template: \"" + this.originalMessage + "\"?");
+            }
+        };
+        return MessageExpressionValidator;
+    }(aurelia_binding_1.Unparser));
+    exports.MessageExpressionValidator = MessageExpressionValidator;
+});
+
+define('aurelia-validation/implementation/util',["require", "exports"], function (require, exports) {
+    "use strict";
+    function isString(value) {
+        return Object.prototype.toString.call(value) === '[object String]';
+    }
+    exports.isString = isString;
+});
+
+define('aurelia-validation/implementation/validation-rules',["require", "exports", './util', './rules', './validation-messages'], function (require, exports, util_1, rules_1, validation_messages_1) {
+    "use strict";
+    /**
+     * Part of the fluent rule API. Enables customizing property rules.
+     */
+    var FluentRuleCustomizer = (function () {
+        function FluentRuleCustomizer(property, condition, config, fluentEnsure, fluentRules, parser) {
+            if (config === void 0) { config = {}; }
+            this.fluentEnsure = fluentEnsure;
+            this.fluentRules = fluentRules;
+            this.parser = parser;
+            this.rule = {
+                property: property,
+                condition: condition,
+                config: config,
+                when: null,
+                messageKey: 'default',
+                message: null
+            };
+            this.fluentEnsure.rules.push(this.rule);
+        }
+        /**
+         * Specifies the key to use when looking up the rule's validation message.
+         */
+        FluentRuleCustomizer.prototype.withMessageKey = function (key) {
+            this.rule.messageKey = key;
+            this.rule.message = null;
+            return this;
+        };
+        /**
+         * Specifies rule's validation message.
+         */
+        FluentRuleCustomizer.prototype.withMessage = function (message) {
+            this.rule.messageKey = 'custom';
+            this.rule.message = this.parser.parseMessage(message);
+            return this;
+        };
+        /**
+         * Specifies a condition that must be met before attempting to validate the rule.
+         * @param condition A function that accepts the object as a parameter and returns true
+         * or false whether the rule should be evaluated.
+         */
+        FluentRuleCustomizer.prototype.when = function (condition) {
+            this.rule.when = condition;
+            return this;
+        };
+        /**
+         * Tags the rule instance, enabling the rule to be found easily
+         * using ValidationRules.taggedRules(rules, tag)
+         */
+        FluentRuleCustomizer.prototype.tag = function (tag) {
+            this.rule.tag = tag;
+            return this;
+        };
+        ///// FluentEnsure APIs /////
+        /**
+         * Target a property with validation rules.
+         * @param property The property to target. Can be the property name or a property accessor function.
+         */
+        FluentRuleCustomizer.prototype.ensure = function (subject) {
+            return this.fluentEnsure.ensure(subject);
+        };
+        /**
+         * Targets an object with validation rules.
+         */
+        FluentRuleCustomizer.prototype.ensureObject = function () {
+            return this.fluentEnsure.ensureObject();
+        };
+        Object.defineProperty(FluentRuleCustomizer.prototype, "rules", {
+            /**
+             * Rules that have been defined using the fluent API.
+             */
+            get: function () {
+                return this.fluentEnsure.rules;
+            },
+            enumerable: true,
+            configurable: true
+        });
+        /**
+         * Applies the rules to a class or object, making them discoverable by the StandardValidator.
+         * @param target A class or object.
+         */
+        FluentRuleCustomizer.prototype.on = function (target) {
+            return this.fluentEnsure.on(target);
+        };
+        ///////// FluentRules APIs /////////
+        /**
+         * Applies an ad-hoc rule function to the ensured property or object.
+         * @param condition The function to validate the rule.
+         * Will be called with two arguments, the property value and the object.
+         * Should return a boolean or a Promise that resolves to a boolean.
+         */
+        FluentRuleCustomizer.prototype.satisfies = function (condition, config) {
+            return this.fluentRules.satisfies(condition, config);
+        };
+        /**
+         * Applies a rule by name.
+         * @param name The name of the custom or standard rule.
+         * @param args The rule's arguments.
+         */
+        FluentRuleCustomizer.prototype.satisfiesRule = function (name) {
+            var args = [];
+            for (var _i = 1; _i < arguments.length; _i++) {
+                args[_i - 1] = arguments[_i];
+            }
+            return (_a = this.fluentRules).satisfiesRule.apply(_a, [name].concat(args));
+            var _a;
+        };
+        /**
+         * Applies the "required" rule to the property.
+         * The value cannot be null, undefined or whitespace.
+         */
+        FluentRuleCustomizer.prototype.required = function () {
+            return this.fluentRules.required();
+        };
+        /**
+         * Applies the "matches" rule to the property.
+         * Value must match the specified regular expression.
+         * null, undefined and empty-string values are considered valid.
+         */
+        FluentRuleCustomizer.prototype.matches = function (regex) {
+            return this.fluentRules.matches(regex);
+        };
+        /**
+         * Applies the "email" rule to the property.
+         * null, undefined and empty-string values are considered valid.
+         */
+        FluentRuleCustomizer.prototype.email = function () {
+            return this.fluentRules.email();
+        };
+        /**
+         * Applies the "minLength" STRING validation rule to the property.
+         * null, undefined and empty-string values are considered valid.
+         */
+        FluentRuleCustomizer.prototype.minLength = function (length) {
+            return this.fluentRules.minLength(length);
+        };
+        /**
+         * Applies the "maxLength" STRING validation rule to the property.
+         * null, undefined and empty-string values are considered valid.
+         */
+        FluentRuleCustomizer.prototype.maxLength = function (length) {
+            return this.fluentRules.maxLength(length);
+        };
+        /**
+         * Applies the "minItems" ARRAY validation rule to the property.
+         * null and undefined values are considered valid.
+         */
+        FluentRuleCustomizer.prototype.minItems = function (count) {
+            return this.fluentRules.minItems(count);
+        };
+        /**
+         * Applies the "maxItems" ARRAY validation rule to the property.
+         * null and undefined values are considered valid.
+         */
+        FluentRuleCustomizer.prototype.maxItems = function (count) {
+            return this.fluentRules.maxItems(count);
+        };
+        /**
+         * Applies the "equals" validation rule to the property.
+         * null, undefined and empty-string values are considered valid.
+         */
+        FluentRuleCustomizer.prototype.equals = function (expectedValue) {
+            return this.fluentRules.equals(expectedValue);
+        };
+        return FluentRuleCustomizer;
+    }());
+    exports.FluentRuleCustomizer = FluentRuleCustomizer;
+    /**
+     * Part of the fluent rule API. Enables applying rules to properties and objects.
+     */
+    var FluentRules = (function () {
+        function FluentRules(fluentEnsure, parser, property) {
+            this.fluentEnsure = fluentEnsure;
+            this.parser = parser;
+            this.property = property;
+        }
+        /**
+         * Sets the display name of the ensured property.
+         */
+        FluentRules.prototype.displayName = function (name) {
+            this.property.displayName = name;
+            return this;
+        };
+        /**
+         * Applies an ad-hoc rule function to the ensured property or object.
+         * @param condition The function to validate the rule.
+         * Will be called with two arguments, the property value and the object.
+         * Should return a boolean or a Promise that resolves to a boolean.
+         */
+        FluentRules.prototype.satisfies = function (condition, config) {
+            return new FluentRuleCustomizer(this.property, condition, config, this.fluentEnsure, this, this.parser);
+        };
+        /**
+         * Applies a rule by name.
+         * @param name The name of the custom or standard rule.
+         * @param args The rule's arguments.
+         */
+        FluentRules.prototype.satisfiesRule = function (name) {
+            var _this = this;
+            var args = [];
+            for (var _i = 1; _i < arguments.length; _i++) {
+                args[_i - 1] = arguments[_i];
+            }
+            var rule = FluentRules.customRules[name];
+            if (!rule) {
+                // standard rule?
+                rule = this[name];
+                if (rule instanceof Function) {
+                    return rule.call.apply(rule, [this].concat(args));
+                }
+                throw new Error("Rule with name \"" + name + "\" does not exist.");
+            }
+            var config = rule.argsToConfig ? rule.argsToConfig.apply(rule, args) : undefined;
+            return this.satisfies(function (value, obj) { return (_a = rule.condition).call.apply(_a, [_this, value, obj].concat(args)); var _a; }, config)
+                .withMessageKey(name);
+        };
+        /**
+         * Applies the "required" rule to the property.
+         * The value cannot be null, undefined or whitespace.
+         */
+        FluentRules.prototype.required = function () {
+            return this.satisfies(function (value) {
+                return value !== null
+                    && value !== undefined
+                    && !(util_1.isString(value) && !/\S/.test(value));
+            }).withMessageKey('required');
+        };
+        /**
+         * Applies the "matches" rule to the property.
+         * Value must match the specified regular expression.
+         * null, undefined and empty-string values are considered valid.
+         */
+        FluentRules.prototype.matches = function (regex) {
+            return this.satisfies(function (value) { return value === null || value === undefined || value.length === 0 || regex.test(value); })
+                .withMessageKey('matches');
+        };
+        /**
+         * Applies the "email" rule to the property.
+         * null, undefined and empty-string values are considered valid.
+         */
+        FluentRules.prototype.email = function () {
+            return this.matches(/^((([a-z]|\d|[!#\$%&'\*\+\-\/=\?\^_`{\|}~]|[\u00A0-\uD7FF\uF900-\uFDCF\uFDF0-\uFFEF])+(\.([a-z]|\d|[!#\$%&'\*\+\-\/=\?\^_`{\|}~]|[\u00A0-\uD7FF\uF900-\uFDCF\uFDF0-\uFFEF])+)*)|((\x22)((((\x20|\x09)*(\x0d\x0a))?(\x20|\x09)+)?(([\x01-\x08\x0b\x0c\x0e-\x1f\x7f]|\x21|[\x23-\x5b]|[\x5d-\x7e]|[\u00A0-\uD7FF\uF900-\uFDCF\uFDF0-\uFFEF])|(\\([\x01-\x09\x0b\x0c\x0d-\x7f]|[\u00A0-\uD7FF\uF900-\uFDCF\uFDF0-\uFFEF]))))*(((\x20|\x09)*(\x0d\x0a))?(\x20|\x09)+)?(\x22)))@((([a-z]|\d|[\u00A0-\uD7FF\uF900-\uFDCF\uFDF0-\uFFEF])|(([a-z]|\d|[\u00A0-\uD7FF\uF900-\uFDCF\uFDF0-\uFFEF])([a-z]|\d|-|\.|_|~|[\u00A0-\uD7FF\uF900-\uFDCF\uFDF0-\uFFEF])*([a-z]|\d|[\u00A0-\uD7FF\uF900-\uFDCF\uFDF0-\uFFEF])))\.)+(([a-z]|[\u00A0-\uD7FF\uF900-\uFDCF\uFDF0-\uFFEF])|(([a-z]|[\u00A0-\uD7FF\uF900-\uFDCF\uFDF0-\uFFEF])([a-z]|\d|-|\.|_|~|[\u00A0-\uD7FF\uF900-\uFDCF\uFDF0-\uFFEF])*([a-z]|[\u00A0-\uD7FF\uF900-\uFDCF\uFDF0-\uFFEF])))$/)
+                .withMessageKey('email');
+        };
+        /**
+         * Applies the "minLength" STRING validation rule to the property.
+         * null, undefined and empty-string values are considered valid.
+         */
+        FluentRules.prototype.minLength = function (length) {
+            return this.satisfies(function (value) { return value === null || value === undefined || value.length === 0 || value.length >= length; }, { length: length })
+                .withMessageKey('minLength');
+        };
+        /**
+         * Applies the "maxLength" STRING validation rule to the property.
+         * null, undefined and empty-string values are considered valid.
+         */
+        FluentRules.prototype.maxLength = function (length) {
+            return this.satisfies(function (value) { return value === null || value === undefined || value.length === 0 || value.length <= length; }, { length: length })
+                .withMessageKey('maxLength');
+        };
+        /**
+         * Applies the "minItems" ARRAY validation rule to the property.
+         * null and undefined values are considered valid.
+         */
+        FluentRules.prototype.minItems = function (count) {
+            return this.satisfies(function (value) { return value === null || value === undefined || value.length >= count; }, { count: count })
+                .withMessageKey('minItems');
+        };
+        /**
+         * Applies the "maxItems" ARRAY validation rule to the property.
+         * null and undefined values are considered valid.
+         */
+        FluentRules.prototype.maxItems = function (count) {
+            return this.satisfies(function (value) { return value === null || value === undefined || value.length <= count; }, { count: count })
+                .withMessageKey('maxItems');
+        };
+        /**
+         * Applies the "equals" validation rule to the property.
+         * null and undefined values are considered valid.
+         */
+        FluentRules.prototype.equals = function (expectedValue) {
+            return this.satisfies(function (value) { return value === null || value === undefined || value === '' || value === expectedValue; }, { expectedValue: expectedValue })
+                .withMessageKey('equals');
+        };
+        FluentRules.customRules = {};
+        return FluentRules;
+    }());
+    exports.FluentRules = FluentRules;
+    /**
+     * Part of the fluent rule API. Enables targeting properties and objects with rules.
+     */
+    var FluentEnsure = (function () {
+        function FluentEnsure(parser) {
+            this.parser = parser;
+            /**
+             * Rules that have been defined using the fluent API.
+             */
+            this.rules = [];
+        }
+        /**
+         * Target a property with validation rules.
+         * @param property The property to target. Can be the property name or a property accessor function.
+         */
+        FluentEnsure.prototype.ensure = function (property) {
+            this.assertInitialized();
+            return new FluentRules(this, this.parser, this.parser.parseProperty(property));
+        };
+        /**
+         * Targets an object with validation rules.
+         */
+        FluentEnsure.prototype.ensureObject = function () {
+            this.assertInitialized();
+            return new FluentRules(this, this.parser, { name: null, displayName: null });
+        };
+        /**
+         * Applies the rules to a class or object, making them discoverable by the StandardValidator.
+         * @param target A class or object.
+         */
+        FluentEnsure.prototype.on = function (target) {
+            rules_1.Rules.set(target, this.rules);
+            return this;
+        };
+        FluentEnsure.prototype.assertInitialized = function () {
+            if (this.parser) {
+                return;
+            }
+            throw new Error("Did you forget to add \".plugin('aurelia-validation)\" to your main.js?");
+        };
+        return FluentEnsure;
+    }());
+    exports.FluentEnsure = FluentEnsure;
+    /**
+     * Fluent rule definition API.
+     */
+    var ValidationRules = (function () {
+        function ValidationRules() {
+        }
+        ValidationRules.initialize = function (parser) {
+            ValidationRules.parser = parser;
+        };
+        /**
+         * Target a property with validation rules.
+         * @param property The property to target. Can be the property name or a property accessor function.
+         */
+        ValidationRules.ensure = function (property) {
+            return new FluentEnsure(ValidationRules.parser).ensure(property);
+        };
+        /**
+         * Targets an object with validation rules.
+         */
+        ValidationRules.ensureObject = function () {
+            return new FluentEnsure(ValidationRules.parser).ensureObject();
+        };
+        /**
+         * Defines a custom rule.
+         * @param name The name of the custom rule. Also serves as the message key.
+         * @param condition The rule function.
+         * @param message The message expression
+         * @param argsToConfig A function that maps the rule's arguments to a "config" object that can be used when evaluating the message expression.
+         */
+        ValidationRules.customRule = function (name, condition, message, argsToConfig) {
+            validation_messages_1.validationMessages[name] = message;
+            FluentRules.customRules[name] = { condition: condition, argsToConfig: argsToConfig };
+        };
+        /**
+         * Returns rules with the matching tag.
+         * @param rules The rules to search.
+         * @param tag The tag to search for.
+         */
+        ValidationRules.taggedRules = function (rules, tag) {
+            return rules.filter(function (r) { return r.tag === tag; });
+        };
+        /**
+         * Removes the rules from a class or object.
+         * @param target A class or object.
+         */
+        ValidationRules.off = function (target) {
+            rules_1.Rules.unset(target);
+        };
+        return ValidationRules;
+    }());
+    exports.ValidationRules = ValidationRules;
+});
+
+define('text!app.html', ['module'], function(module) { module.exports = "<template>\n    <require from=\"./css/site.css\"></require>\n    <div class=\"navbar navbar-default navbar-fixed-top\">\n        <div class=\"container\">\n            <div class=\"navbar-header\">\n                <button type=\"button\" class=\"navbar-toggle\" data-toggle=\"collapse\" data-target=\".navbar-collapse\">\n                    <span class=\"icon-bar menu\"></span>\n                    <span class=\"icon-bar menu\"></span>\n                    <span class=\"icon-bar menu\"></span>\n                </button>\n                <button type=\"button\" class=\"navbar-brand title\" click.delegate=\"home()\">\n                    <img src=\"favicon.ico\" />\n                    chatle\n                </button>                \n            </div>\n            <div class=\"navbar-collapse collapse\">\n                <ul class=\"nav navbar-nav\" if.bind=\"isConnected\">\n                    <li click.delegate=\"manage()\"><a>Welcom ${userName}!</a></li>\n                    <li click.delegate=\"logoff()\"><a>Log off</a></li>\n                </ul>\n            </div>\n        </div>\n    </div>\n    <div class=\"container body-content\">\n        <div if.bind=\"errorMessage\" class=\"text-danger\">\n            <ul>\n                <li>${errorMessage}</li>\n            </ul>\n        </div>\n        <router-view></router-view>\n    </div>\n    <footer>\n        <p>&copy; 2016 - chatle</p>\n    </footer>\n</template>\n"; });
+define('text!css/site.css', ['module'], function(module) { module.exports = "html {\n    font-family: cursive\n}\n/* Move down content because we have a fixed navbar that is 50px tall */\nbody.chatle {\n    padding-top: 50px;\n    padding-bottom: 20px;\n}\n\n/* Wrapping element */\n/* Set some basic padding to keep content from hitting the edges */\n.body-content {\n    padding-left: 15px;\n    padding-right: 15px;\n}\n\n.navbar.navbar-default {\n    background-color: #000;\n}\n\nbutton.navbar-brand {\n    background-color: transparent;\n    border: 0;\n}\n\nbutton.navbar-brand > img {\n    display: inline-block;\n    height: 20px;\n    border-radius: 7px;\n}\n\n.title.navbar-brand:focus,\n.title.navbar-brand:hover,\n.nav.navbar-nav > li > a:hover {\n    color: #fff;    \n}\n\nli:hover {\n    cursor: pointer;\n}\n\n/* Set widths on the form inputs since otherwise they're 100% wide */\ninput,\nselect,\ntextarea {\n    max-width: 280px;\n}\n\nul\n{\n    padding-left: 0;\n    list-style-type: none;\n}\n\nsmall {\n    color: #666666;\n}\n\n/* Responsive: Portrait tablets and up */\n@media screen and (min-width: 768px) {\n    .jumbotron {\n        margin-top: 20px;\n    }\n\n    .body-content {\n        padding: 0;\n    }\n}\n\n.list-group-item,\n.list-group-item:first-child,\n.list-group-item:last-child {\n    border: 0;\n    padding: 0;\n    border-radius: 0;\n}\n\n.list-group-item:hover {\n    padding-right: 4px;\n    padding-left: 4px;\n}\n\n.list-group-item.active {\n    background-color: #fff;\n    border-top: 1px solid #ccc;\n    border-bottom: 1px solid #ccc;\n}\n\n.list-group-item.active:hover {\n    background-color: #fff;    \n    border-color: #333;\n}\n\n.list-group-item.active span {\n    color: #333;\n}"; });
+define('text!components/contact-list.html', ['module'], function(module) { module.exports = "<template>\n  <require from=\"./contact\"></require>\n  <div class=\"contact-list\">\n    <span if.bind=\"!users\">${loadingMessage}</span>\n    <ul class=\"list-group\" if.bind=\"users\">\n      <contact repeat.for=\"user of users\" user.bind=\"user\"></contact>\n    </ul>\n  </div>\n</template>"; });
+define('text!css/site.min.css', ['module'], function(module) { module.exports = "html{font-family:cursive}body{padding-top:50px;padding-bottom:20px}.console{font-family:'Lucida Console',Monaco,monospace}.body-content{padding-left:15px;padding-right:15px}.navbar.navbar-default{background-color:#fff}.nav.navbar-nav>li>a:hover,.title.navbar-brand:focus,.title.navbar-brand:hover{color:#222}input,select,textarea{max-width:280px}ul{padding-left:0;list-style-type:none}small{color:#666}@media screen and (min-width:768px){.jumbotron{margin-top:20px}.body-content{padding:0}}"; });
+define('text!components/contact.html', ['module'], function(module) { module.exports = "<template>\n    <li class=\"list-group-item ${isSelected ? 'active' : ''}\" click.delegate=\"select()\" desabled=\"isCurrentUser\"><a>${user.id}</a></li>\n</template>"; });
+define('text!components/conversation-component.html', ['module'], function(module) { module.exports = "<template>\n    <div if.bind=\"conversation\">\n        <h6>${conversation.title}</h6>\n        <form class=\"form-inline\">\n            <input class=\"form-control\" value.bind=\"message\" placeholder=\"message...\">\n            <button type=\"submit\" class=\"btn btn-default\" click.delegate=\"sendMessage()\" disabled.bind=\"!message\">send</button>\n        </form>\n        <div class=\"has-error\">\n            <span class=\"help-block\">${error}</span>\n        </div>\n        <ul>\n            <li repeat.for=\"message of conversation.messages\">\n                <small>${message.from}</small><br />\n                <span>${message.text}</span>\n            </li>\n        </ul>\n    </div>\n    <h1 if.bind=\"!conversation\">WELCOME TO THIS REALLY SIMPLE CHAT</h1>\n</template>"; });
+define('text!components/conversation-list.html', ['module'], function(module) { module.exports = "<template>\n  <require from=\"./conversation-preview\"></require>\n  <div class=\"conversation-list\">\n    <ul class=\"list-group\">\n      <conversation-preview repeat.for=\"conversation of conversations\" conversation.bind=\"conversation\"></conversation-preview>\n    </ul>\n  </div>\n</template>"; });
+define('text!components/conversation-preview.html', ['module'], function(module) { module.exports = "<template>\n  <li class=\"list-group-item ${isSelected ? 'active' : ''}\" click.delegate=\"select()\">\n    <a>${conversation.title}</a><br/>\n    <span>${lastMessage}</span>\n  </li>\n</template>"; });
+define('text!components/user-name.html', ['module'], function(module) { module.exports = "<template>\n\t<div validation-errors.bind=\"userNameErrors\" class.bind=\"userNameErrors.length ? 'has-error' : ''\">\n\t\t<input class=\"form-control\" name=\"UserName\" value.bind=\"userName & validate\" />\n\t\t<span class=\"help-block\" repeat.for=\"errorInfo of userNameErrors\">\n            ${errorInfo.error.message}\n        <span>\n    </div>\n</template>>"; });
+define('text!pages/account.html', ['module'], function(module) { module.exports = "<template>\n\t<h2>Manage Account.</h2>\n\t<div class=\"row\">\n\t\t<template if.bind=\"logins.otherLogins.length > 0\">\n\t\t\t<h4>Add another service to log in.</h4>\n\t\t\t<hr />\n\t\t\t<form method=\"post\" class=\"form-horizontal\" role=\"form\" action.bind=\"externalLinkLogin\">\n\t\t\t\t<div>\n\t\t\t\t\t<p>\n\t\t\t\t\t\t<button type=\"submit\" class=\"btn btn-default\" name=\"provider\" repeat.for=\"login of logins.otherLogins\" value.bind=\"login.authenticationScheme\"\n\t\t\t\t\t\t\ttitle=\"Log in using your ${login.displayName} account\">${login.authenticationScheme}</button>\n\t\t\t\t\t</p>\n\t\t\t\t</div>\n\t\t\t\t<input name=\"__RequestVerificationToken\" type=\"hidden\" value.bind=\"token\" />\n\t\t\t</form>\n\t\t</template>\n\t\t<template if.bind=\"logins.currentLogins.length > 0\">\n\t\t\t<h4>Registered Logins</h4>\n\t\t\t<table class=\"table\">\n\t\t\t\t<tbody>\n\t\t\t\t\t<template repeat.for=\"login of logins.currentLogins\">\n\t\t\t\t\t\t<tr>\n\t\t\t\t\t\t\t<td>${login.loginProvider}</td>\n\t\t\t\t\t\t\t<td>\n\t\t\t\t\t\t\t\t<form class=\"form-horizontal\" role=\"form\" if.bind=\"logins.currentLogins.length > 1\">\n\t\t\t\t\t\t\t\t\t<div>\n\t\t\t\t\t\t\t\t\t\t<input type=\"submit\" class=\"btn btn-default\" value=\"Remove\" title=\"Remove this ${login.loginProvider} login from your account\" click.delegate=\"remove(login.loginProvider, login.providerKey)\" />\n\t\t\t\t\t\t\t\t\t</div>\n\t\t\t\t\t\t\t\t</form>\n\t\t\t\t\t\t\t</td>\n\t\t\t\t\t\t</tr>\n\t\t\t\t\t</template>\n\t\t\t\t</tbody>\n\t\t\t</table>\n\t\t</template>\n\t</div>\n</template>"; });
+define('text!pages/confirm.html', ['module'], function(module) { module.exports = "<template>\n\t<require from=\"../components/user-name\"></require>\n\t<h3>Associate your ${provider} account.</h3>\n\n\t<form class=\"form-horizontal\" submit.delegate=\"confirm()\">\n\t\t<h4>Association Form</h4>\n\t\t<hr />\n\t\t<div class=\"text-danger\">${error.message}</div>\n\n\t\t<p class=\"text-info\">\n\t\t\tYou've successfully authenticated with <strong>${provider}</strong>. Please enter a user name for this site below and\n\t\t\tclick the Register button to finish logging in.\n\t\t</p>\n\t\t<div class=\"form-group\">\n\t\t\t<label class=\"col-md-2 control-label\" for=\"UserName\">User name</label>\n\t\t\t<user-name class=\"col-md-10\"></user-name>\n\t\t</div>\n\t\t<div class=\"form-group\">\n\t\t\t<div class=\"col-md-offset-2 col-md-10\">\n\t\t\t\t<button type=\"submit\" class=\"btn btn-default\">Register</button>\n\t\t\t</div>\n\t\t</div>\n\t</form>\n\n</template>"; });
+define('text!pages/home.html', ['module'], function(module) { module.exports = "<template>\n    <require from=\"../components/contact-list\"></require>\n    <require from=\"../components/conversation-list\"></require>\n\n    <div class=\"row\">\n        <div class=\"col-xs-3\">\n            <h6>CONVERSATION</h6>\n            <conversation-list></conversation-list>\n        </div>\n        <router-view class=\"col-xs-6\"></router-view>\n        <div class=\"col-xs-3\">\n            <h6>CONNECTED</h6>\n            <contact-list></contact-list>\n        </div>\n    </div>\n</template>"; });
+define('text!pages/login.html', ['module'], function(module) { module.exports = "<template>\n\t<require from=\"../components/user-name\"></require>\n\n\t<h2>Log in.</h2>\n\t<hr />\n\t<div class=\"col-xs-6\">\n\t\t<section>\n\t\t\t<h4>Guess access.</h4>\n\t\t\t<hr>\n\t\t\t<span if.bind=\"!providers\">loading...</span>\n\t\t\t<form class=\"form-horizontal\" if.bind=\"providers\">\n\t\t\t\t<div class=\"form-group\">\n\t\t\t\t\t<label class=\"col-xs-3 control-label\" for=\"userName\"></label>\n\t\t\t\t\t<user-name class=\"col-xs-9\"></user-name>\n\t\t\t\t\t<div class=\"has-error\">\n\t\t\t\t\t\t<span class=\"help-block\">${error.message}<span>\n\t\t\t\t\t</div>\n\t\t\t\t</div>\n\t\t\t\t<div class=\"form-group\">\n\t\t\t\t\t<div class=\"col-xs-offset-3 col-xs-9\">\n\t\t\t\t\t\t<input type=\"submit\" value=\"Log in\" class=\"btn btn-default\" click.delegate=\"login(userName)\" />\n\t\t\t\t\t</div>\n\t\t\t\t</div>\n\t\t\t</form>\n\t\t</section>\n\t</div>\n\t<div class=\"col-xs-6\">\n\t\t<section>\n\t\t\t<h4>Use another service to log in.</h4>\n\t\t\t<hr>\n\t\t\t<form class=\"form-horizontal\" role=\"form\" method=\"post\" action.bind=\"externalLogin\">\n\t\t\t\t<div>\n\t\t\t\t\t<p>\n\t\t\t\t\t\t<button type=\"submit\" class=\"btn btn-default\" name=\"provider\" repeat.for=\"provider of providers\" value.bind=\"provider.authenticationScheme\" title=\"Log in using your ${provider.displayName} account\">${provider.displayName}</button>\n\t\t\t\t\t</p>\n\t\t\t\t</div>\n\t\t\t\t<input name=\"__RequestVerificationToken\" type=\"hidden\" value.bind=\"token\"></form>\n\t\t</section>\n\t</div>\n</template>"; });
 //# sourceMappingURL=app-bundle.js.map
