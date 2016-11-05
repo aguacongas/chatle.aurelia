@@ -44,8 +44,6 @@ after_deploy:
     
     cd deploy
     
-    copy /Y ..\wwwroot\index.html .
-    
     copy /Y ..\wwwroot\scripts\app-bundle.js scripts
     
     copy /Y ..\wwwroot\scripts\vendor-bundle.js scripts
