@@ -3,6 +3,7 @@ import { EventAggregator } from 'aurelia-event-aggregator';
 
 import { Settings } from '../../../src/config/settings';
 import { ChatService, ConnectionState } from '../../../src/services/chat.service';
+import { ConversationService } from '../../../src/services/conversation.service';
 import { LoginService } from '../../../src/services/login.service';
 import { Helpers } from '../../../src/services/helpers';
 import { State } from '../../../src/services/state';
@@ -11,6 +12,7 @@ describe('logins service specs', () => {
     let settings; Settings;
     let service: LoginService;
     let chatService: ChatService;
+    let conversationService: ConversationService;
     let state: State;
     let ea: EventAggregator;
     let http: HttpClient;
@@ -32,7 +34,8 @@ describe('logins service specs', () => {
             },
             mimeType: '',
             headers: new Headers(),
-            content: {}
+            content: {},
+            responseType: undefined
         };
 
         promise = {
@@ -56,6 +59,8 @@ describe('logins service specs', () => {
         settings = new Settings();
         helpers = new Helpers(state);
         chatService = new ChatService(settings, ea, http, state, helpers);
+        conversationService = new ConversationService(http, settings, state, helpers, ea);
+        
         chatService.start = () => {
             return new Promise<ConnectionState>((resolve, reject) => { });
         };
@@ -75,7 +80,7 @@ describe('logins service specs', () => {
                 return http;
             }
 
-            service = new LoginService(http, settings, chatService, state, helpers);
+            service = new LoginService(http, settings, chatService, conversationService, state, helpers);
         });
 
         it('should set xhrf token when clear cookies', done => {
@@ -177,7 +182,7 @@ describe('logins service specs', () => {
                     return promise;
                 };
 
-                service = new LoginService(http, settings, chatService, state, helpers);
+                service = new LoginService(http, settings, chatService, conversationService, state, helpers);
             });
 
             it('set userName when is guess', done => {
@@ -234,6 +239,7 @@ describe('logins service specs', () => {
 
         describe('logoff should', () => {
             beforeEach(() => {
+                conversationService.currentConversation = null;
                 spyOn(chatService, 'stop');
                 http.post = function (to: string, data: any): Promise<HttpResponseMessage> {
                     promise = getHttpMock();
@@ -249,11 +255,15 @@ describe('logins service specs', () => {
             // verify
             it('clear userName', () => {
                 expect(state.userName).toBeUndefined();
-            })
+            });
 
-            it('stop chatt', () => {
+            it('stop chat', () => {
                 expect(chatService.stop).toHaveBeenCalled();
-            })
+            });
+
+            it('set current conversation undifened', () => {
+                expect(conversationService.currentConversation).toBeUndefined();
+            });
 
             it('call logoff api', () => {
                 // prepare                
@@ -264,7 +274,7 @@ describe('logins service specs', () => {
 
                 // verify
                 expect(chatService.stop).toHaveBeenCalled();
-            })
+            });
         });
 
         describe('exists should', () => {
@@ -282,7 +292,7 @@ describe('logins service specs', () => {
                     return promise;
                 };
 
-                service = new LoginService(http, settings, chatService, state, helpers);
+                service = new LoginService(http, settings, chatService, conversationService, state, helpers);
             });
 
             it('resolve with response content', done => {
@@ -356,7 +366,7 @@ describe('logins service specs', () => {
                     return error;
                 };
 
-                service = new LoginService(http, settings, chatService, state, helpers);
+                service = new LoginService(http, settings, chatService, conversationService, state, helpers);
             });
 
             it('set userName', () => {

@@ -13,7 +13,6 @@ import { Settings } from '../../src/config/settings';
 
 describe('the app', () => {
   let app: App;
-  let service: LoginService;
   let settings: Settings;
   let ea: EventAggregator;
   let http: HttpClient;
@@ -25,8 +24,7 @@ describe('the app', () => {
     let state = new State();
     let helpers = new Helpers(state);
     let chatService = new ChatService(settings, ea, http, state, helpers);
-    service = new LoginService(http, settings, chatService, state, helpers)
-    app = new App(service, ea, state, helpers, settings, http);   
+    app = new App(ea, state, helpers, settings, http);   
   });
 
   describe('configure router specs', () => {
@@ -104,13 +102,10 @@ describe('the app', () => {
       expect(called).toBe(true);
     });
 
-    it('logof should call service logoff and navigate to login', () => {
+    it('logof should navigate to login', () => {
       // prepare
-      let logoffCalled = false;
       let navigateTo= '';
-      service.logoff = function() {
-        logoffCalled = true;
-      }
+
       app.router.navigateToRoute = function(route: string, params?: any, options?: any): boolean {
         navigateTo = route;
         return true;
@@ -120,7 +115,6 @@ describe('the app', () => {
       app.logoff();
 
       // verify
-      expect(logoffCalled).toBe(true);
       expect(navigateTo).toBe('login');
     });
   })

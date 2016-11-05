@@ -64,6 +64,7 @@ describe('conversation component spec', () => {
         // prepare
         component.message = 'test';
         component.conversation = new Conversation();
+        service.currentConversation = component.conversation;
         spyOn(service, 'sendMessage');
 
         // act
@@ -72,5 +73,17 @@ describe('conversation component spec', () => {
         // verify
         expect(service.sendMessage).toHaveBeenCalledWith(component.conversation, 'test');
         expect(component.message).toBe('');
+    });
+
+    it('sendMessage should set error', () => {
+        // prepare
+        component.message = 'test';
+        component.conversation = new Conversation();
+
+        // act
+        component.sendMessage();
+
+        // verify
+        expect(component.error).toBeDefined();
     });
 });

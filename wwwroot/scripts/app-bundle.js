@@ -323,16 +323,6 @@ define('services/chat.service',["require", "exports", 'aurelia-event-aggregator'
     exports.ChatService = ChatService;
 });
 
-define('model/provider',["require", "exports"], function (require, exports) {
-    "use strict";
-    var Provider = (function () {
-        function Provider() {
-        }
-        return Provider;
-    }());
-    exports.Provider = Provider;
-});
-
 var __decorate = (this && this.__decorate) || function (decorators, target, key, desc) {
     var c = arguments.length, r = c < 3 ? target : desc === null ? desc = Object.getOwnPropertyDescriptor(target, key) : desc, d;
     if (typeof Reflect === "object" && typeof Reflect.decorate === "function") r = Reflect.decorate(decorators, target, key, desc);
@@ -342,160 +332,10 @@ var __decorate = (this && this.__decorate) || function (decorators, target, key,
 var __metadata = (this && this.__metadata) || function (k, v) {
     if (typeof Reflect === "object" && typeof Reflect.metadata === "function") return Reflect.metadata(k, v);
 };
-define('services/login.service',["require", "exports", 'aurelia-http-client', 'aurelia-framework', '../config/settings', './chat.service', './helpers', './state'], function (require, exports, aurelia_http_client_1, aurelia_framework_1, settings_1, chat_service_1, helpers_1, state_1) {
-    "use strict";
-    var LoginService = (function () {
-        function LoginService(http, settings, chatService, state, helpers) {
-            this.http = http;
-            this.settings = settings;
-            this.chatService = chatService;
-            this.state = state;
-            this.helpers = helpers;
-        }
-        LoginService.prototype.getXhrf = function (clearCookies) {
-            var _this = this;
-            return new Promise(function (resolve, reject) {
-                if (clearCookies) {
-                    _this.http.get('cls')
-                        .then(function () { return _this.setXhrf(resolve, reject); })
-                        .catch(function (e) { return reject(new Error('the service is down')); });
-                }
-                else if (_this.xhrf) {
-                    resolve(_this.xhrf);
-                }
-                else {
-                    _this.setXhrf(resolve, reject);
-                }
-            });
-        };
-        LoginService.prototype.login = function (userName) {
-            var _this = this;
-            this.state.isGuess = true;
-            return new Promise(function (resolve, reject) {
-                _this.getXhrf()
-                    .then(function (r) {
-                    if (_this.state.isGuess) {
-                        _this.loginAsGuess(userName, resolve, reject);
-                    }
-                })
-                    .catch(function (error) { return reject(error); });
-            });
-        };
-        LoginService.prototype.logoff = function () {
-            var _this = this;
-            if (!this.state.userName) {
-                return;
-            }
-            this.chatService.stop();
-            this.getXhrf()
-                .then(function (r) {
-                _this.http.post(_this.settings.accountdAPI + '/spalogoff', null);
-            });
-            this.xhrf = undefined;
-            this.state.userName = undefined;
-        };
-        LoginService.prototype.exists = function (userName) {
-            var _this = this;
-            return new Promise(function (resolve, reject) {
-                if (!userName) {
-                    resolve(false);
-                    return;
-                }
-                _this.getXhrf()
-                    .then(function (r) {
-                    _this.http.get(_this.settings.accountdAPI + "/exists?userName=" + encodeURIComponent(userName))
-                        .then(function (response) {
-                        resolve(response.content);
-                    })
-                        .catch(function (error) {
-                        _this.manageError(error, reject, new Error('the service is down'));
-                    });
-                })
-                    .catch(function (error) { return reject(new Error('the service is down')); });
-            });
-        };
-        LoginService.prototype.confirm = function (userName) {
-            var _this = this;
-            return new Promise(function (resolve, reject) {
-                _this.getXhrf()
-                    .then(function (r) {
-                    _this.http.put(_this.settings.accountdAPI + "/spaExternalLoginConfirmation", { userName: userName })
-                        .then(function (response) {
-                        _this.logged(userName, resolve, reject);
-                        sessionStorage.setItem('userName', userName);
-                    })
-                        .catch(function (error) { return _this.manageError(error, reject, _this.helpers.getError(error)); });
-                })
-                    .catch(function (error) { return reject(new Error('the service is down')); });
-            });
-        };
-        LoginService.prototype.getExternalLoginProviders = function () {
-            var _this = this;
-            return new Promise(function (resolve, reject) {
-                _this.getXhrf()
-                    .then(function (r) {
-                    _this.http.get(_this.settings.accountdAPI + "/getExternalProviders")
-                        .then(function (response) {
-                        resolve(response.content);
-                    })
-                        .catch(function (error) { return _this.manageError(error, reject, _this.helpers.getError(error)); });
-                })
-                    .catch(function (error) { return reject(new Error('the service is down')); });
-            });
-        };
-        LoginService.prototype.setXhrf = function (resolve, reject) {
-            var _this = this;
-            this.http.get('xhrf')
-                .then(function (r) {
-                _this.xhrf = r.response;
-                _this.http.configure(function (builder) {
-                    builder.withHeader('X-XSRF-TOKEN', _this.xhrf);
-                });
-                resolve(_this.xhrf);
-            })
-                .catch(function (error) { return reject(new Error('the service is down')); });
-        };
-        LoginService.prototype.loginAsGuess = function (userName, resolve, reject) {
-            var _this = this;
-            this.http.post(this.settings.accountdAPI + '/spaguess', { userName: userName })
-                .then(function (response) {
-                _this.logged(userName, resolve, reject);
-            })
-                .catch(function (error) {
-                _this.manageError(error, reject, _this.helpers.getError(error));
-            });
-        };
-        LoginService.prototype.logged = function (userName, resolve, reject) {
-            this.state.userName = userName;
-            this.setXhrf(resolve, reject);
-        };
-        LoginService.prototype.manageError = function (error, reject, exception) {
-            this.xhrf = undefined;
-            reject(exception);
-        };
-        LoginService = __decorate([
-            aurelia_framework_1.autoinject, 
-            __metadata('design:paramtypes', [aurelia_http_client_1.HttpClient, settings_1.Settings, chat_service_1.ChatService, state_1.State, helpers_1.Helpers])
-        ], LoginService);
-        return LoginService;
-    }());
-    exports.LoginService = LoginService;
-});
-
-var __decorate = (this && this.__decorate) || function (decorators, target, key, desc) {
-    var c = arguments.length, r = c < 3 ? target : desc === null ? desc = Object.getOwnPropertyDescriptor(target, key) : desc, d;
-    if (typeof Reflect === "object" && typeof Reflect.decorate === "function") r = Reflect.decorate(decorators, target, key, desc);
-    else for (var i = decorators.length - 1; i >= 0; i--) if (d = decorators[i]) r = (c < 3 ? d(r) : c > 3 ? d(target, key, r) : d(target, key)) || r;
-    return c > 3 && r && Object.defineProperty(target, key, r), r;
-};
-var __metadata = (this && this.__metadata) || function (k, v) {
-    if (typeof Reflect === "object" && typeof Reflect.metadata === "function") return Reflect.metadata(k, v);
-};
-define('app',["require", "exports", 'aurelia-framework', 'aurelia-router', 'aurelia-event-aggregator', 'aurelia-http-client', './environment', './services/login.service', './services/state', './events/connectionStateChanged', './config/settings', './services/helpers'], function (require, exports, aurelia_framework_1, aurelia_router_1, aurelia_event_aggregator_1, aurelia_http_client_1, environment_1, login_service_1, state_1, connectionStateChanged_1, settings_1, helpers_1) {
+define('app',["require", "exports", 'aurelia-framework', 'aurelia-router', 'aurelia-event-aggregator', 'aurelia-http-client', './environment', './services/state', './events/connectionStateChanged', './config/settings', './services/helpers'], function (require, exports, aurelia_framework_1, aurelia_router_1, aurelia_event_aggregator_1, aurelia_http_client_1, environment_1, state_1, connectionStateChanged_1, settings_1, helpers_1) {
     "use strict";
     var App = (function () {
-        function App(service, ea, state, helpers, settings, http) {
-            this.service = service;
+        function App(ea, state, helpers, settings, http) {
             this.ea = ea;
             this.state = state;
             this.helpers = helpers;
@@ -550,9 +390,7 @@ define('app',["require", "exports", 'aurelia-framework', 'aurelia-router', 'aure
             this.setIsConnected();
         };
         App.prototype.logoff = function () {
-            this.service.logoff();
             this.router.navigateToRoute('login');
-            this.isConnected = false;
         };
         App.prototype.manage = function () {
             this.router.navigateToRoute('account');
@@ -573,7 +411,7 @@ define('app',["require", "exports", 'aurelia-framework', 'aurelia-router', 'aure
         };
         App = __decorate([
             aurelia_framework_1.autoinject, 
-            __metadata('design:paramtypes', [login_service_1.LoginService, aurelia_event_aggregator_1.EventAggregator, state_1.State, helpers_1.Helpers, settings_1.Settings, aurelia_http_client_1.HttpClient])
+            __metadata('design:paramtypes', [aurelia_event_aggregator_1.EventAggregator, state_1.State, helpers_1.Helpers, settings_1.Settings, aurelia_http_client_1.HttpClient])
         ], App);
         return App;
     }());
@@ -933,8 +771,9 @@ define('components/conversation-component',["require", "exports", 'aurelia-frame
             this.router = router;
         }
         ConversationComponent.prototype.activate = function (params, routeConfig) {
+            this.error = '';
             if (!params) {
-                delete this.service.currentConversation;
+                this.service.currentConversation = undefined;
             }
             this.conversation = this.service.currentConversation;
             if (!this.conversation) {
@@ -945,7 +784,12 @@ define('components/conversation-component',["require", "exports", 'aurelia-frame
             }
         };
         ConversationComponent.prototype.sendMessage = function () {
-            this.service.sendMessage(this.conversation, this.message);
+            if (this.service.currentConversation === this.conversation) {
+                this.service.sendMessage(this.conversation, this.message);
+            }
+            else {
+                this.error = 'this user is disconnected';
+            }
             this.message = '';
         };
         ConversationComponent = __decorate([
@@ -957,6 +801,17 @@ define('components/conversation-component',["require", "exports", 'aurelia-frame
     exports.ConversationComponent = ConversationComponent;
 });
 
+define('events/notificationClicked',["require", "exports"], function (require, exports) {
+    "use strict";
+    var NotificationClicked = (function () {
+        function NotificationClicked(message) {
+            this.message = message;
+        }
+        return NotificationClicked;
+    }());
+    exports.NotificationClicked = NotificationClicked;
+});
+
 var __decorate = (this && this.__decorate) || function (decorators, target, key, desc) {
     var c = arguments.length, r = c < 3 ? target : desc === null ? desc = Object.getOwnPropertyDescriptor(target, key) : desc, d;
     if (typeof Reflect === "object" && typeof Reflect.decorate === "function") r = Reflect.decorate(decorators, target, key, desc);
@@ -966,13 +821,14 @@ var __decorate = (this && this.__decorate) || function (decorators, target, key,
 var __metadata = (this && this.__metadata) || function (k, v) {
     if (typeof Reflect === "object" && typeof Reflect.metadata === "function") return Reflect.metadata(k, v);
 };
-define('components/conversation-list',["require", "exports", 'aurelia-framework', 'aurelia-event-aggregator', '../services/chat.service', '../services/conversation.service', '../services/state', '../events/conversationJoined', '../events/userDisconnected', '../events/connectionStateChanged'], function (require, exports, aurelia_framework_1, aurelia_event_aggregator_1, chat_service_1, conversation_service_1, state_1, conversationJoined_1, userDisconnected_1, connectionStateChanged_1) {
+define('components/conversation-list',["require", "exports", 'aurelia-framework', 'aurelia-router', 'aurelia-event-aggregator', '../services/chat.service', '../services/conversation.service', '../services/state', '../events/conversationJoined', '../events/userDisconnected', '../events/connectionStateChanged', '../events/notificationClicked'], function (require, exports, aurelia_framework_1, aurelia_router_1, aurelia_event_aggregator_1, chat_service_1, conversation_service_1, state_1, conversationJoined_1, userDisconnected_1, connectionStateChanged_1, notificationClicked_1) {
     "use strict";
     var ConversationList = (function () {
-        function ConversationList(service, state, ea) {
+        function ConversationList(service, state, ea, router) {
             this.service = service;
             this.state = state;
             this.ea = ea;
+            this.router = router;
         }
         ConversationList.prototype.attached = function () {
             var _this = this;
@@ -985,6 +841,13 @@ define('components/conversation-list',["require", "exports", 'aurelia-framework'
                 }
                 else if (state === chat_service_1.ConnectionState.Connected) {
                     _this.getConversations();
+                }
+            });
+            this.notificationClickedSubscription = this.ea.subscribe(notificationClicked_1.NotificationClicked, function (e) {
+                var message = e.message;
+                var conversation = _this.conversations.find(function (c) { return c.id === message.conversationId; });
+                if (conversation) {
+                    _this.service.showConversation(conversation, _this.router);
                 }
             });
         };
@@ -1012,19 +875,26 @@ define('components/conversation-list',["require", "exports", 'aurelia-framework'
                 _this.userDisconnectedSubscription = _this.ea.subscribe(userDisconnected_1.UserDisconnected, function (e) {
                     _this.conversations.forEach(function (c) {
                         var attendees = c.attendees;
-                        if (attendees.length === 2) {
-                            attendees.forEach(function (a) {
-                                var user = e.user;
-                                if (user.isRemoved && a.userId === user.id) {
+                        attendees.forEach(function (a) {
+                            var user = e.user;
+                            if (user.isRemoved && a.userId === user.id) {
+                                if (c.attendees.length < 3) {
                                     var index = _this.conversations.indexOf(c);
-                                    var conversation = _this.conversations[index];
                                     _this.conversations.splice(index, 1);
-                                    if (_this.service.currentConversation === conversation) {
-                                        delete _this.service.currentConversation;
+                                    if (_this.service.currentConversation === c) {
+                                        _this.service.currentConversation = undefined;
                                     }
                                 }
-                            });
-                        }
+                                else {
+                                    var index = attendees.indexOf(a);
+                                    attendees.splice(index, 1);
+                                    if (_this.service.currentConversation === c) {
+                                        c.title = undefined;
+                                        _this.service.showConversation(c, _this.router);
+                                    }
+                                }
+                            }
+                        });
                     });
                 });
                 _this.conversationJoinedSubscription = _this.ea.subscribe(conversationJoined_1.ConversationJoined, function (e) {
@@ -1035,7 +905,7 @@ define('components/conversation-list',["require", "exports", 'aurelia-framework'
         };
         ConversationList = __decorate([
             aurelia_framework_1.autoinject, 
-            __metadata('design:paramtypes', [conversation_service_1.ConversationService, state_1.State, aurelia_event_aggregator_1.EventAggregator])
+            __metadata('design:paramtypes', [conversation_service_1.ConversationService, state_1.State, aurelia_event_aggregator_1.EventAggregator, aurelia_router_1.Router])
         ], ConversationList);
         return ConversationList;
     }());
@@ -1097,6 +967,167 @@ define('components/conversation-preview',["require", "exports", 'aurelia-framewo
         return ConversationPreview;
     }());
     exports.ConversationPreview = ConversationPreview;
+});
+
+define('model/provider',["require", "exports"], function (require, exports) {
+    "use strict";
+    var Provider = (function () {
+        function Provider() {
+        }
+        return Provider;
+    }());
+    exports.Provider = Provider;
+});
+
+var __decorate = (this && this.__decorate) || function (decorators, target, key, desc) {
+    var c = arguments.length, r = c < 3 ? target : desc === null ? desc = Object.getOwnPropertyDescriptor(target, key) : desc, d;
+    if (typeof Reflect === "object" && typeof Reflect.decorate === "function") r = Reflect.decorate(decorators, target, key, desc);
+    else for (var i = decorators.length - 1; i >= 0; i--) if (d = decorators[i]) r = (c < 3 ? d(r) : c > 3 ? d(target, key, r) : d(target, key)) || r;
+    return c > 3 && r && Object.defineProperty(target, key, r), r;
+};
+var __metadata = (this && this.__metadata) || function (k, v) {
+    if (typeof Reflect === "object" && typeof Reflect.metadata === "function") return Reflect.metadata(k, v);
+};
+define('services/login.service',["require", "exports", 'aurelia-http-client', 'aurelia-framework', '../config/settings', './chat.service', './conversation.service', './helpers', './state'], function (require, exports, aurelia_http_client_1, aurelia_framework_1, settings_1, chat_service_1, conversation_service_1, helpers_1, state_1) {
+    "use strict";
+    var LoginService = (function () {
+        function LoginService(http, settings, chatService, conversationService, state, helpers) {
+            this.http = http;
+            this.settings = settings;
+            this.chatService = chatService;
+            this.conversationService = conversationService;
+            this.state = state;
+            this.helpers = helpers;
+        }
+        LoginService.prototype.getXhrf = function (clearCookies) {
+            var _this = this;
+            return new Promise(function (resolve, reject) {
+                if (clearCookies) {
+                    _this.http.get('cls')
+                        .then(function () { return _this.setXhrf(resolve, reject); })
+                        .catch(function (e) { return reject(new Error('the service is down')); });
+                }
+                else if (_this.xhrf) {
+                    resolve(_this.xhrf);
+                }
+                else {
+                    _this.setXhrf(resolve, reject);
+                }
+            });
+        };
+        LoginService.prototype.login = function (userName) {
+            var _this = this;
+            this.state.isGuess = true;
+            return new Promise(function (resolve, reject) {
+                _this.getXhrf()
+                    .then(function (r) {
+                    if (_this.state.isGuess) {
+                        _this.loginAsGuess(userName, resolve, reject);
+                    }
+                })
+                    .catch(function (error) { return reject(error); });
+            });
+        };
+        LoginService.prototype.logoff = function () {
+            var _this = this;
+            if (!this.state.userName) {
+                return;
+            }
+            this.state.userName = undefined;
+            this.conversationService.currentConversation = undefined;
+            this.chatService.stop();
+            this.getXhrf()
+                .then(function (r) {
+                _this.http.post(_this.settings.accountdAPI + '/spalogoff', null);
+            });
+            this.xhrf = undefined;
+        };
+        LoginService.prototype.exists = function (userName) {
+            var _this = this;
+            return new Promise(function (resolve, reject) {
+                if (!userName) {
+                    resolve(false);
+                    return;
+                }
+                _this.getXhrf()
+                    .then(function (r) {
+                    _this.http.get(_this.settings.accountdAPI + "/exists?userName=" + encodeURIComponent(userName))
+                        .then(function (response) {
+                        resolve(response.content);
+                    })
+                        .catch(function (error) {
+                        _this.manageError(error, reject, new Error('the service is down'));
+                    });
+                })
+                    .catch(function (error) { return reject(new Error('the service is down')); });
+            });
+        };
+        LoginService.prototype.confirm = function (userName) {
+            var _this = this;
+            return new Promise(function (resolve, reject) {
+                _this.getXhrf()
+                    .then(function (r) {
+                    _this.http.put(_this.settings.accountdAPI + "/spaExternalLoginConfirmation", { userName: userName })
+                        .then(function (response) {
+                        _this.logged(userName, resolve, reject);
+                        sessionStorage.setItem('userName', userName);
+                    })
+                        .catch(function (error) { return _this.manageError(error, reject, _this.helpers.getError(error)); });
+                })
+                    .catch(function (error) { return reject(new Error('the service is down')); });
+            });
+        };
+        LoginService.prototype.getExternalLoginProviders = function () {
+            var _this = this;
+            return new Promise(function (resolve, reject) {
+                _this.getXhrf()
+                    .then(function (r) {
+                    _this.http.get(_this.settings.accountdAPI + "/getExternalProviders")
+                        .then(function (response) {
+                        resolve(response.content);
+                    })
+                        .catch(function (error) { return _this.manageError(error, reject, _this.helpers.getError(error)); });
+                })
+                    .catch(function (error) { return reject(new Error('the service is down')); });
+            });
+        };
+        LoginService.prototype.setXhrf = function (resolve, reject) {
+            var _this = this;
+            this.http.get('xhrf')
+                .then(function (r) {
+                _this.xhrf = r.response;
+                _this.http.configure(function (builder) {
+                    builder.withHeader('X-XSRF-TOKEN', _this.xhrf);
+                });
+                resolve(_this.xhrf);
+            })
+                .catch(function (error) { return reject(new Error('the service is down')); });
+        };
+        LoginService.prototype.loginAsGuess = function (userName, resolve, reject) {
+            var _this = this;
+            this.http.post(this.settings.accountdAPI + '/spaguess', { userName: userName })
+                .then(function (response) {
+                _this.logged(userName, resolve, reject);
+            })
+                .catch(function (error) {
+                _this.manageError(error, reject, _this.helpers.getError(error));
+            });
+        };
+        LoginService.prototype.logged = function (userName, resolve, reject) {
+            this.state.userName = userName;
+            this.setXhrf(resolve, reject);
+        };
+        LoginService.prototype.manageError = function (error, reject, exception) {
+            this.xhrf = undefined;
+            reject(exception);
+        };
+        LoginService = __decorate([
+            aurelia_framework_1.autoinject, 
+            __metadata('design:paramtypes', [aurelia_http_client_1.HttpClient, settings_1.Settings, chat_service_1.ChatService, conversation_service_1.ConversationService, state_1.State, helpers_1.Helpers])
+        ], LoginService);
+        return LoginService;
+    }());
+    exports.LoginService = LoginService;
 });
 
 var __decorate = (this && this.__decorate) || function (decorators, target, key, desc) {
@@ -1346,7 +1377,7 @@ define('pages/confirm',["require", "exports", 'aurelia-framework', 'aurelia-rout
     exports.Confirm = Confirm;
 });
 
-define('services/notification.service',["require", "exports", '../events/messageReceived'], function (require, exports, messageReceived_1) {
+define('services/notification.service',["require", "exports", '../events/messageReceived', '../events/conversationJoined', '../events/notificationClicked'], function (require, exports, messageReceived_1, conversationJoined_1, notificationClicked_1) {
     "use strict";
     var NotificationService = (function () {
         function NotificationService(ea) {
@@ -1370,21 +1401,38 @@ define('services/notification.service',["require", "exports", '../events/message
             }
         };
         NotificationService.prototype.stop = function () {
-            if (this.subscription) {
-                this.subscription.dispose();
+            if (this.messageSubscription) {
+                this.messageSubscription.dispose();
+            }
+            if (this.conversationSubscription) {
+                this.conversationSubscription.dispose();
             }
         };
         NotificationService.prototype.listen = function () {
-            this.subscription = this.ea.subscribe(messageReceived_1.MessageReceived, function (e) {
-                var message = e.message;
-                var option = {
-                    body: message.text,
-                    icon: "favicon.ico"
-                };
-                var n = new Notification(message.from, option);
-                n.onclick = function () {
-                };
+            var _this = this;
+            this.messageSubscription = this.ea.subscribe(messageReceived_1.MessageReceived, function (e) {
+                _this.notify(e.message);
             });
+            this.conversationSubscription = this.ea.subscribe(conversationJoined_1.ConversationJoined, function (e) {
+                var conversation = e.conversation;
+                var message = conversation.messages[0];
+                if (message) {
+                    _this.notify(message);
+                }
+            });
+        };
+        NotificationService.prototype.notify = function (message) {
+            var _this = this;
+            var option = {
+                body: message.text,
+                icon: "favicon.ico"
+            };
+            var n = new Notification(message.from, option);
+            n.onclick = function () {
+                _this.ea.publish(new notificationClicked_1.NotificationClicked(message));
+                n.close.bind(n);
+            };
+            setTimeout(n.close.bind(n), 5000);
         };
         return NotificationService;
     }());
@@ -2843,12 +2891,12 @@ define('text!css/site.css', ['module'], function(module) { module.exports = "htm
 define('text!components/contact-list.html', ['module'], function(module) { module.exports = "<template>\n  <require from=\"./contact\"></require>\n  <div class=\"contact-list\">\n    <span if.bind=\"!users\">${loadingMessage}</span>\n    <ul class=\"list-group\" if.bind=\"users\">\n      <contact repeat.for=\"user of users\" user.bind=\"user\"></contact>\n    </ul>\n  </div>\n</template>"; });
 define('text!css/site.min.css', ['module'], function(module) { module.exports = "html{font-family:cursive}body{padding-top:50px;padding-bottom:20px}.console{font-family:'Lucida Console',Monaco,monospace}.body-content{padding-left:15px;padding-right:15px}.navbar.navbar-default{background-color:#fff}.nav.navbar-nav>li>a:hover,.title.navbar-brand:focus,.title.navbar-brand:hover{color:#222}input,select,textarea{max-width:280px}ul{padding-left:0;list-style-type:none}small{color:#666}@media screen and (min-width:768px){.jumbotron{margin-top:20px}.body-content{padding:0}}"; });
 define('text!components/contact.html', ['module'], function(module) { module.exports = "<template>\n    <li class=\"list-group-item ${isSelected ? 'active' : ''}\" click.delegate=\"select()\" desabled=\"isCurrentUser\"><a>${user.id}</a></li>\n</template>"; });
-define('text!components/conversation-component.html', ['module'], function(module) { module.exports = "<template>\n    <div if.bind=\"conversation\">\n        <h6>${conversation.title}</h6>\n        <form class=\"form-inline\">\n            <input class=\"form-control\" value.bind=\"message\" placeholder=\"message...\">\n            <button type=\"submit\" class=\"btn btn-default\" click.delegate=\"sendMessage()\" disabled.bind=\"!message\">send</button>\n        </form>\n        <ul>\n            <li repeat.for=\"message of conversation.messages\">\n                <small>${message.from}</small><br />\n                <span>${message.text}</span>\n            </li>\n        </ul>\n    </div>\n    <h1 if.bind=\"!conversation\">WELCOME TO THIS REALLY SIMPLE CHAT</h1>\n</template>"; });
+define('text!components/conversation-component.html', ['module'], function(module) { module.exports = "<template>\n    <div if.bind=\"conversation\">\n        <h6>${conversation.title}</h6>\n        <form class=\"form-inline\">\n            <input class=\"form-control\" value.bind=\"message\" placeholder=\"message...\">\n            <button type=\"submit\" class=\"btn btn-default\" click.delegate=\"sendMessage()\" disabled.bind=\"!message\">send</button>\n        </form>\n        <div class=\"has-error\">\n            <span class=\"help-block\">${error}</span>\n        </div>\n        <ul>\n            <li repeat.for=\"message of conversation.messages\">\n                <small>${message.from}</small><br />\n                <span>${message.text}</span>\n            </li>\n        </ul>\n    </div>\n    <h1 if.bind=\"!conversation\">WELCOME TO THIS REALLY SIMPLE CHAT</h1>\n</template>"; });
 define('text!components/conversation-list.html', ['module'], function(module) { module.exports = "<template>\n  <require from=\"./conversation-preview\"></require>\n  <div class=\"conversation-list\">\n    <ul class=\"list-group\">\n      <conversation-preview repeat.for=\"conversation of conversations\" conversation.bind=\"conversation\"></conversation-preview>\n    </ul>\n  </div>\n</template>"; });
 define('text!components/conversation-preview.html', ['module'], function(module) { module.exports = "<template>\n  <li class=\"list-group-item ${isSelected ? 'active' : ''}\" click.delegate=\"select()\">\n    <a>${conversation.title}</a><br/>\n    <span>${lastMessage}</span>\n  </li>\n</template>"; });
 define('text!components/user-name.html', ['module'], function(module) { module.exports = "<template>\n\t<div validation-errors.bind=\"userNameErrors\" class.bind=\"userNameErrors.length ? 'has-error' : ''\">\n\t\t<input class=\"form-control\" name=\"UserName\" value.bind=\"userName & validate\" />\n\t\t<span class=\"help-block\" repeat.for=\"errorInfo of userNameErrors\">\n            ${errorInfo.error.message}\n        <span>\n    </div>\n</template>>"; });
 define('text!pages/account.html', ['module'], function(module) { module.exports = "<template>\n\t<h2>Manage Account.</h2>\n\t<div class=\"row\">\n\t\t<template if.bind=\"logins.otherLogins.length > 0\">\n\t\t\t<h4>Add another service to log in.</h4>\n\t\t\t<hr />\n\t\t\t<form method=\"post\" class=\"form-horizontal\" role=\"form\" action.bind=\"externalLinkLogin\">\n\t\t\t\t<div>\n\t\t\t\t\t<p>\n\t\t\t\t\t\t<button type=\"submit\" class=\"btn btn-default\" name=\"provider\" repeat.for=\"login of logins.otherLogins\" value.bind=\"login.authenticationScheme\"\n\t\t\t\t\t\t\ttitle=\"Log in using your ${login.displayName} account\">${login.authenticationScheme}</button>\n\t\t\t\t\t</p>\n\t\t\t\t</div>\n\t\t\t\t<input name=\"__RequestVerificationToken\" type=\"hidden\" value.bind=\"token\" />\n\t\t\t</form>\n\t\t</template>\n\t\t<template if.bind=\"logins.currentLogins.length > 0\">\n\t\t\t<h4>Registered Logins</h4>\n\t\t\t<table class=\"table\">\n\t\t\t\t<tbody>\n\t\t\t\t\t<template repeat.for=\"login of logins.currentLogins\">\n\t\t\t\t\t\t<tr>\n\t\t\t\t\t\t\t<td>${login.loginProvider}</td>\n\t\t\t\t\t\t\t<td>\n\t\t\t\t\t\t\t\t<form class=\"form-horizontal\" role=\"form\" if.bind=\"logins.currentLogins.length > 1\">\n\t\t\t\t\t\t\t\t\t<div>\n\t\t\t\t\t\t\t\t\t\t<input type=\"submit\" class=\"btn btn-default\" value=\"Remove\" title=\"Remove this ${login.loginProvider} login from your account\" click.delegate=\"remove(login.loginProvider, login.providerKey)\" />\n\t\t\t\t\t\t\t\t\t</div>\n\t\t\t\t\t\t\t\t</form>\n\t\t\t\t\t\t\t</td>\n\t\t\t\t\t\t</tr>\n\t\t\t\t\t</template>\n\t\t\t\t</tbody>\n\t\t\t</table>\n\t\t</template>\n\t</div>\n</template>"; });
 define('text!pages/confirm.html', ['module'], function(module) { module.exports = "<template>\n\t<require from=\"../components/user-name\"></require>\n\t<h3>Associate your ${provider} account.</h3>\n\n\t<form class=\"form-horizontal\" submit.delegate=\"confirm()\">\n\t\t<h4>Association Form</h4>\n\t\t<hr />\n\t\t<div class=\"text-danger\">${error.message}</div>\n\n\t\t<p class=\"text-info\">\n\t\t\tYou've successfully authenticated with <strong>${provider}</strong>. Please enter a user name for this site below and\n\t\t\tclick the Register button to finish logging in.\n\t\t</p>\n\t\t<div class=\"form-group\">\n\t\t\t<label class=\"col-md-2 control-label\" for=\"UserName\">User name</label>\n\t\t\t<user-name class=\"col-md-10\"></user-name>\n\t\t</div>\n\t\t<div class=\"form-group\">\n\t\t\t<div class=\"col-md-offset-2 col-md-10\">\n\t\t\t\t<button type=\"submit\" class=\"btn btn-default\">Register</button>\n\t\t\t</div>\n\t\t</div>\n\t</form>\n\n</template>"; });
 define('text!pages/home.html', ['module'], function(module) { module.exports = "<template>\n    <require from=\"../components/contact-list\"></require>\n    <require from=\"../components/conversation-list\"></require>\n\n    <div class=\"row\">\n        <div class=\"col-xs-3\">\n            <h6>CONVERSATION</h6>\n            <conversation-list></conversation-list>\n        </div>\n        <router-view class=\"col-xs-6\"></router-view>\n        <div class=\"col-xs-3\">\n            <h6>CONNECTED</h6>\n            <contact-list></contact-list>\n        </div>\n    </div>\n</template>"; });
-define('text!pages/login.html', ['module'], function(module) { module.exports = "<template>\n\t<require from=\"../components/user-name\"></require>\n\n\t<h2>Log in.</h2>\n\t<hr />\n\t<div class=\"col-xs-6\">\n\t\t<section>\n\t\t\t<h4>Guess access.</h4>\n\t\t\t<hr>\n\t\t\t<span if.bind=\"!providers\">loading...</span>\n\t\t\t<form class=\"form-horizontal\" if.bind=\"providers\">\n\t\t\t\t<div class=\"form-group\">\n\t\t\t\t\t<label class=\"col-xs-3 control-label\" for=\"userName\"></label>\n\t\t\t\t\t<user-name class=\"col-xs-9\"></user-name>\n\t\t\t\t\t<span class=\"help-block\">\n            \t\t\t${error.message}\n        \t\t\t<span>\n\t\t\t\t</div>\n\t\t\t\t<div class=\"form-group\">\n\t\t\t\t\t<div class=\"col-xs-offset-3 col-xs-9\">\n\t\t\t\t\t\t<input type=\"submit\" value=\"Log in\" class=\"btn btn-default\" click.delegate=\"login(userName)\" />\n\t\t\t\t\t</div>\n\t\t\t\t</div>\n\t\t\t</form>\n\t\t</section>\n\t</div>\n\t<div class=\"col-xs-6\">\n\t\t<section>\n\t\t\t<h4>Use another service to log in.</h4>\n\t\t\t<hr>\n\t\t\t<form class=\"form-horizontal\" role=\"form\" method=\"post\" action.bind=\"externalLogin\">\n\t\t\t\t<div>\n\t\t\t\t\t<p>\n\t\t\t\t\t\t<button type=\"submit\" class=\"btn btn-default\" name=\"provider\" repeat.for=\"provider of providers\" value.bind=\"provider.authenticationScheme\" title=\"Log in using your ${provider.displayName} account\">${provider.displayName}</button>\n\t\t\t\t\t</p>\n\t\t\t\t</div>\n\t\t\t\t<input name=\"__RequestVerificationToken\" type=\"hidden\" value.bind=\"token\"></form>\n\t\t</section>\n\t</div>\n</template>"; });
+define('text!pages/login.html', ['module'], function(module) { module.exports = "<template>\n\t<require from=\"../components/user-name\"></require>\n\n\t<h2>Log in.</h2>\n\t<hr />\n\t<div class=\"col-xs-6\">\n\t\t<section>\n\t\t\t<h4>Guess access.</h4>\n\t\t\t<hr>\n\t\t\t<span if.bind=\"!providers\">loading...</span>\n\t\t\t<form class=\"form-horizontal\" if.bind=\"providers\">\n\t\t\t\t<div class=\"form-group\">\n\t\t\t\t\t<label class=\"col-xs-3 control-label\" for=\"userName\"></label>\n\t\t\t\t\t<user-name class=\"col-xs-9\"></user-name>\n\t\t\t\t\t<div class=\"has-error\">\n\t\t\t\t\t\t<span class=\"help-block\">${error.message}<span>\n\t\t\t\t\t</div>\n\t\t\t\t</div>\n\t\t\t\t<div class=\"form-group\">\n\t\t\t\t\t<div class=\"col-xs-offset-3 col-xs-9\">\n\t\t\t\t\t\t<input type=\"submit\" value=\"Log in\" class=\"btn btn-default\" click.delegate=\"login(userName)\" />\n\t\t\t\t\t</div>\n\t\t\t\t</div>\n\t\t\t</form>\n\t\t</section>\n\t</div>\n\t<div class=\"col-xs-6\">\n\t\t<section>\n\t\t\t<h4>Use another service to log in.</h4>\n\t\t\t<hr>\n\t\t\t<form class=\"form-horizontal\" role=\"form\" method=\"post\" action.bind=\"externalLogin\">\n\t\t\t\t<div>\n\t\t\t\t\t<p>\n\t\t\t\t\t\t<button type=\"submit\" class=\"btn btn-default\" name=\"provider\" repeat.for=\"provider of providers\" value.bind=\"provider.authenticationScheme\" title=\"Log in using your ${provider.displayName} account\">${provider.displayName}</button>\n\t\t\t\t\t</p>\n\t\t\t\t</div>\n\t\t\t\t<input name=\"__RequestVerificationToken\" type=\"hidden\" value.bind=\"token\"></form>\n\t\t</section>\n\t</div>\n</template>"; });
 //# sourceMappingURL=app-bundle.js.map

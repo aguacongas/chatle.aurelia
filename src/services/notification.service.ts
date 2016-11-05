@@ -1,7 +1,10 @@
 import { EventAggregator, Subscription } from 'aurelia-event-aggregator';
 
 import { Message } from '../model/message';
+import { Conversation } from '../model/conversation';
 import { MessageReceived } from '../events/messageReceived';
+import { ConversationJoined } from '../events/conversationJoined';
+import { NotificationClicked } from '../events/notificationClicked';
 
 interface NotificationOptions {
     dir?: string;
@@ -46,7 +49,8 @@ declare var Notification: {
 }
 
 export class NotificationService {
-    private subscription: Subscription;
+    private messageSubscription: Subscription;
+    private conversationSubscription: Subscription;
 
     constructor(private ea: EventAggregator) { }
 
@@ -67,23 +71,40 @@ export class NotificationService {
     }
 
     stop() {
-        if(this.subscription) {
-            this.subscription.dispose();
+        if(this.messageSubscription) {
+            this.messageSubscription.dispose();
+        }
+        if(this.conversationSubscription) {
+            this.conversationSubscription.dispose();
         }
     }
 
     private listen() {
-        this.subscription = this.ea.subscribe(MessageReceived, e => {
-            const message = (<MessageReceived>e).message;
-            const option = {
-                body: message.text,
-                icon: "favicon.ico"
-            }
+        this.messageSubscription = this.ea.subscribe(MessageReceived, e => {
+            this.notify((<MessageReceived>e).message);
+        });
 
-            const n = new Notification(message.from, option);
-            n.onclick = () => {
-
+        this.conversationSubscription = this.ea.subscribe(ConversationJoined, e => {
+            const conversation = (<ConversationJoined>e).conversation;
+            const message = conversation.messages[0];
+            if (message) {
+                this.notify(message);
             }
         });
+    }
+
+    private notify(message: Message) {
+        const option = {
+                body: message.text,
+                icon: "favicon.ico"
+            };
+
+        const n = new Notification(message.from, option);
+            n.onclick = () => {
+                this.ea.publish(new NotificationClicked(message));
+                n.close.bind(n);
+            };
+        
+        setTimeout(n.close.bind(n), 5000);
     }
 }

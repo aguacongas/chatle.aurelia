@@ -5,6 +5,9 @@
             <input class="form-control" value.bind="message" placeholder="message...">
             <button type="submit" class="btn btn-default" click.delegate="sendMessage()" disabled.bind="!message">send</button>
         </form>
+        <div class="has-error">
+            <span class="help-block">${error}</span>
+        </div>
         <ul>
             <li repeat.for="message of conversation.messages">
                 <small>${message.from}</small><br />

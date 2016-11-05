@@ -1,4 +1,5 @@
 import { EventAggregator, Subscription } from 'aurelia-event-aggregator';
+import { Router } from 'aurelia-router';
 
 import { ConnectionState, Disconnected } from '../../../src/services/chat.service';
 import { ConversationService } from '../../../src/services/conversation.service';
@@ -15,6 +16,7 @@ describe('conversation list component specs', () => {
     let service: ConversationService;
     let state: State;
     let ea: EventAggregator;
+    let router: Router;
 
     let component: ConversationList;
 
@@ -82,7 +84,11 @@ describe('conversation list component specs', () => {
 
         state = new State();
 
-        component = new ConversationList(service, state, ea);
+        router = {
+            navigateToRoute: route => {}
+        } as Router;
+
+        component = new ConversationList(service, state, ea, router);
     });
 
     it('attached should reset conversations', () => {
@@ -108,7 +114,6 @@ describe('conversation list component specs', () => {
 
         // verify
         expect(connectionStateChangeCallback).toBeDefined();
-        expect(evt).toBe(ConnectionStateChanged);
     });
 
     it('attached should get conversations', () => {
