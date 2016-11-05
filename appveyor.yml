@@ -21,7 +21,7 @@ build_script:
 test_script:
 - cmd: au test
 artifacts:
-- path: scripts
+- path: wwwroot/scripts
   name: scripts
 deploy:
 - provider: GitHub
@@ -44,11 +44,11 @@ after_deploy:
     
     cd deploy
     
-    copy /Y ..\index.html .
+    copy /Y ..\wwwroot\index.html .
     
-    copy /Y ..\scripts\app-bundle.js scripts
+    copy /Y ..\wwwroot\scripts\app-bundle.js scripts
     
-    copy /Y ..\scripts\vendor-bundle.js scripts
+    copy /Y ..\wwwroot\scripts\vendor-bundle.js scripts
     
     git add .
     
