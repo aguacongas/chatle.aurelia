@@ -10,6 +10,9 @@ engines:
     config:
       languages:
       - javascript: true
+ratings:
+  paths:
+    - src/**/*
 exclude_paths:
     - karma.conf.js
     - test/**/*
