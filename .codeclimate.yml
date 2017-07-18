@@ -11,5 +11,6 @@ engines:
       languages:
       - javascript: true
 exclude_paths:
+    - karma.conf.js
     - test/**/*
     - wwwroot/**/*
