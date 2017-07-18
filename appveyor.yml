@@ -5,18 +5,17 @@ environment:
   deploy_token:
     secure: KnRXHuLNsbckLFp46G7eh+vgioe1zT7GIPPRzDyv6LD8wIMiZ9YGGrf5T8J8HVOV
 install:
+- choco install gitversion.portable -pre -y
 - cmd: >-
     npm install npm -g
 
     npm install aurelia-cli -g
     
     npm install
-    
-    nuget install GitVersion.CommandLine -ExcludeVersion -Source https://www.nuget.org/api/v2/ -Out packages
+before_build:
+  - ps: gitversion /l console /output buildserver /updateAssemblyInfo
 build_script:
 - cmd: >-
-    packages\GitVersion.CommandLine\tools\GitVersion.exe /l console /output buildServer /updateassemblyinfo
-    
     au build --env prod
 test_script:
 - cmd: au test
