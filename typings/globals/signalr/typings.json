@@ -1,8 +1,8 @@
 {
   "resolution": "main",
   "tree": {
-    "src": "https://raw.githubusercontent.com/DefinitelyTyped/DefinitelyTyped/f882b322b97b1ad84388c1765c65e2752cdbf23b/signalr/signalr.d.ts",
-    "raw": "registry:dt/signalr#2.2.0+20160509082439",
-    "typings": "https://raw.githubusercontent.com/DefinitelyTyped/DefinitelyTyped/f882b322b97b1ad84388c1765c65e2752cdbf23b/signalr/signalr.d.ts"
+    "src": "https://raw.githubusercontent.com/DefinitelyTyped/DefinitelyTyped/b759d12f919308eb34b2bbb93f0a55dc6dbd157b/signalr/index.d.ts",
+    "raw": "registry:dt/signalr#2.2.0+20161220143330",
+    "typings": "https://raw.githubusercontent.com/DefinitelyTyped/DefinitelyTyped/b759d12f919308eb34b2bbb93f0a55dc6dbd157b/signalr/index.d.ts"
   }
 }
