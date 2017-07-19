@@ -11,6 +11,8 @@ install:
 
     npm install aurelia-cli -g
     
+    npm install signalr-client --registry https://dotnet.myget.org/f/aspnetcore-ci-dev/npm/ --save
+
     npm install
 before_build:
   - ps: gitversion /l console /output buildserver /updateAssemblyInfo
