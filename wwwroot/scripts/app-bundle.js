@@ -11,6 +11,7 @@ define('environment',["require", "exports"], function (require, exports) {
 
 define('config/settings',["require", "exports"], function (require, exports) {
     "use strict";
+    Object.defineProperty(exports, "__esModule", { value: true });
     var Settings = (function () {
         function Settings() {
             this.apiBaseUrl = 'http://localhost:5000';
@@ -26,6 +27,7 @@ define('config/settings',["require", "exports"], function (require, exports) {
 
 define('services/state',["require", "exports"], function (require, exports) {
     "use strict";
+    Object.defineProperty(exports, "__esModule", { value: true });
     var State = (function () {
         function State() {
         }
@@ -36,6 +38,7 @@ define('services/state',["require", "exports"], function (require, exports) {
 
 define('model/serviceError',["require", "exports"], function (require, exports) {
     "use strict";
+    Object.defineProperty(exports, "__esModule", { value: true });
     var Key = (function () {
         function Key() {
         }
@@ -56,6 +59,7 @@ define('model/serviceError',["require", "exports"], function (require, exports) 
 
 define('model/attendee',["require", "exports"], function (require, exports) {
     "use strict";
+    Object.defineProperty(exports, "__esModule", { value: true });
     var Attendee = (function () {
         function Attendee(userId) {
             this.userId = userId;
@@ -67,6 +71,7 @@ define('model/attendee',["require", "exports"], function (require, exports) {
 
 define('model/message',["require", "exports"], function (require, exports) {
     "use strict";
+    Object.defineProperty(exports, "__esModule", { value: true });
     var Message = (function () {
         function Message() {
         }
@@ -77,6 +82,7 @@ define('model/message',["require", "exports"], function (require, exports) {
 
 define('model/user',["require", "exports"], function (require, exports) {
     "use strict";
+    Object.defineProperty(exports, "__esModule", { value: true });
     var User = (function () {
         function User() {
         }
@@ -85,8 +91,9 @@ define('model/user',["require", "exports"], function (require, exports) {
     exports.User = User;
 });
 
-define('model/conversation',["require", "exports", './attendee'], function (require, exports, attendee_1) {
+define('model/conversation',["require", "exports", "./attendee"], function (require, exports, attendee_1) {
     "use strict";
+    Object.defineProperty(exports, "__esModule", { value: true });
     var Conversation = (function () {
         function Conversation(user) {
             if (!user) {
@@ -112,8 +119,9 @@ var __decorate = (this && this.__decorate) || function (decorators, target, key,
 var __metadata = (this && this.__metadata) || function (k, v) {
     if (typeof Reflect === "object" && typeof Reflect.metadata === "function") return Reflect.metadata(k, v);
 };
-define('services/helpers',["require", "exports", 'aurelia-framework', './state'], function (require, exports, aurelia_framework_1, state_1) {
+define('services/helpers',["require", "exports", "aurelia-framework", "./state"], function (require, exports, aurelia_framework_1, state_1) {
     "use strict";
+    Object.defineProperty(exports, "__esModule", { value: true });
     var Helpers = (function () {
         function Helpers(state) {
             this.state = state;
@@ -146,8 +154,8 @@ define('services/helpers',["require", "exports", 'aurelia-framework', './state']
             return results === null ? undefined : decodeURIComponent(results[1].replace(/\+/g, ' '));
         };
         Helpers = __decorate([
-            aurelia_framework_1.autoinject, 
-            __metadata('design:paramtypes', [state_1.State])
+            aurelia_framework_1.autoinject,
+            __metadata("design:paramtypes", [state_1.State])
         ], Helpers);
         return Helpers;
     }());
@@ -156,6 +164,7 @@ define('services/helpers',["require", "exports", 'aurelia-framework', './state']
 
 define('events/connectionStateChanged',["require", "exports"], function (require, exports) {
     "use strict";
+    Object.defineProperty(exports, "__esModule", { value: true });
     var ConnectionStateChanged = (function () {
         function ConnectionStateChanged(state) {
             this.state = state;
@@ -167,6 +176,7 @@ define('events/connectionStateChanged',["require", "exports"], function (require
 
 define('events/conversationJoined',["require", "exports"], function (require, exports) {
     "use strict";
+    Object.defineProperty(exports, "__esModule", { value: true });
     var ConversationJoined = (function () {
         function ConversationJoined(conversation) {
             this.conversation = conversation;
@@ -178,6 +188,7 @@ define('events/conversationJoined',["require", "exports"], function (require, ex
 
 define('events/messageReceived',["require", "exports"], function (require, exports) {
     "use strict";
+    Object.defineProperty(exports, "__esModule", { value: true });
     var MessageReceived = (function () {
         function MessageReceived(message) {
             this.message = message;
@@ -189,6 +200,7 @@ define('events/messageReceived',["require", "exports"], function (require, expor
 
 define('events/userConnected',["require", "exports"], function (require, exports) {
     "use strict";
+    Object.defineProperty(exports, "__esModule", { value: true });
     var UserConnected = (function () {
         function UserConnected(user) {
             this.user = user;
@@ -200,6 +212,7 @@ define('events/userConnected',["require", "exports"], function (require, exports
 
 define('events/userDisconnected',["require", "exports"], function (require, exports) {
     "use strict";
+    Object.defineProperty(exports, "__esModule", { value: true });
     var UserDisconnected = (function () {
         function UserDisconnected(user) {
             this.user = user;
@@ -218,14 +231,15 @@ var __decorate = (this && this.__decorate) || function (decorators, target, key,
 var __metadata = (this && this.__metadata) || function (k, v) {
     if (typeof Reflect === "object" && typeof Reflect.metadata === "function") return Reflect.metadata(k, v);
 };
-define('services/chat.service',["require", "exports", 'aurelia-event-aggregator', 'aurelia-http-client', 'aurelia-framework', '../environment', '../config/settings', './helpers', './state', '../events/connectionStateChanged', '../events/conversationJoined', '../events/messageReceived', '../events/userConnected', '../events/userDisconnected'], function (require, exports, aurelia_event_aggregator_1, aurelia_http_client_1, aurelia_framework_1, environment_1, settings_1, helpers_1, state_1, connectionStateChanged_1, conversationJoined_1, messageReceived_1, userConnected_1, userDisconnected_1) {
+define('services/chat.service',["require", "exports", "aurelia-event-aggregator", "aurelia-http-client", "aurelia-framework", "signalr-client", "../config/settings", "./helpers", "./state", "../events/connectionStateChanged", "../events/conversationJoined", "../events/messageReceived", "../events/userConnected", "../events/userDisconnected"], function (require, exports, aurelia_event_aggregator_1, aurelia_http_client_1, aurelia_framework_1, signalr_client_1, settings_1, helpers_1, state_1, connectionStateChanged_1, conversationJoined_1, messageReceived_1, userConnected_1, userDisconnected_1) {
     "use strict";
+    Object.defineProperty(exports, "__esModule", { value: true });
+    var ConnectionState;
     (function (ConnectionState) {
         ConnectionState[ConnectionState["Connected"] = 1] = "Connected";
         ConnectionState[ConnectionState["Disconnected"] = 2] = "Disconnected";
         ConnectionState[ConnectionState["Error"] = 3] = "Error";
-    })(exports.ConnectionState || (exports.ConnectionState = {}));
-    var ConnectionState = exports.ConnectionState;
+    })(ConnectionState = exports.ConnectionState || (exports.ConnectionState = {}));
     var ChatService = (function () {
         function ChatService(settings, ea, http, state, helpers) {
             this.settings = settings;
@@ -237,48 +251,34 @@ define('services/chat.service',["require", "exports", 'aurelia-event-aggregator'
         }
         ChatService.prototype.start = function () {
             var _this = this;
-            var debug = environment_1.default.debug;
-            var hub = jQuery.connection.hub;
-            hub.logging = debug;
-            hub.url = this.settings.apiBaseUrl + '/signalr';
-            var connection = jQuery.connection;
-            var chatHub = connection.chat;
-            chatHub.client.userConnected = function (user) { return _this.onUserConnected(user); };
-            chatHub.client.userDisconnected = function (user) { return _this.onUserDisconnected(user); };
-            chatHub.client.messageReceived = function (message) { return _this.onMessageReceived(message); };
-            chatHub.client.joinConversation = function (conversation) { return _this.onJoinConversation(conversation); };
-            if (debug) {
-                hub.stateChanged(function (change) {
-                    var oldState, newState;
-                    var signalR = jQuery.signalR;
-                    for (var state in signalR.connectionState) {
-                        if (signalR.connectionState[state] === change.oldState) {
-                            oldState = state;
-                        }
-                        if (signalR.connectionState[state] === change.newState) {
-                            newState = state;
-                        }
-                    }
-                    console.log("Chat Hub state changed from " + oldState + " to " + newState);
-                });
-            }
-            hub.reconnected(function () { return _this.onReconnected(); });
-            hub.error(function (error) { return _this.onError(error); });
-            hub.disconnected(function () { return _this.onDisconnected(); });
+            var connection = new signalr_client_1.HttpConnection(this.settings.apiBaseUrl + this.settings.chatAPI);
+            this.hubConnection = new signalr_client_1.HubConnection(connection);
+            this.hubConnection.on('userConnected', function (user) { return _this.onUserConnected(user); });
+            this.hubConnection.on('userDisconnected', function (user) { return _this.onUserDisconnected(user); });
+            this.hubConnection.on('messageReceived', function (message) { return _this.onMessageReceived(message); });
+            this.hubConnection.on('messageReceived', function (conversation) { return _this.onJoinConversation(conversation); });
+            this.hubConnection.onClosed = function (e) {
+                if (e) {
+                    _this.onError(e);
+                }
+                else {
+                    _this.onDisconnected();
+                }
+            };
             return new Promise(function (resolve, reject) {
-                hub.start()
-                    .done(function () {
+                _this.hubConnection.start()
+                    .then(function () {
                     _this.setConnectionState(ConnectionState.Connected);
                     resolve(ConnectionState.Connected);
                 })
-                    .fail(function (error) {
+                    .catch(function (error) {
                     _this.setConnectionState(ConnectionState.Error);
                     reject(new Error(error));
                 });
             });
         };
         ChatService.prototype.stop = function () {
-            jQuery.connection.hub.stop();
+            this.hubConnection.stop();
         };
         ChatService.prototype.setConnectionState = function (connectionState) {
             if (this.currentState === connectionState) {
@@ -315,8 +315,12 @@ define('services/chat.service',["require", "exports", 'aurelia-event-aggregator'
             this.ea.publish(new conversationJoined_1.ConversationJoined(conversation));
         };
         ChatService = __decorate([
-            aurelia_framework_1.autoinject, 
-            __metadata('design:paramtypes', [settings_1.Settings, aurelia_event_aggregator_1.EventAggregator, aurelia_http_client_1.HttpClient, state_1.State, helpers_1.Helpers])
+            aurelia_framework_1.autoinject,
+            __metadata("design:paramtypes", [settings_1.Settings,
+                aurelia_event_aggregator_1.EventAggregator,
+                aurelia_http_client_1.HttpClient,
+                state_1.State,
+                helpers_1.Helpers])
         ], ChatService);
         return ChatService;
     }());
@@ -332,8 +336,9 @@ var __decorate = (this && this.__decorate) || function (decorators, target, key,
 var __metadata = (this && this.__metadata) || function (k, v) {
     if (typeof Reflect === "object" && typeof Reflect.metadata === "function") return Reflect.metadata(k, v);
 };
-define('app',["require", "exports", 'aurelia-framework', 'aurelia-router', 'aurelia-event-aggregator', 'aurelia-http-client', './environment', './services/state', './events/connectionStateChanged', './config/settings', './services/helpers'], function (require, exports, aurelia_framework_1, aurelia_router_1, aurelia_event_aggregator_1, aurelia_http_client_1, environment_1, state_1, connectionStateChanged_1, settings_1, helpers_1) {
+define('app',["require", "exports", "aurelia-framework", "aurelia-router", "aurelia-event-aggregator", "aurelia-http-client", "./environment", "./services/state", "./events/connectionStateChanged", "./config/settings", "./services/helpers"], function (require, exports, aurelia_framework_1, aurelia_router_1, aurelia_event_aggregator_1, aurelia_http_client_1, environment_1, state_1, connectionStateChanged_1, settings_1, helpers_1) {
     "use strict";
+    Object.defineProperty(exports, "__esModule", { value: true });
     var App = (function () {
         function App(ea, state, helpers, settings, http) {
             this.ea = ea;
@@ -344,6 +349,7 @@ define('app',["require", "exports", 'aurelia-framework', 'aurelia-router', 'aure
                 .withBaseUrl(environment_1.default.apiBaseUrl)
                 .withCredentials(true); });
             state.userName = sessionStorage.getItem('userName');
+            this.sourcePath = environment_1.default.redirectPath;
         }
         App.prototype.configureRouter = function (config, router) {
             var _this = this;
@@ -410,8 +416,12 @@ define('app',["require", "exports", 'aurelia-framework', 'aurelia-router', 'aure
             this.userName = this.state.userName;
         };
         App = __decorate([
-            aurelia_framework_1.autoinject, 
-            __metadata('design:paramtypes', [aurelia_event_aggregator_1.EventAggregator, state_1.State, helpers_1.Helpers, settings_1.Settings, aurelia_http_client_1.HttpClient])
+            aurelia_framework_1.autoinject,
+            __metadata("design:paramtypes", [aurelia_event_aggregator_1.EventAggregator,
+                state_1.State,
+                helpers_1.Helpers,
+                settings_1.Settings,
+                aurelia_http_client_1.HttpClient])
         ], App);
         return App;
     }());
@@ -434,15 +444,16 @@ define('app',["require", "exports", 'aurelia-framework', 'aurelia-router', 'aure
             return next();
         };
         AuthorizeStep = __decorate([
-            aurelia_framework_1.autoinject, 
-            __metadata('design:paramtypes', [state_1.State, helpers_1.Helpers])
+            aurelia_framework_1.autoinject,
+            __metadata("design:paramtypes", [state_1.State, helpers_1.Helpers])
         ], AuthorizeStep);
         return AuthorizeStep;
     }());
 });
 
-define('main',["require", "exports", 'aurelia-framework', 'aurelia-logging-console', './environment'], function (require, exports, aurelia_framework_1, aurelia_logging_console_1, environment_1) {
+define('main',["require", "exports", "aurelia-framework", "aurelia-logging-console", "./environment"], function (require, exports, aurelia_framework_1, aurelia_logging_console_1, environment_1) {
     "use strict";
+    Object.defineProperty(exports, "__esModule", { value: true });
     if (environment_1.default.debug) {
         aurelia_framework_1.LogManager.addAppender(new aurelia_logging_console_1.ConsoleAppender());
         aurelia_framework_1.LogManager.setLevel(aurelia_framework_1.LogManager.logLevel.debug);
@@ -477,8 +488,9 @@ var __decorate = (this && this.__decorate) || function (decorators, target, key,
 var __metadata = (this && this.__metadata) || function (k, v) {
     if (typeof Reflect === "object" && typeof Reflect.metadata === "function") return Reflect.metadata(k, v);
 };
-define('services/user.service',["require", "exports", 'aurelia-http-client', 'aurelia-framework', '../config/settings', './state'], function (require, exports, aurelia_http_client_1, aurelia_framework_1, settings_1, state_1) {
+define('services/user.service',["require", "exports", "aurelia-http-client", "aurelia-framework", "../config/settings", "./state"], function (require, exports, aurelia_http_client_1, aurelia_framework_1, settings_1, state_1) {
     "use strict";
+    Object.defineProperty(exports, "__esModule", { value: true });
     var UserService = (function () {
         function UserService(http, settings, state) {
             this.http = http;
@@ -499,8 +511,10 @@ define('services/user.service',["require", "exports", 'aurelia-http-client', 'au
             });
         };
         UserService = __decorate([
-            aurelia_framework_1.autoinject, 
-            __metadata('design:paramtypes', [aurelia_http_client_1.HttpClient, settings_1.Settings, state_1.State])
+            aurelia_framework_1.autoinject,
+            __metadata("design:paramtypes", [aurelia_http_client_1.HttpClient,
+                settings_1.Settings,
+                state_1.State])
         ], UserService);
         return UserService;
     }());
@@ -516,8 +530,9 @@ var __decorate = (this && this.__decorate) || function (decorators, target, key,
 var __metadata = (this && this.__metadata) || function (k, v) {
     if (typeof Reflect === "object" && typeof Reflect.metadata === "function") return Reflect.metadata(k, v);
 };
-define('components/contact-list',["require", "exports", 'aurelia-framework', 'aurelia-event-aggregator', '../services/chat.service', '../services/user.service', '../services/chat.service', '../events/userConnected', '../events/userDisconnected', '../events/connectionStateChanged'], function (require, exports, aurelia_framework_1, aurelia_event_aggregator_1, chat_service_1, user_service_1, chat_service_2, userConnected_1, userDisconnected_1, connectionStateChanged_1) {
+define('components/contact-list',["require", "exports", "aurelia-framework", "aurelia-event-aggregator", "../services/chat.service", "../services/user.service", "../services/chat.service", "../events/userConnected", "../events/userDisconnected", "../events/connectionStateChanged"], function (require, exports, aurelia_framework_1, aurelia_event_aggregator_1, chat_service_1, user_service_1, chat_service_2, userConnected_1, userDisconnected_1, connectionStateChanged_1) {
     "use strict";
+    Object.defineProperty(exports, "__esModule", { value: true });
     var ContactList = (function () {
         function ContactList(userService, chatService, ea) {
             this.userService = userService;
@@ -574,8 +589,10 @@ define('components/contact-list',["require", "exports", 'aurelia-framework', 'au
             }
         };
         ContactList = __decorate([
-            aurelia_framework_1.autoinject, 
-            __metadata('design:paramtypes', [user_service_1.UserService, chat_service_2.ChatService, aurelia_event_aggregator_1.EventAggregator])
+            aurelia_framework_1.autoinject,
+            __metadata("design:paramtypes", [user_service_1.UserService,
+                chat_service_2.ChatService,
+                aurelia_event_aggregator_1.EventAggregator])
         ], ContactList);
         return ContactList;
     }());
@@ -584,6 +601,7 @@ define('components/contact-list',["require", "exports", 'aurelia-framework', 'au
 
 define('events/conversationSelected',["require", "exports"], function (require, exports) {
     "use strict";
+    Object.defineProperty(exports, "__esModule", { value: true });
     var ConversationSelected = (function () {
         function ConversationSelected(conversation) {
             this.conversation = conversation;
@@ -602,8 +620,9 @@ var __decorate = (this && this.__decorate) || function (decorators, target, key,
 var __metadata = (this && this.__metadata) || function (k, v) {
     if (typeof Reflect === "object" && typeof Reflect.metadata === "function") return Reflect.metadata(k, v);
 };
-define('services/conversation.service',["require", "exports", 'aurelia-event-aggregator', 'aurelia-http-client', 'aurelia-framework', '../config/settings', './state', './helpers', '../model/message', '../events/conversationSelected', '../events/conversationJoined'], function (require, exports, aurelia_event_aggregator_1, aurelia_http_client_1, aurelia_framework_1, settings_1, state_1, helpers_1, message_1, conversationSelected_1, conversationJoined_1) {
+define('services/conversation.service',["require", "exports", "aurelia-event-aggregator", "aurelia-http-client", "aurelia-framework", "../config/settings", "./state", "./helpers", "../model/message", "../events/conversationSelected", "../events/conversationJoined"], function (require, exports, aurelia_event_aggregator_1, aurelia_http_client_1, aurelia_framework_1, settings_1, state_1, helpers_1, message_1, conversationSelected_1, conversationJoined_1) {
     "use strict";
+    Object.defineProperty(exports, "__esModule", { value: true });
     var ConversationService = (function () {
         function ConversationService(http, settings, state, helpers, ea) {
             this.http = http;
@@ -681,8 +700,12 @@ define('services/conversation.service',["require", "exports", 'aurelia-event-agg
             });
         };
         ConversationService = __decorate([
-            aurelia_framework_1.autoinject, 
-            __metadata('design:paramtypes', [aurelia_http_client_1.HttpClient, settings_1.Settings, state_1.State, helpers_1.Helpers, aurelia_event_aggregator_1.EventAggregator])
+            aurelia_framework_1.autoinject,
+            __metadata("design:paramtypes", [aurelia_http_client_1.HttpClient,
+                settings_1.Settings,
+                state_1.State,
+                helpers_1.Helpers,
+                aurelia_event_aggregator_1.EventAggregator])
         ], ConversationService);
         return ConversationService;
     }());
@@ -698,8 +721,9 @@ var __decorate = (this && this.__decorate) || function (decorators, target, key,
 var __metadata = (this && this.__metadata) || function (k, v) {
     if (typeof Reflect === "object" && typeof Reflect.metadata === "function") return Reflect.metadata(k, v);
 };
-define('components/contact',["require", "exports", 'aurelia-framework', 'aurelia-event-aggregator', 'aurelia-router', '../services/conversation.service', '../services/state', '../model/user', '../model/conversation', '../events/conversationSelected'], function (require, exports, aurelia_framework_1, aurelia_event_aggregator_1, aurelia_router_1, conversation_service_1, state_1, user_1, conversation_1, conversationSelected_1) {
+define('components/contact',["require", "exports", "aurelia-framework", "aurelia-event-aggregator", "aurelia-router", "../services/conversation.service", "../services/state", "../model/user", "../model/conversation", "../events/conversationSelected"], function (require, exports, aurelia_framework_1, aurelia_event_aggregator_1, aurelia_router_1, conversation_service_1, state_1, user_1, conversation_1, conversationSelected_1) {
     "use strict";
+    Object.defineProperty(exports, "__esModule", { value: true });
     var Contact = (function () {
         function Contact(service, state, ea, router) {
             this.service = service;
@@ -742,12 +766,15 @@ define('components/contact',["require", "exports", 'aurelia-framework', 'aurelia
             this.conversationSelectedSubscription.dispose();
         };
         __decorate([
-            aurelia_framework_1.bindable, 
-            __metadata('design:type', user_1.User)
+            aurelia_framework_1.bindable,
+            __metadata("design:type", user_1.User)
         ], Contact.prototype, "user", void 0);
         Contact = __decorate([
-            aurelia_framework_1.autoinject, 
-            __metadata('design:paramtypes', [conversation_service_1.ConversationService, state_1.State, aurelia_event_aggregator_1.EventAggregator, aurelia_router_1.Router])
+            aurelia_framework_1.autoinject,
+            __metadata("design:paramtypes", [conversation_service_1.ConversationService,
+                state_1.State,
+                aurelia_event_aggregator_1.EventAggregator,
+                aurelia_router_1.Router])
         ], Contact);
         return Contact;
     }());
@@ -763,8 +790,9 @@ var __decorate = (this && this.__decorate) || function (decorators, target, key,
 var __metadata = (this && this.__metadata) || function (k, v) {
     if (typeof Reflect === "object" && typeof Reflect.metadata === "function") return Reflect.metadata(k, v);
 };
-define('components/conversation-component',["require", "exports", 'aurelia-framework', 'aurelia-router', '../services/conversation.service'], function (require, exports, aurelia_framework_1, aurelia_router_1, conversation_service_1) {
+define('components/conversation-component',["require", "exports", "aurelia-framework", "aurelia-router", "../services/conversation.service"], function (require, exports, aurelia_framework_1, aurelia_router_1, conversation_service_1) {
     "use strict";
+    Object.defineProperty(exports, "__esModule", { value: true });
     var ConversationComponent = (function () {
         function ConversationComponent(service, router) {
             this.service = service;
@@ -793,8 +821,8 @@ define('components/conversation-component',["require", "exports", 'aurelia-frame
             this.message = '';
         };
         ConversationComponent = __decorate([
-            aurelia_framework_1.autoinject, 
-            __metadata('design:paramtypes', [conversation_service_1.ConversationService, aurelia_router_1.Router])
+            aurelia_framework_1.autoinject,
+            __metadata("design:paramtypes", [conversation_service_1.ConversationService, aurelia_router_1.Router])
         ], ConversationComponent);
         return ConversationComponent;
     }());
@@ -803,6 +831,7 @@ define('components/conversation-component',["require", "exports", 'aurelia-frame
 
 define('events/notificationClicked',["require", "exports"], function (require, exports) {
     "use strict";
+    Object.defineProperty(exports, "__esModule", { value: true });
     var NotificationClicked = (function () {
         function NotificationClicked(message) {
             this.message = message;
@@ -821,8 +850,9 @@ var __decorate = (this && this.__decorate) || function (decorators, target, key,
 var __metadata = (this && this.__metadata) || function (k, v) {
     if (typeof Reflect === "object" && typeof Reflect.metadata === "function") return Reflect.metadata(k, v);
 };
-define('components/conversation-list',["require", "exports", 'aurelia-framework', 'aurelia-router', 'aurelia-event-aggregator', '../services/chat.service', '../services/conversation.service', '../services/state', '../events/conversationJoined', '../events/userDisconnected', '../events/connectionStateChanged', '../events/notificationClicked'], function (require, exports, aurelia_framework_1, aurelia_router_1, aurelia_event_aggregator_1, chat_service_1, conversation_service_1, state_1, conversationJoined_1, userDisconnected_1, connectionStateChanged_1, notificationClicked_1) {
+define('components/conversation-list',["require", "exports", "aurelia-framework", "aurelia-router", "aurelia-event-aggregator", "../services/chat.service", "../services/conversation.service", "../services/state", "../events/conversationJoined", "../events/userDisconnected", "../events/connectionStateChanged", "../events/notificationClicked"], function (require, exports, aurelia_framework_1, aurelia_router_1, aurelia_event_aggregator_1, chat_service_1, conversation_service_1, state_1, conversationJoined_1, userDisconnected_1, connectionStateChanged_1, notificationClicked_1) {
     "use strict";
+    Object.defineProperty(exports, "__esModule", { value: true });
     var ConversationList = (function () {
         function ConversationList(service, state, ea, router) {
             this.service = service;
@@ -904,8 +934,11 @@ define('components/conversation-list',["require", "exports", 'aurelia-framework'
             });
         };
         ConversationList = __decorate([
-            aurelia_framework_1.autoinject, 
-            __metadata('design:paramtypes', [conversation_service_1.ConversationService, state_1.State, aurelia_event_aggregator_1.EventAggregator, aurelia_router_1.Router])
+            aurelia_framework_1.autoinject,
+            __metadata("design:paramtypes", [conversation_service_1.ConversationService,
+                state_1.State,
+                aurelia_event_aggregator_1.EventAggregator,
+                aurelia_router_1.Router])
         ], ConversationList);
         return ConversationList;
     }());
@@ -921,8 +954,9 @@ var __decorate = (this && this.__decorate) || function (decorators, target, key,
 var __metadata = (this && this.__metadata) || function (k, v) {
     if (typeof Reflect === "object" && typeof Reflect.metadata === "function") return Reflect.metadata(k, v);
 };
-define('components/conversation-preview',["require", "exports", 'aurelia-framework', 'aurelia-event-aggregator', 'aurelia-router', '../services/conversation.service', '../model/conversation', '../events/conversationSelected', '../events/messageReceived'], function (require, exports, aurelia_framework_1, aurelia_event_aggregator_1, aurelia_router_1, conversation_service_1, conversation_1, conversationSelected_1, messageReceived_1) {
+define('components/conversation-preview',["require", "exports", "aurelia-framework", "aurelia-event-aggregator", "aurelia-router", "../services/conversation.service", "../model/conversation", "../events/conversationSelected", "../events/messageReceived"], function (require, exports, aurelia_framework_1, aurelia_event_aggregator_1, aurelia_router_1, conversation_service_1, conversation_1, conversationSelected_1, messageReceived_1) {
     "use strict";
+    Object.defineProperty(exports, "__esModule", { value: true });
     var ConversationPreview = (function () {
         function ConversationPreview(service, ea, router) {
             this.service = service;
@@ -957,12 +991,12 @@ define('components/conversation-preview',["require", "exports", 'aurelia-framewo
             this.messageReceivedSubscription.dispose();
         };
         __decorate([
-            aurelia_framework_1.bindable, 
-            __metadata('design:type', conversation_1.Conversation)
+            aurelia_framework_1.bindable,
+            __metadata("design:type", conversation_1.Conversation)
         ], ConversationPreview.prototype, "conversation", void 0);
         ConversationPreview = __decorate([
-            aurelia_framework_1.autoinject, 
-            __metadata('design:paramtypes', [conversation_service_1.ConversationService, aurelia_event_aggregator_1.EventAggregator, aurelia_router_1.Router])
+            aurelia_framework_1.autoinject,
+            __metadata("design:paramtypes", [conversation_service_1.ConversationService, aurelia_event_aggregator_1.EventAggregator, aurelia_router_1.Router])
         ], ConversationPreview);
         return ConversationPreview;
     }());
@@ -971,6 +1005,7 @@ define('components/conversation-preview',["require", "exports", 'aurelia-framewo
 
 define('model/provider',["require", "exports"], function (require, exports) {
     "use strict";
+    Object.defineProperty(exports, "__esModule", { value: true });
     var Provider = (function () {
         function Provider() {
         }
@@ -988,8 +1023,9 @@ var __decorate = (this && this.__decorate) || function (decorators, target, key,
 var __metadata = (this && this.__metadata) || function (k, v) {
     if (typeof Reflect === "object" && typeof Reflect.metadata === "function") return Reflect.metadata(k, v);
 };
-define('services/login.service',["require", "exports", 'aurelia-http-client', 'aurelia-framework', '../config/settings', './chat.service', './conversation.service', './helpers', './state'], function (require, exports, aurelia_http_client_1, aurelia_framework_1, settings_1, chat_service_1, conversation_service_1, helpers_1, state_1) {
+define('services/login.service',["require", "exports", "aurelia-http-client", "aurelia-framework", "../config/settings", "./chat.service", "./conversation.service", "./helpers", "./state"], function (require, exports, aurelia_http_client_1, aurelia_framework_1, settings_1, chat_service_1, conversation_service_1, helpers_1, state_1) {
     "use strict";
+    Object.defineProperty(exports, "__esModule", { value: true });
     var LoginService = (function () {
         function LoginService(http, settings, chatService, conversationService, state, helpers) {
             this.http = http;
@@ -1122,8 +1158,13 @@ define('services/login.service',["require", "exports", 'aurelia-http-client', 'a
             reject(exception);
         };
         LoginService = __decorate([
-            aurelia_framework_1.autoinject, 
-            __metadata('design:paramtypes', [aurelia_http_client_1.HttpClient, settings_1.Settings, chat_service_1.ChatService, conversation_service_1.ConversationService, state_1.State, helpers_1.Helpers])
+            aurelia_framework_1.autoinject,
+            __metadata("design:paramtypes", [aurelia_http_client_1.HttpClient,
+                settings_1.Settings,
+                chat_service_1.ChatService,
+                conversation_service_1.ConversationService,
+                state_1.State,
+                helpers_1.Helpers])
         ], LoginService);
         return LoginService;
     }());
@@ -1139,8 +1180,9 @@ var __decorate = (this && this.__decorate) || function (decorators, target, key,
 var __metadata = (this && this.__metadata) || function (k, v) {
     if (typeof Reflect === "object" && typeof Reflect.metadata === "function") return Reflect.metadata(k, v);
 };
-define('components/user-name',["require", "exports", 'aurelia-framework', 'aurelia-validation', '../services/login.service', '../services/state'], function (require, exports, aurelia_framework_1, aurelia_validation_1, login_service_1, state_1) {
+define('components/user-name',["require", "exports", "aurelia-framework", "aurelia-validation", "../services/login.service", "../services/state"], function (require, exports, aurelia_framework_1, aurelia_validation_1, login_service_1, state_1) {
     "use strict";
+    Object.defineProperty(exports, "__esModule", { value: true });
     var UserName = (function () {
         function UserName(service, state, controllerFactory) {
             this.service = service;
@@ -1162,13 +1204,13 @@ define('components/user-name',["require", "exports", 'aurelia-framework', 'aurel
             });
         };
         __decorate([
-            aurelia_framework_1.bindable({ defaultBindingMode: aurelia_framework_1.bindingMode.twoWay }), 
-            __metadata('design:type', String)
+            aurelia_framework_1.bindable({ defaultBindingMode: aurelia_framework_1.bindingMode.twoWay }),
+            __metadata("design:type", String)
         ], UserName.prototype, "userName", void 0);
         UserName = __decorate([
             aurelia_framework_1.autoinject,
-            aurelia_framework_1.customElement('user-name'), 
-            __metadata('design:paramtypes', [login_service_1.LoginService, state_1.State, aurelia_validation_1.ValidationControllerFactory])
+            aurelia_framework_1.customElement('user-name'),
+            __metadata("design:paramtypes", [login_service_1.LoginService, state_1.State, aurelia_validation_1.ValidationControllerFactory])
         ], UserName);
         return UserName;
     }());
@@ -1183,6 +1225,7 @@ define('components/user-name',["require", "exports", 'aurelia-framework', 'aurel
 
 define('model/changePassword',["require", "exports"], function (require, exports) {
     "use strict";
+    Object.defineProperty(exports, "__esModule", { value: true });
     var ChangePassword = (function () {
         function ChangePassword() {
         }
@@ -1193,6 +1236,7 @@ define('model/changePassword',["require", "exports"], function (require, exports
 
 define('model/manage-logins',["require", "exports"], function (require, exports) {
     "use strict";
+    Object.defineProperty(exports, "__esModule", { value: true });
     var UserLoginInfo = (function () {
         function UserLoginInfo() {
         }
@@ -1221,8 +1265,9 @@ var __decorate = (this && this.__decorate) || function (decorators, target, key,
 var __metadata = (this && this.__metadata) || function (k, v) {
     if (typeof Reflect === "object" && typeof Reflect.metadata === "function") return Reflect.metadata(k, v);
 };
-define('services/account.service',["require", "exports", 'aurelia-http-client', 'aurelia-framework', '../config/settings', './state', './helpers'], function (require, exports, aurelia_http_client_1, aurelia_framework_1, settings_1, state_1, helpers_1) {
+define('services/account.service',["require", "exports", "aurelia-http-client", "aurelia-framework", "../config/settings", "./state", "./helpers"], function (require, exports, aurelia_http_client_1, aurelia_framework_1, settings_1, state_1, helpers_1) {
     "use strict";
+    Object.defineProperty(exports, "__esModule", { value: true });
     var AccountService = (function () {
         function AccountService(http, settings, state, helpers) {
             this.http = http;
@@ -1251,8 +1296,11 @@ define('services/account.service',["require", "exports", 'aurelia-http-client', 
             });
         };
         AccountService = __decorate([
-            aurelia_framework_1.autoinject, 
-            __metadata('design:paramtypes', [aurelia_http_client_1.HttpClient, settings_1.Settings, state_1.State, helpers_1.Helpers])
+            aurelia_framework_1.autoinject,
+            __metadata("design:paramtypes", [aurelia_http_client_1.HttpClient,
+                settings_1.Settings,
+                state_1.State,
+                helpers_1.Helpers])
         ], AccountService);
         return AccountService;
     }());
@@ -1268,8 +1316,9 @@ var __decorate = (this && this.__decorate) || function (decorators, target, key,
 var __metadata = (this && this.__metadata) || function (k, v) {
     if (typeof Reflect === "object" && typeof Reflect.metadata === "function") return Reflect.metadata(k, v);
 };
-define('pages/account',["require", "exports", 'aurelia-framework', 'aurelia-router', 'aurelia-event-aggregator', '../services/chat.service', '../services/state', '../services/account.service', '../services/login.service', '../model/manage-logins', '../events/connectionStateChanged', '../config/settings', '../services/helpers'], function (require, exports, aurelia_framework_1, aurelia_router_1, aurelia_event_aggregator_1, chat_service_1, state_1, account_service_1, login_service_1, manage_logins_1, connectionStateChanged_1, settings_1, helpers_1) {
+define('pages/account',["require", "exports", "aurelia-framework", "aurelia-router", "aurelia-event-aggregator", "../services/chat.service", "../services/state", "../services/account.service", "../services/login.service", "../model/manage-logins", "../events/connectionStateChanged", "../config/settings", "../services/helpers"], function (require, exports, aurelia_framework_1, aurelia_router_1, aurelia_event_aggregator_1, chat_service_1, state_1, account_service_1, login_service_1, manage_logins_1, connectionStateChanged_1, settings_1, helpers_1) {
     "use strict";
+    Object.defineProperty(exports, "__esModule", { value: true });
     var Account = (function () {
         function Account(accountService, loginService, router, ea, state, settings, helpers) {
             this.accountService = accountService;
@@ -1319,8 +1368,14 @@ define('pages/account',["require", "exports", 'aurelia-framework', 'aurelia-rout
                 .catch(function (e) { return _this.errorMessage = e.message; });
         };
         Account = __decorate([
-            aurelia_framework_1.autoinject, 
-            __metadata('design:paramtypes', [account_service_1.AccountService, login_service_1.LoginService, aurelia_router_1.Router, aurelia_event_aggregator_1.EventAggregator, state_1.State, settings_1.Settings, helpers_1.Helpers])
+            aurelia_framework_1.autoinject,
+            __metadata("design:paramtypes", [account_service_1.AccountService,
+                login_service_1.LoginService,
+                aurelia_router_1.Router,
+                aurelia_event_aggregator_1.EventAggregator,
+                state_1.State,
+                settings_1.Settings,
+                helpers_1.Helpers])
         ], Account);
         return Account;
     }());
@@ -1336,8 +1391,9 @@ var __decorate = (this && this.__decorate) || function (decorators, target, key,
 var __metadata = (this && this.__metadata) || function (k, v) {
     if (typeof Reflect === "object" && typeof Reflect.metadata === "function") return Reflect.metadata(k, v);
 };
-define('pages/confirm',["require", "exports", 'aurelia-framework', 'aurelia-router', 'aurelia-validation', '../services/login.service', '../services/helpers', '../services/state'], function (require, exports, aurelia_framework_1, aurelia_router_1, aurelia_validation_1, login_service_1, helpers_1, state_1) {
+define('pages/confirm',["require", "exports", "aurelia-framework", "aurelia-router", "aurelia-validation", "../services/login.service", "../services/helpers", "../services/state"], function (require, exports, aurelia_framework_1, aurelia_router_1, aurelia_validation_1, login_service_1, helpers_1, state_1) {
     "use strict";
+    Object.defineProperty(exports, "__esModule", { value: true });
     var Confirm = (function () {
         function Confirm(service, router, helpers, state, controllerFactory) {
             this.service = service;
@@ -1369,16 +1425,21 @@ define('pages/confirm',["require", "exports", 'aurelia-framework', 'aurelia-rout
                 .catch(function (e) { return _this.error = e; });
         };
         Confirm = __decorate([
-            aurelia_framework_1.autoinject, 
-            __metadata('design:paramtypes', [login_service_1.LoginService, aurelia_router_1.Router, helpers_1.Helpers, state_1.State, aurelia_validation_1.ValidationControllerFactory])
+            aurelia_framework_1.autoinject,
+            __metadata("design:paramtypes", [login_service_1.LoginService,
+                aurelia_router_1.Router,
+                helpers_1.Helpers,
+                state_1.State,
+                aurelia_validation_1.ValidationControllerFactory])
         ], Confirm);
         return Confirm;
     }());
     exports.Confirm = Confirm;
 });
 
-define('services/notification.service',["require", "exports", '../events/messageReceived', '../events/conversationJoined', '../events/notificationClicked'], function (require, exports, messageReceived_1, conversationJoined_1, notificationClicked_1) {
+define('services/notification.service',["require", "exports", "../events/messageReceived", "../events/conversationJoined", "../events/notificationClicked"], function (require, exports, messageReceived_1, conversationJoined_1, notificationClicked_1) {
     "use strict";
+    Object.defineProperty(exports, "__esModule", { value: true });
     var NotificationService = (function () {
         function NotificationService(ea) {
             this.ea = ea;
@@ -1448,8 +1509,9 @@ var __decorate = (this && this.__decorate) || function (decorators, target, key,
 var __metadata = (this && this.__metadata) || function (k, v) {
     if (typeof Reflect === "object" && typeof Reflect.metadata === "function") return Reflect.metadata(k, v);
 };
-define('pages/home',["require", "exports", 'aurelia-framework', 'aurelia-event-aggregator', '../services/chat.service', '../services/notification.service', '../events/connectionStateChanged'], function (require, exports, aurelia_framework_1, aurelia_event_aggregator_1, chat_service_1, notification_service_1, connectionStateChanged_1) {
+define('pages/home',["require", "exports", "aurelia-framework", "aurelia-event-aggregator", "../services/chat.service", "../services/notification.service", "../events/connectionStateChanged"], function (require, exports, aurelia_framework_1, aurelia_event_aggregator_1, chat_service_1, notification_service_1, connectionStateChanged_1) {
     "use strict";
+    Object.defineProperty(exports, "__esModule", { value: true });
     var Home = (function () {
         function Home(chatService, ea) {
             this.chatService = chatService;
@@ -1490,8 +1552,9 @@ define('pages/home',["require", "exports", 'aurelia-framework', 'aurelia-event-a
             }
         };
         Home = __decorate([
-            aurelia_framework_1.autoinject, 
-            __metadata('design:paramtypes', [chat_service_1.ChatService, aurelia_event_aggregator_1.EventAggregator])
+            aurelia_framework_1.autoinject,
+            __metadata("design:paramtypes", [chat_service_1.ChatService,
+                aurelia_event_aggregator_1.EventAggregator])
         ], Home);
         return Home;
     }());
@@ -1507,8 +1570,9 @@ var __decorate = (this && this.__decorate) || function (decorators, target, key,
 var __metadata = (this && this.__metadata) || function (k, v) {
     if (typeof Reflect === "object" && typeof Reflect.metadata === "function") return Reflect.metadata(k, v);
 };
-define('pages/login',["require", "exports", 'aurelia-framework', 'aurelia-router', '../services/login.service', '../config/settings', '../services/state', '../environment'], function (require, exports, aurelia_framework_1, aurelia_router_1, login_service_1, settings_1, state_1, environment_1) {
+define('pages/login',["require", "exports", "aurelia-framework", "aurelia-router", "../services/login.service", "../config/settings", "../services/state", "../environment"], function (require, exports, aurelia_framework_1, aurelia_router_1, login_service_1, settings_1, state_1, environment_1) {
     "use strict";
+    Object.defineProperty(exports, "__esModule", { value: true });
     var Login = (function () {
         function Login(service, router, state, settings) {
             this.service = service;
@@ -1545,8 +1609,8 @@ define('pages/login',["require", "exports", 'aurelia-framework', 'aurelia-router
             });
         };
         Login = __decorate([
-            aurelia_framework_1.autoinject, 
-            __metadata('design:paramtypes', [login_service_1.LoginService, aurelia_router_1.Router, state_1.State, settings_1.Settings])
+            aurelia_framework_1.autoinject,
+            __metadata("design:paramtypes", [login_service_1.LoginService, aurelia_router_1.Router, state_1.State, settings_1.Settings])
         ], Login);
         return Login;
     }());
@@ -1555,11 +1619,761 @@ define('pages/login',["require", "exports", 'aurelia-framework', 'aurelia-router
 
 define('resources/index',["require", "exports"], function (require, exports) {
     "use strict";
+    Object.defineProperty(exports, "__esModule", { value: true });
     function configure(config) {
     }
     exports.configure = configure;
 });
 
+(function(f){if(typeof exports==="object"&&typeof module!=="undefined"){module.exports=f()}else if(typeof define==="function"&&define.amd){define('signalr-client',[],f)}else{var g;if(typeof window!=="undefined"){g=window}else if(typeof global!=="undefined"){g=global}else if(typeof self!=="undefined"){g=self}else{g=this}g.signalR = f()}})(function(){var define,module,exports;return (function e(t,n,r){function s(o,u){if(!n[o]){if(!t[o]){var a=typeof require=="function"&&require;if(!u&&a)return a(o,!0);if(i)return i(o,!0);var f=new Error("Cannot find module '"+o+"'");throw f.code="MODULE_NOT_FOUND",f}var l=n[o]={exports:{}};t[o][0].call(l.exports,function(e){var n=t[o][1][e];return s(n?n:e)},l,l.exports,e,t,n,r)}return n[o].exports}var i=typeof require=="function"&&require;for(var o=0;o<r.length;o++)s(r[o]);return s})({1:[function(require,module,exports){
+(function (factory) {
+    if (typeof module === "object" && typeof module.exports === "object") {
+        var v = factory(require, exports);
+        if (v !== undefined) module.exports = v;
+    }
+    else if (typeof define === "function" && define.amd) {
+        define(["require", "exports"], factory);
+    }
+})(function (require, exports) {
+    "use strict";
+    Object.defineProperty(exports, "__esModule", { value: true });
+    function splitAt(input, searchString, position) {
+        let index = input.indexOf(searchString, position);
+        if (index < 0) {
+            return [input.substr(position), input.length];
+        }
+        let left = input.substring(position, index);
+        return [left, index + searchString.length];
+    }
+    var TextMessageFormat;
+    (function (TextMessageFormat) {
+        const InvalidPayloadError = new Error("Invalid text message payload");
+        const LengthRegex = /^[0-9]+$/;
+        function hasSpace(input, offset, length) {
+            let requiredLength = offset + length;
+            return input.length >= requiredLength;
+        }
+        function parseMessage(input, position) {
+            var offset = position;
+            // Read the length
+            var [lenStr, offset] = splitAt(input, ":", offset);
+            // parseInt is too leniant, we need a strict check to see if the string is an int
+            if (!LengthRegex.test(lenStr)) {
+                throw new Error(`Invalid length: '${lenStr}'`);
+            }
+            let length = Number.parseInt(lenStr);
+            // Required space is: (";") + length (payload len)
+            if (!hasSpace(input, offset, 1 + length)) {
+                throw new Error("Message is incomplete");
+            }
+            // Read the payload
+            var payload = input.substr(offset, length);
+            offset += length;
+            // Verify the final trailing character
+            if (input[offset] != ';') {
+                throw new Error("Message missing trailer character");
+            }
+            offset += 1;
+            return [offset, payload];
+        }
+        function write(output) {
+            return `${output.length}:${output};`;
+        }
+        TextMessageFormat.write = write;
+        function parse(input) {
+            if (input.length == 0) {
+                return [];
+            }
+            let messages = [];
+            var offset = 0;
+            while (offset < input.length) {
+                let message;
+                [offset, message] = parseMessage(input, offset);
+                messages.push(message);
+            }
+            return messages;
+        }
+        TextMessageFormat.parse = parse;
+    })(TextMessageFormat = exports.TextMessageFormat || (exports.TextMessageFormat = {}));
+});
+
+},{}],2:[function(require,module,exports){
+(function (factory) {
+    if (typeof module === "object" && typeof module.exports === "object") {
+        var v = factory(require, exports);
+        if (v !== undefined) module.exports = v;
+    }
+    else if (typeof define === "function" && define.amd) {
+        define(["require", "exports", "./HttpError"], factory);
+    }
+})(function (require, exports) {
+    "use strict";
+    Object.defineProperty(exports, "__esModule", { value: true });
+    const HttpError_1 = require("./HttpError");
+    class HttpClient {
+        get(url, headers) {
+            return this.xhr("GET", url, headers);
+        }
+        options(url, headers) {
+            return this.xhr("OPTIONS", url, headers);
+        }
+        post(url, content, headers) {
+            return this.xhr("POST", url, headers, content);
+        }
+        xhr(method, url, headers, content) {
+            return new Promise((resolve, reject) => {
+                let xhr = new XMLHttpRequest();
+                xhr.open(method, url, true);
+                xhr.setRequestHeader("X-Requested-With", "XMLHttpRequest");
+                if (headers) {
+                    headers.forEach((value, header) => xhr.setRequestHeader(header, value));
+                }
+                xhr.send(content);
+                xhr.onload = () => {
+                    if (xhr.status >= 200 && xhr.status < 300) {
+                        resolve(xhr.response);
+                    }
+                    else {
+                        reject(new HttpError_1.HttpError(xhr.statusText, xhr.status));
+                    }
+                };
+                xhr.onerror = () => {
+                    reject(new HttpError_1.HttpError(xhr.statusText, xhr.status));
+                };
+            });
+        }
+    }
+    exports.HttpClient = HttpClient;
+});
+
+},{"./HttpError":4}],3:[function(require,module,exports){
+var __awaiter = (this && this.__awaiter) || function (thisArg, _arguments, P, generator) {
+    return new (P || (P = Promise))(function (resolve, reject) {
+        function fulfilled(value) { try { step(generator.next(value)); } catch (e) { reject(e); } }
+        function rejected(value) { try { step(generator["throw"](value)); } catch (e) { reject(e); } }
+        function step(result) { result.done ? resolve(result.value) : new P(function (resolve) { resolve(result.value); }).then(fulfilled, rejected); }
+        step((generator = generator.apply(thisArg, _arguments || [])).next());
+    });
+};
+(function (factory) {
+    if (typeof module === "object" && typeof module.exports === "object") {
+        var v = factory(require, exports);
+        if (v !== undefined) module.exports = v;
+    }
+    else if (typeof define === "function" && define.amd) {
+        define(["require", "exports", "./Transports", "./HttpClient"], factory);
+    }
+})(function (require, exports) {
+    "use strict";
+    Object.defineProperty(exports, "__esModule", { value: true });
+    const Transports_1 = require("./Transports");
+    const HttpClient_1 = require("./HttpClient");
+    var ConnectionState;
+    (function (ConnectionState) {
+        ConnectionState[ConnectionState["Initial"] = 0] = "Initial";
+        ConnectionState[ConnectionState["Connecting"] = 1] = "Connecting";
+        ConnectionState[ConnectionState["Connected"] = 2] = "Connected";
+        ConnectionState[ConnectionState["Disconnected"] = 3] = "Disconnected";
+    })(ConnectionState || (ConnectionState = {}));
+    class HttpConnection {
+        constructor(url, options = {}) {
+            this.url = url;
+            this.httpClient = options.httpClient || new HttpClient_1.HttpClient();
+            this.connectionState = ConnectionState.Initial;
+            this.options = options;
+        }
+        start() {
+            return __awaiter(this, void 0, void 0, function* () {
+                if (this.connectionState != ConnectionState.Initial) {
+                    return Promise.reject(new Error("Cannot start a connection that is not in the 'Initial' state."));
+                }
+                this.connectionState = ConnectionState.Connecting;
+                this.startPromise = this.startInternal();
+                return this.startPromise;
+            });
+        }
+        startInternal() {
+            return __awaiter(this, void 0, void 0, function* () {
+                try {
+                    let negotiatePayload = yield this.httpClient.options(this.url);
+                    let negotiateResponse = JSON.parse(negotiatePayload);
+                    this.connectionId = negotiateResponse.connectionId;
+                    // the user tries to stop the the connection when it is being started
+                    if (this.connectionState == ConnectionState.Disconnected) {
+                        return;
+                    }
+                    this.url += (this.url.indexOf("?") == -1 ? "?" : "&") + `id=${this.connectionId}`;
+                    this.transport = this.createTransport(this.options.transport, negotiateResponse.availableTransports);
+                    this.transport.onDataReceived = this.onDataReceived;
+                    this.transport.onClosed = e => this.stopConnection(true, e);
+                    yield this.transport.connect(this.url);
+                    // only change the state if we were connecting to not overwrite
+                    // the state if the connection is already marked as Disconnected
+                    this.changeState(ConnectionState.Connecting, ConnectionState.Connected);
+                }
+                catch (e) {
+                    console.log("Failed to start the connection. " + e);
+                    this.connectionState = ConnectionState.Disconnected;
+                    this.transport = null;
+                    throw e;
+                }
+                ;
+            });
+        }
+        createTransport(transport, availableTransports) {
+            if (!transport && availableTransports.length > 0) {
+                transport = Transports_1.TransportType[availableTransports[0]];
+            }
+            if (transport === Transports_1.TransportType.WebSockets && availableTransports.indexOf(Transports_1.TransportType[transport]) >= 0) {
+                return new Transports_1.WebSocketTransport();
+            }
+            if (transport === Transports_1.TransportType.ServerSentEvents && availableTransports.indexOf(Transports_1.TransportType[transport]) >= 0) {
+                return new Transports_1.ServerSentEventsTransport(this.httpClient);
+            }
+            if (transport === Transports_1.TransportType.LongPolling && availableTransports.indexOf(Transports_1.TransportType[transport]) >= 0) {
+                return new Transports_1.LongPollingTransport(this.httpClient);
+            }
+            if (this.isITransport(transport)) {
+                return transport;
+            }
+            throw new Error("No available transports found.");
+        }
+        isITransport(transport) {
+            return typeof (transport) === "object" && "connect" in transport;
+        }
+        changeState(from, to) {
+            if (this.connectionState == from) {
+                this.connectionState = to;
+                return true;
+            }
+            return false;
+        }
+        send(data) {
+            if (this.connectionState != ConnectionState.Connected) {
+                throw new Error("Cannot send data if the connection is not in the 'Connected' State");
+            }
+            return this.transport.send(data);
+        }
+        stop() {
+            return __awaiter(this, void 0, void 0, function* () {
+                let previousState = this.connectionState;
+                this.connectionState = ConnectionState.Disconnected;
+                try {
+                    yield this.startPromise;
+                }
+                catch (e) {
+                    // this exception is returned to the user as a rejected Promise from the start method
+                }
+                this.stopConnection(/*raiseClosed*/ previousState == ConnectionState.Connected);
+            });
+        }
+        stopConnection(raiseClosed, error) {
+            if (this.transport) {
+                this.transport.stop();
+                this.transport = null;
+            }
+            this.connectionState = ConnectionState.Disconnected;
+            if (raiseClosed && this.onClosed) {
+                this.onClosed(error);
+            }
+        }
+    }
+    exports.HttpConnection = HttpConnection;
+});
+
+},{"./HttpClient":2,"./Transports":8}],4:[function(require,module,exports){
+(function (factory) {
+    if (typeof module === "object" && typeof module.exports === "object") {
+        var v = factory(require, exports);
+        if (v !== undefined) module.exports = v;
+    }
+    else if (typeof define === "function" && define.amd) {
+        define(["require", "exports"], factory);
+    }
+})(function (require, exports) {
+    "use strict";
+    Object.defineProperty(exports, "__esModule", { value: true });
+    class HttpError extends Error {
+        constructor(errorMessage, statusCode) {
+            super(errorMessage);
+            this.statusCode = statusCode;
+        }
+    }
+    exports.HttpError = HttpError;
+});
+
+},{}],5:[function(require,module,exports){
+var __awaiter = (this && this.__awaiter) || function (thisArg, _arguments, P, generator) {
+    return new (P || (P = Promise))(function (resolve, reject) {
+        function fulfilled(value) { try { step(generator.next(value)); } catch (e) { reject(e); } }
+        function rejected(value) { try { step(generator["throw"](value)); } catch (e) { reject(e); } }
+        function step(result) { result.done ? resolve(result.value) : new P(function (resolve) { resolve(result.value); }).then(fulfilled, rejected); }
+        step((generator = generator.apply(thisArg, _arguments || [])).next());
+    });
+};
+(function (factory) {
+    if (typeof module === "object" && typeof module.exports === "object") {
+        var v = factory(require, exports);
+        if (v !== undefined) module.exports = v;
+    }
+    else if (typeof define === "function" && define.amd) {
+        define(["require", "exports", "./Observable", "./Transports", "./HttpConnection", "./JsonHubProtocol", "./Formatters"], factory);
+    }
+})(function (require, exports) {
+    "use strict";
+    Object.defineProperty(exports, "__esModule", { value: true });
+    const Observable_1 = require("./Observable");
+    var Transports_1 = require("./Transports");
+    exports.TransportType = Transports_1.TransportType;
+    var HttpConnection_1 = require("./HttpConnection");
+    exports.HttpConnection = HttpConnection_1.HttpConnection;
+    const JsonHubProtocol_1 = require("./JsonHubProtocol");
+    const Formatters_1 = require("./Formatters");
+    class HubConnection {
+        constructor(connection) {
+            this.connection = connection;
+            this.connection.onDataReceived = data => {
+                this.onDataReceived(data);
+            };
+            this.connection.onClosed = (error) => {
+                this.onConnectionClosed(error);
+            };
+            this.callbacks = new Map();
+            this.methods = new Map();
+            this.id = 0;
+            this.protocol = new JsonHubProtocol_1.JsonHubProtocol();
+        }
+        onDataReceived(data) {
+            // Parse the messages
+            let messages = this.protocol.parseMessages(data);
+            for (var i = 0; i < messages.length; ++i) {
+                var message = messages[i];
+                switch (message.type) {
+                    case 1 /* Invocation */:
+                        this.invokeClientMethod(message);
+                        break;
+                    case 2 /* Result */:
+                    case 3 /* Completion */:
+                        let callback = this.callbacks.get(message.invocationId);
+                        if (callback != null) {
+                            callback(message);
+                            if (message.type == 3 /* Completion */) {
+                                this.callbacks.delete(message.invocationId);
+                            }
+                        }
+                        break;
+                    default:
+                        console.log("Invalid message type: " + data);
+                        break;
+                }
+            }
+        }
+        invokeClientMethod(invocationMessage) {
+            let method = this.methods.get(invocationMessage.target);
+            if (method) {
+                method.apply(this, invocationMessage.arguments);
+                if (!invocationMessage.nonblocking) {
+                    // TODO: send result back to the server?
+                }
+            }
+            else {
+                console.log(`No client method with the name '${invocationMessage.target}' found.`);
+            }
+        }
+        onConnectionClosed(error) {
+            let errorCompletionMessage = {
+                type: 3 /* Completion */,
+                invocationId: "-1",
+                error: error ? error.message : "Invocation cancelled due to connection being closed.",
+            };
+            this.callbacks.forEach(callback => {
+                callback(errorCompletionMessage);
+            });
+            this.callbacks.clear();
+            if (this.connectionClosedCallback) {
+                this.connectionClosedCallback(error);
+            }
+        }
+        start() {
+            return __awaiter(this, void 0, void 0, function* () {
+                yield this.connection.start();
+                yield this.connection.send(Formatters_1.TextMessageFormat.write(JSON.stringify({ protocol: this.protocol.name() })));
+            });
+        }
+        stop() {
+            return this.connection.stop();
+        }
+        stream(methodName, ...args) {
+            let invocationDescriptor = this.createInvocation(methodName, args, false);
+            let subject = new Observable_1.Subject();
+            this.callbacks.set(invocationDescriptor.invocationId, (invocationEvent) => {
+                if (invocationEvent.type === 3 /* Completion */) {
+                    let completionMessage = invocationEvent;
+                    if (completionMessage.error) {
+                        subject.error(new Error(completionMessage.error));
+                    }
+                    else if (completionMessage.result) {
+                        subject.error(new Error("Server provided a result in a completion response to a streamed invocation."));
+                    }
+                    else {
+                        // TODO: Log a warning if there's a payload?
+                        subject.complete();
+                    }
+                }
+                else {
+                    subject.next(invocationEvent.item);
+                }
+            });
+            let message = this.protocol.writeMessage(invocationDescriptor);
+            this.connection.send(message)
+                .catch(e => {
+                subject.error(e);
+                this.callbacks.delete(invocationDescriptor.invocationId);
+            });
+            return subject;
+        }
+        send(methodName, ...args) {
+            let invocationDescriptor = this.createInvocation(methodName, args, true);
+            let message = this.protocol.writeMessage(invocationDescriptor);
+            return this.connection.send(message);
+        }
+        invoke(methodName, ...args) {
+            let invocationDescriptor = this.createInvocation(methodName, args, false);
+            let p = new Promise((resolve, reject) => {
+                this.callbacks.set(invocationDescriptor.invocationId, (invocationEvent) => {
+                    if (invocationEvent.type === 3 /* Completion */) {
+                        let completionMessage = invocationEvent;
+                        if (completionMessage.error) {
+                            reject(new Error(completionMessage.error));
+                        }
+                        else {
+                            resolve(completionMessage.result);
+                        }
+                    }
+                    else {
+                        reject(new Error("Streaming methods must be invoked using HubConnection.stream"));
+                    }
+                });
+                let message = this.protocol.writeMessage(invocationDescriptor);
+                this.connection.send(message)
+                    .catch(e => {
+                    reject(e);
+                    this.callbacks.delete(invocationDescriptor.invocationId);
+                });
+            });
+            return p;
+        }
+        on(methodName, method) {
+            this.methods.set(methodName, method);
+        }
+        set onClosed(callback) {
+            this.connectionClosedCallback = callback;
+        }
+        createInvocation(methodName, args, nonblocking) {
+            let id = this.id;
+            this.id++;
+            return {
+                type: 1 /* Invocation */,
+                invocationId: id.toString(),
+                target: methodName,
+                arguments: args,
+                nonblocking: nonblocking
+            };
+        }
+    }
+    exports.HubConnection = HubConnection;
+});
+
+},{"./Formatters":1,"./HttpConnection":3,"./JsonHubProtocol":6,"./Observable":7,"./Transports":8}],6:[function(require,module,exports){
+(function (factory) {
+    if (typeof module === "object" && typeof module.exports === "object") {
+        var v = factory(require, exports);
+        if (v !== undefined) module.exports = v;
+    }
+    else if (typeof define === "function" && define.amd) {
+        define(["require", "exports", "./Formatters"], factory);
+    }
+})(function (require, exports) {
+    "use strict";
+    Object.defineProperty(exports, "__esModule", { value: true });
+    const Formatters_1 = require("./Formatters");
+    class JsonHubProtocol {
+        name() {
+            return "json";
+        }
+        parseMessages(input) {
+            if (!input) {
+                return [];
+            }
+            // Parse the messages
+            let messages = Formatters_1.TextMessageFormat.parse(input);
+            let hubMessages = [];
+            for (var i = 0; i < messages.length; ++i) {
+                hubMessages.push(JSON.parse(messages[i]));
+            }
+            return hubMessages;
+        }
+        writeMessage(message) {
+            return Formatters_1.TextMessageFormat.write(JSON.stringify(message));
+        }
+    }
+    exports.JsonHubProtocol = JsonHubProtocol;
+});
+
+},{"./Formatters":1}],7:[function(require,module,exports){
+(function (factory) {
+    if (typeof module === "object" && typeof module.exports === "object") {
+        var v = factory(require, exports);
+        if (v !== undefined) module.exports = v;
+    }
+    else if (typeof define === "function" && define.amd) {
+        define(["require", "exports"], factory);
+    }
+})(function (require, exports) {
+    "use strict";
+    Object.defineProperty(exports, "__esModule", { value: true });
+    class Subject {
+        constructor() {
+            this.observers = [];
+        }
+        next(item) {
+            for (let observer of this.observers) {
+                observer.next(item);
+            }
+        }
+        error(err) {
+            for (let observer of this.observers) {
+                observer.error(err);
+            }
+        }
+        complete() {
+            for (let observer of this.observers) {
+                observer.complete();
+            }
+        }
+        subscribe(observer) {
+            this.observers.push(observer);
+        }
+    }
+    exports.Subject = Subject;
+});
+
+},{}],8:[function(require,module,exports){
+var __awaiter = (this && this.__awaiter) || function (thisArg, _arguments, P, generator) {
+    return new (P || (P = Promise))(function (resolve, reject) {
+        function fulfilled(value) { try { step(generator.next(value)); } catch (e) { reject(e); } }
+        function rejected(value) { try { step(generator["throw"](value)); } catch (e) { reject(e); } }
+        function step(result) { result.done ? resolve(result.value) : new P(function (resolve) { resolve(result.value); }).then(fulfilled, rejected); }
+        step((generator = generator.apply(thisArg, _arguments || [])).next());
+    });
+};
+(function (factory) {
+    if (typeof module === "object" && typeof module.exports === "object") {
+        var v = factory(require, exports);
+        if (v !== undefined) module.exports = v;
+    }
+    else if (typeof define === "function" && define.amd) {
+        define(["require", "exports"], factory);
+    }
+})(function (require, exports) {
+    "use strict";
+    Object.defineProperty(exports, "__esModule", { value: true });
+    var TransportType;
+    (function (TransportType) {
+        TransportType[TransportType["WebSockets"] = 0] = "WebSockets";
+        TransportType[TransportType["ServerSentEvents"] = 1] = "ServerSentEvents";
+        TransportType[TransportType["LongPolling"] = 2] = "LongPolling";
+    })(TransportType = exports.TransportType || (exports.TransportType = {}));
+    class WebSocketTransport {
+        connect(url, queryString = "") {
+            return new Promise((resolve, reject) => {
+                url = url.replace(/^http/, "ws");
+                let webSocket = new WebSocket(url);
+                webSocket.onopen = (event) => {
+                    console.log(`WebSocket connected to ${url}`);
+                    this.webSocket = webSocket;
+                    resolve();
+                };
+                webSocket.onerror = (event) => {
+                    reject();
+                };
+                webSocket.onmessage = (message) => {
+                    console.log(`(WebSockets transport) data received: ${message.data}`);
+                    if (this.onDataReceived) {
+                        this.onDataReceived(message.data);
+                    }
+                };
+                webSocket.onclose = (event) => {
+                    // webSocket will be null if the transport did not start successfully
+                    if (this.onClosed && this.webSocket) {
+                        if (event.wasClean === false || event.code !== 1000) {
+                            this.onClosed(new Error(`Websocket closed with status code: ${event.code} (${event.reason})`));
+                        }
+                        else {
+                            this.onClosed();
+                        }
+                    }
+                };
+            });
+        }
+        send(data) {
+            if (this.webSocket && this.webSocket.readyState === WebSocket.OPEN) {
+                this.webSocket.send(data);
+                return Promise.resolve();
+            }
+            return Promise.reject("WebSocket is not in the OPEN state");
+        }
+        stop() {
+            if (this.webSocket) {
+                this.webSocket.close();
+                this.webSocket = null;
+            }
+        }
+    }
+    exports.WebSocketTransport = WebSocketTransport;
+    class ServerSentEventsTransport {
+        constructor(httpClient) {
+            this.httpClient = httpClient;
+        }
+        connect(url) {
+            if (typeof (EventSource) === "undefined") {
+                Promise.reject("EventSource not supported by the browser.");
+            }
+            this.url = url;
+            return new Promise((resolve, reject) => {
+                let eventSource = new EventSource(this.url);
+                try {
+                    eventSource.onmessage = (e) => {
+                        if (this.onDataReceived) {
+                            try {
+                                console.log(`(SSE transport) data received: ${e.data}`);
+                                this.onDataReceived(e.data);
+                            }
+                            catch (error) {
+                                if (this.onClosed) {
+                                    this.onClosed(error);
+                                }
+                                return;
+                            }
+                        }
+                    };
+                    eventSource.onerror = (e) => {
+                        reject();
+                        // don't report an error if the transport did not start successfully
+                        if (this.eventSource && this.onClosed) {
+                            this.onClosed(new Error(e.message || "Error occurred"));
+                        }
+                    };
+                    eventSource.onopen = () => {
+                        console.log(`SSE connected to ${this.url}`);
+                        this.eventSource = eventSource;
+                        resolve();
+                    };
+                }
+                catch (e) {
+                    return Promise.reject(e);
+                }
+            });
+        }
+        send(data) {
+            return __awaiter(this, void 0, void 0, function* () {
+                return send(this.httpClient, this.url, data);
+            });
+        }
+        stop() {
+            if (this.eventSource) {
+                this.eventSource.close();
+                this.eventSource = null;
+            }
+        }
+    }
+    exports.ServerSentEventsTransport = ServerSentEventsTransport;
+    class LongPollingTransport {
+        constructor(httpClient) {
+            this.httpClient = httpClient;
+        }
+        connect(url) {
+            this.url = url;
+            this.shouldPoll = true;
+            this.poll(this.url);
+            return Promise.resolve();
+        }
+        poll(url) {
+            if (!this.shouldPoll) {
+                return;
+            }
+            let pollXhr = new XMLHttpRequest();
+            pollXhr.onload = () => {
+                if (pollXhr.status == 200) {
+                    if (this.onDataReceived) {
+                        try {
+                            if (pollXhr.response) {
+                                console.log(`(LongPolling transport) data received: ${pollXhr.response}`);
+                                this.onDataReceived(pollXhr.response);
+                            }
+                            else {
+                                console.log(`(LongPolling transport) timed out`);
+                            }
+                        }
+                        catch (error) {
+                            if (this.onClosed) {
+                                this.onClosed(error);
+                            }
+                            return;
+                        }
+                    }
+                    this.poll(url);
+                }
+                else if (this.pollXhr.status == 204) {
+                    if (this.onClosed) {
+                        this.onClosed();
+                    }
+                }
+                else {
+                    if (this.onClosed) {
+                        this.onClosed(new Error(`Status: ${pollXhr.status}, Message: ${pollXhr.responseText}`));
+                    }
+                }
+            };
+            pollXhr.onerror = () => {
+                if (this.onClosed) {
+                    // network related error or denied cross domain request
+                    this.onClosed(new Error("Sending HTTP request failed."));
+                }
+            };
+            pollXhr.ontimeout = () => {
+                this.poll(url);
+            };
+            this.pollXhr = pollXhr;
+            this.pollXhr.open("GET", url, true);
+            // TODO: consider making timeout configurable
+            this.pollXhr.timeout = 120000;
+            this.pollXhr.send();
+        }
+        send(data) {
+            return __awaiter(this, void 0, void 0, function* () {
+                return send(this.httpClient, this.url, data);
+            });
+        }
+        stop() {
+            this.shouldPoll = false;
+            if (this.pollXhr) {
+                this.pollXhr.abort();
+                this.pollXhr = null;
+            }
+        }
+    }
+    exports.LongPollingTransport = LongPollingTransport;
+    const headers = new Map();
+    function send(httpClient, url, data) {
+        return __awaiter(this, void 0, void 0, function* () {
+            yield httpClient.post(url, data, headers);
+        });
+    }
+});
+
+},{}]},{},[5])(5)
+});
 define('aurelia-validation/validate-binding-behavior',["require", "exports", 'aurelia-dependency-injection', 'aurelia-pal', 'aurelia-task-queue', './validation-controller', './validate-trigger'], function (require, exports, aurelia_dependency_injection_1, aurelia_pal_1, aurelia_task_queue_1, validation_controller_1, validate_trigger_1) {
     "use strict";
     /**
@@ -2886,17 +3700,17 @@ define('aurelia-validation/implementation/validation-rules',["require", "exports
     exports.ValidationRules = ValidationRules;
 });
 
-define('text!app.html', ['module'], function(module) { module.exports = "<template>\n    <require from=\"./css/site.css\"></require>\n    <div class=\"navbar navbar-default navbar-fixed-top\">\n        <div class=\"container\">\n            <div class=\"navbar-header\">\n                <button type=\"button\" class=\"navbar-toggle\" data-toggle=\"collapse\" data-target=\".navbar-collapse\">\n                    <span class=\"icon-bar menu\"></span>\n                    <span class=\"icon-bar menu\"></span>\n                    <span class=\"icon-bar menu\"></span>\n                </button>\n                <button type=\"button\" class=\"navbar-brand title\" click.delegate=\"home()\">\n                    <img src=\"favicon.ico\" />\n                    chatle\n                </button>                \n            </div>\n            <div class=\"navbar-collapse collapse\">\n                <ul class=\"nav navbar-nav\" if.bind=\"isConnected\">\n                    <li click.delegate=\"manage()\"><a>Welcom ${userName}!</a></li>\n                    <li click.delegate=\"logoff()\"><a>Log off</a></li>\n                </ul>\n            </div>\n        </div>\n    </div>\n    <div class=\"container body-content\">\n        <div if.bind=\"errorMessage\" class=\"text-danger\">\n            <ul>\n                <li>${errorMessage}</li>\n            </ul>\n        </div>\n        <router-view></router-view>\n    </div>\n    <footer>\n        <p>&copy; 2016 - chatle</p>\n    </footer>\n</template>\n"; });
-define('text!css/site.css', ['module'], function(module) { module.exports = "html {\n    font-family: cursive\n}\n/* Move down content because we have a fixed navbar that is 50px tall */\nbody.chatle {\n    padding-top: 50px;\n    padding-bottom: 20px;\n}\n\n/* Wrapping element */\n/* Set some basic padding to keep content from hitting the edges */\n.body-content {\n    padding-left: 15px;\n    padding-right: 15px;\n}\n\n.navbar.navbar-default {\n    background-color: #000;\n}\n\nbutton.navbar-brand {\n    background-color: transparent;\n    border: 0;\n}\n\nbutton.navbar-brand > img {\n    display: inline-block;\n    height: 20px;\n    border-radius: 7px;\n}\n\n.title.navbar-brand:focus,\n.title.navbar-brand:hover,\n.nav.navbar-nav > li > a:hover {\n    color: #fff;    \n}\n\nli:hover {\n    cursor: pointer;\n}\n\n/* Set widths on the form inputs since otherwise they're 100% wide */\ninput,\nselect,\ntextarea {\n    max-width: 280px;\n}\n\nul\n{\n    padding-left: 0;\n    list-style-type: none;\n}\n\nsmall {\n    color: #666666;\n}\n\n/* Responsive: Portrait tablets and up */\n@media screen and (min-width: 768px) {\n    .jumbotron {\n        margin-top: 20px;\n    }\n\n    .body-content {\n        padding: 0;\n    }\n}\n\n.list-group-item,\n.list-group-item:first-child,\n.list-group-item:last-child {\n    border: 0;\n    padding: 0;\n    border-radius: 0;\n}\n\n.list-group-item:hover {\n    padding-right: 4px;\n    padding-left: 4px;\n}\n\n.list-group-item.active {\n    background-color: #fff;\n    border-top: 1px solid #ccc;\n    border-bottom: 1px solid #ccc;\n}\n\n.list-group-item.active:hover {\n    background-color: #fff;    \n    border-color: #333;\n}\n\n.list-group-item.active span {\n    color: #333;\n}"; });
-define('text!components/contact-list.html', ['module'], function(module) { module.exports = "<template>\n  <require from=\"./contact\"></require>\n  <div class=\"contact-list\">\n    <span if.bind=\"!users\">${loadingMessage}</span>\n    <ul class=\"list-group\" if.bind=\"users\">\n      <contact repeat.for=\"user of users\" user.bind=\"user\"></contact>\n    </ul>\n  </div>\n</template>"; });
+define('text!app.html', ['module'], function(module) { module.exports = "<template>\r\n    <require from=\"./css/site.css\"></require>\r\n    <div class=\"navbar navbar-default navbar-fixed-top\">\r\n        <div class=\"container\">\r\n            <div class=\"navbar-header\">\r\n                <button type=\"button\" class=\"navbar-toggle\" data-toggle=\"collapse\" data-target=\".navbar-collapse\">\r\n                    <span class=\"icon-bar menu\"></span>\r\n                    <span class=\"icon-bar menu\"></span>\r\n                    <span class=\"icon-bar menu\"></span>\r\n                </button>\r\n                <button type=\"button\" class=\"navbar-brand title\" click.delegate=\"home()\">\r\n                    <img src=\"${sourcePath}favicon.ico\" />\r\n                    chatle\r\n                </button>                \r\n            </div>\r\n            <div class=\"navbar-collapse collapse\">\r\n                <ul class=\"nav navbar-nav\" if.bind=\"isConnected\">\r\n                    <li click.delegate=\"manage()\"><a>Welcom ${userName}!</a></li>\r\n                    <li click.delegate=\"logoff()\"><a>Log off</a></li>\r\n                </ul>\r\n            </div>\r\n        </div>\r\n    </div>\r\n    <div class=\"container body-content\">\r\n        <div if.bind=\"errorMessage\" class=\"text-danger\">\r\n            <ul>\r\n                <li>${errorMessage}</li>\r\n            </ul>\r\n        </div>\r\n        <router-view></router-view>\r\n    </div>\r\n    <footer>\r\n        <p>&copy; 2016 - chatle</p>\r\n    </footer>\r\n</template>\r\n"; });
+define('text!css/site.css', ['module'], function(module) { module.exports = "html {\r\n    font-family: cursive\r\n}\r\n/* Move down content because we have a fixed navbar that is 50px tall */\r\nbody.chatle {\r\n    padding-top: 50px;\r\n    padding-bottom: 20px;\r\n}\r\n\r\n/* Wrapping element */\r\n/* Set some basic padding to keep content from hitting the edges */\r\n.body-content {\r\n    padding-left: 15px;\r\n    padding-right: 15px;\r\n}\r\n\r\n.navbar.navbar-default {\r\n    background-color: #000;\r\n}\r\n\r\nbutton.navbar-brand {\r\n    background-color: transparent;\r\n    border: 0;\r\n}\r\n\r\nbutton.navbar-brand > img {\r\n    display: inline-block;\r\n    height: 20px;\r\n    border-radius: 7px;\r\n}\r\n\r\n.title.navbar-brand:focus,\r\n.title.navbar-brand:hover,\r\n.nav.navbar-nav > li > a:hover {\r\n    color: #fff;    \r\n}\r\n\r\nli:hover {\r\n    cursor: pointer;\r\n}\r\n\r\n/* Set widths on the form inputs since otherwise they're 100% wide */\r\ninput,\r\nselect,\r\ntextarea {\r\n    max-width: 280px;\r\n}\r\n\r\nul\r\n{\r\n    padding-left: 0;\r\n    list-style-type: none;\r\n}\r\n\r\nsmall {\r\n    color: #666666;\r\n}\r\n\r\n/* Responsive: Portrait tablets and up */\r\n@media screen and (min-width: 768px) {\r\n    .jumbotron {\r\n        margin-top: 20px;\r\n    }\r\n\r\n    .body-content {\r\n        padding: 0;\r\n    }\r\n}\r\n\r\n.list-group-item,\r\n.list-group-item:first-child,\r\n.list-group-item:last-child {\r\n    border: 0;\r\n    padding: 0;\r\n    border-radius: 0;\r\n}\r\n\r\n.list-group-item:hover {\r\n    padding-right: 4px;\r\n    padding-left: 4px;\r\n}\r\n\r\n.list-group-item.active {\r\n    background-color: #fff;\r\n    border-top: 1px solid #ccc;\r\n    border-bottom: 1px solid #ccc;\r\n}\r\n\r\n.list-group-item.active:hover {\r\n    background-color: #fff;    \r\n    border-color: #333;\r\n}\r\n\r\n.list-group-item.active span {\r\n    color: #333;\r\n}"; });
+define('text!components/contact-list.html', ['module'], function(module) { module.exports = "<template>\r\n  <require from=\"./contact\"></require>\r\n  <div class=\"contact-list\">\r\n    <span if.bind=\"!users\">${loadingMessage}</span>\r\n    <ul class=\"list-group\" if.bind=\"users\">\r\n      <contact repeat.for=\"user of users\" user.bind=\"user\"></contact>\r\n    </ul>\r\n  </div>\r\n</template>"; });
 define('text!css/site.min.css', ['module'], function(module) { module.exports = "html{font-family:cursive}body{padding-top:50px;padding-bottom:20px}.console{font-family:'Lucida Console',Monaco,monospace}.body-content{padding-left:15px;padding-right:15px}.navbar.navbar-default{background-color:#fff}.nav.navbar-nav>li>a:hover,.title.navbar-brand:focus,.title.navbar-brand:hover{color:#222}input,select,textarea{max-width:280px}ul{padding-left:0;list-style-type:none}small{color:#666}@media screen and (min-width:768px){.jumbotron{margin-top:20px}.body-content{padding:0}}"; });
-define('text!components/contact.html', ['module'], function(module) { module.exports = "<template>\n    <li class=\"list-group-item ${isSelected ? 'active' : ''}\" click.delegate=\"select()\" desabled=\"isCurrentUser\"><a>${user.id}</a></li>\n</template>"; });
-define('text!components/conversation-component.html', ['module'], function(module) { module.exports = "<template>\n    <div if.bind=\"conversation\">\n        <h6>${conversation.title}</h6>\n        <form class=\"form-inline\">\n            <input class=\"form-control\" value.bind=\"message\" placeholder=\"message...\">\n            <button type=\"submit\" class=\"btn btn-default\" click.delegate=\"sendMessage()\" disabled.bind=\"!message\">send</button>\n        </form>\n        <div class=\"has-error\">\n            <span class=\"help-block\">${error}</span>\n        </div>\n        <ul>\n            <li repeat.for=\"message of conversation.messages\">\n                <small>${message.from}</small><br />\n                <span>${message.text}</span>\n            </li>\n        </ul>\n    </div>\n    <h1 if.bind=\"!conversation\">WELCOME TO THIS REALLY SIMPLE CHAT</h1>\n</template>"; });
-define('text!components/conversation-list.html', ['module'], function(module) { module.exports = "<template>\n  <require from=\"./conversation-preview\"></require>\n  <div class=\"conversation-list\">\n    <ul class=\"list-group\">\n      <conversation-preview repeat.for=\"conversation of conversations\" conversation.bind=\"conversation\"></conversation-preview>\n    </ul>\n  </div>\n</template>"; });
-define('text!components/conversation-preview.html', ['module'], function(module) { module.exports = "<template>\n  <li class=\"list-group-item ${isSelected ? 'active' : ''}\" click.delegate=\"select()\">\n    <a>${conversation.title}</a><br/>\n    <span>${lastMessage}</span>\n  </li>\n</template>"; });
-define('text!components/user-name.html', ['module'], function(module) { module.exports = "<template>\n\t<div validation-errors.bind=\"userNameErrors\" class.bind=\"userNameErrors.length ? 'has-error' : ''\">\n\t\t<input class=\"form-control\" name=\"UserName\" value.bind=\"userName & validate\" />\n\t\t<span class=\"help-block\" repeat.for=\"errorInfo of userNameErrors\">\n            ${errorInfo.error.message}\n        <span>\n    </div>\n</template>>"; });
-define('text!pages/account.html', ['module'], function(module) { module.exports = "<template>\n\t<h2>Manage Account.</h2>\n\t<div class=\"row\">\n\t\t<template if.bind=\"logins.otherLogins.length > 0\">\n\t\t\t<h4>Add another service to log in.</h4>\n\t\t\t<hr />\n\t\t\t<form method=\"post\" class=\"form-horizontal\" role=\"form\" action.bind=\"externalLinkLogin\">\n\t\t\t\t<div>\n\t\t\t\t\t<p>\n\t\t\t\t\t\t<button type=\"submit\" class=\"btn btn-default\" name=\"provider\" repeat.for=\"login of logins.otherLogins\" value.bind=\"login.authenticationScheme\"\n\t\t\t\t\t\t\ttitle=\"Log in using your ${login.displayName} account\">${login.authenticationScheme}</button>\n\t\t\t\t\t</p>\n\t\t\t\t</div>\n\t\t\t\t<input name=\"__RequestVerificationToken\" type=\"hidden\" value.bind=\"token\" />\n\t\t\t</form>\n\t\t</template>\n\t\t<template if.bind=\"logins.currentLogins.length > 0\">\n\t\t\t<h4>Registered Logins</h4>\n\t\t\t<table class=\"table\">\n\t\t\t\t<tbody>\n\t\t\t\t\t<template repeat.for=\"login of logins.currentLogins\">\n\t\t\t\t\t\t<tr>\n\t\t\t\t\t\t\t<td>${login.loginProvider}</td>\n\t\t\t\t\t\t\t<td>\n\t\t\t\t\t\t\t\t<form class=\"form-horizontal\" role=\"form\" if.bind=\"logins.currentLogins.length > 1\">\n\t\t\t\t\t\t\t\t\t<div>\n\t\t\t\t\t\t\t\t\t\t<input type=\"submit\" class=\"btn btn-default\" value=\"Remove\" title=\"Remove this ${login.loginProvider} login from your account\" click.delegate=\"remove(login.loginProvider, login.providerKey)\" />\n\t\t\t\t\t\t\t\t\t</div>\n\t\t\t\t\t\t\t\t</form>\n\t\t\t\t\t\t\t</td>\n\t\t\t\t\t\t</tr>\n\t\t\t\t\t</template>\n\t\t\t\t</tbody>\n\t\t\t</table>\n\t\t</template>\n\t</div>\n</template>"; });
-define('text!pages/confirm.html', ['module'], function(module) { module.exports = "<template>\n\t<require from=\"../components/user-name\"></require>\n\t<h3>Associate your ${provider} account.</h3>\n\n\t<form class=\"form-horizontal\" submit.delegate=\"confirm()\">\n\t\t<h4>Association Form</h4>\n\t\t<hr />\n\t\t<div class=\"text-danger\">${error.message}</div>\n\n\t\t<p class=\"text-info\">\n\t\t\tYou've successfully authenticated with <strong>${provider}</strong>. Please enter a user name for this site below and\n\t\t\tclick the Register button to finish logging in.\n\t\t</p>\n\t\t<div class=\"form-group\">\n\t\t\t<label class=\"col-md-2 control-label\" for=\"UserName\">User name</label>\n\t\t\t<user-name class=\"col-md-10\"></user-name>\n\t\t</div>\n\t\t<div class=\"form-group\">\n\t\t\t<div class=\"col-md-offset-2 col-md-10\">\n\t\t\t\t<button type=\"submit\" class=\"btn btn-default\">Register</button>\n\t\t\t</div>\n\t\t</div>\n\t</form>\n\n</template>"; });
-define('text!pages/home.html', ['module'], function(module) { module.exports = "<template>\n    <require from=\"../components/contact-list\"></require>\n    <require from=\"../components/conversation-list\"></require>\n\n    <div class=\"row\">\n        <div class=\"col-xs-3\">\n            <h6>CONVERSATION</h6>\n            <conversation-list></conversation-list>\n        </div>\n        <router-view class=\"col-xs-6\"></router-view>\n        <div class=\"col-xs-3\">\n            <h6>CONNECTED</h6>\n            <contact-list></contact-list>\n        </div>\n    </div>\n</template>"; });
-define('text!pages/login.html', ['module'], function(module) { module.exports = "<template>\n\t<require from=\"../components/user-name\"></require>\n\n\t<h2>Log in.</h2>\n\t<hr />\n\t<div class=\"col-xs-6\">\n\t\t<section>\n\t\t\t<h4>Guess access.</h4>\n\t\t\t<hr>\n\t\t\t<span if.bind=\"!providers\">loading...</span>\n\t\t\t<form class=\"form-horizontal\" if.bind=\"providers\">\n\t\t\t\t<div class=\"form-group\">\n\t\t\t\t\t<label class=\"col-xs-3 control-label\" for=\"userName\"></label>\n\t\t\t\t\t<user-name class=\"col-xs-9\"></user-name>\n\t\t\t\t\t<div class=\"has-error\">\n\t\t\t\t\t\t<span class=\"help-block\">${error.message}<span>\n\t\t\t\t\t</div>\n\t\t\t\t</div>\n\t\t\t\t<div class=\"form-group\">\n\t\t\t\t\t<div class=\"col-xs-offset-3 col-xs-9\">\n\t\t\t\t\t\t<input type=\"submit\" value=\"Log in\" class=\"btn btn-default\" click.delegate=\"login(userName)\" />\n\t\t\t\t\t</div>\n\t\t\t\t</div>\n\t\t\t</form>\n\t\t</section>\n\t</div>\n\t<div class=\"col-xs-6\">\n\t\t<section>\n\t\t\t<h4>Use another service to log in.</h4>\n\t\t\t<hr>\n\t\t\t<form class=\"form-horizontal\" role=\"form\" method=\"post\" action.bind=\"externalLogin\">\n\t\t\t\t<div>\n\t\t\t\t\t<p>\n\t\t\t\t\t\t<button type=\"submit\" class=\"btn btn-default\" name=\"provider\" repeat.for=\"provider of providers\" value.bind=\"provider.authenticationScheme\" title=\"Log in using your ${provider.displayName} account\">${provider.displayName}</button>\n\t\t\t\t\t</p>\n\t\t\t\t</div>\n\t\t\t\t<input name=\"__RequestVerificationToken\" type=\"hidden\" value.bind=\"token\"></form>\n\t\t</section>\n\t</div>\n</template>"; });
+define('text!components/contact.html', ['module'], function(module) { module.exports = "<template>\r\n    <li class=\"list-group-item ${isSelected ? 'active' : ''}\" click.delegate=\"select()\" desabled=\"isCurrentUser\"><a>${user.id}</a></li>\r\n</template>"; });
+define('text!components/conversation-component.html', ['module'], function(module) { module.exports = "<template>\r\n    <div if.bind=\"conversation\">\r\n        <h6>${conversation.title}</h6>\r\n        <form class=\"form-inline\">\r\n            <input class=\"form-control\" value.bind=\"message\" placeholder=\"message...\">\r\n            <button type=\"submit\" class=\"btn btn-default\" click.delegate=\"sendMessage()\" disabled.bind=\"!message\">send</button>\r\n        </form>\r\n        <div class=\"has-error\">\r\n            <span class=\"help-block\">${error}</span>\r\n        </div>\r\n        <ul>\r\n            <li repeat.for=\"message of conversation.messages\">\r\n                <small>${message.from}</small><br />\r\n                <span>${message.text}</span>\r\n            </li>\r\n        </ul>\r\n    </div>\r\n    <h1 if.bind=\"!conversation\">WELCOME TO THIS REALLY SIMPLE CHAT</h1>\r\n</template>"; });
+define('text!components/conversation-list.html', ['module'], function(module) { module.exports = "<template>\r\n  <require from=\"./conversation-preview\"></require>\r\n  <div class=\"conversation-list\">\r\n    <ul class=\"list-group\">\r\n      <conversation-preview repeat.for=\"conversation of conversations\" conversation.bind=\"conversation\"></conversation-preview>\r\n    </ul>\r\n  </div>\r\n</template>"; });
+define('text!components/conversation-preview.html', ['module'], function(module) { module.exports = "<template>\r\n  <li class=\"list-group-item ${isSelected ? 'active' : ''}\" click.delegate=\"select()\">\r\n    <a>${conversation.title}</a><br/>\r\n    <span>${lastMessage}</span>\r\n  </li>\r\n</template>"; });
+define('text!components/user-name.html', ['module'], function(module) { module.exports = "<template>\r\n\t<div validation-errors.bind=\"userNameErrors\" class.bind=\"userNameErrors.length ? 'has-error' : ''\">\r\n\t\t<input class=\"form-control\" name=\"UserName\" value.bind=\"userName & validate\" />\r\n\t\t<span class=\"help-block\" repeat.for=\"errorInfo of userNameErrors\">\r\n            ${errorInfo.error.message}\r\n        <span>\r\n    </div>\r\n</template>>"; });
+define('text!pages/account.html', ['module'], function(module) { module.exports = "<template>\r\n\t<h2>Manage Account.</h2>\r\n\t<div class=\"row\">\r\n\t\t<template if.bind=\"logins.otherLogins.length > 0\">\r\n\t\t\t<h4>Add another service to log in.</h4>\r\n\t\t\t<hr />\r\n\t\t\t<form method=\"post\" class=\"form-horizontal\" role=\"form\" action.bind=\"externalLinkLogin\">\r\n\t\t\t\t<div>\r\n\t\t\t\t\t<p>\r\n\t\t\t\t\t\t<button type=\"submit\" class=\"btn btn-default\" name=\"provider\" repeat.for=\"login of logins.otherLogins\" value.bind=\"login.authenticationScheme\"\r\n\t\t\t\t\t\t\ttitle=\"Log in using your ${login.displayName} account\">${login.authenticationScheme}</button>\r\n\t\t\t\t\t</p>\r\n\t\t\t\t</div>\r\n\t\t\t\t<input name=\"__RequestVerificationToken\" type=\"hidden\" value.bind=\"token\" />\r\n\t\t\t</form>\r\n\t\t</template>\r\n\t\t<template if.bind=\"logins.currentLogins.length > 0\">\r\n\t\t\t<h4>Registered Logins</h4>\r\n\t\t\t<table class=\"table\">\r\n\t\t\t\t<tbody>\r\n\t\t\t\t\t<template repeat.for=\"login of logins.currentLogins\">\r\n\t\t\t\t\t\t<tr>\r\n\t\t\t\t\t\t\t<td>${login.loginProvider}</td>\r\n\t\t\t\t\t\t\t<td>\r\n\t\t\t\t\t\t\t\t<form class=\"form-horizontal\" role=\"form\" if.bind=\"logins.currentLogins.length > 1\">\r\n\t\t\t\t\t\t\t\t\t<div>\r\n\t\t\t\t\t\t\t\t\t\t<input type=\"submit\" class=\"btn btn-default\" value=\"Remove\" title=\"Remove this ${login.loginProvider} login from your account\" click.delegate=\"remove(login.loginProvider, login.providerKey)\" />\r\n\t\t\t\t\t\t\t\t\t</div>\r\n\t\t\t\t\t\t\t\t</form>\r\n\t\t\t\t\t\t\t</td>\r\n\t\t\t\t\t\t</tr>\r\n\t\t\t\t\t</template>\r\n\t\t\t\t</tbody>\r\n\t\t\t</table>\r\n\t\t</template>\r\n\t</div>\r\n</template>"; });
+define('text!pages/confirm.html', ['module'], function(module) { module.exports = "<template>\r\n\t<require from=\"../components/user-name\"></require>\r\n\t<h3>Associate your ${provider} account.</h3>\r\n\r\n\t<form class=\"form-horizontal\" submit.delegate=\"confirm()\">\r\n\t\t<h4>Association Form</h4>\r\n\t\t<hr />\r\n\t\t<div class=\"text-danger\">${error.message}</div>\r\n\r\n\t\t<p class=\"text-info\">\r\n\t\t\tYou've successfully authenticated with <strong>${provider}</strong>. Please enter a user name for this site below and\r\n\t\t\tclick the Register button to finish logging in.\r\n\t\t</p>\r\n\t\t<div class=\"form-group\">\r\n\t\t\t<label class=\"col-md-2 control-label\" for=\"UserName\">User name</label>\r\n\t\t\t<user-name class=\"col-md-10\"></user-name>\r\n\t\t</div>\r\n\t\t<div class=\"form-group\">\r\n\t\t\t<div class=\"col-md-offset-2 col-md-10\">\r\n\t\t\t\t<button type=\"submit\" class=\"btn btn-default\">Register</button>\r\n\t\t\t</div>\r\n\t\t</div>\r\n\t</form>\r\n\r\n</template>"; });
+define('text!pages/home.html', ['module'], function(module) { module.exports = "<template>\r\n    <require from=\"../components/contact-list\"></require>\r\n    <require from=\"../components/conversation-list\"></require>\r\n\r\n    <div class=\"row\">\r\n        <div class=\"col-xs-3\">\r\n            <h6>CONVERSATION</h6>\r\n            <conversation-list></conversation-list>\r\n        </div>\r\n        <router-view class=\"col-xs-6\"></router-view>\r\n        <div class=\"col-xs-3\">\r\n            <h6>CONNECTED</h6>\r\n            <contact-list></contact-list>\r\n        </div>\r\n    </div>\r\n</template>"; });
+define('text!pages/login.html', ['module'], function(module) { module.exports = "<template>\r\n\t<require from=\"../components/user-name\"></require>\r\n\r\n\t<h2>Log in.</h2>\r\n\t<hr />\r\n\t<div class=\"col-xs-6\">\r\n\t\t<section>\r\n\t\t\t<h4>Guess access.</h4>\r\n\t\t\t<hr>\r\n\t\t\t<span if.bind=\"!providers\">loading...</span>\r\n\t\t\t<form class=\"form-horizontal\" if.bind=\"providers\">\r\n\t\t\t\t<div class=\"form-group\">\r\n\t\t\t\t\t<label class=\"col-xs-3 control-label\" for=\"userName\"></label>\r\n\t\t\t\t\t<user-name class=\"col-xs-9\"></user-name>\r\n\t\t\t\t\t<div class=\"has-error\">\r\n\t\t\t\t\t\t<span class=\"help-block\">${error.message}<span>\r\n\t\t\t\t\t</div>\r\n\t\t\t\t</div>\r\n\t\t\t\t<div class=\"form-group\">\r\n\t\t\t\t\t<div class=\"col-xs-offset-3 col-xs-9\">\r\n\t\t\t\t\t\t<input type=\"submit\" value=\"Log in\" class=\"btn btn-default\" click.delegate=\"login(userName)\" />\r\n\t\t\t\t\t</div>\r\n\t\t\t\t</div>\r\n\t\t\t</form>\r\n\t\t</section>\r\n\t</div>\r\n\t<div class=\"col-xs-6\">\r\n\t\t<section>\r\n\t\t\t<h4>Use another service to log in.</h4>\r\n\t\t\t<hr>\r\n\t\t\t<form class=\"form-horizontal\" role=\"form\" method=\"post\" action.bind=\"externalLogin\">\r\n\t\t\t\t<div>\r\n\t\t\t\t\t<p>\r\n\t\t\t\t\t\t<button type=\"submit\" class=\"btn btn-default\" name=\"provider\" repeat.for=\"provider of providers\" value.bind=\"provider.authenticationScheme\" title=\"Log in using your ${provider.displayName} account\">${provider.displayName}</button>\r\n\t\t\t\t\t</p>\r\n\t\t\t\t</div>\r\n\t\t\t\t<input name=\"__RequestVerificationToken\" type=\"hidden\" value.bind=\"token\"></form>\r\n\t\t</section>\r\n\t</div>\r\n</template>"; });
 //# sourceMappingURL=app-bundle.js.map
