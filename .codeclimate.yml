@@ -17,3 +17,4 @@ exclude_paths:
     - karma.conf.js
     - test/**/*
     - wwwroot/**/*
+    - src/signalr-client.js
