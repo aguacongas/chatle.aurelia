@@ -28,7 +28,8 @@ describe('user service specs', () => {
             },
             mimeType: '',
             headers: new Headers(),
-            content: {}
+            content: {},
+            responseType : 'Success'
         };
 
         promise = {

@@ -1,5 +1,5 @@
 import { customElement, autoinject, bindable, bindingMode } from 'aurelia-framework';
-import { ValidationControllerFactory, ValidationController, ValidationRules } from 'aurelia-validation';
+import { ValidationControllerFactory, ValidationController, ValidationRules, validateTrigger } from 'aurelia-validation';
 
 import { LoginService } from '../services/login.service';
 import { State } from '../services/state';
@@ -13,7 +13,7 @@ export class UserName {
 
     constructor(private service: LoginService, private state: State, controllerFactory: ValidationControllerFactory) {
         this.controller = controllerFactory.createForCurrentScope();
-        this.controller.validateTrigger = 'change';
+        this.controller.validateTrigger = validateTrigger.change;
     }
 
     attached() {

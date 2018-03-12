@@ -1,4 +1,4 @@
-import { autoinject } from 'aurelia-framework';
+import { autoinject, PLATFORM } from 'aurelia-framework';
 import { Router, Redirect, NavigationInstruction, RouterConfiguration, Next, RouteConfig } from 'aurelia-router';
 import { EventAggregator } from 'aurelia-event-aggregator';
 import { HttpClient } from 'aurelia-http-client';
@@ -40,10 +40,10 @@ export class App {
     configureRouter(config: RouterConfiguration, router: Router) {
         config.title = 'Chatle';        
         config.addPipelineStep('authorize', AuthorizeStep);
-        const confirm = { route: 'confirm', name: 'confirm', moduleId: 'pages/confirm', title: 'Confirm', anomymous: true };
-        const login = { route: 'login', name: 'login', moduleId: 'pages/login', title: 'Login', anomymous: true };
-        const account = { route: 'account', name: 'account', moduleId: 'pages/account', title: 'Account' };
-        const home = { route: 'home', name: 'home', moduleId: 'pages/home', title: 'Home' }; 
+        const confirm = { route: 'confirm', name: 'confirm', moduleId: PLATFORM.moduleName('pages/confirm'), title: 'Confirm', anomymous: true };
+        const login = { route: 'login', name: 'login', moduleId: PLATFORM.moduleName('pages/login'), title: 'Login', anomymous: true };
+        const account = { route: 'account', name: 'account', moduleId: PLATFORM.moduleName('pages/account'), title: 'Account' };
+        const home = { route: 'home', name: 'home', moduleId: PLATFORM.moduleName('pages/home'), title: 'Home' }; 
 
         config.map([
             home,
@@ -110,7 +110,7 @@ export class App {
     private setIsConnected() {
         this.isConnected = this.state.userName !== undefined 
             && this.state.userName != null
-            && this.router.currentInstruction.config.moduleId != 'pages/confirm';
+            && this.router.currentInstruction.config.moduleId != PLATFORM.moduleName('pages/confirm');
 
         this.userName = this.state.userName;
     }

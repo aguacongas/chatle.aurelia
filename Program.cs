@@ -1,36 +1,23 @@
-﻿using System.IO;
-using Microsoft.AspNetCore.Builder;
+using System;
+using System.Collections.Generic;
+using System.IO;
+using System.Linq;
+using System.Threading.Tasks;
+using Microsoft.AspNetCore;
 using Microsoft.AspNetCore.Hosting;
-using Microsoft.Extensions.Configuration;
 
-namespace ConsoleApplication
+namespace WebApplicationBasic
 {
     public class Program
     {
-        public virtual void Configure(IApplicationBuilder app)
-        {
-            app.UseDefaultFiles();
-            app.UseStaticFiles();
-        }
-
         public static void Main(string[] args)
         {
-            var currentDirectory = Directory.GetCurrentDirectory();
-            var config = new ConfigurationBuilder()
-                .SetBasePath(currentDirectory)
-                .AddJsonFile("hosting.json", optional: true)
-                .AddCommandLine(args)                
-                .Build();
-
-            var host = new WebHostBuilder()
-				.UseKestrel()
-                .UseContentRoot(currentDirectory)
-                .UseConfiguration(config)
-				.UseIISIntegration()
-				.UseStartup<Program>()
-				.Build();
-
-			host.Run();
+            BuildWebHost(args).Run();
         }
+
+        public static IWebHost BuildWebHost(string[] args) =>
+            WebHost.CreateDefaultBuilder(args)
+                .UseStartup<Startup>()
+                .Build();
     }
 }

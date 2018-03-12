@@ -1,6 +1,7 @@
 import { Router } from 'aurelia-router';
 import { EventAggregator } from 'aurelia-event-aggregator';
 import { HttpClient, HttpResponseMessage, RequestMessage, Headers } from 'aurelia-http-client';
+import * as TestDouble from 'testdouble';
 
 import { Settings } from '../../../src/config/settings';
 import { State } from '../../../src/services/state'
@@ -37,7 +38,8 @@ describe('conversation service specs', () => {
             },
             mimeType: '',
             headers: new Headers(),
-            content: {}
+            content: {},
+            responseType: 'Success'
         };
 
         promise = {

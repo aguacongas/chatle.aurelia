@@ -1,4 +1,4 @@
-import { autoinject } from 'aurelia-framework';
+import { autoinject, PLATFORM } from 'aurelia-framework';
 import { Router, RouterConfiguration } from 'aurelia-router';
 import { EventAggregator, Subscription } from 'aurelia-event-aggregator';
 
@@ -23,7 +23,7 @@ export class Home {
 
     configureRouter(config: RouterConfiguration, router: Router) {
         config.map([
-            { route: ['', 'conversation/:id'], name: 'conversation', moduleId: '../components/conversation-component' }
+            { route: ['', 'conversation/:id'], name: 'conversation', moduleId: PLATFORM.moduleName('../components/conversation-component') }
         ]);
 
         this.router = router;

@@ -1,0 +1,10 @@
+C:\Projects\Perso\chatle.aurelia\bin\Debug\netcoreapp2.0\project.deps.json
+C:\Projects\Perso\chatle.aurelia\bin\Debug\netcoreapp2.0\project.runtimeconfig.json
+C:\Projects\Perso\chatle.aurelia\bin\Debug\netcoreapp2.0\project.runtimeconfig.dev.json
+C:\Projects\Perso\chatle.aurelia\bin\Debug\netcoreapp2.0\project.dll
+C:\Projects\Perso\chatle.aurelia\bin\Debug\netcoreapp2.0\project.pdb
+C:\Projects\Perso\chatle.aurelia\obj\Debug\netcoreapp2.0\project.csproj.CoreCompileInputs.cache
+C:\Projects\Perso\chatle.aurelia\obj\Debug\netcoreapp2.0\project.AssemblyInfoInputs.cache
+C:\Projects\Perso\chatle.aurelia\obj\Debug\netcoreapp2.0\project.AssemblyInfo.cs
+C:\Projects\Perso\chatle.aurelia\obj\Debug\netcoreapp2.0\project.dll
+C:\Projects\Perso\chatle.aurelia\obj\Debug\netcoreapp2.0\project.pdb

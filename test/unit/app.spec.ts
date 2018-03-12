@@ -1,3 +1,4 @@
+import { PLATFORM } from 'aurelia-framework';
 import { EventAggregator, Subscription } from 'aurelia-event-aggregator';
 import { HttpClient } from 'aurelia-http-client';
 import { Router, Redirect, NavigationInstruction, RouterConfiguration, Next, RouteConfig } from 'aurelia-router';
@@ -48,10 +49,10 @@ describe('the app', () => {
         config.map = c => {
           expect(c).toBeDefined();
           expect(c).toEqual([
-              { route: 'home', name: 'home', moduleId: 'pages/home', title: 'Home' },
-              { route: 'account', name: 'account', moduleId: 'pages/account', title: 'Account' },
-              { route: 'confirm', name: 'confirm', moduleId: 'pages/confirm', title: 'Confirm', anomymous: true },
-              { route: 'login', name: 'login', moduleId: 'pages/login', title: 'Login', anomymous: true }
+              { route: 'home', name: 'home', moduleId: PLATFORM.moduleName('pages/home'), title: 'Home' },
+              { route: 'account', name: 'account', moduleId: PLATFORM.moduleName('pages/account'), title: 'Account' },
+              { route: 'confirm', name: 'confirm', moduleId: PLATFORM.moduleName('pages/confirm'), title: 'Confirm', anomymous: true },
+              { route: 'login', name: 'login', moduleId: PLATFORM.moduleName('pages/login'), title: 'Login', anomymous: true }
           ]);
 
           return new RouterConfiguration();

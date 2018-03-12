@@ -5,6 +5,7 @@ import { LoginService } from '../../../src/services/login.service';
 import { State } from '../../../src/services/state';
 import { Settings } from '../../../src/config/settings';
 import environment from '../../../src/environment';
+import * as TestDouble from 'testdouble';
 
 describe('Login page specs', () => {
     let service: LoginService;
@@ -29,16 +30,13 @@ describe('Login page specs', () => {
             }
         } as Promise<string>;
 
-        service = {
-            getXhrf: (clearCookies?: Boolean) => { 
-                return promise;
-            },
-            login: (userName: string) => {
-                return promise;
-            },            
-            logoff: () => {},
-            getExternalLoginProviders: () => { return promise ;}
-        } as LoginService;
+        TestDouble.reset();
+
+        service = TestDouble.object(LoginService);
+        TestDouble.when(service.getXhrf()).thenReturn(promise);
+        TestDouble.when(service.login(TestDouble.matchers.isA(type => type instanceof String))).thenReturn(promise);
+        TestDouble.when(service.logoff()).thenDo(() => {});
+        TestDouble.when(service.getExternalLoginProviders()).thenReturn(promise);
 
         settings = {
             apiBaseUrl: 'test',

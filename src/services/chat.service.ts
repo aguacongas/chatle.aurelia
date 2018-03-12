@@ -2,7 +2,7 @@
 import { HttpClient } from 'aurelia-http-client';
 import { autoinject } from 'aurelia-framework';
 import { Router } from 'aurelia-router';
-import { HubConnection, HttpConnection } from 'signalr-client';
+import { HubConnection, HttpConnection } from '@aspnet/signalr';
 
 import environment from '../environment';
 
@@ -45,7 +45,7 @@ export class ChatService {
         private helpers: Helpers) { }
     
     start(): Promise<ConnectionState> {
-        const connection = new HttpConnection(this.settings.apiBaseUrl + this.settings.chatAPI);
+        const connection = new HttpConnection(this.settings.apiBaseUrl + this.settings.chatHub);
         this.hubConnection = new HubConnection(connection);
         /**
           * @desc callback when a new user connect to the chat
@@ -69,13 +69,13 @@ export class ChatService {
         */
         this.hubConnection.on('messageReceived', conversation => this.onJoinConversation(conversation));
 
-        this.hubConnection.onClosed = e => {
+        this.hubConnection.onclose(e => {
             if (e) {
                 this.onError(e);
             } else {
                 this.onDisconnected();
             }
-        }
+        });
     
         // start the connection
         return new Promise<ConnectionState>((resolve, reject) => {
