@@ -17,7 +17,6 @@ before_install:
 install:
 - npm install npm -g
 - npm install aurelia-cli -g
-- npm install signalr-client --registry https://dotnet.myget.org/f/aspnetcore-ci-dev/npm/ --save
 - npm install
 mono:
 - 4.2.2
