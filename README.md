@@ -7,4 +7,3 @@ It connects to the server deploy on [heroku](https://www.heroku.com/) on a free 
 
 [![Travis Build Status](https://travis-ci.org/aguacongas/chatle.aurelia.svg?branch=develop)](https://travis-ci.org/aguacongas/chatle.aurelia)
 [![AppVeyor Build status](https://ci.appveyor.com/api/projects/status/github/aguacongas/chatle.aurelia?svg=true&retina=true)](https://ci.appveyor.com/project/aguacongas/chatle-aurelia)
-[![Coverage Status](https://coveralls.io/repos/github/aguacongas/chatle.aurelia/badge.svg)](https://coveralls.io/github/aguacongas/chatle.aurelia)

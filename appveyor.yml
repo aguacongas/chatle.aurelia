@@ -48,13 +48,11 @@ after_deploy:
     
     git clone -q --branch=gh-pages https://github.com/aguacongas/chatle.aurelia.git deploy
     
-    cd deploy
+    IF EXIST deploy ( rmdir /S /Q deploy )
+
+    move wwwroot\dist deploy
     
-    copy /Y ..\wwwroot\dist\app-bundle.js scripts
-    
-    copy /Y ..\wwwroot\dist\vendor-bundle.js scripts
-    
-    git add .
+    git add deploy
     
     git commit --amend --reset-author -m "deploy %APPVEYOR_BUILD_VERSION%"
     
