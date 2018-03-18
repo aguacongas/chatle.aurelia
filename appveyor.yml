@@ -6,6 +6,7 @@ environment:
     secure: KnRXHuLNsbckLFp46G7eh+vgioe1zT7GIPPRzDyv6LD8wIMiZ9YGGrf5T8J8HVOV
 install:
 - choco install gitversion.portable -pre -y
+- ps: Install-Product node 9.8.0
 - cmd: >-
     npm install npm -g
 

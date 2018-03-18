@@ -1,6 +1,6 @@
 export default {
-  debug: true,
-  testing: true,
-  apiBaseUrl: 'http://localhost:5000',
-  redirectPath: ''
+  debug: false,
+  testing: false,
+  apiBaseUrl: 'https://chatle-server.herokuapp.com',
+  redirectPath: '/chatle.aurelia/'
 };
