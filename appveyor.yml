@@ -3,7 +3,7 @@ environment:
   githubpwd:
     secure: h7zhWIG5sQBVM6loU77ClQ==
   deploy_token:
-    secure: KnRXHuLNsbckLFp46G7eh+vgioe1zT7GIPPRzDyv6LD8wIMiZ9YGGrf5T8J8HVOV
+    secure: FQHQqH6cYqJP4NJ+2KvrqCykj7h3t8IThRC0LY8/Lrs+FIAfRTi4Jam9tkike5KW
 install:
 - choco install gitversion.portable -pre -y
 - ps: Install-Product node 9.8.0
@@ -48,11 +48,11 @@ after_deploy:
     
     git clone -q --branch=gh-pages https://github.com/aguacongas/chatle.aurelia.git deploy
     
-    IF EXIST deploy ( rmdir /S /Q deploy )
-
-    move wwwroot\dist deploy
+    move /Y wwwroot\dist deploy
     
-    git add deploy
+    cd deploy
+     
+    git add .
     
     git commit --amend --reset-author -m "deploy %APPVEYOR_BUILD_VERSION%"
     
