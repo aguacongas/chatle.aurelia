@@ -28,3 +28,4 @@ scripts
 bin
 obj
 wwwroot/dist
+test/coverage-karma

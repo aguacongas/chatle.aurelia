@@ -10,8 +10,6 @@ install:
     npm install npm -g
 
     npm install aurelia-cli -g
-    
-    npm install signalr-client --registry https://dotnet.myget.org/f/aspnetcore-ci-dev/npm/ --save
 
     npm install
 before_build:
@@ -19,20 +17,26 @@ before_build:
 build_script:
 - cmd: >-
     au build --env prod
-test_script:
-- cmd: au test
 artifacts:
-- path: wwwroot/scripts
+- path: wwwroot/dist
   name: scripts
 deploy:
 - provider: GitHub
   description: $(GitVersion_SemVer)
   auth_token:
     secure: 3d2qqSejMw7dKAPRA3pFqQ==
-  draft: false
-  prerelease: true
+  draft: true
+  prerelease: false
   on:
     branch: master
+- provider: GitHub
+  description: $(GitVersion_SemVer)
+  auth_token:
+    secure: 3d2qqSejMw7dKAPRA3pFqQ==
+  draft: true
+  prerelease: true
+  on:
+    branch: /release*/
 after_deploy:
 - git config --global credential.helper store
 - ps: Add-Content "$env:USERPROFILE\.git-credentials" "https://$($env:deploy_token):x-oauth-basic@github.com`n"
@@ -45,9 +49,9 @@ after_deploy:
     
     cd deploy
     
-    copy /Y ..\wwwroot\scripts\app-bundle.js scripts
+    copy /Y ..\wwwroot\dist\app-bundle.js scripts
     
-    copy /Y ..\wwwroot\scripts\vendor-bundle.js scripts
+    copy /Y ..\wwwroot\dist\vendor-bundle.js scripts
     
     git add .
     

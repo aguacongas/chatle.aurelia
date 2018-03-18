@@ -52,7 +52,7 @@ describe('home page specs', () => {
         expect(map[0].route[0]).toBe('');
         expect(map[0].route[1]).toBe('conversation/:id');
         expect(map[0].name).toBe('conversation');
-        expect(map[0].moduleId).toBe(PLATFORM.moduleName('../components/conversation-component'));
+        expect(map[0].moduleId).toBe('../components/conversation-component');
     });
 
     it('configureRouter should set router', () => {

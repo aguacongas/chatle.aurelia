@@ -67,7 +67,7 @@ export class ChatService {
           * @desc callback when a new conversation is create on server
           * @param Conv data, the conversation model
         */
-        this.hubConnection.on('messageReceived', conversation => this.onJoinConversation(conversation));
+        this.hubConnection.on('joinConversation', conversation => this.onJoinConversation(conversation));
 
         this.hubConnection.onclose(e => {
             if (e) {
